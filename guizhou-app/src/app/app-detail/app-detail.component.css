@@ -1,0 +1,11 @@
+.app-detail-img{
+    width: 100px;
+    height: 100px;
+}
+.app-detail-title{
+    font-size: 20px;
+}
+.app-detail-status{
+    float: right;
+    margin-right: 50px;
+}

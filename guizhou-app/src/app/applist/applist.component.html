@@ -1,0 +1,33 @@
+<div class="app-toolbox row">
+    <div class="col-md-4">
+        <button class="btn btn-primary">添加</button>
+        <button class="btn">删除</button>
+    </div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <!--
+                <app-search></app-search>
+        -->
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="按应用名称搜索..." [formControl]="titleFilter">
+            <span class="input-group-btn">
+        <button class="btn btn-default" type="button">
+            <span class="glyphicon glyphicon-search"></span>
+        </button>
+      </span>
+        </div><!-- /input-group -->
+    </div>
+</div>
+<div *ngFor="let app of applications | appFilter: 'title': keyword" class="col-md-4 col-sm-4 col-lg-4">
+    <a [routerLink]="['/appStore', app.appId]">
+        <div class="thumbnail">
+            <img [src]="app.imgUrl" alt="">
+            <div class="caption">
+                <h4 class="pull-right">{{app.isActive ? '正常':'下架'}}</h4>
+                <h4>{{app.title}}</h4>
+                <p>{{app.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</p>
+                <span class="glyphicon glyphicon-trash"></span>
+            </div>
+        </div>
+    </a>
+</div>

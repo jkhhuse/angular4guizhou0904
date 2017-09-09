@@ -1,0 +1,15 @@
+<app-header [title]="'应用商城2'"
+            (buyEvent)="buyHandler($event)"
+            (headerTitle)="titleHandler($event)"
+></app-header>
+
+<!--<p>
+    在父组件中，接收到子组件的：名字：{{appOutput.outputName}} 变化的价格：{{appOutput.outputRandom | number:'2.2-2'}}
+</p>
+<p>
+    接受到子组件header传来的title为{{childTitle}}
+</p>-->
+<nz-content>
+    <app-tab></app-tab>
+    <app-applist></app-applist>
+</nz-content>

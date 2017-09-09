@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = '贵州pass平台';
+    isCollapsed = false;
+
+    title = '贵州pass平台';
+
 }
