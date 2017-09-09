@@ -1,16 +1,18 @@
-<ul id="myTab" class="nav nav-tabs">
+<!--<ul id="myTab" class="nav nav-tabs">
   <li class="active">
     <a href="#privateApp" data-toggle="tab">
       我的应用
     </a>
   </li>
   <li><a href="#publicApp" data-toggle="tab">公共应用</a></li>
-</ul>
-<!--<div id="myTabContent" class="tab-content">
-  <div class="tab-pane fade in active" id="privateApp">
-    <p>privateApp</p>
-  </div>
-  <div class="tab-pane fade" id="publicApp">
-    <p>publicApp</p>
-  </div>
-</div>-->
+</ul>-->
+<nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+  <nz-tab *ngFor="let tab of tabs">
+    <ng-template #nzTabHeading>
+      {{tab.name}}
+    </ng-template>
+    <app-applist [tabName]="tab.tabName" >
+
+    </app-applist>
+  </nz-tab>
+</nz-tabset>

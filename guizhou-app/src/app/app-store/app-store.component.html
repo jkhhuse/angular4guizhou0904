@@ -10,6 +10,18 @@
     接受到子组件header传来的title为{{childTitle}}
 </p>-->
 <nz-content>
-    <app-tab></app-tab>
-    <app-applist></app-applist>
+    <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+        <nz-tab *ngFor="let tab of tabs">
+            <ng-template #nzTabHeading>
+                {{tab.name}}
+            </ng-template>
+            <app-applist [tabName]="tab.tabName" >
+
+            </app-applist>
+        </nz-tab>
+    </nz-tabset>
 </nz-content>
+<nz-footer>
+    <nz-pagination [nzPageIndex]="2" [nzTotal]="500" nzShowQuickJumper></nz-pagination>`,
+
+</nz-footer>

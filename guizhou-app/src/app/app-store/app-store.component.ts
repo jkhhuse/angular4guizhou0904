@@ -10,7 +10,18 @@ export class AppStoreComponent implements OnInit {
     public title: String = '应用管理';
     public childTitle: String;
     appOutput: AppOutput = new AppOutput('', 0);
-
+    private tabs = [
+        {
+            index: 1,
+            name: '我的应用',
+            tabName: 'myApp'
+        },
+        {
+            index: 2,
+            name: '公共应用',
+            tabName: 'publicApp'
+        }
+    ];
     buyHandler(event: AppOutput) {
         this.appOutput = event;
     }
