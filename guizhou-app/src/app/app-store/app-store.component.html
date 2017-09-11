@@ -1,4 +1,4 @@
-<app-header [title]="'应用商城2'"
+<app-header [title]="title"
             (buyEvent)="buyHandler($event)"
             (headerTitle)="titleHandler($event)"
 ></app-header>
@@ -22,6 +22,6 @@
     </nz-tabset>
 </nz-content>
 <nz-footer>
-    <nz-pagination [nzPageIndex]="2" [nzTotal]="500" nzShowQuickJumper></nz-pagination>`,
+    <nz-pagination [(nzPageIndex)]="_current" [nzTotal]="50" nzShowTotal  nzShowSizeChanger nzShowQuickJumper></nz-pagination>
 
 </nz-footer>

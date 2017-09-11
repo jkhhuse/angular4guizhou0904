@@ -7,7 +7,8 @@ import {AppOutput} from '../header/header.component';
     styleUrls: ['./app-store.component.css']
 })
 export class AppStoreComponent implements OnInit {
-    public title: String = '应用管理';
+    private _current = 1;
+    public title: String = '应用商城';
     public childTitle: String;
     appOutput: AppOutput = new AppOutput('', 0);
     private tabs = [
