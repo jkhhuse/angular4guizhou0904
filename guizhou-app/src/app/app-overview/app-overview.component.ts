@@ -8,6 +8,8 @@ import {RandomUserService} from '../shared/random-user.service';
     providers: [RandomUserService]
 })
 export class AppOverviewComponent implements OnInit {
+    // 总数相关
+    private totals: AppTotalsClass = new AppTotalsClass(110, 220, 330);
     title: String = '应用概览';
     tabs = [
         {
@@ -22,13 +24,13 @@ export class AppOverviewComponent implements OnInit {
         }
     ];
     _current = 1;
-    _pageSize = 10;
+    _pageSize = 5;
     _total = 1;
     _loading = true;
     sortMap = {
         dob: null,
         gender: null,
-        email: null
+        value: null
     };
     _sortName = null;
     _sortValue = null;
@@ -47,6 +49,7 @@ export class AppOverviewComponent implements OnInit {
         });
         this.refreshData();
     }
+
     reset() {
         this.refreshData(true);
     }
@@ -79,4 +82,11 @@ export class AppOverviewComponent implements OnInit {
         this.refreshData();
     }
 
+}
+
+export class AppTotalsClass {
+    constructor(public appTotalNum: number,
+                public dockerTotalNum: number,
+                public projectTotalNum: number) {
+    }
 }

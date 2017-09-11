@@ -2,6 +2,31 @@
     <app-header [title]="title"></app-header>
 
     <nz-content>
+        <div class="app-overview-totals">
+            <div nz-row [nzGutter]="18">
+                <div nz-col class="total-row" [nzSpan]="8">
+                    <div class="total-box">
+                        <img src='http://placehold.it/80x80' alt="">
+                        <span>应用总数</span>
+                        <span>{{totals.appTotalNum}}</span>
+                    </div>
+                </div>
+                <div nz-col class="total-row" [nzSpan]="8">
+                    <div class="total-box">
+                        <img src='http://placehold.it/80x80' alt="">
+                        <span>容器个数</span>
+                        <span>{{totals.dockerTotalNum}}</span>
+                    </div>
+                </div>
+                <div nz-col class="total-row" [nzSpan]="8">
+                    <div class="total-box">
+                        <img src='http://placehold.it/80x80' alt="">
+                        <span>项目个数</span>
+                        <span>{{totals.projectTotalNum}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
         <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
             <nz-tab *ngFor="let tab of tabs">
                 <ng-template #nzTabHeading>
@@ -21,15 +46,17 @@
                     <thead nz-thead>
                     <tr>
                         <th nz-th>
-                            <span>Dob</span>
+                            <span>创建时间</span>
                             <nz-table-sort [(nzValue)]="sortMap.name" (nzValueChange)="sort('dob', $event)"></nz-table-sort>
                         </th>
                         <th nz-th>
                             <span>Gender</span>
                             <nz-table-sort [(nzValue)]="sortMap.gender" (nzValueChange)="sort('gender', $event)"></nz-table-sort>
                         </th>
-                        <th nz-th><span>Email</span></th>
-                        <nz-table-sort [(nzValue)]="sortMap.email" (nzValueChange)="sort('email', $event)"></nz-table-sort>
+                        <th nz-th>
+                            <span>Email</span>
+                            <nz-table-sort [(nzValue)]="sortMap.email" (nzValueChange)="sort('email', $event)"></nz-table-sort>
+                        </th>
                     </tr>
                     </thead>
                     <tbody nz-tbody>
