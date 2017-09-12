@@ -1,0 +1,45 @@
+<app-header [title]="title"></app-header>
+
+<nz-content class="service-catalog">
+    <button nz-button [nzType]="'primary'">发布服务</button>
+    <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+        <nz-tab *ngFor="let tab of tabs">
+            <ng-template #nzTabHeading>
+                {{tab.name}}
+            </ng-template>
+            <div nz-row class="catalog-options-wrapper">
+                <div nz-col [nzSpan]="6" class="catalog-option">
+                    服务类别
+                    <nz-checkbox-group [(ngModel)]="catalogOption"
+                                       (ngModelChange)="_log(catalogOption)"></nz-checkbox-group>
+                </div>
+                <div nz-col [nzSpan]="6" class="catalog-option">
+                    资源池
+                    <nz-checkbox-group [(ngModel)]="resourceOption"
+                                       (ngModelChange)="_log(resourceOption)"></nz-checkbox-group>
+                </div>
+                <div nz-col [nzSpan]="8" class="catalog-option">
+                    关键字
+                    <nz-input style="width: 80%"
+                              [nzSize]="'small'"
+                              [(ngModel)]="inputValue"
+                              [nzPlaceHolder]="'请输入...'"
+                              (ngModelChange)="_console($event)"></nz-input>
+                </div>
+                <div nz-col [nzSpan]="2" class="catalog-option">
+                    <button nz-button [nzType]="'primary'">搜索</button>
+                </div>
+            </div>
+            <div class="service-list-wrapper">
+                <app-applist [tabName]="tab.tabName" >
+
+                </app-applist>
+            </div>
+        </nz-tab>
+    </nz-tabset>
+</nz-content>
+
+<nz-footer>
+    <nz-pagination [(nzPageIndex)]="_current" [nzTotal]="50" nzShowTotal nzShowSizeChanger
+                   nzShowQuickJumper></nz-pagination>
+</nz-footer>

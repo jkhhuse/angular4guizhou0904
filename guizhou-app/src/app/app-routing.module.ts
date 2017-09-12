@@ -6,6 +6,8 @@ import {AppStoreComponent} from './app-store/app-store.component';
 import {MirrorStoreComponent} from './mirror-store/mirror-store.component';
 import {FileCenterComponent} from './file-center/file-center.component';
 import {Code404Component} from './code404/code404.component';
+import {ServiceCatalogComponent} from "./service-catalog/service-catalog.component";
+import {ServiceInstanceComponent} from "./service-instance/service-instance.component";
 
 const routes: Routes = [
     // 路由重定向
@@ -16,8 +18,10 @@ const routes: Routes = [
     {path: 'appStore', component: AppStoreComponent},
     {path: 'appStore/:appId', component: AppDetailComponent},
 
-    {path: 'mirrorStore', component: MirrorStoreComponent},
+    {path: 'serviceCatalog', component: ServiceCatalogComponent},
+    {path: 'serviceInstance', component: ServiceInstanceComponent},
 
+    {path: 'mirrorStore', component: MirrorStoreComponent},
     {path: 'fileCenter', component: FileCenterComponent},
 
     {path: '**', component: Code404Component}

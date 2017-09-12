@@ -23,6 +23,8 @@ import {AppFilterPipe} from './pipe/app-filter.pipe';
 import {NgZorroAntdModule} from 'ng-zorro-antd/src/release/ng-zorro-antd.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RandomUserService} from './shared/random-user.service';
+import { ServiceCatalogComponent } from './service-catalog/service-catalog.component';
+import { ServiceInstanceComponent } from './service-instance/service-instance.component';
 
 
 @NgModule({
@@ -39,7 +41,9 @@ import {RandomUserService} from './shared/random-user.service';
         MirrorStoreComponent,
         FileCenterComponent,
         Code404Component,
-        AppFilterPipe
+        AppFilterPipe,
+        ServiceCatalogComponent,
+        ServiceInstanceComponent
     ],
     imports: [
         BrowserModule,
