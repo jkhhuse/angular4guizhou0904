@@ -4,6 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
 // import {Routes, RouterModule} from '@angular/router';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 import {AppComponent} from './app.component';
 import {NavbarComponent} from './navbar/navbar.component';
@@ -25,6 +26,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RandomUserService} from './shared/random-user.service';
 import { ServiceCatalogComponent } from './service-catalog/service-catalog.component';
 import { ServiceInstanceComponent } from './service-instance/service-instance.component';
+import {InMemoryDataService} from './data/in-memory-data.service';
+import { ServiceListComponent } from './service-list/service-list.component';
+import {ServicesService} from './shared/services.service';
 
 
 @NgModule({
@@ -43,19 +47,21 @@ import { ServiceInstanceComponent } from './service-instance/service-instance.co
         Code404Component,
         AppFilterPipe,
         ServiceCatalogComponent,
-        ServiceInstanceComponent
+        ServiceInstanceComponent,
+        ServiceListComponent,
     ],
     imports: [
         BrowserModule,
         FormsModule,
-       // HttpModule,
+        HttpModule,
         AppRoutingModule, // 引入路由模块,
         ReactiveFormsModule,
         NgZorroAntdModule.forRoot(),
         BrowserAnimationsModule,
-        HttpClientModule
+        HttpClientModule,
+        InMemoryWebApiModule.forRoot(InMemoryDataService)
     ],
-    providers: [ApplicationService, RandomUserService],
+    providers: [ApplicationService, RandomUserService, ServicesService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

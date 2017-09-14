@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RandomUserService} from '../shared/random-user.service';
+import {Observable} from 'rxjs/Observable';
+import {Http} from '@angular/http';
 
 @Component({
     selector: 'app-app-overview',
@@ -8,6 +10,9 @@ import {RandomUserService} from '../shared/random-user.service';
     providers: [RandomUserService]
 })
 export class AppOverviewComponent implements OnInit {
+    dataSource: Observable<any>;
+    products: Array<any>;
+
     // 总数相关
     private totals: AppTotalsClass = new AppTotalsClass(110, 220, 330);
     title: String = '应用概览';
@@ -54,7 +59,9 @@ export class AppOverviewComponent implements OnInit {
         this.refreshData(true);
     }
 
-    constructor(private _randomUser: RandomUserService) {
+    constructor(private _randomUser: RandomUserService, private http: Http) {
+        this.dataSource = this.http.get('api/services')
+            .map((res) => res.json());
     }
 
     refreshData(reset = false) {
@@ -80,6 +87,12 @@ export class AppOverviewComponent implements OnInit {
 
     ngOnInit() {
         this.refreshData();
+        this.dataSource.subscribe(
+            (data) => {
+                this.products = data;
+                console.log(data);
+            });
+        console.log('1111: ' + this.dataSource);
     }
 
 }

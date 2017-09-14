@@ -13,7 +13,7 @@ export class ServiceCatalogComponent implements OnInit {
     private tabs = [
         {
             index: 1,
-            name: '本租户服务',
+            name: '私有服务',
             tabName: 'myService'
         },
         {
@@ -24,12 +24,13 @@ export class ServiceCatalogComponent implements OnInit {
     ];
     // 多选框
     catalogOption = [
-        { label: 'tomcat', value: 'tomcat', checked: true },
-        { label: 'db', value: 'db' },
+        { label: '中间件服务', value: 'tomcat', checked: true },
+        { label: '数据库服务', value: 'db' },
     ];
-    resourceOption = [
-        { label: 'public', value: 'public', chechked: true },
-        { label: 'test', value: 'test', checked: true}
+    internetOption = [
+        { label: 'portal域', value: 'publicRegion', chechked: true },
+        { label: '核心域', value: 'coreRegion'},
+        { label: '互联网域', value: 'internetRegion'}
     ];
     // input输入框
     inputValue: string;

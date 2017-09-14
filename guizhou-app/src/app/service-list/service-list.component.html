@@ -1,0 +1,33 @@
+<div *ngIf="services">
+    <div nz-row [nzGutter]="8">
+        <div *ngFor="let service of services | async">
+            <div nz-col [nzSpan]="6">
+                <a [routerLink]="['/serviceCatalog', service.id]">
+                    <nz-card>
+                        <ng-template #body>
+                            <div class="custom-image">
+                                <img [src]="serviceImgUrl" alt="" width="100%"/>
+                            </div>
+                            <div class="custom-card">
+                                <div class="card-content">
+                                    <span class="pull-right" [style.color]="service.status ? '#006600' : '#999999'">
+                                    {{service.status ? '正常':'下架'}}</span>
+                                    <span>{{service.name}}</span>
+                                </div>
+                                <div class="card-content">
+                                    <span style="color: #999999">{{service.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                                    <span class="pull-right">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </span>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </nz-card>
+                </a>
+            </div>
+        </div>
+        <!--<div *ngFor="let service of services | async">
+            {{service.name}}
+        </div>-->
+    </div>
+</div>

@@ -1,0 +1,8 @@
+.custom-card span{
+    font-size: 13px;
+    color: #333333;
+    text-decoration: none;
+}
+.card-content{
+    padding: 10px 0;
+}
