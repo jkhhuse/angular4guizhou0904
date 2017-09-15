@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {RandomUserService} from '../shared/random-user.service';
-import {Observable} from 'rxjs/Observable';
-import {Http} from '@angular/http';
 
 @Component({
     selector: 'app-app-overview',
@@ -10,9 +8,6 @@ import {Http} from '@angular/http';
     providers: [RandomUserService]
 })
 export class AppOverviewComponent implements OnInit {
-    dataSource: Observable<any>;
-    products: Array<any>;
-
     // 总数相关
     private totals: AppTotalsClass = new AppTotalsClass(110, 220, 330);
     title: String = '应用概览';
@@ -59,9 +54,7 @@ export class AppOverviewComponent implements OnInit {
         this.refreshData(true);
     }
 
-    constructor(private _randomUser: RandomUserService, private http: Http) {
-        this.dataSource = this.http.get('api/services')
-            .map((res) => res.json());
+    constructor(private _randomUser: RandomUserService) {
     }
 
     refreshData(reset = false) {
@@ -70,9 +63,11 @@ export class AppOverviewComponent implements OnInit {
         }
         this._loading = true;
         this._randomUser.getUsers(this._current, this._pageSize, this._sortName, this._sortValue).subscribe((data: any) => {
+            console.log(this._current);
+            console.log(this._pageSize);
             this._loading = false;
             this._total = 50;
-            this._dataSet = data.results;
+            this._dataSet = data;
             this._dataSet = [...this._dataSet.sort((a, b) => {
                 if (a[this._sortName] > b[this._sortName]) {
                     return (this._sortValue === 'ascend') ? 1 : -1;
@@ -87,12 +82,9 @@ export class AppOverviewComponent implements OnInit {
 
     ngOnInit() {
         this.refreshData();
-        this.dataSource.subscribe(
-            (data) => {
-                this.products = data;
-                console.log(data);
-            });
-        console.log('1111: ' + this.dataSource);
+        /*this._randomUser.getUsers().subscribe((data) => {
+            this._dataSet = data;
+        });*/
     }
 
 }

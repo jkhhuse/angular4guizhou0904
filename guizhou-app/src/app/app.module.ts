@@ -48,7 +48,7 @@ import {ServicesService} from './shared/services.service';
         AppFilterPipe,
         ServiceCatalogComponent,
         ServiceInstanceComponent,
-        ServiceListComponent,
+        ServiceListComponent
     ],
     imports: [
         BrowserModule,
@@ -59,7 +59,7 @@ import {ServicesService} from './shared/services.service';
         NgZorroAntdModule.forRoot(),
         BrowserAnimationsModule,
         HttpClientModule,
-        InMemoryWebApiModule.forRoot(InMemoryDataService)
+         InMemoryWebApiModule.forRoot(InMemoryDataService)
     ],
     providers: [ApplicationService, RandomUserService, ServicesService],
     bootstrap: [AppComponent]
