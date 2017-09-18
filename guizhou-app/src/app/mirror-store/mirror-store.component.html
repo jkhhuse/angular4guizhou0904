@@ -1,3 +1,33 @@
-<app-header [title]="'镜像仓库'"></app-header>
-<app-tab></app-tab>
-<h2>这里是镜像仓库</h2>
+<app-header [title]="title"></app-header>
+
+<nz-content class="mirror-store-wrapper">
+    <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" class="mirrorTab">
+        <nz-tab *ngFor="let tab of tabs">
+            <ng-template #nzTabHeading>
+                {{tab.name}}
+            </ng-template>
+            <div nz-row class="mirror-btns-wrapper">
+                <div nz-col [nzSpan]="6"  class="catalog-option">
+                    <button nz-button [nzType]="'primary'">构建</button>
+                    <button nz-button [nzType]="'default'" class="btn">删除</button>
+                </div>
+                <div nz-col [nzSpan]="6" [nzOffset]="12">
+                    <nz-input class="serviceInstanceSearch"
+                              [nzSize]="large"
+                              [(ngModel)]="inputValue"
+                              [nzPlaceHolder]="'按表名称、描述、标签搜索...'"
+                              (ngModelChange)="_console($event)">
+                        <ng-template #addOnAfter><i class="anticon anticon-search"></i></ng-template>
+                    </nz-input>
+                </div>
+            </div>
+            <app-service-list></app-service-list>
+
+        </nz-tab>
+    </nz-tabset>
+</nz-content>
+
+<nz-footer>
+    <nz-pagination [(nzPageIndex)]="_current" [nzTotal]="50" nzShowTotal nzShowSizeChanger
+                   nzShowQuickJumper></nz-pagination>
+</nz-footer>

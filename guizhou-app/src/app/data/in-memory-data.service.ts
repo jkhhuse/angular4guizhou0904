@@ -31,37 +31,77 @@ export class InMemoryDataService implements InMemoryDbService {
                 }
             ];
         const services = [
-            // new Services('1', '2', '3', true, '5'),
-            // new Services('1', '2', '3', true, '5')
             {
-                name: 'mysql1',
-                createTime: '2017-08-23 14:19:09',
-                updateTime: '2017-08-23 14:19:09',
-                status: true,
-                id: '1'
+                'id': 'ace4cf29-f588-49a6-9957-4bfd2b20f31a',
+                'createTime': '2017-09-14 11:21:25.0',
+                'createUserId': 1,
+                'groupId': 1,
+                'repositoryName': 'justtest',
+                'version': '1',
+                'repositorySrvId': 1,
+                'registryId': 'a54da5dc-8124-4bd7-832c-d9245548aea0',
+                'updateTime': '2017-09-14 11:21:51.0',
+                'updateUserId': 1,
+                'isEnable': true,
+                'deleted': false
             },
             {
-                name: 'mysql2',
-                createTime: '2017-08-23 14:19:09',
-                updateTime: '2017-08-23 14:19:09',
-                status: false,
-                id: '2'
-            },
-            {
-                name: 'mysql3',
-                createTime: '2017-08-23 14:19:09',
-                updateTime: '2017-08-23 14:19:09',
-                status: false,
-                id: '3'
-            },
-            {
-                name: 'mysql4',
-                createTime: '2017-08-23 14:19:09',
-                updateTime: '2017-08-23 14:19:09',
-                status: true,
-                id: '4'
+                'id': 'ace4cf29-f588-49a6-9957-4bfd2b20f31a',
+                'createTime': '2017-09-14 11:21:25.0',
+                'createUserId': 1,
+                'groupId': 1,
+                'repositoryName': 'justtest',
+                'version': '1',
+                'repositorySrvId': 1,
+                'registryId': 'a54da5dc-8124-4bd7-832c-d9245548aea0',
+                'updateTime': '2017-09-14 11:21:51.0',
+                'updateUserId': 1,
+                'isEnable': false,
+                'deleted': false
             }
         ];
+        const servicesDetail = [{
+            'images': {
+                'name': 'justtest',
+                'createTime': '2017-09-14 11:21:25.0',
+                'updateTime': '2017-09-14 12:56:56.0',
+                'status': true,
+                'id': null,
+                'description': null,
+                'opRepository': [
+                    {
+                        'id': '6ab3a908-fe51-44b4-b11c-da07080a8892',
+                        'createTime': '2017-09-14 12:56:14.0',
+                        'createUserId': 1,
+                        'groupId': 1,
+                        'repositoryName': 'justtest',
+                        'version': '2',
+                        'repositorySrvId': 1,
+                        'registryId': 'a54da5dc-8124-4bd7-832c-d9245548aea0',
+                        'updateTime': '2017-09-14 12:56:56.0',
+                        'updateUserId': 1,
+                        'isEnable': true,
+                        'deleted': false
+                    },
+                    {
+                        'id': 'ace4cf29-f588-49a6-9957-4bfd2b20f31a',
+                        'createTime': '2017-09-14 11:21:25.0',
+                        'createUserId': 1,
+                        'groupId': 1,
+                        'repositoryName': 'justtest',
+                        'version': '1',
+                        'repositorySrvId': 1,
+                        'registryId': 'a54da5dc-8124-4bd7-832c-d9245548aea0',
+                        'updateTime': '2017-09-14 11:21:51.0',
+                        'updateUserId': 1,
+                        'isEnable': true,
+                        'deleted': false
+                    }
+                ]
+            },
+            'repositoryName': 'justtest',
+            'groupId': 1
+        }];
         const serviceInstances = [
             {
                 'serviceName': 'Mysql001',

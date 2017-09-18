@@ -6,7 +6,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./mirror-store.component.css']
 })
 export class MirrorStoreComponent implements OnInit {
-
+    _current = 1;
+    // 标签名
+    public title: String = '镜像仓库';
+    mirrorImgUrl = 'assets/service/mysql.png';
+    // 分页
+    private tabs = [
+        {
+            index: 1,
+            name: '我的镜像',
+            tabName: 'myMirror'
+        },
+        {
+            index: 2,
+            name: '共有镜像',
+            tabName: 'publicMirror'
+        }
+    ];
   constructor() { }
 
   ngOnInit() {

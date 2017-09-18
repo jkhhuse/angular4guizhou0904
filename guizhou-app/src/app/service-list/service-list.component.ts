@@ -11,7 +11,8 @@ import {Http} from '@angular/http';
 })
 export class ServiceListComponent implements OnInit {
     serviceImgUrl = 'assets/service/mysql.png';
-    services: Observable<Services[]>;
+    services: Observable<any[]>;
+    products: any;
     // products 用来测试非async方法通过订阅获取数据而不是流
     // products: any;
     constructor(private servicesService: ServicesService) {
@@ -20,8 +21,9 @@ export class ServiceListComponent implements OnInit {
     }
 
     ngOnInit() {
-        /*this.servicesService.getServices().subscribe((data) => {
+       /* this.servicesService.getServices().subscribe((data) => {
             this.products = data;
+            this.products = this.products.images;
         });*/
     }
 }

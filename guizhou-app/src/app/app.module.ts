@@ -29,6 +29,7 @@ import { ServiceInstanceComponent } from './service-instance/service-instance.co
 import {InMemoryDataService} from './data/in-memory-data.service';
 import { ServiceListComponent } from './service-list/service-list.component';
 import {ServicesService} from './shared/services.service';
+import { MirrorDetailComponent } from './mirror-detail/mirror-detail.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import {ServicesService} from './shared/services.service';
         AppFilterPipe,
         ServiceCatalogComponent,
         ServiceInstanceComponent,
-        ServiceListComponent
+        ServiceListComponent,
+        MirrorDetailComponent
     ],
     imports: [
         BrowserModule,
@@ -58,8 +60,8 @@ import {ServicesService} from './shared/services.service';
         ReactiveFormsModule,
         NgZorroAntdModule.forRoot(),
         BrowserAnimationsModule,
-        HttpClientModule,
-         InMemoryWebApiModule.forRoot(InMemoryDataService)
+        // HttpClientModule,
+        // InMemoryWebApiModule.forRoot(InMemoryDataService)
     ],
     providers: [ApplicationService, RandomUserService, ServicesService],
     bootstrap: [AppComponent]
