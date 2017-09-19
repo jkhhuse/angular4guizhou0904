@@ -2,7 +2,24 @@
 body, html{
     height: 100%;
     font-size: 13px;
+    font-family: SourceHanSans-Light, sans-serif;
 }
 .ant-layout-has-sider, .ant-layout{
     height: 100%;
+}
+@font-face {
+    font-family: SourceHanSans-Light;
+    src: url("assets/font/SourceHanSans-Light.otf");
+}
+@font-face {
+    font-family: SourceHanSans-Medium;
+    src: url("assets/font/SourceHanSans-Medium.otf");
+}
+@font-face {
+    font-family: SourceHanSans-Normal;
+    src: url("assets/font/SourceHanSans-Normal.otf");
+}
+
+*{
+    font-family: SourceHanSans-Light, sans-serif;
 }

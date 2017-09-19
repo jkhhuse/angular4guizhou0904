@@ -3,7 +3,7 @@
 <nz-content class="service-catalog">
     <button nz-button [nzType]="'primary'" class="releaseServiceBtn">发布服务</button>
     <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
-        <nz-tab *ngFor="let tab of tabs">
+        <nz-tab *ngFor="let tab of tabs"  (nzClick)="changeTabName(tab.tabName)">
             <ng-template #nzTabHeading>
                 {{tab.name}}
             </ng-template>
@@ -20,11 +20,7 @@
                 </div>
                 <div nz-col [nzSpan]="6" class="catalog-option">
                     关键字
-                    <nz-input style="width: 80%"
-                              [nzSize]="'small'"
-                              [(ngModel)]="inputValue"
-                              [nzPlaceHolder]="'请输入...'"
-                              (ngModelChange)="_console($event)"></nz-input>
+                    <input type="text" class="form-control" placeholder="按服务名称搜索..." [formControl]="titleFilter">
                 </div>
                 <div nz-col [nzSpan]="2" class="catalog-option">
                     <button nz-button [nzType]="'primary'">搜索</button>
@@ -37,7 +33,7 @@
                 </label>
             </div>
 
-            <app-service-list></app-service-list>
+            <app-service-list [tabName]="tabName" [titleFilter]="titleFilter"></app-service-list>
 
         </nz-tab>
     </nz-tabset>

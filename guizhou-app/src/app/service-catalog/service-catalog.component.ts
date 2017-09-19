@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-service-catalog',
@@ -34,7 +35,11 @@ export class ServiceCatalogComponent implements OnInit {
     ];
     // input输入框
     inputValue: string;
-
+    titleFilter: FormControl = new FormControl();
+    tabName: String = 'private';
+    changeTabName(tabName): void {
+        this.tabName = tabName;
+    }
     _console(value) {
         console.log(value);
     }
