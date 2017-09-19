@@ -1,29 +1,31 @@
+
 <div *ngIf="services">
     <div nz-row [nzGutter]="8">
-        <div *ngFor="let service of services | async">
+        <div *ngFor="let service of services | async  | appFilter: 'repositoryName': keyword">
             <div nz-col [nzSpan]="6">
-                <a [routerLink]="['/mirrorDetail', service.repositoryName]">
-                    <nz-card>
-                        <ng-template #body>
+                <nz-card>
+                    <ng-template #body>
+                        <a [routerLink]="['/mirrorDetail', service.repositoryName]">
                             <div class="custom-image">
                                 <img [src]="serviceImgUrl" alt="" width="100%"/>
                             </div>
-                            <div class="custom-card">
-                                <div class="card-content">
+                        </a>
+                        <div class="custom-card">
+                            <div class="card-content">
                                     <span class="pull-right" [style.color]="service.status ? '#006600' : '#999999'">
                                     {{service.isEnable ? '正常':'下架'}}</span>
-                                    <span>{{service.repositoryName}}</span>
-                                </div>
-                                <div class="card-content">
-                                    <span style="color: #999999">{{service.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                                    <span class="pull-right">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </span>
-                                </div>
+                                <span>{{service.repositoryName}}</span>
                             </div>
-                        </ng-template>
-                    </nz-card>
-                </a>
+                            <div class="card-content">
+                                <span style="color: #999999">{{service.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                                <span class="pull-right">
+                                    <span class="glyphicon glyphicon-trash"
+                                          (click)="deleteMirror(service.repositoryName)"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </ng-template>
+                </nz-card>
             </div>
         </div>
         <!--<div *ngFor="let service of services | async">

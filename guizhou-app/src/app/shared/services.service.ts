@@ -8,8 +8,8 @@ export class ServicesService {
 
     constructor(private http: Http) {
     }
-    getServices(): Observable<any[]> {
-        return this.http.get('/api' + '/2/warehouse/repository?region=private').map(res => res.json().images);
+    getServices(tabName): Observable<any[]> {
+        return this.http.get('/api' + '/2/warehouse/repository?region=' + tabName).map(res => res.json().images);
     }
     getHeroes(): Promise<Services[]> {
         return this.http.get('/api/services')

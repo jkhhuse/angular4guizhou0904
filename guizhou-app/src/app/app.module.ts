@@ -60,7 +60,7 @@ import { MirrorDetailComponent } from './mirror-detail/mirror-detail.component';
         ReactiveFormsModule,
         NgZorroAntdModule.forRoot(),
         BrowserAnimationsModule,
-        // HttpClientModule,
+        HttpClientModule,
         // InMemoryWebApiModule.forRoot(InMemoryDataService)
     ],
     providers: [ApplicationService, RandomUserService, ServicesService],
