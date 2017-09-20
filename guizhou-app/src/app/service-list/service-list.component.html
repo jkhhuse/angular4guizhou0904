@@ -5,7 +5,7 @@
             <div nz-col [nzSpan]="6">
                 <nz-card>
                     <ng-template #body>
-                        <a [routerLink]="['/mirrorDetail', service.repositoryName]">
+                        <a [routerLink]="['/mirrorDetail', service.repositoryName ? service.repositoryName : service.serviceName]">
                             <div class="custom-image">
                                 <img [src]="serviceImgUrl" alt="" width="100%"/>
                             </div>
@@ -14,13 +14,13 @@
                             <div class="card-content">
                                     <span class="pull-right" [style.color]="service.status ? '#006600' : '#999999'">
                                     {{service.isEnable ? '正常':'下架'}}</span>
-                                <span>{{service.repositoryName}}</span>
+                                <span>{{service.repositoryName ? service.repositoryName : service.serviceName}}</span>
                             </div>
                             <div class="card-content">
                                 <span style="color: #999999">{{service.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                                 <span class="pull-right">
                                     <span class="glyphicon glyphicon-trash"
-                                          (click)="deleteMirror(service.repositoryName)"></span>
+                                          (click)="deleteMirror(service.repositoryName ? service.repositoryName : service.serviceName)"></span>
                                 </span>
                             </div>
                         </div>

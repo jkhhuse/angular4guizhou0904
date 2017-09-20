@@ -15,12 +15,12 @@ export class ServiceCatalogComponent implements OnInit {
         {
             index: 1,
             name: '私有服务',
-            tabName: 'myService'
+            tabName: '0'
         },
         {
             index: 2,
-            name: '全部服务',
-            tabName: 'publicService'
+            name: '公有服务',
+            tabName: '1'
         }
     ];
     // 多选框
@@ -36,7 +36,7 @@ export class ServiceCatalogComponent implements OnInit {
     // input输入框
     inputValue: string;
     titleFilter: FormControl = new FormControl();
-    tabName: String = 'private';
+    tabName: String = '0';
     changeTabName(tabName): void {
         this.tabName = tabName;
     }

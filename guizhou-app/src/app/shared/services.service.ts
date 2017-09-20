@@ -8,8 +8,15 @@ export class ServicesService {
 
     constructor(private http: Http) {
     }
-    getServices(tabName): Observable<any[]> {
-        return this.http.get('/api' + '/2/warehouse/repository?region=' + tabName).map(res => res.json().images);
+    getServices(tabName, moduleName): Observable<any[]> {
+        // console.log('tabName: ' + tabName);
+        // console.log('moduleName: ' + moduleName);
+        if (moduleName === 'mirror') {
+            return this.http.get('/api' + '/2/warehouse/repository?region=' + tabName).map(res => res.json().images);
+        } else if (moduleName === 'service') {
+            //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());
+            return this.http.get('/apiService' + '/groups/1/services?isPublic=' + tabName).map(res => res.json());
+        }
     }
     getHeroes(): Promise<Services[]> {
         return this.http.get('/api/services')

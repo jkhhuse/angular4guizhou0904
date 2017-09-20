@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {Services, ServicesService} from '../shared/services.service';
 import 'rxjs/Rx';
 import {Http} from '@angular/http';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 
 @Component({
     selector: 'app-service-list',
@@ -15,6 +15,8 @@ export class ServiceListComponent implements OnInit, OnChanges {
     tabName: string;
     @Input()
     titleFilter: FormControl = new FormControl();
+    @Input()
+    moduleName: string;
     private keyword: string;
     serviceImgUrl = 'assets/service/mysql.png';
     services: Observable<any[]>;
@@ -28,18 +30,21 @@ export class ServiceListComponent implements OnInit, OnChanges {
             console.log(data);
         });
     }
+
     constructor(private servicesService: ServicesService, private http: Http) {
     }
+
     ngOnChanges(changes: SimpleChanges) {
-        this.services = this.servicesService.getServices(this.tabName);
+        this.services = this.servicesService.getServices(this.tabName, this.moduleName);
         this.keyword = '';
     }
+
     ngOnInit() {
-       /* this.servicesService.getServices().subscribe((data) => {
-            this.products = data;
-            this.products = this.products.images;
-        });*/
-        this.services = this.servicesService.getServices(this.tabName);
+        /* this.servicesService.getServices().subscribe((data) => {
+             this.products = data;
+             this.products = this.products.images;
+         });*/
+        this.services = this.servicesService.getServices(this.tabName, this.moduleName);
         this.titleFilter.valueChanges
             .debounceTime(500)
             .subscribe(
