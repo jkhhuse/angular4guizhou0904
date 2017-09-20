@@ -11,7 +11,7 @@ export class ServicesService {
     getServices(tabName, moduleName): Observable<any[]> {
         // console.log('tabName: ' + tabName);
         // console.log('moduleName: ' + moduleName);
-        if (moduleName === 'mirror') {
+        if (moduleName === 'repository') {
             return this.http.get('/api' + '/2/warehouse/repository?region=' + tabName).map(res => res.json().images);
         } else if (moduleName === 'service') {
             //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());

@@ -29,7 +29,8 @@ import { ServiceInstanceComponent } from './service-instance/service-instance.co
 import {InMemoryDataService} from './data/in-memory-data.service';
 import { ServiceListComponent } from './service-list/service-list.component';
 import {ServicesService} from './shared/services.service';
-import { MirrorDetailComponent } from './mirror-detail/mirror-detail.component';
+import { ServiceDetailComponent } from './service-detail/service-detail.component';
+import { RepositoryDetailComponent } from './repository-detail/repository-detail.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { MirrorDetailComponent } from './mirror-detail/mirror-detail.component';
         ServiceCatalogComponent,
         ServiceInstanceComponent,
         ServiceListComponent,
-        MirrorDetailComponent
+        ServiceDetailComponent,
+        RepositoryDetailComponent
     ],
     imports: [
         BrowserModule,

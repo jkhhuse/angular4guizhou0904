@@ -22,7 +22,7 @@ export class RandomUserService {
              params: params
          });
      }*/
-    getUsers(pageIndex = 1, pageSize = 5, sortField, sortOrder): Observable<any> {
+   getUsers(pageIndex = 1, pageSize = 5, sortField, sortOrder): Observable<any> {
         const params = new URLSearchParams();
         params.set('page', `${pageIndex}`);
         params.set('results', `${pageSize}`);

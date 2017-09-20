@@ -1,0 +1,67 @@
+<app-header [title]="title"></app-header>
+<nz-content class="mirror-store-wrapper">
+  <div class="link-back">
+    <a [routerLink]="['/mirrorStore']">
+      <span class="glyphicon glyphicon-menu-left"></span>
+      返回</a>
+  </div>
+
+  <div class="detail-img-wrapper">
+    <div class="img-block">
+      <img class="detail-img" [src]="mirrorImgUrl" alt="" width="100%"/>
+    </div>
+    <div class="img-block">
+      <p class="detail-title">{{mirrorDetail.name}}</p>
+    </div>
+  </div>
+  <div nz-row class="detail-desc-wrapper" *ngIf="mirrorDetail">
+    <div nz-col [nzSpan]="12" class="detail-12col">
+      <div class="detail-line">
+        <span>实例描述</span>
+        <span class="detail-line-value">{{mirrorDetail.description}}</span></div>
+    </div>
+    <div nz-col [nzSpan]="12" class="detail-12col">
+      <div class="detail-line">
+        <span>更新时间</span>
+        <span class="detail-line-value">{{mirrorDetail.updateTime}}</span></div>
+    </div>
+  </div>
+  <div class="detail-versions-wrapper" *ngIf="mirrorVersions">
+    <nz-table #nzTable [nzAjaxData]="mirrorVersions" [nzIsPagination]="false">
+      <thead nz-thead>
+      <tr>
+        <th nz-th><span>版本</span></th>
+        <th nz-th><span>大小</span></th>
+        <th nz-th><span>状态</span></th>
+        <th nz-th><span>上传时间</span></th>
+        <th nz-th><span>操作</span></th>
+      </tr>
+      </thead>
+      <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+        <td nz-td>
+          <div *ngIf="data.version">
+            {{data.version}}
+          </div>
+        </td>
+        <td nz-td>100MB</td>
+        <td nz-td>
+          <div *ngIf="data.isEnable">
+            {{data.isEnable ? '正常': '错误'}}
+          </div>
+        </td>
+        <td nz-td>
+          <div *ngIf="data.updateTime">
+            {{data.updateTime}}
+          </div>
+        </td>
+        <td nz-td>
+          <a href="">启动</a>
+          <a href="">同步</a>
+          <a href="">删除</a>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</nz-content>

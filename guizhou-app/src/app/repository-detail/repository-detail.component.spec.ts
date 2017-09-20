@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MirrorDetailComponent } from './mirror-detail.component';
+import { RepositoryDetailComponent } from './repository-detail.component';
 
-describe('MirrorDetailComponent', () => {
-  let component: MirrorDetailComponent;
-  let fixture: ComponentFixture<MirrorDetailComponent>;
+describe('RepositoryDetailComponent', () => {
+  let component: RepositoryDetailComponent;
+  let fixture: ComponentFixture<RepositoryDetailComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MirrorDetailComponent ]
+      declarations: [ RepositoryDetailComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MirrorDetailComponent);
+    fixture = TestBed.createComponent(RepositoryDetailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

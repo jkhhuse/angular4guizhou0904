@@ -8,7 +8,7 @@ import {FileCenterComponent} from './file-center/file-center.component';
 import {Code404Component} from './code404/code404.component';
 import {ServiceCatalogComponent} from "./service-catalog/service-catalog.component";
 import {ServiceInstanceComponent} from "./service-instance/service-instance.component";
-import {MirrorDetailComponent} from "./mirror-detail/mirror-detail.component";
+import {RepositoryDetailComponent} from "./repository-detail/repository-detail.component";
 
 const routes: Routes = [
     // 路由重定向
@@ -23,7 +23,7 @@ const routes: Routes = [
     {path: 'serviceInstance', component: ServiceInstanceComponent},
 
     {path: 'mirrorStore', component: MirrorStoreComponent},
-    {path: 'mirrorDetail/:repositoryName', component: MirrorDetailComponent},
+    {path: 'repositoryDetail/:repositoryName', component: RepositoryDetailComponent},
     {path: 'fileCenter', component: FileCenterComponent},
 
     {path: '**', component: Code404Component}

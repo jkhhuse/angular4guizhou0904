@@ -1,11 +1,11 @@
 
 <div *ngIf="services">
     <div nz-row [nzGutter]="8">
-        <div *ngFor="let service of services | async  | appFilter: 'repositoryName': keyword">
+        <div *ngFor="let service of services | async  | appFilter: moduleName : keyword">
             <div nz-col [nzSpan]="6">
                 <nz-card>
                     <ng-template #body>
-                        <a [routerLink]="['/mirrorDetail', service.repositoryName ? service.repositoryName : service.serviceName]">
+                        <a [routerLink]="['/'+moduleName+'Detail', service.repositoryName ? service.repositoryName : service.serviceName]">
                             <div class="custom-image">
                                 <img [src]="serviceImgUrl" alt="" width="100%"/>
                             </div>
