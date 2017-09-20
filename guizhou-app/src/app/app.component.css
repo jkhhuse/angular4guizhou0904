@@ -1,0 +1,8 @@
+#sider{
+    flex: 0 0 180px !important;
+    width: 180px !important;
+    background-color: #404962 !important;
+    background: #404962 !important;
+    color:rgba(255, 255, 255, 0.647)!important;
+    font-size: 14px !important;
+}

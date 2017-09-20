@@ -1,8 +1,6 @@
-.logo {
-    height: 32px;
-    background: #333;
-    border-radius: 6px;
-    margin: 16px;
+#app-sider .logo {
+    height: 45px;
+    background: #353B53;
 }
 
 .ant-layout-sider-collapsed .nav-text {
@@ -16,4 +14,70 @@
 .ant-layout-sider-collapsed .anticon {
     font-size: 16px;
     margin-left: 8px;
+}
+
+#app-sider {
+    background-color: #404962 !important;
+    background: #404962 !important;
+    font-size: 14px !important;
+
+}
+#app-sider span {
+    font-size: 14px !important;
+}
+.ant-menu{
+    background: #404962 !important;
+    color:rgba(255, 255, 255, 0.647) !important;
+    font-size: 14px !important;
+}
+#app-sider .ant-menu-inline{
+    border: none !important;
+}
+#side-ul .ant-menu-submenu  .ant-menu-submenu-title{
+    padding-left: 1px !important;
+}
+
+#app-sider .anticon{
+    margin-right: 15px !important;
+}
+.ant-menu-item:hover{
+    color: #fff !important;
+}
+.ant-menu-item:hover, .ant-menu-item-active, .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open, .ant-menu-submenu-active, .ant-menu-submenu-title:hover{
+    color: #fff  !important;
+}
+.ant-menu-submenu:hover {
+    color: #fff !important;
+}
+#sider .ant-menu-submenu > .ant-menu {
+    background-color: #404962 !important;
+    background: #404962 !important;
+}
+.ant-menu {
+    background: #404962 !important;
+    background-color: #404962 !important;
+}
+.ant-menu-sub{
+    background: #404962 !important;
+    background-color: #404962 !important;
+}
+#app-sider .ant-menu-inline .ant-menu-sub {
+    background: #404962 !important;
+    background-color: #404962 !important;
+}
+.ant-menu-dark .ant-menu-inline.ant-menu-sub{
+    background: #404962 !important;
+    background-color: #404962 !important;
+}
+.ant-menu-dark, .ant-menu-dark .ant-menu-sub{
+    background: #404962 !important;
+    background-color: #404962 !important;
+}
+#app-sider .inside-ul{
+    background: #404962 !important;
+    background-color: #404962 !important;
+}
+.ant-menu.ant-menu-dark .ant-menu-item-selected {
+    background-color: #2d3348 !important;
+    border-left: 1px solid rgba(44, 156, 250, 1);
 }
