@@ -37,6 +37,6 @@ export class RandomUserService {
         params.set('results', `${pageSize}`);
         params.set('sortField', sortField);
         params.set('sortOrder', sortOrder);
-        return this.http.get('/api/serviceInstances', {search: params}).map(res => res.json().data);
+        return this.http.get('/apiService' + '/groups/1/service-instances', {search: params}).map(res => res.json());
     }
 }

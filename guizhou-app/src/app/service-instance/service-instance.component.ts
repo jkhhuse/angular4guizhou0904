@@ -17,12 +17,14 @@ export class ServiceInstanceComponent implements OnInit {
     _total = 1;
     _loading = true;
     sortMap = {
+        serviceId: null,
         serviceName: null,
-        name: null,
-        resouceType: null,
         createTime: null,
         updateTime: null,
-        status: null
+        status: null,
+        cpuSize: null,
+        memSize: null,
+        storageSize: null
     };
     _sortName = null;
     _sortValue = null;
@@ -50,11 +52,16 @@ export class ServiceInstanceComponent implements OnInit {
         }
         this._loading = true;
         this._randomUser.getServiceInstances(this._current, this._pageSize, this._sortName, this._sortValue).subscribe((data: any) => {
-            console.log(this._sortName);
             console.log(this._current);
+            console.log(this._pageSize);
+            console.log(this._sortName);
+            console.log(this._sortValue);
+            console.log(data);
+
             this._loading = false;
             this._total = 30;
             this._dataSet = data;
+
             this._dataSet = [...this._dataSet.sort((a, b) => {
                 if (a[this._sortName] > b[this._sortName]) {
                     return (this._sortValue === 'ascend') ? 1 : -1;
@@ -64,6 +71,7 @@ export class ServiceInstanceComponent implements OnInit {
                     return 0;
                 }
             })];
+            this._dataSet = data;
         });
     }
     _console(value) {
