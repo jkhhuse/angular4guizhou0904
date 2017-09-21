@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 body, html{
     height: 100%;
-    font-size: 13px;
+    font-size: 13px !important;
     font-family: SourceHanSans-Light, sans-serif;
 }
 .ant-layout-has-sider, .ant-layout{

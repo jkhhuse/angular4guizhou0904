@@ -11,10 +11,8 @@ export class AppFilterPipe implements PipeTransform {
       return appList;
     }
       filterField = filterField + 'Name';
-      console.log(filterField);
+     // console.log(filterField);
     return appList.filter(app => {
-
-
         let appValue: string = app[filterField];
       return appValue.indexOf(keyword) >= 0;
     });

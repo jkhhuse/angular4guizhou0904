@@ -6,18 +6,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4141e5f-de44-4a6e-a719-0f6d1fe3c137" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/guizhou-app/src/app/mirror-detail/mirror-detail.component.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/guizhou-app/src/app/mirror-detail/mirror-detail.component.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/guizhou-app/src/app/mirror-detail/mirror-detail.component.spec.ts" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/guizhou-app/src/app/mirror-detail/mirror-detail.component.ts" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/app-routing.module.ts" afterPath="$PROJECT_DIR$/guizhou-app/src/app/app-routing.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/app.module.ts" afterPath="$PROJECT_DIR$/guizhou-app/src/app/app.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/mirror-store/mirror-store.component.html" afterPath="$PROJECT_DIR$/guizhou-app/src/app/mirror-store/mirror-store.component.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/pipe/app-filter.pipe.ts" afterPath="$PROJECT_DIR$/guizhou-app/src/app/pipe/app-filter.pipe.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.ts" afterPath="$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.css" afterPath="$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.html" afterPath="$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.ts" afterPath="$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/service-list/service-list.component.html" afterPath="$PROJECT_DIR$/guizhou-app/src/app/service-list/service-list.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/shared/random-user.service.ts" afterPath="$PROJECT_DIR$/guizhou-app/src/app/shared/random-user.service.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/shared/services.service.ts" afterPath="$PROJECT_DIR$/guizhou-app/src/app/shared/services.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/styles.css" afterPath="$PROJECT_DIR$/guizhou-app/src/styles.css" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -31,34 +29,39 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="service-list.component.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-list/service-list.component.html">
+      <file leaf-file-name="service-detail.component.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="63">
-              <caret line="3" column="78" lean-forward="false" selection-start-line="3" selection-start-column="78" selection-end-line="3" selection-end-column="78" />
+            <state relative-caret-position="714">
+              <caret line="39" column="73" lean-forward="false" selection-start-line="39" selection-start-column="73" selection-end-line="39" selection-end-column="73" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="service-list.component.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-list/service-list.component.ts">
+      <file leaf-file-name="service-detail.component.css" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="18" column="14" lean-forward="false" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="14" />
+            <state relative-caret-position="585">
+              <caret line="48" column="23" lean-forward="false" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="service-detail.component.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="101" column="45" lean-forward="false" selection-start-line="101" selection-start-column="23" selection-end-line="101" selection-end-column="45" />
               <folding>
-                <element signature="e#0#81#0" expanded="true" />
+                <element signature="n#div#1;n#nz-content#0;n#!!top" expanded="false" />
+                <element signature="n#div#2;n#nz-content#0;n#!!top" expanded="false" />
+                <element signature="n#div#1;n#div#2;n#nz-content#0;n#!!top" expanded="false" />
+                <element signature="n#div#3;n#nz-content#0;n#!!top" expanded="false" />
+                <element signature="n#div#5;n#nz-content#0;n#!!top" expanded="false" />
+                <element signature="n#div#0;n#div#5;n#nz-content#0;n#!!top" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app-filter.pipe.ts" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/pipe/app-filter.pipe.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="13" column="31" lean-forward="false" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -85,6 +88,9 @@
       <find>_total</find>
       <find>get</find>
       <find>_current</find>
+      <find>subscribe</find>
+      <find>http</find>
+      <find>tabName</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -93,9 +99,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/guizhou-app/src/app/shared/application.service.ts" />
-        <option value="$PROJECT_DIR$/guizhou-app/src/app/tab/tab.component.html" />
-        <option value="$PROJECT_DIR$/guizhou-app/src/app/tab/tab.component.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/applist/applist.component.css" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/app-store/app-store.component.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/app-overview/package.json" />
@@ -122,14 +125,11 @@
         <option value="$PROJECT_DIR$/guizhou-app/src/app/mirror-detail/mirror-detail.component.css" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/mirror-store/mirror-store.component.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/applist/applist.component.html" />
-        <option value="$PROJECT_DIR$/guizhou-app/src/styles.css" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/app.component.html" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/app.component.css" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/navbar/navbar.component.html" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/service-catalog/service-catalog.component.html" />
-        <option value="$PROJECT_DIR$/guizhou-app/src/app/service-list/service-list.component.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/proxy.conf.json" />
-        <option value="$PROJECT_DIR$/guizhou-app/src/app/service-catalog/service-catalog.component.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/service-list/service-list.component.css" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/navbar/navbar.component.css" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/service-catalog/service-catalog.component.css" />
@@ -137,13 +137,19 @@
         <option value="$PROJECT_DIR$/guizhou-app/src/app/shared/random-user.service.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/mirror-store/mirror-store.component.html" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/app.module.ts" />
-        <option value="$PROJECT_DIR$/guizhou-app/src/app/app-routing.module.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.css" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.html" />
+        <option value="$PROJECT_DIR$/guizhou-app/src/styles.css" />
+        <option value="$PROJECT_DIR$/guizhou-app/src/app/app-routing.module.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.ts" />
-        <option value="$PROJECT_DIR$/guizhou-app/src/app/shared/services.service.ts" />
-        <option value="$PROJECT_DIR$/guizhou-app/src/app/service-list/service-list.component.html" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/pipe/app-filter.pipe.ts" />
+        <option value="$PROJECT_DIR$/guizhou-app/src/app/service-list/service-list.component.html" />
+        <option value="$PROJECT_DIR$/guizhou-app/src/app/service-list/service-list.component.ts" />
+        <option value="$PROJECT_DIR$/guizhou-app/src/app/service-catalog/service-catalog.component.ts" />
+        <option value="$PROJECT_DIR$/guizhou-app/src/app/shared/services.service.ts" />
+        <option value="$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.html" />
+        <option value="$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.ts" />
+        <option value="$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.css" />
       </list>
     </option>
   </component>
@@ -156,11 +162,11 @@
   <component name="NodeModulesDirectoryManager">
     <handled-path value="$PROJECT_DIR$/guizhou-app/node_modules" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1096" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="1483" />
+    <option name="y" value="73" />
+    <option name="width" value="1364" />
+    <option name="height" value="726" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -180,8 +186,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -221,14 +227,6 @@
               <item name="guizhou-app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="navbar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="angular4guizhou0904" type="b2602c69:ProjectViewProjectNode" />
-              <item name="angular4guizhou0904" type="462c0819:PsiDirectoryNode" />
-              <item name="guizhou-app" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="pipe" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -245,7 +243,15 @@
               <item name="guizhou-app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="service-list" type="462c0819:PsiDirectoryNode" />
+              <item name="service-catalog" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="angular4guizhou0904" type="b2602c69:ProjectViewProjectNode" />
+              <item name="angular4guizhou0904" type="462c0819:PsiDirectoryNode" />
+              <item name="guizhou-app" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="service-detail" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="angular4guizhou0904" type="b2602c69:ProjectViewProjectNode" />
@@ -338,22 +344,25 @@
       <workItem from="1505438480192" duration="21050000" />
       <workItem from="1505700265716" duration="20010000" />
       <workItem from="1505782609041" duration="17222000" />
-      <workItem from="1505869387838" duration="14028000" />
+      <workItem from="1505869387838" duration="14108000" />
+      <workItem from="1505958366085" duration="836000" />
+      <workItem from="1505960475637" duration="19519000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="187622000" />
+    <option name="totallyTimeSpent" value="208057000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="1358" y="-8" width="1936" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1913646" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.195629" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -365,7 +374,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -438,22 +446,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/shared/services.service.spec.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/sort-table/sort-table.component.ts" />
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/sort-table/sort-table.component.html" />
-    <entry file="file://$PROJECT_DIR$/guizhou-app/node_modules/@angular/common/http/src/client.d.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="447" column="22" lean-forward="false" selection-start-line="447" selection-start-column="19" selection-end-line="447" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/guizhou-app/node_modules/@angular/http/src/interfaces.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="479">
@@ -465,7 +457,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="185">
           <caret line="79" column="40" lean-forward="false" selection-start-line="79" selection-start-column="40" selection-end-line="79" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -480,7 +471,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="336">
           <caret line="16" column="1" lean-forward="false" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -488,9 +478,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="406">
           <caret line="58" column="25" lean-forward="false" selection-start-line="58" selection-start-column="17" selection-end-line="58" selection-end-column="25" />
-          <folding>
-            <element signature="e#4125#5571#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -513,7 +500,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
           <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -521,70 +507,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="6" column="71" lean-forward="false" selection-start-line="6" selection-start-column="59" selection-end-line="6" selection-end-column="71" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/mirror-detail/mirror-detail.component.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="798">
-          <caret line="38" column="24" lean-forward="false" selection-start-line="38" selection-start-column="24" selection-end-line="38" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/app-overview/app-overview.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/app-detail/app-detail.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="2" column="94" lean-forward="true" selection-start-line="2" selection-start-column="94" selection-end-line="2" selection-end-column="94" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/mirror-detail/mirror-detail.component.css" />
     <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/header/header.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="178">
           <caret line="13" column="9" lean-forward="false" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/mirror-detail/mirror-detail.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="21" column="69" lean-forward="false" selection-start-line="21" selection-start-column="51" selection-end-line="21" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/app-store/app-store.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="26" column="31" lean-forward="false" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/mirror-detail/mirror-detail.component.ts" />
     <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/app-store/app-store.component.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="483">
           <caret line="23" column="11" lean-forward="true" selection-start-line="23" selection-start-column="11" selection-end-line="23" selection-end-column="11" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/applist/applist.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="25" column="37" lean-forward="false" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -592,7 +530,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
           <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -604,19 +541,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/mirror-store/mirror-store.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="1" column="30" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/app-overview/app-overview.component.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1029">
           <caret line="49" column="63" lean-forward="false" selection-start-line="49" selection-start-column="56" selection-end-line="49" selection-end-column="63" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -631,9 +559,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="21">
           <caret line="1" column="24" lean-forward="false" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="24" />
-          <folding>
-            <element signature="n#style#0;n#nz-layout#0;n#nz-layout#0;n#!!top" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -641,7 +566,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
           <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -649,15 +573,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="618">
           <caret line="36" column="33" lean-forward="false" selection-start-line="36" selection-start-column="33" selection-end-line="36" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/styles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="23" column="36" lean-forward="false" selection-start-line="23" selection-start-column="36" selection-end-line="23" selection-end-column="36" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -665,9 +580,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -675,7 +587,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="6" column="40" lean-forward="false" selection-start-line="6" selection-start-column="40" selection-end-line="6" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -683,6 +594,192 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="793">
           <caret line="81" column="18" lean-forward="false" selection-start-line="81" selection-start-column="18" selection-end-line="81" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-catalog/service-catalog.component.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="25" column="15" lean-forward="false" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-instance/service-instance.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="3" column="46" lean-forward="false" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/mirror-detail/mirror-detail.component.html" />
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/shared/random-user.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="24" column="3" lean-forward="true" selection-start-line="24" selection-start-column="3" selection-end-line="24" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/app.module.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="567">
+          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="8" column="0" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="22" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="3" column="31" lean-forward="false" selection-start-line="3" selection-start-column="31" selection-end-line="3" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/mirror-store/mirror-store.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="1" column="30" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-instance/service-instance.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-308">
+          <caret line="10" column="23" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/applist/applist.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="25" column="37" lean-forward="false" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/app-detail/app-detail.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="2" column="94" lean-forward="true" selection-start-line="2" selection-start-column="94" selection-end-line="2" selection-end-column="94" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/app-store/app-store.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="26" column="31" lean-forward="false" selection-start-line="26" selection-start-column="31" selection-end-line="26" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/app-overview/app-overview.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="10" column="52" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/mirror-store/mirror-store.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="651">
+          <caret line="31" column="21" lean-forward="false" selection-start-line="31" selection-start-column="21" selection-end-line="31" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="714">
+          <caret line="40" column="5" lean-forward="false" selection-start-line="40" selection-start-column="5" selection-end-line="40" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-catalog/service-catalog.component.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#73#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/pipe/app-filter.pipe.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="14" column="34" lean-forward="false" selection-start-line="14" selection-start-column="34" selection-end-line="14" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/app-routing.module.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="472">
+          <caret line="23" column="65" lean-forward="true" selection-start-line="23" selection-start-column="65" selection-end-line="23" selection-end-column="65" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-catalog/service-catalog.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="490">
+          <caret line="40" column="31" lean-forward="true" selection-start-line="40" selection-start-column="31" selection-end-line="40" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-catalog/service-catalog.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="24" lean-forward="true" selection-start-line="35" selection-start-column="24" selection-end-line="35" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-list/service-list.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="37" column="51" lean-forward="true" selection-start-line="37" selection-start-column="51" selection-end-line="37" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#81#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/shared/services.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="21" column="11" lean-forward="false" selection-start-line="18" selection-start-column="9" selection-end-line="21" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-list/service-list.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="3" column="70" lean-forward="false" selection-start-line="3" selection-start-column="70" selection-end-line="3" selection-end-column="70" />
           <folding />
         </state>
       </provider>
@@ -695,144 +792,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-catalog/service-catalog.component.ts">
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="756">
-          <caret line="37" column="15" lean-forward="false" selection-start-line="37" selection-start-column="4" selection-end-line="37" selection-end-column="15" />
+        <state relative-caret-position="714">
+          <caret line="39" column="73" lean-forward="false" selection-start-line="39" selection-start-column="73" selection-end-line="39" selection-end-column="73" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-catalog/service-catalog.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="22" column="58" lean-forward="false" selection-start-line="22" selection-start-column="46" selection-end-line="22" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-catalog/service-catalog.component.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="25" column="15" lean-forward="false" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-instance/service-instance.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="21">
-          <caret line="10" column="23" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-instance/service-instance.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="3" column="46" lean-forward="false" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/mirror-detail/mirror-detail.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="47" column="35" lean-forward="false" selection-start-line="47" selection-start-column="35" selection-end-line="47" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/shared/random-user.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="24" column="3" lean-forward="true" selection-start-line="24" selection-start-column="3" selection-end-line="24" selection-end-column="3" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/app-routing.module.ts">
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
-          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/shared/services.service.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="12" column="10" lean-forward="false" selection-start-line="12" selection-start-column="10" selection-end-line="12" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="819">
-          <caret line="39" column="1" lean-forward="false" selection-start-line="39" selection-start-column="1" selection-end-line="39" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/app.module.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="567">
-          <caret line="31" column="0" lean-forward="false" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/mirror-store/mirror-store.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="616">
-          <caret line="31" column="55" lean-forward="false" selection-start-line="31" selection-start-column="55" selection-end-line="31" selection-end-column="55" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="828">
-          <caret line="66" column="13" lean-forward="false" selection-start-line="66" selection-start-column="13" selection-end-line="66" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="777">
-          <caret line="37" column="0" lean-forward="true" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+          <caret line="101" column="45" lean-forward="false" selection-start-line="101" selection-start-column="23" selection-end-line="101" selection-end-column="45" />
           <folding>
-            <element signature="e#0#50#0" expanded="true" />
+            <element signature="n#div#1;n#nz-content#0;n#!!top" expanded="false" />
+            <element signature="n#div#2;n#nz-content#0;n#!!top" expanded="false" />
+            <element signature="n#div#1;n#div#2;n#nz-content#0;n#!!top" expanded="false" />
+            <element signature="n#div#3;n#nz-content#0;n#!!top" expanded="false" />
+            <element signature="n#div#5;n#nz-content#0;n#!!top" expanded="false" />
+            <element signature="n#div#0;n#div#5;n#nz-content#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-list/service-list.component.html">
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="3" column="78" lean-forward="false" selection-start-line="3" selection-start-column="78" selection-end-line="3" selection-end-column="78" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-list/service-list.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="18" column="14" lean-forward="false" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#81#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/pipe/app-filter.pipe.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="13" column="31" lean-forward="false" selection-start-line="13" selection-start-column="31" selection-end-line="13" selection-end-column="31" />
+        <state relative-caret-position="585">
+          <caret line="48" column="23" lean-forward="false" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="23" />
           <folding />
         </state>
       </provider>

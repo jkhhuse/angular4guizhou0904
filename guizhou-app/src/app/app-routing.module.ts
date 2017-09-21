@@ -9,6 +9,7 @@ import {Code404Component} from './code404/code404.component';
 import {ServiceCatalogComponent} from "./service-catalog/service-catalog.component";
 import {ServiceInstanceComponent} from "./service-instance/service-instance.component";
 import {RepositoryDetailComponent} from "./repository-detail/repository-detail.component";
+import {ServiceDetailComponent} from "./service-detail/service-detail.component";
 
 const routes: Routes = [
     // 路由重定向
@@ -20,10 +21,11 @@ const routes: Routes = [
     {path: 'appStore/:appId', component: AppDetailComponent},
 
     {path: 'serviceCatalog', component: ServiceCatalogComponent},
+    {path: 'serviceDetail/:serviceId/:tabName', component: ServiceDetailComponent},
     {path: 'serviceInstance', component: ServiceInstanceComponent},
 
     {path: 'mirrorStore', component: MirrorStoreComponent},
-    {path: 'repositoryDetail/:repositoryName', component: RepositoryDetailComponent},
+    {path: 'repositoryDetail/:repositoryName/:tabName', component: RepositoryDetailComponent},
     {path: 'fileCenter', component: FileCenterComponent},
 
     {path: '**', component: Code404Component}
