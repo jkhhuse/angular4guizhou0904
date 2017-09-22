@@ -7,6 +7,7 @@ import {MirrorStoreComponent} from './mirror-store/mirror-store.component';
 import {FileCenterComponent} from './file-center/file-center.component';
 import {Code404Component} from './code404/code404.component';
 import {ServiceCatalogComponent} from "./service-catalog/service-catalog.component";
+import {ServiceReleaseComponent} from "./service-release/service-release.component"
 import {ServiceInstanceComponent} from "./service-instance/service-instance.component";
 import {RepositoryDetailComponent} from "./repository-detail/repository-detail.component";
 import {ServiceDetailComponent} from "./service-detail/service-detail.component";
@@ -22,6 +23,7 @@ const routes: Routes = [
 
     {path: 'serviceCatalog', component: ServiceCatalogComponent},
     {path: 'serviceDetail/:serviceId/:tabName', component: ServiceDetailComponent},
+    {path: 'serviceRelease', component: ServiceReleaseComponent},
     {path: 'serviceInstance', component: ServiceInstanceComponent},
 
     {path: 'mirrorStore', component: MirrorStoreComponent},
