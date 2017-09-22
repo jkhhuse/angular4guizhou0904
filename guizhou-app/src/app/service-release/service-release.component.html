@@ -1,0 +1,99 @@
+<div>基本信息</div>
+<nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+  <nz-tab *ngFor="let tab of tabs">
+    <ng-template #nzTabHeading>
+      Tab {{tab.index}}
+    </ng-template>
+    <div *ngIf="tab.index === 1">
+      <div>
+        <div nz-row [nzGutter]="20">
+          <div nz-col [nzSpan]="12" class="verticalMiddle">
+            <div nz-col [nzSpan]="2"><span>服务名称</span></div>
+            <div nz-col [nzSpan]="22">
+              <nz-input [(ngModel)]="inputValue" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" (ngModelChange)="_console($event)"></nz-input>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="12" class="verticalMiddle">
+            <div nz-col [nzSpan]="2"><span>服务依赖</span></div>
+            <div nz-col [nzSpan]="22">
+              <nz-input [(ngModel)]="inputValue" [nzSize]="'large'" [nzPlaceHolder]="'请输入'" (ngModelChange)="_console($event)"></nz-input>
+            </div>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="20">
+          <div nz-col [nzSpan]="12" class="verticalMiddle">
+            <div nz-col [nzSpan]="2"><span>服务类别</span></div>
+            <div nz-col [nzSpan]="22">
+              <nz-select style="width: 50%" [(ngModel)]="selectedOption" nzAllowClear>
+                <nz-option *ngFor="let option of options" [nzLabel]="option.label" [nzValue]="option" [nzDisabled]="option.disabled">
+                </nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="12" class="verticalMiddle">
+            <div nz-col [nzSpan]="2"><span>资源池</span></div>
+            <div nz-col [nzSpan]="22">
+              <nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="_console(checkOptionsOne)"></nz-checkbox-group>
+            </div>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="20">
+          <div nz-col [nzSpan]="12" class="verticalMiddle">
+            <div nz-col [nzSpan]="2"><span>内核类别</span></div>
+            <div nz-col [nzSpan]="22">
+              <nz-select style="width: 50%" [(ngModel)]="selectedOption" nzAllowClear>
+                <nz-option *ngFor="let option of options" [nzLabel]="option.label" [nzValue]="option" [nzDisabled]="option.disabled">
+                </nz-option>
+              </nz-select>
+            </div>
+          </div>
+          <div nz-col [nzSpan]="12" class="verticalMiddle">
+            <div nz-col [nzSpan]="2"><span>发布到</span></div>
+            <div nz-col [nzSpan]="22">
+              <nz-radio-group [(ngModel)]="radioValue">
+                <label nz-radio [nzValue]="'tenant'">
+                  <span>本租户</span>
+                </label>
+                <label nz-radio [nzValue]="'global'">
+                  <span>全局</span>
+                </label>
+              </nz-radio-group>
+            </div>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="20">
+          <div nz-col [nzSpan]="12" class="verticalMiddle">
+            <div nz-col [nzSpan]="2"><span>标签</span></div>
+            <div nz-col [nzSpan]="22">
+              <nz-select style="width: 50%;" [nzTags]="true" [nzPlaceHolder]="'请选择标签'" [(ngModel)]="selectedMultipleOption" [nzNotFoundContent]="'无法找到'"
+                [nzShowSearch]="true">
+                <nz-option *ngFor="let option of searchOptions" [nzLabel]="option.label" [nzValue]="option">
+                </nz-option>
+              </nz-select>
+            </div>
+          </div>
+        </div>
+        <div nz-row [nzGutter]="20">
+          <div nz-col [nzSpan]="12">
+            <div nz-col [nzSpan]="2"><span>描述</span></div>
+            <div nz-col [nzSpan]="22">
+              <nz-input [(ngModel)]="describeValue" [nzType]="'textarea'" [nzRows]="'4'" [nzPlaceHolder]="'请输入...'"></nz-input>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div>
+        <button nz-button [nzType]="'primary'">
+          <span>下一步</span>
+        </button>
+        <button nz-button [nzType]="'default'">
+          <span>取消</span>
+        </button>
+      </div>
+    </div>
+    <div *ngIf="tab.index === 2">2222</div>
+  </nz-tab>
+</nz-tabset>

@@ -4,7 +4,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
 // import {Routes, RouterModule} from '@angular/router';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+// import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 import {AppComponent} from './app.component';
 import {NavbarComponent} from './navbar/navbar.component';
@@ -21,7 +21,7 @@ import {MirrorStoreComponent} from './mirror-store/mirror-store.component';
 import {FileCenterComponent} from './file-center/file-center.component';
 import {Code404Component} from './code404/code404.component';
 import {AppFilterPipe} from './pipe/app-filter.pipe';
-import {NgZorroAntdModule} from 'ng-zorro-antd/src/release/ng-zorro-antd.module';
+import {NgZorroAntdModule} from 'ng-zorro-antd';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RandomUserService} from './shared/random-user.service';
 import { ServiceCatalogComponent } from './service-catalog/service-catalog.component';
@@ -31,6 +31,7 @@ import { ServiceListComponent } from './service-list/service-list.component';
 import {ServicesService} from './shared/services.service';
 import { ServiceDetailComponent } from './service-detail/service-detail.component';
 import { RepositoryDetailComponent } from './repository-detail/repository-detail.component';
+import { ServiceReleaseComponent } from './service-release/service-release.component';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { RepositoryDetailComponent } from './repository-detail/repository-detail
         ServiceInstanceComponent,
         ServiceListComponent,
         ServiceDetailComponent,
-        RepositoryDetailComponent
+        RepositoryDetailComponent,
+        ServiceReleaseComponent
     ],
     imports: [
         BrowserModule,
