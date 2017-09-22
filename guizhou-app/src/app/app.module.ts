@@ -32,6 +32,7 @@ import {ServicesService} from './shared/services.service';
 import { ServiceDetailComponent } from './service-detail/service-detail.component';
 import { RepositoryDetailComponent } from './repository-detail/repository-detail.component';
 import { ServiceReleaseComponent } from './service-release/service-release.component';
+import {ServiceInstanceDetailComponent} from "./service-instance-detail/service-instance-detail.component";
 
 
 @NgModule({
@@ -54,7 +55,8 @@ import { ServiceReleaseComponent } from './service-release/service-release.compo
         ServiceListComponent,
         ServiceDetailComponent,
         RepositoryDetailComponent,
-        ServiceReleaseComponent
+        ServiceReleaseComponent,
+        ServiceInstanceDetailComponent
     ],
     imports: [
         BrowserModule,

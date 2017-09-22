@@ -6,15 +6,15 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class AppFilterPipe implements PipeTransform {
 
   transform(appList: any[], filterField: string, keyword: string): any {
-    console.log(filterField);
+    /*console.log(filterField);
     console.log(keyword);
-    console.log(appList);
+    console.log(appList);*/
     if (!filterField || !keyword) {
       return appList;
     }
     // 服务管理的过滤不需要添加name字段
     if (filterField === 'instanceName') {
-    } else{
+    } else {
         filterField = filterField + 'Name';
     }
      // console.log(filterField);

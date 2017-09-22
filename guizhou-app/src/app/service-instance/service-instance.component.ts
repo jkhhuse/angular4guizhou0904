@@ -22,7 +22,6 @@ export class ServiceInstanceComponent implements OnInit {
         id: null,
         instanceName: null,
         createTime: null,
-        updateTime: null,
         status: null,
         cpuSize: null,
         memSize: null,

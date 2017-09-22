@@ -48,11 +48,6 @@
                                (nzValueChange)="sort('createTime', $event)"></nz-table-sort>
             </th>
             <th nz-th>
-                <span>更新时间</span>
-                <nz-table-sort [(nzValue)]="sortMap.updateTime"
-                               (nzValueChange)="sort('updateTime', $event)"></nz-table-sort>
-            </th>
-            <th nz-th>
                 <span>实例状态</span>
                 <nz-table-sort [(nzValue)]="sortMap.status" (nzValueChange)="sort('status', $event)"></nz-table-sort>
             </th>
@@ -77,22 +72,22 @@
         <tbody nz-tbody>
         <tr nz-tbody-tr *ngFor="let data of nzTable.data  | appFilter: 'instanceName' : keyword">
             <td nz-td>
-                <a>{{data.id}}</a>
+                <a [routerLink]="['/serviceInstanceDetail', data.id]">{{data.id}}</a>
             </td>
             <td nz-td>{{data.instanceName}}</td>
-            <td nz-td>{{data.createTime}}</td>
-            <td nz-td>{{data.updateTime}}</td>
+            <td nz-td>{{data.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
             <td nz-td>
                 <p [style.background-color]="data.status ? '#67c281' : '#ff9933'"
                    class="dataStatus">
                     {{data.status ? '正常':'挂起'}}
                 </p>
             </td>
-            <td nz-td>{{data.cpuSize}}</td>
-            <td nz-td>{{data.memSize}}GB</td>
-            <td nz-td>{{data.storageSize}}GB</td>
-
-            <td nz-td><a href="">详情</a></td>
+            <td nz-td>{{data.cpuSize}} 个</td>
+            <td nz-td>{{data.memSize}} MB</td>
+            <td nz-td>{{data.storageSize}} GB</td>
+            <td nz-td>
+                <a [routerLink]="['/serviceInstanceDetail', data.id]">详情</a>
+            </td>
         </tr>
         </tbody>
     </nz-table>

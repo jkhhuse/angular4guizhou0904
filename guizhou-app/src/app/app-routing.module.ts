@@ -11,6 +11,7 @@ import {ServiceReleaseComponent} from "./service-release/service-release.compone
 import {ServiceInstanceComponent} from "./service-instance/service-instance.component";
 import {RepositoryDetailComponent} from "./repository-detail/repository-detail.component";
 import {ServiceDetailComponent} from "./service-detail/service-detail.component";
+import {ServiceInstanceDetailComponent} from "./service-instance-detail/service-instance-detail.component";
 
 const routes: Routes = [
     // 路由重定向
@@ -25,6 +26,7 @@ const routes: Routes = [
     {path: 'serviceDetail/:serviceId/:tabName', component: ServiceDetailComponent},
     {path: 'serviceRelease', component: ServiceReleaseComponent},
     {path: 'serviceInstance', component: ServiceInstanceComponent},
+    {path: 'serviceInstanceDetail/:instanceId', component: ServiceInstanceDetailComponent},
 
     {path: 'mirrorStore', component: MirrorStoreComponent},
     {path: 'repositoryDetail/:repositoryName/:tabName', component: RepositoryDetailComponent},
