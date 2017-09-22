@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RandomUserService} from '../shared/random-user.service';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'app-service-instance',
@@ -10,15 +11,16 @@ export class ServiceInstanceComponent implements OnInit {
 // 标签名
     title: String = '服务实例';
     // input输入框
-    inputValue: string;
+    titleFilter: FormControl = new FormControl();
+    private keyword: string;
 
     _current = 1;
     _pageSize = 10;
     _total = 1;
     _loading = true;
     sortMap = {
-        serviceId: null,
-        serviceName: null,
+        id: null,
+        instanceName: null,
         createTime: null,
         updateTime: null,
         status: null,
@@ -43,20 +45,22 @@ export class ServiceInstanceComponent implements OnInit {
         });
         this.refreshData();
     }
+
     reset() {
         this.refreshData(true);
     }
+
     refreshData(reset = false) {
         if (reset) {
             this._current = 1;
         }
         this._loading = true;
         this._randomUser.getServiceInstances(this._current, this._pageSize, this._sortName, this._sortValue).subscribe((data: any) => {
-            console.log(this._current);
+            /*console.log(this._current);
             console.log(this._pageSize);
             console.log(this._sortName);
             console.log(this._sortValue);
-            console.log(data);
+            console.log(data);*/
 
             this._loading = false;
             this._total = 30;
@@ -74,13 +78,25 @@ export class ServiceInstanceComponent implements OnInit {
             this._dataSet = data;
         });
     }
+
     _console(value) {
         console.log(value);
     }
+
     constructor(private _randomUser: RandomUserService) {
     }
+
     ngOnInit() {
         this.refreshData();
+        this.titleFilter.valueChanges
+            .debounceTime(500)
+            .subscribe(
+                value => {
+                    this.keyword = value;
+                    console.log(value);
+                    console.log(this.keyword);
+                }
+            );
     }
 }
 

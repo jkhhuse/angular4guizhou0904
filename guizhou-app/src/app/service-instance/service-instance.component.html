@@ -3,13 +3,21 @@
 <nz-content>
     <div nz-row class="catalog-options-wrapper">
         <div nz-col [nzSpan]="6" [nzOffset]="18">
-            <nz-input class="serviceInstanceSearch"
-                      [nzSize]="large"
-                      [(ngModel)]="inputValue"
-                      [nzPlaceHolder]="'按表名称、描述、标签搜索...'"
-                      (ngModelChange)="_console($event)">
-                <ng-template #addOnAfter><i class="anticon anticon-search"></i></ng-template>
-            </nz-input>
+            <!-- <nz-input class="serviceInstanceSearch"
+                       [nzSize]="large"
+                       [(ngModel)]="inputValue"
+                       [nzPlaceHolder]="'按服务名称搜索...'"
+                       (ngModelChange)="_console($event)">
+                 <ng-template #addOnAfter><i class="anticon anticon-search"></i></ng-template>
+             </nz-input>-->
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="按服务名称搜索..." [formControl]="titleFilter">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
         </div>
     </div>
     <nz-table #nzTable
@@ -26,13 +34,13 @@
         <tr>
             <th nz-th>
                 <span>服务编码</span>
-                <nz-table-sort [(nzValue)]="sortMap.serviceId"
-                               (nzValueChange)="sort('serviceId', $event)"></nz-table-sort>
+                <nz-table-sort [(nzValue)]="sortMap.id"
+                               (nzValueChange)="sort('id', $event)"></nz-table-sort>
             </th>
             <th nz-th>
                 <span>服务名称</span>
-                <nz-table-sort [(nzValue)]="sortMap.serviceName"
-                               (nzValueChange)="sort('serviceName', $event)"></nz-table-sort>
+                <nz-table-sort [(nzValue)]="sortMap.instanceName"
+                               (nzValueChange)="sort('instanceName', $event)"></nz-table-sort>
             </th>
             <th nz-th>
                 <span>创建时间</span>
@@ -67,11 +75,11 @@
         </tr>
         </thead>
         <tbody nz-tbody>
-        <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+        <tr nz-tbody-tr *ngFor="let data of nzTable.data  | appFilter: 'instanceName' : keyword">
             <td nz-td>
-                <a>{{data.serviceId}}</a>
+                <a>{{data.id}}</a>
             </td>
-            <td nz-td>{{data.serviceName}}</td>
+            <td nz-td>{{data.instanceName}}</td>
             <td nz-td>{{data.createTime}}</td>
             <td nz-td>{{data.updateTime}}</td>
             <td nz-td>
@@ -81,8 +89,8 @@
                 </p>
             </td>
             <td nz-td>{{data.cpuSize}}</td>
-            <td nz-td>{{data.memSize}}</td>
-            <td nz-td>{{data.storageSize}}</td>
+            <td nz-td>{{data.memSize}}GB</td>
+            <td nz-td>{{data.storageSize}}GB</td>
 
             <td nz-td><a href="">详情</a></td>
         </tr>
