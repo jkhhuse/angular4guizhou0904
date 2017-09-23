@@ -1,6 +1,7 @@
 #app-sider .logo {
     height: 45px;
     background: #353B53;
+    background-image: url("../../assets/nav/nav-img.png");
 }
 
 .ant-layout-sider-collapsed .nav-text {

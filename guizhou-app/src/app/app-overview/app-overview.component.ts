@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RandomUserService} from '../shared/random-user.service';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'app-app-overview',
@@ -10,7 +11,11 @@ import {RandomUserService} from '../shared/random-user.service';
 export class AppOverviewComponent implements OnInit {
     // 总数相关
     private totals: AppTotalsClass = new AppTotalsClass(110, 220, 330);
+    appImgUrl1 = 'assets/application/u3225.png';
+    appImgUrl2 = 'assets/application/u3227.png';
     title: String = '应用概览';
+    // input输入框
+    titleFilter: FormControl = new FormControl();
     tabs = [
         {
             index: 1,
@@ -23,14 +28,18 @@ export class AppOverviewComponent implements OnInit {
             tabName: 'testDomain'
         }
     ];
+    private keyword: string;
+
     _current = 1;
-    _pageSize = 5;
+    _pageSize = 10;
     _total = 1;
     _loading = true;
     sortMap = {
-        dob: null,
-        gender: null,
-        value: null
+        instanceName: null,
+        createTime: null,
+        status: null,
+        cpuSize: null,
+        memSize: null
     };
     _sortName = null;
     _sortValue = null;
@@ -54,20 +63,22 @@ export class AppOverviewComponent implements OnInit {
         this.refreshData(true);
     }
 
-    constructor(private _randomUser: RandomUserService) {
-    }
-
     refreshData(reset = false) {
         if (reset) {
             this._current = 1;
         }
         this._loading = true;
-        this._randomUser.getUsers(this._current, this._pageSize, this._sortName, this._sortValue).subscribe((data: any) => {
-            console.log(this._current);
+        this._randomUser.getServiceInstances(this._current, this._pageSize, this._sortName, this._sortValue).subscribe((data: any) => {
+            /*console.log(this._current);
             console.log(this._pageSize);
+            console.log(this._sortName);
+            console.log(this._sortValue);
+            console.log(data);*/
+
             this._loading = false;
-            this._total = 50;
+            this._total = 30;
             this._dataSet = data;
+
             this._dataSet = [...this._dataSet.sort((a, b) => {
                 if (a[this._sortName] > b[this._sortName]) {
                     return (this._sortValue === 'ascend') ? 1 : -1;
@@ -77,14 +88,24 @@ export class AppOverviewComponent implements OnInit {
                     return 0;
                 }
             })];
+            this._dataSet = data;
         });
+    }
+
+    constructor(private _randomUser: RandomUserService) {
     }
 
     ngOnInit() {
         this.refreshData();
-        /*this._randomUser.getUsers().subscribe((data) => {
-            this._dataSet = data;
-        });*/
+        this.titleFilter.valueChanges
+            .debounceTime(500)
+            .subscribe(
+                value => {
+                    this.keyword = value;
+                    console.log(value);
+                    console.log(this.keyword);
+                }
+            );
     }
 
 }

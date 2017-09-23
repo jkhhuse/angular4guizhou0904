@@ -1,7 +1,9 @@
+<!--
 <app-header [title]="title"
             (buyEvent)="buyHandler($event)"
             (headerTitle)="titleHandler($event)"
 ></app-header>
+-->
 
 <!--<p>
     在父组件中，接收到子组件的：名字：{{appOutput.outputName}} 变化的价格：{{appOutput.outputRandom | number:'2.2-2'}}
@@ -9,19 +11,36 @@
 <p>
     接受到子组件header传来的title为{{childTitle}}
 </p>-->
-<nz-content>
-    <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
-        <nz-tab *ngFor="let tab of tabs">
+<app-header [title]="title"></app-header>
+
+<nz-content class="app-store-wrapper">
+    <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" class="appTab">
+        <nz-tab *ngFor="let tab of tabs" (nzClick)="changeAppName(tab.tabName)">
             <ng-template #nzTabHeading>
                 {{tab.name}}
             </ng-template>
-            <app-applist [tabName]="tab.tabName" >
-
-            </app-applist>
+            <div nz-row class="app-btns-wrapper">
+                <div nz-col [nzSpan]="6" class="catalog-option">
+                    <button nz-button [nzType]="'primary'">发布</button>
+                    <button nz-button [nzType]="'default'" class="btn">删除</button>
+                </div>
+                <div nz-col [nzSpan]="6" [nzOffset]="12">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="按应用名称搜索..." [formControl]="titleFilter">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <app-service-list [moduleName]="'repository'" [tabName]="appName" [titleFilter]="titleFilter"></app-service-list>
         </nz-tab>
     </nz-tabset>
 </nz-content>
-<nz-footer>
-    <nz-pagination [(nzPageIndex)]="_current" [nzTotal]="50" nzShowTotal  nzShowSizeChanger nzShowQuickJumper></nz-pagination>
 
+<nz-footer>
+    <nz-pagination [(nzPageIndex)]="_current" [nzTotal]="50" nzShowTotal nzShowSizeChanger
+                   nzShowQuickJumper></nz-pagination>
 </nz-footer>
