@@ -35,7 +35,17 @@ export class RepositoryDetailComponent implements OnInit {
     }
     constructor(private routeInfo: ActivatedRoute, private http: Http) {
     }
-
+    deleteVersion(moudule, versionId) {
+        if (moudule === 'repository') {
+            alert(moudule);
+        } else if (moudule === 'app') {
+            console.log(moudule);
+            console.log(versionId);
+            this.http.delete('/apiApp' + '/groups/1/applications/' + versionId).subscribe((data) => {
+                alert('成功删除版本id为' + versionId + '的' + moudule);
+            });
+        }
+}
     ngOnInit() {
         this.name = this.routeInfo.snapshot.params['name'];
         this.tabName = this.routeInfo.snapshot.params['tabName'];
@@ -59,13 +69,13 @@ export class RepositoryDetailComponent implements OnInit {
                 this.mirrorVersions = data;
                 this.firstVersionId = data[0].id;
                 this.firstVersionVersion = data[0].version;
-                console.log(this.mirrorVersions);
-                console.log(this.firstVersionId);
+                // console.log(this.mirrorVersions);
+                // console.log(this.firstVersionId);
                 // 订阅流
                     this.mirrorDetail = this.getAppDetail(this.firstVersionId);
                     this.getAppDetail(this.firstVersionId).subscribe((data) => {
                         this.mirrorDetail = data;
-                        console.log(this.mirrorDetail);
+                        // console.log(this.mirrorDetail);
                     });
             });
         } else {
