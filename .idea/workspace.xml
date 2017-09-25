@@ -6,14 +6,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4141e5f-de44-4a6e-a719-0f6d1fe3c137" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/app-detail/app-detail.component.html" afterPath="$PROJECT_DIR$/guizhou-app/src/app/app-detail/app-detail.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/app-detail/app-detail.component.ts" afterPath="$PROJECT_DIR$/guizhou-app/src/app/app-detail/app-detail.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/app-routing.module.ts" afterPath="$PROJECT_DIR$/guizhou-app/src/app/app-routing.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/app-store/app-store.component.html" afterPath="$PROJECT_DIR$/guizhou-app/src/app/app-store/app-store.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.html" afterPath="$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.ts" afterPath="$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/service-list/service-list.component.html" afterPath="$PROJECT_DIR$/guizhou-app/src/app/service-list/service-list.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/shared/services.service.ts" afterPath="$PROJECT_DIR$/guizhou-app/src/app/shared/services.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -31,7 +24,7 @@
         <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/app-detail/app-detail.component.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="399">
-              <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+              <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -41,7 +34,7 @@
         <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="357">
-              <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+              <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -356,12 +349,12 @@
       <workItem from="1505960475637" duration="22281000" />
       <workItem from="1506043370223" duration="2109000" />
       <workItem from="1506136991952" duration="6430000" />
-      <workItem from="1506304043215" duration="10988000" />
+      <workItem from="1506304043215" duration="11156000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="233370000" />
+    <option name="totallyTimeSpent" value="233538000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1358" y="-8" width="1936" height="1096" extended-state="6" />
@@ -821,7 +814,7 @@
     <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/app-detail/app-detail.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="399">
-          <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -837,7 +830,7 @@
     <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="357">
-          <caret line="51" column="0" lean-forward="true" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
+          <caret line="51" column="0" lean-forward="false" selection-start-line="51" selection-start-column="0" selection-end-line="51" selection-end-column="0" />
           <folding />
         </state>
       </provider>
