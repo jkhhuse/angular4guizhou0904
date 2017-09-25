@@ -17,8 +17,8 @@
     <div nz-row class="detail-desc-wrapper" *ngIf="mirrorDetail">
         <div nz-col [nzSpan]="12" class="detail-12col">
             <div class="detail-line">
-                <span>实例描述</span>
-                <span class="detail-line-value">{{mirrorDetail.description}}</span></div>
+                <span>版本编号</span>
+                <span class="detail-line-value">{{firstVersionVersion}}</span></div>
         </div>
         <div nz-col [nzSpan]="12" class="detail-12col">
             <div class="detail-line">
@@ -27,7 +27,13 @@
                 <span class="detail-line-value" *ngIf="!mirrorDetail.updateTime">暂无更新</span>
             </div>
         </div>
+        <div nz-col [nzSpan]="12" class="detail-12col">
+            <div class="detail-line">
+                <span>实例描述</span>
+                <span class="detail-line-value">{{mirrorDetail.description}}</span></div>
+        </div>
     </div>
+
     <div class="detail-versions-wrapper" *ngIf="mirrorVersions">
         <nz-table #nzTable [nzAjaxData]="mirrorVersions" [nzIsPagination]="false">
             <thead nz-thead>
@@ -48,13 +54,8 @@
                 </td>
                 <td nz-td>100MB</td>
                 <td nz-td>
-                    11{{data.deleted}}
-                    22{{data.isEnable}}
-                    <div *ngIf="data.isEnable">
+                    <div>
                         {{data.isEnable ? '正常': '错误'}}
-                    </div>
-                    <div *ngIf="data.deleted || !data.deleted">
-                        {{!data.deleted ? '正常': '错误'}}
                     </div>
                 </td>
                 <td nz-td>

@@ -19,6 +19,7 @@ export class RepositoryDetailComponent implements OnInit {
     module: string;
     private tabName: string;
     private firstVersionId: string;
+    private firstVersionVersion: string;
 
     // 获取流
     getServiceDetail() {
@@ -48,8 +49,8 @@ export class RepositoryDetailComponent implements OnInit {
             // 订阅流
             this.getServiceDetail().subscribe((data) => {
                 this.mirrorVersions = data.opRepository;
-                console.log(this.mirrorVersions);
-
+                this.firstVersionId = data.opRepository[0].id;
+                this.firstVersionVersion = data.opRepository[0].version;
             });
         } else if (this.module === 'app') {
             // this.mirrorVersions = this.getAppVersions();
@@ -57,6 +58,7 @@ export class RepositoryDetailComponent implements OnInit {
             this.getAppVersions().subscribe((data) => {
                 this.mirrorVersions = data;
                 this.firstVersionId = data[0].id;
+                this.firstVersionVersion = data[0].version;
                 console.log(this.mirrorVersions);
                 console.log(this.firstVersionId);
                 // 订阅流
