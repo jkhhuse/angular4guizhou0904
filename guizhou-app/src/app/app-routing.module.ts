@@ -12,8 +12,11 @@ import {ServiceInstanceComponent} from "./service-instance/service-instance.comp
 import {RepositoryDetailComponent} from "./repository-detail/repository-detail.component";
 import {ServiceDetailComponent} from "./service-detail/service-detail.component";
 import {ServiceInstanceDetailComponent} from "./service-instance-detail/service-instance-detail.component";
+import {ComponentTestComponent} from "./component-test/component-test.component";
 
 const routes: Routes = [
+    // 这里用来组件测试
+    {path: 'componentTest', component: ComponentTestComponent},
     // 路由重定向
     {path: '',  redirectTo: 'appStore', pathMatch: 'full'},
 
