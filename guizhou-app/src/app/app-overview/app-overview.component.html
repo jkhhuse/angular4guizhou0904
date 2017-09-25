@@ -5,21 +5,21 @@
         <div class="app-overview-totals">
             <div nz-row [nzGutter]="30">
                 <div nz-col class="total-row" [nzSpan]="8">
-                    <div class="total-box">
+                    <div class="total-box"  *ngIf="totals">
                         <img [src]="appImgUrl1" alt="" width="100%" class="appImg"/>
                         <span class="app-total-span">应用总数</span>
                         <span class="app-total-num num-color1">{{totals.appTotalNum}}</span>
                     </div>
                 </div>
                 <div nz-col class="total-row" [nzSpan]="8">
-                    <div class="total-box">
+                    <div class="total-box"  *ngIf="totals">
                         <img [src]="appImgUrl1" alt="" width="100%" class="appImg"/>
                         <span class="app-total-span">容器个数</span>
                         <span class="app-total-num num-color2">{{totals.dockerTotalNum}}</span>
                     </div>
                 </div>
                 <div nz-col class="total-row" [nzSpan]="8">
-                    <div class="total-box">
+                    <div class="total-box"  *ngIf="totals">
                         <img [src]="appImgUrl2" alt="" width="100%" class="appImg"/>
                         <span class="app-total-span">项目个数</span>
                         <span class="app-total-num num-color3">{{totals.projectTotalNum}}</span>

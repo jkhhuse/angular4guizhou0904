@@ -11,17 +11,9 @@ export class RandomUserService {
 
     constructor(private http: Http, private httpClicent: HttpClient) {
     }
-
-    /* getUsers(pageIndex = 1, pageSize = 5, sortField, sortOrder) {
-         const params = new HttpParams()
-             .append('page', `${pageIndex}`)
-             .append('results', `${pageSize}`)
-             .append('sortField', sortField)
-             .append('sortOrder', sortOrder);
-         return this.httpClicent.get(`${this.randomUserUrl}`, {
-             params: params
-         });
-     }*/
+    getTotals(): Observable<any[]> {
+        return this.http.get('/apiApp' + '/groups/1/application-overview').map(res => res.json());
+    }
    getUsers(pageIndex = 1, pageSize = 5, sortField, sortOrder): Observable<any> {
         const params = new URLSearchParams();
         params.set('page', `${pageIndex}`);

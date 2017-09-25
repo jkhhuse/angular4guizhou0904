@@ -10,7 +10,9 @@ import {FormControl} from "@angular/forms";
 })
 export class AppOverviewComponent implements OnInit {
     // 总数相关
-    private totals: AppTotalsClass = new AppTotalsClass(110, 220, 330);
+    // private totals: AppTotalsClass = new AppTotalsClass(110, 220, 330);
+    private totals: AppTotalsClass;
+    private totalTemp: any;
     appImgUrl1 = 'assets/application/u3225.png';
     appImgUrl2 = 'assets/application/u3227.png';
     title: String = '应用概览';
@@ -96,6 +98,13 @@ export class AppOverviewComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.totalTemp = this._randomUser.getTotals();
+        this.totalTemp.subscribe((data) => {
+            if (!(data == null) && data.appCount) {
+                this.totals = new AppTotalsClass(data.appCount, data.podsCount, 38);
+                // console.log(this.totals);
+            }
+        });
         this.refreshData();
         this.titleFilter.valueChanges
             .debounceTime(500)
