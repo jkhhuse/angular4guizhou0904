@@ -31,7 +31,7 @@ const routes: Routes = [
     {path: 'serviceInstance', component: ServiceInstanceComponent},
     {path: 'serviceInstanceDetail/:instanceId', component: ServiceInstanceDetailComponent},
 
-    {path: 'mirrorStore', component: MirrorStoreComponent},
+    {path: 'repositoryStore', component: MirrorStoreComponent},
     {path: 'repositoryDetail/:module/:name/:tabName', component: RepositoryDetailComponent},
     {path: 'fileCenter', component: FileCenterComponent},
 
