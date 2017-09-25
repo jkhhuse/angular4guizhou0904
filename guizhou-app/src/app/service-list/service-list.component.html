@@ -1,4 +1,3 @@
-
 <div *ngIf="services">
     <div nz-row [nzGutter]="8">
         <div *ngFor="let service of services | async  | appFilter: moduleName : keyword">
@@ -12,9 +11,18 @@
                         </a>
                         <div class="custom-card">
                             <div class="card-content">
-                                    <span class="pull-right" [style.color]="service.status ? '#006600' : '#999999'">
+                                    <span *ngIf="service.status" class="pull-right"
+                                          [style.color]="service.status ? '#006600' : '#999999'">
                                     {{service.isEnable ? '正常':'下架'}}</span>
-                                <span>{{service.repositoryName ? service.repositoryName : service.serviceName}}</span>
+                                <span *ngIf="service.deleted || !service.deleted" class="pull-right"
+                                      [style.color]="!service.deleted ? '#006600' : '#999999'">
+                                    {{!service.deleted ? '正常':'下架'}}</span>
+                                <!--
+                                                                <span>{{service.repositoryName ? service.repositoryName : service.serviceName}}</span>
+                                -->
+                                <span *ngIf="service.repositoryName">{{service.repositoryName}}</span>
+                                <span *ngIf="service.serviceName">{{service.serviceName}}</span>
+                                <span *ngIf="service.appName">{{service.appName}}</span>
                             </div>
                             <div class="card-content">
                                 <span style="color: #999999">{{service.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>

@@ -1,6 +1,11 @@
 {
+
   "/apiService": {
     "target": "http://10.132.49.117:8032",
+    "secure": "false"
+  },
+  "/apiApp": {
+    "target": "http://10.132.49.117:8031",
     "secure": "false"
   },
   "/api": {

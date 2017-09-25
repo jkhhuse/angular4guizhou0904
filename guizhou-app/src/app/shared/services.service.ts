@@ -16,7 +16,11 @@ export class ServicesService {
         } else if (moduleName === 'service') {
             //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());
             return this.http.get('/apiService' + '/groups/1/services?isPublic=' + tabName).map(res => res.json());
-        }/* else if (moduleName === 'serviceDetail') {
+        } else if (moduleName === 'application') {
+            //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());
+            return this.http.get('/apiApp' + '/groups/1/applications').map(res => res.json());
+        }
+        /* else if (moduleName === 'serviceDetail') {
             //  服务详情里面，tabName字段传入的是服务id，serviceId
             return this.http.get('/apiService' + '/groups/1/services/' + tabName + '/instances').map(res => res.json());
         }*/
