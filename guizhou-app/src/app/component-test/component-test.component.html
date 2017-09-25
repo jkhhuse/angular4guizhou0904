@@ -1,0 +1,10 @@
+<p>
+  component-test works!
+</p>
+<!-- 动态表单测试 -->
+<div class="app">
+  <!-- <dynamic-form [config]="config" form="dynamicForm" (submit)="submit($event)"> -->
+  <dynamic-form [config]="config" (submit)="submit($event)">
+  </dynamic-form>
+  {{ form.valid }} {{ form.value | json }}
+</div>

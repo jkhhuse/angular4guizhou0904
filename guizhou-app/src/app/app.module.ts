@@ -7,6 +7,7 @@ import {HttpClientModule} from '@angular/common/http';
 // import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 import {AppComponent} from './app.component';
+import { DynamicFormModule } from './dynamic-form/dynamic-form.module';
 import {NavbarComponent} from './navbar/navbar.component';
 import {HeaderComponent} from './header/header.component';
 import {SearchComponent} from './search/search.component';
@@ -33,6 +34,7 @@ import { ServiceDetailComponent } from './service-detail/service-detail.componen
 import { RepositoryDetailComponent } from './repository-detail/repository-detail.component';
 import { ServiceReleaseComponent } from './service-release/service-release.component';
 import {ServiceInstanceDetailComponent} from "./service-instance-detail/service-instance-detail.component";
+import { ComponentTestComponent } from './component-test/component-test.component';
 
 
 @NgModule({
@@ -56,7 +58,8 @@ import {ServiceInstanceDetailComponent} from "./service-instance-detail/service-
         ServiceDetailComponent,
         RepositoryDetailComponent,
         ServiceReleaseComponent,
-        ServiceInstanceDetailComponent
+        ServiceInstanceDetailComponent,
+        ComponentTestComponent,
     ],
     imports: [
         BrowserModule,
@@ -67,6 +70,7 @@ import {ServiceInstanceDetailComponent} from "./service-instance-detail/service-
         NgZorroAntdModule.forRoot(),
         BrowserAnimationsModule,
         HttpClientModule,
+        DynamicFormModule,
         // InMemoryWebApiModule.forRoot(InMemoryDataService)
     ],
     providers: [ApplicationService, RandomUserService, ServicesService],
