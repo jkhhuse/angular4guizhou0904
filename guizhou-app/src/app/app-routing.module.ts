@@ -20,16 +20,16 @@ const routes: Routes = [
     {path: 'appOverview', component: AppOverviewComponent},
 
     {path: 'appStore', component: AppStoreComponent},
-    {path: 'appStore/:appId', component: AppDetailComponent},
+    {path: 'appDetail/:module/:name/:tabName', component: AppDetailComponent},
 
     {path: 'serviceCatalog', component: ServiceCatalogComponent},
-    {path: 'serviceDetail/:serviceId/:tabName', component: ServiceDetailComponent},
+    {path: 'serviceDetail/:module/:serviceId/:tabName', component: ServiceDetailComponent},
     {path: 'serviceRelease', component: ServiceReleaseComponent},
     {path: 'serviceInstance', component: ServiceInstanceComponent},
     {path: 'serviceInstanceDetail/:instanceId', component: ServiceInstanceDetailComponent},
 
     {path: 'mirrorStore', component: MirrorStoreComponent},
-    {path: 'repositoryDetail/:repositoryName/:tabName', component: RepositoryDetailComponent},
+    {path: 'repositoryDetail/:module/:name/:tabName', component: RepositoryDetailComponent},
     {path: 'fileCenter', component: FileCenterComponent},
 
     {path: '**', component: Code404Component}

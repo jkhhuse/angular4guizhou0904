@@ -8,17 +8,14 @@ import {Application, ApplicationMsg, ApplicationService} from '../shared/applica
     styleUrls: ['./app-detail.component.css']
 })
 export class AppDetailComponent implements OnInit {
-    appId: number;
-    appObj: Application;
-    appMsg: ApplicationMsg;
-    constructor(private routeInfo: ActivatedRoute,
-                private applicationService: ApplicationService) {
+    // 标签名
+    public title: String = '应用商城';
+    private appName: String;
+    constructor(private routeInfo: ActivatedRoute) {
     }
 
     ngOnInit() {
-        this.appId = this.routeInfo.snapshot.params['appId'];
-        console.log(this.applicationService.getApplicationByID(this.appId));
-        this.appObj = this.applicationService.getApplicationByID(this.appId);
-        this.appMsg = this.applicationService.getApplicationMsgByID(this.appId);
+        this.appName = this.routeInfo.snapshot.params['appName'];
+
     }
 }
