@@ -31,4 +31,12 @@ export class RandomUserService {
         params.set('sortOrder', sortOrder);
         return this.http.get('/apiService' + '/groups/1/service-instances', {search: params}).map(res => res.json());
     }
+    getAppInstances(pageIndex = 1, pageSize = 5, sortField, sortOrder, tabName): Observable<any> {
+        const params = new URLSearchParams();
+        params.set('page', `${pageIndex}`);
+        params.set('results', `${pageSize}`);
+        params.set('sortField', sortField);
+        params.set('sortOrder', sortOrder);
+        return this.http.get('/apiApp' + '/groups/1/clusters/' + tabName + '/overviews', {search: params}).map(res => res.json());
+    }
 }

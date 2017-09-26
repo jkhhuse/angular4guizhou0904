@@ -16,18 +16,19 @@ export class AppOverviewComponent implements OnInit {
     appImgUrl1 = 'assets/application/u3225.png';
     appImgUrl2 = 'assets/application/u3227.png';
     title: String = '应用概览';
+    mirrorName: String = 'poc0';
     // input输入框
     titleFilter: FormControl = new FormControl();
     tabs = [
         {
             index: 1,
             name: '生产域',
-            tabName: 'productDomain'
+            tabName: 'poc0'
         },
         {
             index: 2,
             name: '测试域',
-            tabName: 'testDomain'
+            tabName: 'poc1'
         }
     ];
     private keyword: string;
@@ -37,9 +38,9 @@ export class AppOverviewComponent implements OnInit {
     _total = 1;
     _loading = true;
     sortMap = {
-        instanceName: null,
+        appName: null,
         createTime: null,
-        status: null,
+        podsCount: null,
         cpuSize: null,
         memSize: null
     };
@@ -70,7 +71,7 @@ export class AppOverviewComponent implements OnInit {
             this._current = 1;
         }
         this._loading = true;
-        this._randomUser.getServiceInstances(this._current, this._pageSize, this._sortName, this._sortValue).subscribe((data: any) => {
+        this._randomUser.getAppInstances(this._current, this._pageSize, this._sortName, this._sortValue, this.mirrorName).subscribe((data: any) => {
             /*console.log(this._current);
             console.log(this._pageSize);
             console.log(this._sortName);
@@ -92,6 +93,13 @@ export class AppOverviewComponent implements OnInit {
             })];
             this._dataSet = data;
         });
+    }
+
+    changeMirrorName(mirrorName): void {
+        this.mirrorName = mirrorName;
+        this.refreshData();
+
+        console.log(this.mirrorName);
     }
 
     constructor(private _randomUser: RandomUserService) {

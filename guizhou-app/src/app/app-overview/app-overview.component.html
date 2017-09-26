@@ -46,14 +46,14 @@
                     <tr>
                         <th nz-th>
                             <span>应用名称</span>
-                            <nz-table-sort [(nzValue)]="sortMap.instanceName"
-                                           (nzValueChange)="sort('instanceName', $event)"></nz-table-sort>
+                            <nz-table-sort [(nzValue)]="sortMap.appName"
+                                           (nzValueChange)="sort('appName', $event)"></nz-table-sort>
                         </th>
 
                         <th nz-th>
-                            <span>实例状态</span>
-                            <nz-table-sort [(nzValue)]="sortMap.status"
-                                           (nzValueChange)="sort('status', $event)"></nz-table-sort>
+                            <span>容器个数</span>
+                            <nz-table-sort [(nzValue)]="sortMap.podsCount"
+                                           (nzValueChange)="sort('podsCount', $event)"></nz-table-sort>
                         </th>
                         <th nz-th>
                             <span>CPU（核）</span>
@@ -74,13 +74,8 @@
                     </thead>
                     <tbody nz-tbody>
                     <tr nz-tbody-tr *ngFor="let data of nzTable.data  | appFilter: 'instanceName' : keyword">
-                        <td nz-td>{{data.instanceName}}</td>
-                        <td nz-td>
-                            <p [style.background-color]="data.status ? '#67c281' : '#ff9933'"
-                               class="dataStatus">
-                                {{data.status ? '正常':'挂起'}}
-                            </p>
-                        </td>
+                        <td nz-td>{{data.appName}}</td>
+                        <td nz-td>{{data.podsCount}}</td>
                         <td nz-td>{{data.cpuSize}} 个</td>
                         <td nz-td>{{data.memSize}} MB</td>
                         <td nz-td>{{data.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
