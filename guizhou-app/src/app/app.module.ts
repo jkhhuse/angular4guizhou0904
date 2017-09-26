@@ -7,7 +7,7 @@ import {HttpClientModule} from '@angular/common/http';
 // import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 import {AppComponent} from './app.component';
-import { DynamicFormModule } from './dynamic-form/dynamic-form.module';
+import {DynamicFormModule} from './dynamic-form/dynamic-form.module';
 import {NavbarComponent} from './navbar/navbar.component';
 import {HeaderComponent} from './header/header.component';
 import {SearchComponent} from './search/search.component';
@@ -25,16 +25,17 @@ import {AppFilterPipe} from './pipe/app-filter.pipe';
 import {NgZorroAntdModule} from 'ng-zorro-antd';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RandomUserService} from './shared/random-user.service';
-import { ServiceCatalogComponent } from './service-catalog/service-catalog.component';
-import { ServiceInstanceComponent } from './service-instance/service-instance.component';
+import {ServiceCatalogComponent} from './service-catalog/service-catalog.component';
+import {ServiceInstanceComponent} from './service-instance/service-instance.component';
 import {InMemoryDataService} from './data/in-memory-data.service';
-import { ServiceListComponent } from './service-list/service-list.component';
+import {ServiceListComponent} from './service-list/service-list.component';
 import {ServicesService} from './shared/services.service';
-import { ServiceDetailComponent } from './service-detail/service-detail.component';
-import { RepositoryDetailComponent } from './repository-detail/repository-detail.component';
-import { ServiceReleaseComponent } from './service-release/service-release.component';
+import {ServiceDetailComponent} from './service-detail/service-detail.component';
+import {RepositoryDetailComponent} from './repository-detail/repository-detail.component';
+import {ServiceReleaseComponent} from './service-release/service-release.component';
 import {ServiceInstanceDetailComponent} from "./service-instance-detail/service-instance-detail.component";
-import { ComponentTestComponent } from './component-test/component-test.component';
+import {ComponentTestComponent} from './component-test/component-test.component';
+import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 
 
 @NgModule({
@@ -73,7 +74,12 @@ import { ComponentTestComponent } from './component-test/component-test.componen
         DynamicFormModule,
         // InMemoryWebApiModule.forRoot(InMemoryDataService)
     ],
-    providers: [ApplicationService, RandomUserService, ServicesService],
+    providers: [
+        ApplicationService,
+        RandomUserService,
+        ServicesService,
+        {provide: LocationStrategy, useClass: HashLocationStrategy}
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {
