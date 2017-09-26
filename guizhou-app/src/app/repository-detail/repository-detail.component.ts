@@ -3,6 +3,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {Http} from '@angular/http';
 import {isUndefined} from "util";
+import {environment} from "../../environments/environment";
 
 @Component({
     selector: 'app-repository-detail',
@@ -23,15 +24,15 @@ export class RepositoryDetailComponent implements OnInit {
 
     // 获取流
     getServiceDetail() {
-        return this.http.get('/api/2/warehouse/repository/' + this.name + '?region=' + this.tabName).map(res => res.json().images);
+        return this.http.get(environment.api + '/api/2/warehouse/repository/' + this.name + '?region=' + this.tabName).map(res => res.json().images);
     }
     // 获取流
     getAppVersions() {
-        return this.http.get('/apiApp' + '/groups/1/applications/' + this.name + '/versions').map(res => res.json());
+        return this.http.get(environment.apiApp + '/apiApp' + '/groups/1/applications/' + this.name + '/versions').map(res => res.json());
     }
     // 获取流
     getAppDetail(firstVersionId) {
-        return this.http.get('/apiApp' + '/groups/1/applications/' + firstVersionId).map(res => res.json());
+        return this.http.get(environment.apiApp + '/apiApp' + '/groups/1/applications/' + firstVersionId).map(res => res.json());
     }
     constructor(private routeInfo: ActivatedRoute, private http: Http) {
     }
@@ -41,7 +42,7 @@ export class RepositoryDetailComponent implements OnInit {
         } else if (moudule === 'app') {
             console.log(moudule);
             console.log(versionId);
-            this.http.delete('/apiApp' + '/groups/1/applications/' + versionId).subscribe((data) => {
+            this.http.delete(environment.apiApp + '/apiApp' + '/groups/1/applications/' + versionId).subscribe((data) => {
                 alert('成功删除版本id为' + versionId + '的' + moudule);
             });
         }

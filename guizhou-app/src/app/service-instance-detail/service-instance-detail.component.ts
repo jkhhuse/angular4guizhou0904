@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {ActivatedRoute} from '@angular/router';
 import {Http} from "@angular/http";
+import {environment} from "../../environments/environment";
 
 @Component({
     selector: 'app-service-instance-detail',
@@ -15,7 +16,7 @@ export class ServiceInstanceDetailComponent implements OnInit {
     private instanceId: String;
     private instanceDetail: any;
     getServiceInstanceDetail(instanceId): Observable<any[]> {
-        return this.http.get('/apiService' + '/service-instances/' + instanceId).map(res => res.json());
+        return this.http.get(environment.apiService + '/apiService' + '/service-instances/' + instanceId).map(res => res.json());
     }
 
     constructor(private routeInfo: ActivatedRoute, private http: Http) {

@@ -4,6 +4,7 @@ import {Services, ServicesService} from '../shared/services.service';
 import 'rxjs/Rx';
 import {Http} from '@angular/http';
 import {FormControl} from '@angular/forms';
+import {environment} from "../../environments/environment";
 
 @Component({
     selector: 'app-service-list',
@@ -26,7 +27,7 @@ export class ServiceListComponent implements OnInit, OnChanges {
     deleteMirror(mirrorName): void {
         console.log('删除：' + mirrorName + '  ' + this.tabName);
         // 返回是string 不是json
-        this.http.delete('/api/2/warehouse/repository/' + mirrorName + '?region=' + this.tabName).subscribe((data) => {
+        this.http.delete(environment.api + '/api/2/warehouse/repository/' + mirrorName + '?region=' + this.tabName).subscribe((data) => {
             console.log(data);
         });
     }

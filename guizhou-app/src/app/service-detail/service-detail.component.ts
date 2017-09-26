@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {ServicesService} from "../shared/services.service";
 import {Http} from "@angular/http";
 import {FormControl} from "@angular/forms";
+import {environment} from "../../environments/environment";
 
 @Component({
     selector: 'app-service-detail',
@@ -21,10 +22,10 @@ export class ServiceDetailComponent implements OnInit {
     titleFilter: FormControl = new FormControl();
 
     getServiceDetail(serviceId):  Observable<any[]> {
-        return this.http.get('/apiService' + '/services/' + serviceId).map(res => res.json());
+        return this.http.get(environment.apiService + '/apiService' + '/services/' + serviceId).map(res => res.json());
     }
     getServiceInstances(serviceId):  Observable<any[]> {
-        return this.http.get('/apiService' + '/groups/1/services/' + serviceId + '/instances').map(res => res.json());
+        return this.http.get(environment.apiService + '/apiService' + '/groups/1/services/' + serviceId + '/instances').map(res => res.json());
     }
     constructor(private routeInfo: ActivatedRoute, private servicesService: ServicesService, private http: Http) {
     }
