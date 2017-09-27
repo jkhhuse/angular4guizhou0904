@@ -19,7 +19,7 @@ export class ServiceInstanceComponent implements OnInit {
     _total = 1;
     _loading = true;
     sortMap = {
-        id: null,
+        appName: null,
         instanceName: null,
         createTime: null,
         status: null,

@@ -33,14 +33,14 @@
         <thead nz-thead>
         <tr>
             <th nz-th>
-                <span>服务编码</span>
-                <nz-table-sort [(nzValue)]="sortMap.id"
-                               (nzValueChange)="sort('id', $event)"></nz-table-sort>
+                <span>实例名称</span>
+                <nz-table-sort [(nzValue)]="sortMap.instanceName"
+                               (nzValueChange)="sort('instanceName', $event)"></nz-table-sort>
             </th>
             <th nz-th>
                 <span>服务名称</span>
-                <nz-table-sort [(nzValue)]="sortMap.instanceName"
-                               (nzValueChange)="sort('instanceName', $event)"></nz-table-sort>
+                <nz-table-sort [(nzValue)]="sortMap.appName"
+                               (nzValueChange)="sort('appName', $event)"></nz-table-sort>
             </th>
             <th nz-th>
                 <span>创建时间</span>
@@ -72,9 +72,9 @@
         <tbody nz-tbody>
         <tr nz-tbody-tr *ngFor="let data of nzTable.data  | appFilter: 'instanceName' : keyword">
             <td nz-td>
-                <a [routerLink]="['/serviceInstanceDetail', data.id]">{{data.id}}</a>
+                <a [routerLink]="['/serviceInstanceDetail', data.id]">{{data.instanceName}}</a>
             </td>
-            <td nz-td>{{data.instanceName}}</td>
+            <td nz-td>{{data.serviceDisplayName}}</td>
             <td nz-td>{{data.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
             <td nz-td>
                 <p [style.background-color]="data.status ? '#67c281' : '#ff9933'"
