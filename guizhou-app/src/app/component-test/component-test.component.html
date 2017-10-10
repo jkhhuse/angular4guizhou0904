@@ -8,3 +8,31 @@
   </dynamic-form>
   {{ form.valid }} {{ form.value | json }}
 </div>
+
+<!-- ng-zorro-antd 表格分页测试 -->
+<nz-table #nzTable [nzScroll]="{ y: 240 }" [nzShowTotal]="true" [nzDataSource]="_dataSet" [nzPageSize]="10" [nzShowSizeChanger]="true">
+  <ng-template #nzFixedHeader>
+    <thead nz-thead #nzFixedHeader>
+      <tr>
+        <th nz-th>
+          <span>Name</span>
+        </th>
+        <th nz-th>
+          <span>Age</span>
+        </th>
+        <th nz-th>
+          <span>Address</span>
+        </th>
+      </tr>
+    </thead>
+  </ng-template>
+  <tbody nz-tbody>
+    <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+      <td nz-td>
+        <a>{{data.name}}</a>
+      </td>
+      <td nz-td>{{data.age}}</td>
+      <td nz-td>{{data.address}}</td>
+    </tr>
+  </tbody>
+</nz-table>

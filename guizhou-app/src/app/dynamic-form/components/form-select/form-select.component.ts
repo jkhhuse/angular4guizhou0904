@@ -13,9 +13,4 @@ export class FormSelectComponent implements Field {
   config:FieldConfig
   group: FormGroup;
 
-  searchOptions = [
-    { value: 'jack', label: 'Jack' },
-    { value: 'lucy', label: 'Lucy' },
-    { value: 'tom', label: 'Tom' }
-  ];
 }
