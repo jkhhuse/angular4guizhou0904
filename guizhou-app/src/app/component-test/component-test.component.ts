@@ -10,6 +10,7 @@ import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dy
   styleUrls: ['./component-test.component.css']
 })
 export class ComponentTestComponent implements AfterViewInit {
+  _dataSet = [];
 
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
   config: FieldConfig[] = [
@@ -33,7 +34,7 @@ export class ComponentTestComponent implements AfterViewInit {
         'width': '400px',
       }
     },
-    { 
+    {
       type: 'select',
       label: 'Favourite Food',
       name: 'food',
@@ -49,7 +50,7 @@ export class ComponentTestComponent implements AfterViewInit {
       name: 'submit',
       type: 'button',
       styles: {
-        
+
       }
     }
   ];
@@ -70,10 +71,26 @@ export class ComponentTestComponent implements AfterViewInit {
   submit(value: { [name: string]: any }) {
     console.log(value);
   }
-  
+
   constructor() { }
 
   ngOnInit() {
+    // for (let i = 0; i < 46; i++) {
+    //   this._dataSet.push({
+    //     key: i,
+    //     name: `Edward King ${i}`,
+    //     age: 32,
+    //     address: `London, Park Lane no. ${i}`,
+    //   });
+    // }
+    this._dataSet = [
+      {
+        key: 0,
+        name: '1212',
+        age: '',
+        address: '232323'
+      }
+    ]
   }
 
 }

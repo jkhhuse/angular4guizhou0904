@@ -65,7 +65,7 @@
                 </td>
                 <td nz-td>
                     <a href="" *ngIf="module === 'repository'">启动</a>
-                    <a href="" *ngIf="module === 'app'">部署</a>
+                    <a href="" *ngIf="module === 'app'" routerLink="/appDeploy">部署</a>
                     <a href="">同步</a>
                     <a (click)="deleteVersion(module, data.id)">删除</a>
                 </td>
