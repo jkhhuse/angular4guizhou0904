@@ -1,0 +1,51 @@
+.container {
+    cursor: pointer;
+    width: 130px;
+    margin-left: 0;
+    margin-right: 10px;
+    padding: 0;
+    height: 100px;
+    border: 1px solid #DDDDDD;
+    display: inline-block;
+    margin-right: 10px;
+    .header {
+        height: 30px;
+        text-align: center;
+        border-bottom: 1px solid #dddddd;
+        padding-top: 5px;
+        font-size: 14px;
+    }
+    .content {
+        height: 70px;
+        text-align: center;
+        padding-top: 15px;
+    }
+}
+.focused {
+    background: #EBEBEB;
+}
+
+// .ant-card {
+//     width: 130px;
+//     height: 100px;
+//     cursor: pointer;
+//     display: inline-block;
+//     margin-right: 10px;
+// }
+// :host ::ng-deep {
+//     .ant-card-head {
+//         height: 30px;
+//         line-height: 0;
+//         text-align: center;
+//         padding-top: 8px;
+//         .ant-card-head-title {
+//             font-size: 13px;
+//         }
+//     }
+//     .ant-card-body {
+//         height: 70px;
+//         text-align: center;
+//         padding-top: 8px;
+//     }
+    
+// } 

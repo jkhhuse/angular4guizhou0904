@@ -7,6 +7,7 @@ import { HttpClient } from "@angular/common/http";
 import { HttpParams } from "@angular/common/http";
 import * as _ from 'lodash';
 
+import { environment } from "../../environments/environment";
 import { FieldConfig } from '../dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
 
@@ -19,7 +20,7 @@ export class AppReleaseComponent implements OnInit {
   // 控制layout是否可见
   public contentControl: boolean = false;
   // 文件上传
-  public url: string = 'http://10.132.49.117:8180/api/1/upload';
+  public url: string = environment.api + '/api/2/upload';
   public uploader: FileUploader = new FileUploader({ url: this.url });
   _dataSet = [];
   // 动态表单
@@ -101,7 +102,7 @@ export class AppReleaseComponent implements OnInit {
   }
 
   getImageOrigin() {
-    this.http.get('http://10.132.49.117:8180/api/1/warehouse/registry').subscribe(data => {
+    this.http.get(environment.api + '/api/2/warehouse/registry').subscribe(data => {
       const dataValue = data;
       this.imageOriginId = dataValue['id'];
       // this.imageOriginId = dataValue.id;
@@ -109,7 +110,7 @@ export class AppReleaseComponent implements OnInit {
   }
 
   getApplications() {
-    this.http.get('http://10.132.49.117:8031/apiApp/groups/1/applications').subscribe(data => {
+    this.http.get(environment.apiApp + '/apiApp/groups/2/applications').subscribe(data => {
       this.applications$ = _.map(data, (value, key) => {
         return value['appName'];
       })
@@ -124,7 +125,7 @@ export class AppReleaseComponent implements OnInit {
     })
     console.log('formValue', formValue);
     const imageIdArr = _.map(_.compact(fileArr), (value, key) => {
-      this.http.post('http://10.132.49.117:8180/api/1/warehouse/repository', {
+      this.http.post(environment.api + '/api/2/warehouse/repository', {
         "description": formValue.description,
         "fileName": value,
         "isApp": true,
@@ -224,7 +225,7 @@ export class AppReleaseComponent implements OnInit {
     this.refreshData();
     // 获取services列表
     const params = new HttpParams().set('isPublic', '1');
-    this.http.get('http://10.132.49.117:8032/apiService/groups/1/services', {
+    this.http.get(environment.apiService + '/apiService/groups/2/services', {
       params: new HttpParams().set('isPublic', '1')
     }).subscribe(data => {
       this.services$ = _.values(data);

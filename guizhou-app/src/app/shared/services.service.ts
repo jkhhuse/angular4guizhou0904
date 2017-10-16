@@ -16,10 +16,10 @@ export class ServicesService {
             return this.http.get(environment.api + '/api' + '/2/warehouse/repository?region=' + tabName).map(res => res.json().images);
         } else if (moduleName === 'service') {
             //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());
-            return this.http.get(environment.apiService + '/apiService' + '/groups/1/services?isPublic=' + tabName).map(res => res.json());
+            return this.http.get(environment.apiService + '/apiService' + '/groups/2/services?isPublic=' + tabName).map(res => res.json());
         } else if (moduleName === 'app') {
             //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());
-            return this.http.get(environment.apiApp + '/apiApp' + '/groups/1/applications').map(res => res.json());
+            return this.http.get(environment.apiApp + '/apiApp' + '/groups/2/applications').map(res => res.json());
         }
         /* else if (moduleName === 'serviceDetail') {
             //  服务详情里面，tabName字段传入的是服务id，serviceId

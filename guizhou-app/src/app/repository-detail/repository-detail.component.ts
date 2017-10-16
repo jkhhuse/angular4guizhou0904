@@ -28,11 +28,11 @@ export class RepositoryDetailComponent implements OnInit {
     }
     // 获取流
     getAppVersions() {
-        return this.http.get(environment.apiApp + '/apiApp' + '/groups/1/applications/' + this.name + '/versions').map(res => res.json());
+        return this.http.get(environment.apiApp + '/apiApp' + '/groups/2/applications/' + this.name + '/versions').map(res => res.json());
     }
     // 获取流
     getAppDetail(firstVersionId) {
-        return this.http.get(environment.apiApp + '/apiApp' + '/groups/1/applications/' + firstVersionId).map(res => res.json());
+        return this.http.get(environment.apiApp + '/apiApp' + '/groups/2/applications/' + firstVersionId).map(res => res.json());
     }
     constructor(private routeInfo: ActivatedRoute, private http: Http) {
     }
@@ -42,7 +42,7 @@ export class RepositoryDetailComponent implements OnInit {
         } else if (moudule === 'app') {
             console.log(moudule);
             console.log(versionId);
-            this.http.delete(environment.apiApp + '/apiApp' + '/groups/1/applications/' + versionId).subscribe((data) => {
+            this.http.delete(environment.apiApp + '/apiApp' + '/groups/2/applications/' + versionId).subscribe((data) => {
                 alert('成功删除版本id为' + versionId + '的' + moudule);
             });
         }

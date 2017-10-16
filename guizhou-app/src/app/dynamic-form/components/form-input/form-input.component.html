@@ -5,13 +5,14 @@
     <!-- <input type="text" [attr.placeholder]="config.placeholder" [formControlName]="config.name"> -->
     <!-- <nz-input style="width: 400px" [nzPlaceHolder]="config.placeholder" [formControlName]="config.name"></nz-input> -->
     <div nz-col [nzSpan]="22">
-        <nz-input [nzType]="config.ifTextarea" [id]="config.name" [ngStyle]="config.styles" [nzPlaceHolder]="config.placeholder" [formControlName]="config.name"></nz-input>
-    </div>
-    <div *ngIf="validation.invalid && (validation.dirty || validation.touched)">
-        <nz-alert *ngIf="validation.errors.required" [nzType]="'error'" nzMessage="{{config.name}}不能为空" [nzShowIcon]="'true'">
-        </nz-alert>
+        <nz-input [nzType]="config.ifTextarea" [id]="config.name" [ngStyle]="config.styles" [nzPlaceHolder]="config.placeholder"
+            [formControlName]="config.name"></nz-input>
+        <div [ngStyle]="config.styles" *ngIf="validation.invalid && (validation.dirty || validation.touched)">
+            <nz-alert *ngIf="validation.errors.required" [nzType]="'error'" nzMessage="{{config.label}}不能为空" [nzShowIcon]="'true'">
+            </nz-alert>
 
-        <nz-alert *ngIf="validation.errors.minlength" [nzType]="'error'" nzMessage="字符串长度不符合条件" [nzShowIcon]="'true'">
-        </nz-alert>
+            <nz-alert *ngIf="validation.errors.minlength" [nzType]="'error'" nzMessage="字符串长度不符合条件" [nzShowIcon]="'true'">
+            </nz-alert>
+        </div>
     </div>
 </div>
