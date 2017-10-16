@@ -3,6 +3,7 @@ import { Validators } from '@angular/forms';
 
 import { FieldConfig } from '../dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
+import { ContainerInstanceComponent } from '../container-instance/container-instance.component';
 
 @Component({
   selector: 'app-component-test',
@@ -10,6 +11,55 @@ import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dy
   styleUrls: ['./component-test.component.css']
 })
 export class ComponentTestComponent implements AfterViewInit {
+  // 测试
+  major = 1;
+  agreed = 0;
+  disagreed = 0;
+  voters = ['Mr. IQ', 'Ms. Universe', 'Bombasto'];
+ 
+  onVoted(agreed: boolean) {
+    agreed ? this.agreed++ : this.disagreed++;
+  }
+
+  @ViewChild(ContainerInstanceComponent) ContainerInstance: ContainerInstanceComponent;
+  instanceConfig = [
+    {
+      instance_size: 'XXS',
+      cpuSize: '0.125核',
+      memSize: '256MB',
+      focused: false,
+      currentClass: {
+        'focused': false
+      }
+    },
+    {
+      instance_size: 'XS',
+      cpuSize: '0.25核',
+      memSize: '512MB',
+      focused: false,
+      currentClass: {
+        'focused': false
+      }
+    },
+    {
+      instance_size: 'S',
+      cpuSize: '0.5核',
+      memSize: '1GB',
+      focused: false,
+      currentClass: {
+        'focused': false
+      }
+    },
+    {
+      instance_size: 'M',
+      cpuSize: '1核',
+      memSize: '2GB',
+      focused: false,
+      currentClass: {
+        'focused': false
+      }
+    },
+  ]
   _dataSet = [];
 
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;

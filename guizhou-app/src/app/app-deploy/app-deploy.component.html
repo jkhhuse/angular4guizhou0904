@@ -10,17 +10,114 @@
   <!-- 这里是四个form，都写出来，然后每个是不同的div布局，可以把这四个分步骤表单看成一个页面，然后控制ngif可见性
   最后把四个form的数据封装到一起 -->
   <div>
-    <span>
-      <!-- 应用部署，镜像配置，服务配置，部署成功
-      border-bottom -->
-      <!-- {{ steps.name }} -->
-    </span>
-    <nz-layout>
+    <!-- 应用部署 -->
+    <nz-layout *ngIf="current === 0">
       <nz-content>
-        <div nz-row>
-          <dynamic-form [config]="formFirst">
+        <div>
+          应用部署
+          <div nz-row>
+            <dynamic-form [config]="formFirst">
+            </dynamic-form>
+            <div nz-row>
+              <div nz-col [nzSpan]="2">
+                <span style="display: block;
+                    font-size: 16px;
+                    font-weight: 400;
+                    letter-spacing: 0px;
+                    margin-bottom: 10px;
+                    color: rgba(0, 0, 0, 0.9);">资源池</span>
+              </div>
+              <div nz-col [nzSpan]="22">
+                <nz-radio-group [(ngModel)]="this.radioValue">
+                  <label nz-radio [nzValue]="'prodDomain'">
+                    <span>生产域</span>
+                  </label>
+                  <label nz-radio [nzValue]="'testDomain'">
+                    <span>测试域</span>
+                  </label>
+                </nz-radio-group>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nz-content>
+    </nz-layout>
+    <!-- 镜像配置 -->
+    <nz-layout *ngIf="current === 1">
+      <nz-content>
+        <div>
+          镜像配置
+          <div>
+            <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+              <nz-tab *ngFor="let tab of imageTabs">
+                <ng-template #nzTabHeading>
+                  {{tab}}
+                </ng-template>
+                <!-- <span>Content of Tab Pane {{tab.index}}</span> -->
+              </nz-tab>
+            </nz-tabset>
+          </div>
+        </div>
 
-          </dynamic-form>
+        <div>
+          基本配置
+          <div nz-row>
+            <dynamic-form [config]="formSecond">
+            </dynamic-form>
+            <div nz-row>
+              <div nz-col [nzSpan]="2">
+                <span style="display: block;
+                      font-size: 16px;
+                      font-weight: 400;
+                      letter-spacing: 0px;
+                      margin-bottom: 10px;
+                      color: rgba(0, 0, 0, 0.9);">容器实例大小</span>
+              </div>
+              <div nz-col [nzSpan]="22">
+                <app-container-instance [config]="instanceConfig">
+                </app-container-instance>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nz-content>
+    </nz-layout>
+    <!-- 服务配置 -->
+    <nz-layout *ngIf="current === 2">
+      <nz-content>
+        <div>
+          服务配置
+          <div>
+            <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+              <nz-tab *ngFor="let tab of serviceTabs">
+                <ng-template #nzTabHeading>
+                  {{tab}}
+                </ng-template>
+                <!-- <span>Content of Tab Pane {{tab.index}}</span> -->
+              </nz-tab>
+            </nz-tabset>
+          </div>
+        </div>
+        <div>
+          基本配置
+          <div nz-row>
+            <dynamic-form [config]="formThird">
+            </dynamic-form>
+            <div nz-row>
+              <div nz-col [nzSpan]="2">
+                <span style="display: block;
+                        font-size: 16px;
+                        font-weight: 400;
+                        letter-spacing: 0px;
+                        margin-bottom: 10px;
+                        color: rgba(0, 0, 0, 0.9);">容器实例大小</span>
+              </div>
+              <div nz-col [nzSpan]="22">
+                <app-container-instance [config]="instanceConfig">
+                </app-container-instance>
+              </div>
+            </div>
+          </div>
         </div>
       </nz-content>
     </nz-layout>

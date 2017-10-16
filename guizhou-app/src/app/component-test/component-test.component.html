@@ -6,7 +6,7 @@
   <!-- <dynamic-form [config]="config" form="dynamicForm" (submit)="submit($event)"> -->
   <dynamic-form [config]="config" (submit)="submit($event)">
   </dynamic-form>
-  {{ form.valid }} {{ form.value | json }}
+  <!-- {{ form.valid }} {{ form.value | json }} -->
 </div>
 
 <!-- ng-zorro-antd 表格分页测试 -->
@@ -36,3 +36,12 @@
     </tr>
   </tbody>
 </nz-table>
+
+<!-- 子组件测试 -->
+<app-container-instance [config]="instanceConfig" [major]="major">
+
+</app-container-instance>
+
+<!-- <app-container-instance *ngFor="let voter of voters" [name]="voter" (onVoted)="onVoted($event)">
+
+</app-container-instance> -->

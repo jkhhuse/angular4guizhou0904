@@ -38,6 +38,7 @@ import { ComponentTestComponent } from './component-test/component-test.componen
 import { AppReleaseComponent } from './app-release/app-release.component';
 import { HashLocationStrategy, LocationStrategy } from "@angular/common";
 import { AppDeployComponent } from './app-deploy/app-deploy.component';
+import { ContainerInstanceComponent } from './container-instance/container-instance.component';
 
 
 
@@ -66,6 +67,7 @@ import { AppDeployComponent } from './app-deploy/app-deploy.component';
         ComponentTestComponent,
         AppReleaseComponent,
         AppDeployComponent,
+        ContainerInstanceComponent,
     ],
     imports: [
         BrowserModule,

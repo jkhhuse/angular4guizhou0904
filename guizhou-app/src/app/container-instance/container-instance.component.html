@@ -1,0 +1,37 @@
+<!-- <div class="container" (click)="toggleChoose()">
+  <div class="header" [ngClass]="currentClasses"> -->
+<div class="container" (click)="isFocused(field)" *ngFor="let field of config">
+  <div class="header" [ngClass]="field.currentClass">
+    <span>{{ field.instance_size }}</span>
+    <span *ngIf="field.focused">
+      <i class="anticon anticon-check"></i>
+    </span>
+  </div>
+  <div class="content">
+    <p>{{ field.cpuSize }}</p>
+    <p>{{ field.memSize }}</p>
+  </div>
+</div>
+<!-- <div>
+  {{ major }}
+</div>
+<div style="width:100px;height:100px" class="focused">
+</div>
+<nz-card (click)="isFocused(field)" *ngFor="let field of config">
+
+  <ng-template #title>
+    {{ field.instance_size }}
+    <span *ngIf="field.focused">
+      <i class="anticon anticon-check"></i>
+    </span>
+  </ng-template>
+  <ng-template #body>
+    <p>{{ field.cpuSize }}</p>
+    <p>{{ field.memSize }}</p>
+  </ng-template>
+</nz-card> -->
+
+<!-- 测试 -->
+<!-- <h4>{{name}}</h4>
+<button (click)="vote(true)"  [disabled]="voted">Agree</button>
+<button (click)="vote(false)" [disabled]="voted">Disagree</button> -->

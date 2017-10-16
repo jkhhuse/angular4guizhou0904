@@ -25,7 +25,7 @@ export class ServiceDetailComponent implements OnInit {
         return this.http.get(environment.apiService + '/apiService' + '/services/' + serviceId).map(res => res.json());
     }
     getServiceInstances(serviceId):  Observable<any[]> {
-        return this.http.get(environment.apiService + '/apiService' + '/groups/1/services/' + serviceId + '/instances').map(res => res.json());
+        return this.http.get(environment.apiService + '/apiService' + '/groups/2/services/' + serviceId + '/instances').map(res => res.json());
     }
     constructor(private routeInfo: ActivatedRoute, private servicesService: ServicesService, private http: Http) {
     }
