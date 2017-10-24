@@ -11,129 +11,223 @@
   最后把四个form的数据封装到一起 -->
   <div>
     <!-- 应用部署 -->
-    <nz-layout *ngIf="current === 0">
-      <nz-content>
-        <div>
-          应用部署
-          <div nz-row>
-            <dynamic-form [config]="formFirst">
-            </dynamic-form>
+    <div [hidden]="current !== 0">
+      <nz-layout>
+        <nz-content>
+          <div>
+            应用部署
             <div nz-row>
-              <div nz-col [nzSpan]="2">
-                <span style="display: block;
-                    font-size: 16px;
-                    font-weight: 400;
-                    letter-spacing: 0px;
-                    margin-bottom: 10px;
-                    color: rgba(0, 0, 0, 0.9);">资源池</span>
-              </div>
-              <div nz-col [nzSpan]="22">
-                <nz-radio-group [(ngModel)]="this.radioValue">
-                  <label nz-radio [nzValue]="'prodDomain'">
-                    <span>生产域</span>
-                  </label>
-                  <label nz-radio [nzValue]="'testDomain'">
-                    <span>测试域</span>
-                  </label>
-                </nz-radio-group>
+              <dynamic-form #formFirstProject [config]="formFirst">
+              </dynamic-form>
+              <div nz-row>
+                <div nz-col [nzSpan]="4" style="text-align: right">
+                  <span style="display: block;
+                      font-size: 16px;
+                      font-weight: 400;
+                      letter-spacing: 0px;
+                      margin-bottom: 10px;
+                      color: rgba(0, 0, 0, 0.9);">资源池</span>
+                </div>
+                <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                  <nz-radio-group [(ngModel)]="this.radioValue">
+                    <label nz-radio [nzValue]="'prodDomain'" style="margin-right: 25px">
+                      <span>生产域</span>
+                      <nz-tooltip [nzPlacement]="'rightTop'">
+                        <i nz-tooltip class="anticon anticon-question-circle-o" style="position: absolute; right: -10px;"></i>
+                        <ng-template #nzTemplate>
+                          <div>
+                            <p>如果选了生产域</p>
+                            <p>每个镜像的基本配置中添加区域选项(互联网、portal、核心)</p>
+                            <p>
+                              每个服务的基本配置中添加区域选项(互联网、portal、核心)
+                            </p>
+                          </div>
+                        </ng-template>
+                      </nz-tooltip>
+                      <!-- <i class="anticon anticon-question-circle-o" style="position: absolute; right: -10px;"></i> -->
+                    </label>
+                    <label nz-radio [nzValue]="'testDomain'">
+                      <span>测试域</span>
+                    </label>
+                  </nz-radio-group>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </nz-content>
-    </nz-layout>
-    <!-- 镜像配置 -->
-    <nz-layout *ngIf="current === 1">
-      <nz-content>
-        <div>
-          镜像配置
-          <div>
-            <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
-              <nz-tab *ngFor="let tab of imageTabs">
-                <ng-template #nzTabHeading>
-                  {{tab}}
-                </ng-template>
-                <!-- <span>Content of Tab Pane {{tab.index}}</span> -->
-              </nz-tab>
-            </nz-tabset>
-          </div>
-        </div>
+        </nz-content>
+      </nz-layout>
+    </div>
 
-        <div>
-          基本配置
-          <div nz-row>
-            <dynamic-form [config]="formSecond">
-            </dynamic-form>
-            <div nz-row>
-              <div nz-col [nzSpan]="2">
-                <span style="display: block;
+    <!-- 镜像配置 -->
+    <div [hidden]="current !== 1">
+      <nz-layout>
+        <nz-content>
+          <div>
+            镜像配置
+            <div>
+              <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+                <nz-tab (nzSelect)="choosedImageFunc(tab)" *ngFor="let tab of imageTabs">
+                  <ng-template #nzTabHeading>
+                    {{tab}}
+                  </ng-template>
+                  <!-- <span>Content of Tab Pane {{tab.index}}</span> -->
+                </nz-tab>
+              </nz-tabset>
+            </div>
+          </div>
+
+          <div>
+            基本配置
+            <div nz-row style="margin-bottom: 15px">
+              <dynamic-form #formSecondProject [config]="formSecond">
+              </dynamic-form>
+              <div nz-row>
+                <div nz-col [nzSpan]="4" style="text-align: right">
+                  <span style="display: block;
                       font-size: 16px;
                       font-weight: 400;
                       letter-spacing: 0px;
                       margin-bottom: 10px;
                       color: rgba(0, 0, 0, 0.9);">容器实例大小</span>
-              </div>
-              <div nz-col [nzSpan]="22">
-                <app-container-instance [config]="instanceConfig">
-                </app-container-instance>
+                </div>
+                <div nz-col [nzSpan]="18" style="margin-left: 10px">
+                  <app-container-instance #instanceSecond [config]="instanceConfig">
+                  </app-container-instance>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </nz-content>
-    </nz-layout>
-    <!-- 服务配置 -->
-    <nz-layout *ngIf="current === 2">
-      <nz-content>
-        <div>
-          服务配置
-          <div>
-            <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
-              <nz-tab *ngFor="let tab of serviceTabs">
-                <ng-template #nzTabHeading>
-                  {{tab}}
-                </ng-template>
-                <!-- <span>Content of Tab Pane {{tab.index}}</span> -->
-              </nz-tab>
-            </nz-tabset>
-          </div>
-        </div>
-        <div>
-          基本配置
-          <div nz-row>
-            <dynamic-form [config]="formThird">
-            </dynamic-form>
-            <div nz-row>
-              <div nz-col [nzSpan]="2">
+            <div *ngIf="this.radioValue === 'prodDomain'" nz-row>
+              <div nz-col [nzSpan]="4" style="text-align: right">
                 <span style="display: block;
                         font-size: 16px;
                         font-weight: 400;
                         letter-spacing: 0px;
                         margin-bottom: 10px;
-                        color: rgba(0, 0, 0, 0.9);">容器实例大小</span>
+                        color: rgba(0, 0, 0, 0.9);">网络</span>
               </div>
-              <div nz-col [nzSpan]="22">
-                <app-container-instance [config]="instanceConfig">
-                </app-container-instance>
+              <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                <nz-radio-group [(ngModel)]="this.networkRadioValue">
+                  <label nz-radio [nzValue]="'portal'">
+                    <span>portal域</span>
+                  </label>
+                  <label nz-radio [nzValue]="'core'">
+                    <span>核心域</span>
+                  </label>
+                  <label nz-radio [nzValue]="'bussiness'">
+                    <span>互联网域</span>
+                  </label>
+                </nz-radio-group>
               </div>
             </div>
           </div>
-        </div>
-      </nz-content>
-    </nz-layout>
+        </nz-content>
+      </nz-layout>
+    </div>
+
+    <!-- 服务配置 -->
+    <div [hidden]="current !== 2">
+      <nz-layout>
+        <nz-content>
+          <div>
+            服务配置
+            <div>
+              <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+                <nz-tab (nzSelect)="choosedServiceFunc(tab)" *ngFor="let tab of serviceTabs">
+                  <ng-template #nzTabHeading>
+                    {{tab}}
+                  </ng-template>
+                  <!-- <span>Content of Tab Pane {{tab.index}}</span> -->
+                </nz-tab>
+              </nz-tabset>
+              <nz-alert class="service-tips" [nzType]="'info'">
+                <span alert-body nz-row>
+                  <div style="text-align: center; font-size: 20px; color:#10a5ef" nz-col [nzSpan]="1">
+                    <i class="anticon anticon-exclamation-circle-o"></i>
+                  </div>
+                  <div nz-col [nzSpan]="21">
+                    <div>
+                      <p>基本信息</p>
+                      <span>该模板用于在IT-PaaS 上部署 Kafka 集群</span>
+                    </div>
+                    <div>
+                      <p>配置指南</p>
+                      <span>Kafka 依赖于 zookeeper， 请确保选择的 region 下已经有通过应用市场部署的 zookeeper， 否则 kafka 将不能正常使用如果需要的话，可以修改下面的默认参数</span>
+                    </div>
+                  </div>
+                </span>
+              </nz-alert>
+            </div>
+          </div>
+          <div>
+            基本配置
+            <div nz-row style="margin-bottom: 15px" nz-row>
+              <dynamic-form #formThirdProject [config]="formThird">
+              </dynamic-form>
+              <div nz-row>
+                <div nz-col [nzSpan]="4" style="text-align: right">
+                  <span style="display: block;
+                        font-size: 16px;
+                        font-weight: 400;
+                        letter-spacing: 0px;
+                        margin-bottom: 10px;
+                        color: rgba(0, 0, 0, 0.9);">容器实例大小</span>
+                </div>
+                <div nz-col [nzSpan]="18" style="margin-left: 10px">
+                  <app-container-instance #instanceThird [config]="instanceConfig">
+                  </app-container-instance>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="this.radioValue === 'prodDomain'" nz-row>
+              <div nz-col [nzSpan]="4" style="text-align: right">
+                <span style="display: block;
+                        font-size: 16px;
+                        font-weight: 400;
+                        letter-spacing: 0px;
+                        margin-bottom: 10px;
+                        color: rgba(0, 0, 0, 0.9);">网络</span>
+              </div>
+              <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                <nz-radio-group [(ngModel)]="this.networkRadioValue">
+                  <label nz-radio [nzValue]="'portal'">
+                    <span>portal域</span>
+                  </label>
+                  <label nz-radio [nzValue]="'core'">
+                    <span>核心域</span>
+                  </label>
+                  <label nz-radio [nzValue]="'bussiness'">
+                    <span>互联网域</span>
+                  </label>
+                </nz-radio-group>
+              </div>
+            </div>
+          </div>
+        </nz-content>
+      </nz-layout>
+    </div>
   </div>
 </div>
 <div class="steps-action">
-  <button nz-button [nzType]="'primary'" (click)="next()" *ngIf="current < 3">
-    <span>下一步</span>
-  </button>
-  <button nz-button [nzType]="'primary'" (click)="done()" *ngIf="current === 3">
-    <span>部署</span>
-  </button>
-  <button nz-button [nzType]="'default'" (click)="pre()" *ngIf="current > 0">
-    <span>上一步</span>
-  </button>
-  <button nz-button [nzType]="'default'" (click)="pre()" *ngIf="current === 0">
-    <span>取消</span>
-  </button>
+  <!-- TODO -->
+  <!-- disabled? next函数控制 -->
+  <span [hidden]="current >= 2">
+    <button [disabled]="buttonDisabled()" nz-button [nzType]="'primary'" (click)="next()">
+      <span>下一步</span>
+    </button>
+  </span>
+  <span [hidden]="current !== 2">
+    <button [disabled]="buttonDisabled()" nz-button [nzType]="'primary'" (click)="done()">
+      <span>部署</span>
+    </button>
+  </span>
+  <span [hidden]="current <= 0">
+    <button nz-button [nzType]="'default'" (click)="pre()">
+      <span>上一步</span>
+    </button>
+  </span>
+  <span [hidden]="current !== 0">
+    <button nz-button [nzType]="'default'" (click)="pre()">
+      <span>取消</span>
+    </button>
+  </span>
 </div>

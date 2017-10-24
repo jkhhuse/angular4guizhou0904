@@ -1,6 +1,9 @@
 <div class="dynamic-field form-select" [formGroup]="group" nz-row>
-  <div nz-col [nzSpan]="2">
-    <label>{{ config.label }}</label>
+  <div nz-col [nzSpan]="4" style="text-align: right">
+    <label>
+      {{ config.label }}
+      <span style="color: red" [hidden]="notNecessary">*</span>
+    </label>
   </div>
   <!-- <select [formControlName]="config.name">
     <option value="">{{ config.placeholder }}</option>
@@ -8,11 +11,17 @@
       {{ option }}
     </option>
   </select> -->
-  <div nz-col [nzSpan]="22">
+  <div nz-col [nzSpan]="18" style="margin-left: 10px">
     <nz-select [formControlName]="config.name" [nzTags]="config.ifTags" [ngStyle]="config.styles" [nzPlaceHolder]="config.placeholder"
       [nzShowSearch]="true">
       <nz-option *ngFor="let option of config.options" [nzValue]="option" [nzLabel]="option" [nzDisabled]="option.disabled">
       </nz-option>
     </nz-select>
+
+
+    <div [ngStyle]="config.styles" *ngIf="validation.invalid && (validation.dirty || validation.touched)">
+      <nz-alert *ngIf="validation.errors.required" [nzType]="'error'" nzMessage="{{config.label}}不能为空" [nzShowIcon]="'true'">
+      </nz-alert>
+    </div>
   </div>
 </div>

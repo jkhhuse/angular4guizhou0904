@@ -13,4 +13,8 @@ export class FormSelectComponent implements Field {
   config:FieldConfig
   group: FormGroup;
 
+  get validation() {
+    return this.group.get(this.config.name);
+  }
+
 }

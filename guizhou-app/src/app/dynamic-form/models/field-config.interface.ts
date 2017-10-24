@@ -11,5 +11,5 @@ export interface FieldConfig {
     value?: any,
     styles?: any,
     ifTags?: string,
-    ifTextarea?: string
+    inputType?: string
 }

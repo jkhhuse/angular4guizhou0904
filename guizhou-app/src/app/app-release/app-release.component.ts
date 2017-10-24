@@ -38,6 +38,7 @@ export class AppReleaseComponent implements OnInit {
       label: '应用名称',
       name: 'appName',
       placeholder: '请输入应用名称',
+      validation: [Validators.required],
       styles: {
         'width': '400px'
       }
@@ -47,6 +48,7 @@ export class AppReleaseComponent implements OnInit {
       label: '应用版本',
       name: 'version',
       placeholder: '请输入应用版本',
+      validation: [Validators.required],
       styles: {
         'width': '400px'
       }
@@ -56,7 +58,8 @@ export class AppReleaseComponent implements OnInit {
       label: '应用描述',
       name: 'description',
       placeholder: '请输入应用描述',
-      ifTextarea: 'textarea',
+      validation: [Validators.required],
+      inputType: 'textarea',
       styles: {
         'width': '400px'
       }
@@ -90,6 +93,7 @@ export class AppReleaseComponent implements OnInit {
       // content: '点确认 1 秒后关闭',
       onOk() {
         thisParent.contentControl = true;
+        console.log('form11', thisParent.form);
       },
       onCancel() {
       }
@@ -150,18 +154,19 @@ export class AppReleaseComponent implements OnInit {
     // })
   }
 
-  // ngAfterViewInit() {
-  //   let previousValid = this.form.valid;
-  //   this.form.changes.subscribe(() => {
-  //     if (this.form.valid !== previousValid) {
-  //       previousValid = this.form.valid;
-  //       this.form.setDisabled('submit', !previousValid);
-  //     }
-  //   });
+  ngAfterViewInit() {
+    // console.log('form11', this.form);
+    let previousValid = this.form.valid;
+    this.form.changes.subscribe(() => {
+      if (this.form.valid !== previousValid) {
+        previousValid = this.form.valid;
+        this.form.setDisabled('submit', !previousValid);
+      }
+    });
 
-  //   this.form.setDisabled('submit', true);
-  //   // this.form.setValue('name', '');
-  // }
+    this.form.setDisabled('submit', true);
+    // // this.form.setValue('name', '');
+  }
 
   // 根据options选择的serviceName，映射找到id列表
   extractIdByName(crr, crr1) {
@@ -217,6 +222,7 @@ export class AppReleaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    // console.log('hhh', this.form);
     this.uploader.onBeforeUploadItem = (item) => {
       item.withCredentials = false;
     }
