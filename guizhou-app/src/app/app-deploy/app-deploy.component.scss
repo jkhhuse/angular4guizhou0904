@@ -17,5 +17,11 @@ nz-header, nz-content, nz-footer {
 }
 
 nz-content {
-    padding: 0 50px;
+    padding: 0px;
+}
+
+.service-tips {
+    p {
+        font-weight: bold;
+    }
 }

@@ -7,9 +7,13 @@
       <i class="anticon anticon-check"></i>
     </span>
   </div>
-  <div class="content">
-    <p>{{ field.cpuSize }}</p>
-    <p>{{ field.memSize }}</p>
+  <div class="content" *ngIf="field.cpuSize < 0.5">
+    <p>{{ field.cpuSize }}核</p>
+    <p>{{ field.memSize }}MB</p>
+  </div>
+  <div class="content" *ngIf="field.cpuSize >= 0.5">
+    <p>{{ field.cpuSize }}核</p>
+    <p>{{ field.memSize }}GB</p>
   </div>
 </div>
 <!-- <div>

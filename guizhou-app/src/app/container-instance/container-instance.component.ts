@@ -22,7 +22,17 @@ export class ContainerInstanceComponent implements OnChanges {
     this.voted = true;
   }
 
-  @Input() config = [];
+  get value() {
+    var choosedInstance;
+    _.map(this.config, (value, key) => {
+      if (value['focused'] === true) {
+        choosedInstance =  value;
+      }
+    })
+    return choosedInstance;
+  }
+
+  @Input() config : object[] = [];
   // @Output() toggleChoosed = new EventEmitter<boolean>();
 
   // private focused: boolean = false;
