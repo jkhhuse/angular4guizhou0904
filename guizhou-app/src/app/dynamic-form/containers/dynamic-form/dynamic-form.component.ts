@@ -26,7 +26,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
 
     ngOnInit() {
         this.form = this.createGroup();
-        console.log('form', this.form);
+        console.log('form子', this.form);
     }
 
     ngOnChanges() {
@@ -66,7 +66,9 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     }
 
     setDisabled(name: string, disable: boolean) {
+        console.log('子组件disab', name);
         if (this.form.controls[name]) {
+            console.log('子组件disab11111', name);
             const method = disable ? 'disable' : 'enable';
             this.form.controls[name][method]();
             return;
@@ -80,7 +82,18 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         });
     }
 
-    setValue(name: string, value: any) {
-        this.form.controls[name].setValue(value, { emitEvent: true });
+    setValue(name: any, value: any) {
+        console.log('子组件value', name);
+        // this.form.controls[name] = value;
+        console.log('子组件con', this.form);
+
+        console.log('子组件config', this.config);
+        this.config = this.config.map((item) => {
+            if (item.name === name) {
+                item = value;
+            }
+            return item;
+        });
+        // this.form.controls[name].setValue(value, { emitEvent: true });
     }
 }
