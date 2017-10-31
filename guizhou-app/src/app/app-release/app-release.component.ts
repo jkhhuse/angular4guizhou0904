@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { NzModalService } from 'ng-zorro-antd';
+import { NzModalService, NzNotificationService } from 'ng-zorro-antd';
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
 import { Observable } from "rxjs/Observable";
 import { HttpClient } from "@angular/common/http";
@@ -150,9 +150,9 @@ export class AppReleaseComponent implements OnInit {
     //     resolve();
     //   }, 1000);
     // });
-     return new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       // 这里箭头函数，解决闭包之后This指向windows的问题
-      setTimeout( () => {
+      setTimeout(() => {
         console.log('测试promise', this);
         _.map(_.compact(fileArr), (value, key) => {
           this.http.post(environment.api + '/api/2/warehouse/repository?module=app', {
@@ -265,6 +265,10 @@ export class AppReleaseComponent implements OnInit {
     console.log(this.formConfig);
   }
 
+  createNotification = (type, title, content, options) => {
+    this._notification.create(type, title, content, options);
+  };
+
   async submit(value: { [name: string]: any }) {
     // console.log('看下load', this.loadImage(value));
     await this.loadImage(value);
@@ -285,11 +289,26 @@ export class AppReleaseComponent implements OnInit {
     value.containerSrvId = 1;
     this.http.post(environment.apiApp + '/apiApp/groups/2/applications', value).subscribe(data => {
       console.log('发布应用成功', data);
+      // this.createNotification('success', '发布应用成功', '正在跳转到应用商城页面', {nzDuration: 0});
+      this.confirmServ.success({
+        maskClosable: false,
+        title: '应用发布成功!',
+        content: '点确认按钮跳转到应用商城',
+        okText: '确定',
+        onOk() {
+          // .contentControl = true;
+          // console.log('form11', thisParent.form);
+          // const redirect = window.location.host + '/#/appStore';
+          window.location.href = window.location.origin + '/#/appStore';
+        },
+        onCancel() {
+        }
+      });
     })
     console.log('打印value', value);
   }
 
-  constructor(private confirmServ: NzModalService, private http: HttpClient) {
+  constructor(private confirmServ: NzModalService, private http: HttpClient, private _notification: NzNotificationService) {
     this.showConfirm();
     console.log('11', this.contentControl);
   }
