@@ -22,9 +22,9 @@ export class FormInputComponent implements Field, OnInit {
     // }
     
     ngOnInit() {
-        console.log('11',this.config.validation);
-        // console.log(this.group.get('name'));
-        console.log('22',this.group.get(this.config.name))
-        console.log('33',this.validation)
+        // console.log('111',this.config.validation);
+        // // console.log(this.group.get('name'));
+        // console.log('22',this.group.get(this.config.name))
+        // console.log('33',this.validation)
     }
 }

@@ -8,6 +8,8 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import {enableProdMode} from '@angular/core';
+enableProdMode();
 import { Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
 import { HttpClient } from "@angular/common/http";
@@ -174,7 +176,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       name: 'ip_tag',
       options: ['标签1', '标签2', '标签3', '标签4', '标签5'],
       placeholder: '选择主机标签',
-      validation: [Validators.required],
+      // validation: [Validators.required, Validators.minLength(3)],
       styles: {
         'width': '400px'
       },
@@ -256,8 +258,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       serviceId: this.serviceId,
       instanceName: this.formThirdProject.value['instanceName'],
       instancesCount: parseInt(this.formThirdProject.value['instancesCount']),
-      cpuSize: this.instanceThird.value['cpuSize']*this.formThirdProject.value['instancesCount'],
-      memSize: this.instanceThird.value['memSize']*this.formThirdProject.value['instancesCount']
+      cpuSize: this.instanceThird.value['cpuSize'] * this.formThirdProject.value['instancesCount'],
+      memSize: this.instanceThird.value['memSize'] * this.formThirdProject.value['instancesCount']
     }
     console.log('formData', this.formData);
   }
@@ -374,31 +376,35 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
 
   ngOnChanges() {
     // console.log('监测第三个表单OnChanges', this.formThirdProject);
-    // console.log('OnChanges');
+    console.log('OnChanges');
   }
 
-  ngAfterContentInit() { 
+  ngAfterContentInit() {
     // console.log('AfterContentInit'); 
   }
 
-  ngAfterContentChecked() { 
+  ngAfterContentChecked() {
     // console.log('AfterContentChecked'); 
   }
 
-  ngAfterViewChecked() { 
+  ngAfterViewChecked() {
     // todo 这里需要规定主机标签的数量限制，不好解决
-    // console.log('AfterViewChecked'); 
-    // if(this.formThirdProject.value['instancesCount']) {
-    //   this.instancesCount$ = this.formThirdProject.value['instancesCount'];
-    //   this.formThird[3].validation = [
-    //     Validators.required, Validators.minLength(this.instancesCount$)
-    //   ]
-    // }
+    // console.log('AfterViewChecked');
+    if (this.formThirdProject.value['instancesCount']) {
+      this.instancesCount$ = this.formThirdProject.value['instancesCount'];
+      this.formThird[3].placeholder = this.instancesCount$ + 's';
+      this.formThird[3].validation = [
+        Validators.required, Validators.minLength(this.instancesCount$)
+      ];
+      console.log('这是instanceConut', this.formThirdProject.value['instancesCount']);
+      console.log('这是formThird3', this.formThird[3]);
+      this.formThirdProject.setValue('ip_tag', this.formThird[3]);
+    }
     // console.log('formThird', this.formThird);
     // console.log('监测第三个表单Docheck', this.formThirdProject.value['instancesCount']);
   }
 
-  ngOnDestroy() { 
+  ngOnDestroy() {
     // console.log('OnDestroy'); 
   }
 

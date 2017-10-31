@@ -2,6 +2,7 @@
   <div nz-col [nzSpan]="4" style="text-align: right">
     <label>
       {{ config.label }}
+      <!-- {{ config.styles }} -->
       <span style="color: red" [hidden]="notNecessary">*</span>
     </label>
   </div>
@@ -21,6 +22,9 @@
 
     <div [ngStyle]="config.styles" *ngIf="validation.invalid && (validation.dirty || validation.touched)">
       <nz-alert *ngIf="validation.errors.required" [nzType]="'error'" nzMessage="{{config.label}}不能为空" [nzShowIcon]="'true'">
+      </nz-alert>
+
+      <nz-alert *ngIf="validation.errors.minlength" [nzType]="'error'" nzMessage="{{ config.label }}数目不能小于{{ validation.errors.minlength['requiredLength'] }}" [nzShowIcon]="'true'">
       </nz-alert>
     </div>
   </div>

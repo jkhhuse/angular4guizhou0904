@@ -16,7 +16,7 @@
           color: rgba(0, 0, 0, 0.9);">选择镜像</span>
         </div>
         <div nz-col [nzSpan]="22" class="file">选择镜像
-          <input type="file" ng2FileSelect [uploader]="uploader" multiple>
+          <input type="file" ng2FileSelect [uploader]="uploader" (change)="FileSelected()" multiple>
         </div>
       </div>
       <div nz-row>
@@ -26,7 +26,7 @@
         <div nz-col [nzSpan]="24">
           <!-- 这里先把分页去掉，nzAjaxData方式，获取分页有点问题，有想法是把uploader.queue的队列，放到一个服务器上，
           然后在这里实现分页，最后在我这里进行nzAjaxData远程异步获取，可以看nzAjaxData在官网的实例 -->
-          <nz-table #nzTable [nzScroll]="{ y: 240 }" [nzShowSizeChanger]="true" [nzAjaxData]="_dataSet" (nzPageIndexChange)="refreshData()"
+          <nz-table #nzTable [nzScroll]="{ y: 240 }" [nzShowSizeChanger]="true" [nzAjaxData]="_dataSet"
             [nzIsPagination]="false">
             <ng-template #nzFixedHeader>
               <thead nz-thead>
@@ -97,8 +97,11 @@
               </label>
             </nz-radio-group>
           </div>
+          <!-- <div>
+           {{ testValue }}
+          </div> -->
         </div>
-        <dynamic-form [config]="formConfig" #form (submit)="submit($event)">
+        <dynamic-form [config]="formConfig" (submit)="submit($event)">
         </dynamic-form>
       </div>
     </nz-content>
