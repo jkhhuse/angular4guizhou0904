@@ -2,13 +2,13 @@
     <div nz-col [nzSpan]="4" style="text-align: right">
         <label>
             {{ config.label }}
-            <span style="color: red" [hidden]="notNecessary">*</span>
+            <span style="color: red" [hidden]="config.notNecessary">*</span>
         </label>
     </div>
     <!-- <input type="text" [attr.placeholder]="config.placeholder" [formControlName]="config.name"> -->
     <!-- <nz-input style="width: 400px" [nzPlaceHolder]="config.placeholder" [formControlName]="config.name"></nz-input> -->
     <div nz-col [nzSpan]="18" style="margin-left: 10px">
-        <nz-input [nzType]="config.inputType" [id]="config.name" [ngStyle]="config.styles" [nzPlaceHolder]="config.placeholder"
+        <nz-input [ngModel]="config.defaultValue" [nzType]="config.inputType" [id]="config.name" [ngStyle]="config.styles" [nzPlaceHolder]="config.placeholder"
             [formControlName]="config.name"></nz-input>
         <div [ngStyle]="config.styles" *ngIf="validation.invalid && (validation.dirty || validation.touched)">
             <nz-alert *ngIf="validation.errors.required" [nzType]="'error'" nzMessage="{{config.label}}不能为空" [nzShowIcon]="'true'">

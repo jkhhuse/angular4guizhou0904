@@ -11,5 +11,7 @@ export interface FieldConfig {
     value?: any,
     styles?: any,
     ifTags?: string,
-    inputType?: string
+    inputType?: string,
+    defaultValue?: any,
+    notNecessary?: boolean
 }
