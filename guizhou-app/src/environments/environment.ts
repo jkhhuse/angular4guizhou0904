@@ -8,5 +8,6 @@ export const environment = {
     name: '开发环境',
     apiService: 'http://10.132.49.108:8032',
     apiApp: 'http://10.132.49.108:8031',
-    api: 'http://10.132.49.108:8180'
+    api: 'http://10.132.49.108:8180',
+    apiAlauda: 'http://10.132.49.108:8039/apiJakiro/v1'
 };

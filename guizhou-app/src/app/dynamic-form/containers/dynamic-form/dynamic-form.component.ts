@@ -96,4 +96,8 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         });
         // this.form.controls[name].setValue(value, { emitEvent: true });
     }
+
+    setConfig(config) {
+        this.config = config;
+    }
 }

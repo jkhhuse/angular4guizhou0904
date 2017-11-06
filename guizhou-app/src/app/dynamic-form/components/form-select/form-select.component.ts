@@ -16,5 +16,4 @@ export class FormSelectComponent implements Field {
   get validation() {
     return this.group.get(this.config.name);
   }
-
 }

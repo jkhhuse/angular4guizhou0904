@@ -29,7 +29,7 @@
                       color: rgba(0, 0, 0, 0.9);">资源池</span>
                 </div>
                 <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
-                  <nz-radio-group [(ngModel)]="this.radioValue">
+                  <nz-radio-group [(ngModel)]="this.radioValue" (click)="toggleButton()">
                     <label nz-radio [nzValue]="'prodDomain'" style="margin-right: 25px">
                       <span>生产域</span>
                       <nz-tooltip [nzPlacement]="'rightTop'">
@@ -160,7 +160,7 @@
           </div>
           <div>
             基本配置
-            <div nz-row style="margin-bottom: 15px" nz-row>
+            <div nz-row style="margin-bottom: 15px">
               <dynamic-form #formThirdProject [config]="formThird">
               </dynamic-form>
               <div nz-row>
@@ -199,6 +199,29 @@
                     <span>互联网域</span>
                   </label>
                 </nz-radio-group>
+              </div>
+            </div>
+          </div>
+          <div>
+            高级配置
+            <div nz-row style="margin-bottom: 15px">
+              <dynamic-form #formThird2Project [config]="formThird2"></dynamic-form>
+              <div *ngFor="let formThird2Radio of formThird2Radios" nz-row>
+                <div nz-col [nzSpan]="4" style="text-align: right">
+                  <span style="display: block;
+                          font-size: 16px;
+                          font-weight: 400;
+                          letter-spacing: 0px;
+                          margin-bottom: 10px;
+                          color: rgba(0, 0, 0, 0.9);">{{ formThird2Radio.label }}</span>
+                </div>
+                <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                  <nz-radio-group [(ngModel)]="formThird2Radio.defaultValue">
+                    <label *ngFor="let labelContent of formThird2Radio.labelContent" nz-radio [nzValue]="labelContent">
+                      <span>{{ labelContent }}</span>
+                    </label>
+                  </nz-radio-group>
+                </div>
               </div>
             </div>
           </div>

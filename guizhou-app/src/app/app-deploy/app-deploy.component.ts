@@ -8,7 +8,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import {enableProdMode} from '@angular/core';
+import { enableProdMode } from '@angular/core';
 enableProdMode();
 import { Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
@@ -136,6 +136,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   @ViewChild('formThirdProject') formThirdProject: DynamicFormComponent;
   @ViewChild('instanceThird') instanceThird: ContainerInstanceComponent;
   // 这里，主机标签有个数量count1，集群节点数有个数量count2，应该是先获取count1，然后count2要小于《count1，然后再选择count2之后，主机标签这里也要限制选择的数量
+  ipTag$: string[];
+  serviceVersion$: string[];
   formThird: FieldConfig[] = [
     {
       type: 'input',
@@ -162,7 +164,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       type: 'select',
       label: '服务版本',
       name: 'version',
-      options: ['1', '2', '3'],
+      options: this.serviceVersion$,
       placeholder: '选择服务版本',
       validation: [Validators.required],
       styles: {
@@ -174,7 +176,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       type: 'select',
       label: '主机标签',
       name: 'ip_tag',
-      options: ['标签1', '标签2', '标签3', '标签4', '标签5'],
+      options: this.ipTag$,
       placeholder: '选择主机标签',
       // validation: [Validators.required, Validators.minLength(3)],
       styles: {
@@ -200,13 +202,158 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   //   }
   // ];
 
+  // 第三个表单2里的高级配置
+  @ViewChild('formThird2Project') formThird2Project: DynamicFormComponent;
+  formThird2: FieldConfig[] = [];
+  formThird2Radios: object[] = [];
+  formThird2RadioEntity: object = {};
+
+  async toggleButton() {
+    await this.getIpTag();
+    this.formThird[3] = {
+      type: 'select',
+      label: '主机标签',
+      name: 'ip_tag',
+      options: this.ipTag$,
+      placeholder: '选择主机标签',
+      // validation: [Validators.required, Validators.minLength(3)],
+      styles: {
+        'width': '400px'
+      },
+      ifTags: 'true'
+    },
+      this.formThirdProject.setValue('ip_tag', this.formThird[3]);
+  }
+
+  getIpTag() {
+    return new Promise((resolve, reject) => {
+      if (this.radioValue === 'prodDomain') {
+        this.http.get(environment.apiAlauda + '/regions/alauda/ebd/nodes').subscribe(data => {
+          console.log('这是主机标签', data);
+          this.ipTag$ = _.map(data, (value, key) => {
+            return value['private_ip'];
+          });
+          resolve();
+        });
+      } else {
+        this.http.get(environment.apiAlauda + '/regions/alauda/cmss/nodes').subscribe(data => {
+          console.log('这是主机标签', data);
+          this.ipTag$ = _.map(data, (value, key) => {
+            return value['private_ip'];
+          });
+          resolve();
+        });
+      }
+    });
+  }
+
+  getServiceVersion() {
+    return new Promise((resolve, reject) => {
+      this.http.get(environment.apiService + '/apiService/services/' + this.serviceId).subscribe(data => {
+        console.log('这是服务详情', data);
+        const serviceVer = _.map(data['basic_config'], (value, key) => {
+          if (value['attribute_name'] === 'image_tag') {
+            return _.map(value['option'], (value1, key1) => {
+              return value1['version'];
+            });
+          }
+        });
+        this.serviceVersion$ = _.flatten(_.compact(serviceVer));
+        resolve();
+      });
+    });
+  }
+
+  getServiceAdvanced() {
+    return new Promise((resolve, reject) => {
+      this.http.get(environment.apiService + '/apiService/services/' + this.serviceId).subscribe(data => {
+        // 这里每次都需要清除一次数据，不然数据会重复
+        this.formThird2 = [];
+        this.formThird2Radios = [];
+        console.log('这是服务详情advanced', data['advanced_config']);
+        // this.formThird2 = data['advanced_config'];
+        _.map(data['advanced_config'], (value, key) => {
+          switch (value['type']) {
+            case 'string': {
+              // this.formThird2
+              this.formThird2[key] = {
+                type: 'input',
+                defaultValue: value['default_value'],
+                label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
+                name: value['attribute_name'],
+                placeholder: (value['description'] && value['description']['zh'] !== '') ?
+                  value['description']['zh'] : value['attribute_name'],
+                // validation: [Validators.required],
+                notNecessary: true,
+                styles: {
+                  'width': '400px'
+                }
+              }
+              break;
+            }
+            case 'int': {
+              this.formThird2[key] = {
+                type: 'input',
+                defaultValue: value['default_value'],
+                inputType: 'number',
+                label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
+                name: value['attribute_name'],
+                placeholder: (value['description'] && value['description']['zh'] !== '') ?
+                value['description']['zh'] : value['attribute_name'],
+                // validation: [Validators.required],
+                notNecessary: true,
+                styles: {
+                  'width': '400px'
+                }
+              }
+              break;
+            }
+            case 'radio_group_tab': {
+              // const radioAttriName = value['attribute_name']
+              this.formThird2Radios[key] = {
+                label: value['display_name']['zh'],
+                name: value['attribute_name'],
+                labelContent: value['option'],
+                defaultValue: value['option'][0]
+              }
+              break;
+            }
+            case 'option': {
+              const options$ = _.map(value['option'], (value1, key1) => {
+                return value1['type'];
+              })
+              this.formThird2[key] = {
+                type: 'select',
+                label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
+                name: value['attribute_name'],
+                options: options$,
+                placeholder: (value['description'] && value['description']['zh'] !== '') ?
+                value['description']['zh'] : value['attribute_name'],
+                validation: [Validators.required],
+                styles: {
+                  'width': '400px'
+                },
+              }
+              break;
+            }
+            default:
+              break;
+          }
+        });
+        this.formThird2 = _.uniqWith(_.compact(this.formThird2), _.isEqual);
+        this.formThird2Radios = _.uniqWith(_.compact(this.formThird2Radios), _.isEqual);
+        resolve();
+      });
+    });
+  }
+
   //region pre
   pre() {
     this.current -= 1;
     this.changeContent();
   }
   //endregion pre
-  next() {
+  async next() {
     switch (this.current) {
       case 0: {
         // console.log('0', this.formFirst);
@@ -227,7 +374,28 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           podsCount: parseInt(this.formSecondProject.value['podsCount']),
           repositoryId: this.repositoryId,
           instance_size: this.instanceSecond.value['instance_size'],
-          clusterName: this.radioValue === 'prodDomain' ? this.networkRadioValue : 'testDomain'
+          // 这里由于线上可用的集群就两个：cmss和ebd，所以先暂时写死
+          clusterName: this.radioValue === 'prodDomain' ? 'ebd' : 'cmss'
+          // clusterName: this.radioValue === 'prodDomain' ? this.networkRadioValue : 'testDomain'
+        }
+        if (this.serviceId) {
+          // console.log('这是seriveId', this.serviceId);
+          await this.getServiceVersion();
+          this.formThird[2] = {
+            type: 'select',
+            label: '服务版本',
+            name: 'version',
+            options: this.serviceVersion$,
+            placeholder: '选择服务版本',
+            validation: [Validators.required],
+            styles: {
+              'width': '400px'
+            },
+            // ifTags: 'true'
+          };
+          this.formThirdProject.setValue('version', this.formThird[2]);
+          await this.getServiceAdvanced();
+          this.formThird2Project.setConfig(this.formThird2);
         }
         console.log('formData', this.formData);
         // this.formData['microserviceName'] = this.formSecondProject.value['microserviceName'];
@@ -251,6 +419,18 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   }
 
   done() {
+    // 这里，需要复习一下object[变量]和object['常量']的区别
+    if (this.formThird2Radios) {
+      _.map(this.formThird2Radios, (value, key) => {
+        // console.log('打印radio', value);
+        const valueName$ = value.name;
+        this.formThird2RadioEntity[valueName$] = value.defaultValue;
+        // this.formThird2RadioEntity[key] = {
+        //   [valueName$]: value.defaultValue
+        // }
+      })
+    }
+    console.log('formThird2', this.formThird2Project);
     console.log('instance', this.instanceThird);
     // this._message.success('done');
     this.formData['serviceInstances'][0] = {
@@ -259,11 +439,15 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       instanceName: this.formThirdProject.value['instanceName'],
       instancesCount: parseInt(this.formThirdProject.value['instancesCount']),
       cpuSize: this.instanceThird.value['cpuSize'] * this.formThirdProject.value['instancesCount'],
-      memSize: this.instanceThird.value['memSize'] * this.formThirdProject.value['instancesCount']
+      memSize: this.instanceThird.value['memSize'] * this.formThirdProject.value['instancesCount'],
+      clusterName: this.radioValue === 'prodDomain' ? 'ebd' : 'cmss',
+      info: {
+        advanced_config: _.assign(this.formThird2Project.value, this.formThird2RadioEntity)
+      }
     }
     console.log('formData', this.formData);
   }
-
+  // todo 这里两个choosed函数可以优化
   choosedImageFunc(tab) {
     // console.log('image func', tab);
     this.choosedImageName = tab;
@@ -272,16 +456,35 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         this.repositoryId = value['id'];
       }
     })
-    console.log('id', this.repositoryId);
+    console.log('image-id', this.repositoryId);
   }
 
-  choosedServiceFunc(tab) {
+  async choosedServiceFunc(tab) {
     this.choosedServiceName = tab;
     _.map(this.services, (value, key) => {
       if (value['serviceName'] === this.choosedServiceName) {
         this.serviceId = value['id'];
       }
-    })
+    });
+    await this.getServiceVersion();
+    this.formThird[2] = {
+      type: 'select',
+      label: '服务版本',
+      name: 'version',
+      options: this.serviceVersion$,
+      placeholder: '选择服务版本',
+      validation: [Validators.required],
+      styles: {
+        'width': '400px'
+      },
+      // ifTags: 'true'
+    };
+    this.formThirdProject.setValue('version', this.formThird[2]);
+    // 这里获取服务的advanced_config
+    await this.getServiceAdvanced();
+    console.log('这是formThird2', this.formThird2);
+    this.formThird2Project.setConfig(this.formThird2);
+    console.log('service-id', this.serviceId);
   }
 
   buttonDisabled() {
@@ -293,7 +496,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         return !this.formSecondProject.valid;
       }
       case 2: {
-        return !this.formThirdProject.valid;
+        return !this.formThirdProject.valid || !this.formThird2Project.valid;
       }
     }
   }
@@ -325,8 +528,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   constructor(private _message: NzMessageService, private http: HttpClient) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     var test = this.formThirdProject;
+    await this.getIpTag();
+    // this.getServiceVersion();
+    this.toggleButton();
     this.http.get(environment.api + '/api/2/warehouse/repository').subscribe(data => {
       this.images = _.map(data['images'], (value, key) => {
         return value;
@@ -390,22 +596,23 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   ngAfterViewChecked() {
     // todo 这里需要规定主机标签的数量限制，不好解决
     // console.log('AfterViewChecked');
-    if (this.formThirdProject.value['instancesCount']) {
-      this.instancesCount$ = this.formThirdProject.value['instancesCount'];
-      this.formThird[3].placeholder = this.instancesCount$ + 's';
-      this.formThird[3].validation = [
-        Validators.required, Validators.minLength(this.instancesCount$)
-      ];
-      console.log('这是instanceConut', this.formThirdProject.value['instancesCount']);
-      console.log('这是formThird3', this.formThird[3]);
-      this.formThirdProject.setValue('ip_tag', this.formThird[3]);
-    }
+    // if (this.formThirdProject.value['instancesCount']) {
+    //   this.instancesCount$ = this.formThirdProject.value['instancesCount'];
+    //   // todo这里修改placeholder是可以的，但是修改validation却不行
+    //   this.formThird[3].placeholder = this.instancesCount$ + 's';
+    //   this.formThird[3].validation = [
+    //     Validators.required, Validators.minLength(this.instancesCount$)
+    //   ];
+    //   console.log('这是instanceConut', this.formThirdProject.value['instancesCount']);
+    //   console.log('这是formThird3', this.formThird[3]);
+    //   this.formThirdProject.setValue('ip_tag', this.formThird[3]);
+    // }
     // console.log('formThird', this.formThird);
     // console.log('监测第三个表单Docheck', this.formThirdProject.value['instancesCount']);
   }
 
   ngOnDestroy() {
-    // console.log('OnDestroy'); 
+    // console.log('OnDestroy');
   }
 
 }
