@@ -31,6 +31,8 @@
                             </div>
                             <div class="card-content">
                                 <span style="color: #999999">{{service.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                                <p>1{{service.repositoryName}}</p>
+                                <p>1{{service.serviceName}}</p>
                                 <span class="pull-right">
                                     <span class="glyphicon glyphicon-trash"
                                           (click)="deleteMirror(service.repositoryName ? service.repositoryName : service.serviceName)"></span>

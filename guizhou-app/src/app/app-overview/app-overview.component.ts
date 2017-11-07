@@ -16,19 +16,19 @@ export class AppOverviewComponent implements OnInit {
     appImgUrl1 = 'assets/application/u3225.png';
     appImgUrl2 = 'assets/application/u3227.png';
     title: String = '应用概览';
-    mirrorName: String = 'poc0';
+    mirrorName: String = 'cmss'; // 初始生产域对应的标签名称 cluster_name
     // input输入框
     titleFilter: FormControl = new FormControl();
     tabs = [
         {
             index: 1,
             name: '生产域',
-            tabName: 'poc0'
+            tabName: 'cmss'
         },
         {
             index: 2,
             name: '测试域',
-            tabName: 'poc1'
+            tabName: 'cmss'
         }
     ];
     private keyword: string;
