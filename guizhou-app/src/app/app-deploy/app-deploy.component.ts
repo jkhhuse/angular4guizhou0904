@@ -19,7 +19,7 @@ import * as _ from 'lodash';
 import { environment } from "../../environments/environment";
 import { FieldConfig } from '../dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
-import { ContainerInstanceComponent } from '../container-instance/container-instance.component'
+import { ContainerInstanceComponent } from '../container-instance/container-instance.component';
 
 @Component({
   selector: 'app-app-deploy',
@@ -126,6 +126,24 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         'focused': false
       }
     },
+    {
+      instance_size: 'L',
+      cpuSize: 2,
+      memSize: 4,
+      focused: false,
+      currentClass: {
+        'focused': false
+      }
+    },
+    {
+      instance_size: 'XL',
+      cpuSize: 4,
+      memSize: 8,
+      focused: false,
+      currentClass: {
+        'focused': false
+      }
+    },
   ]
   images: string[] = [];
   imageTabs: string[] = [];
@@ -135,7 +153,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   // 第三个表单
   @ViewChild('formThirdProject') formThirdProject: DynamicFormComponent;
   @ViewChild('instanceThird') instanceThird: ContainerInstanceComponent;
+  @ViewChild('formThird1Project') formThird1Project: DynamicFormComponent;
   // 这里，主机标签有个数量count1，集群节点数有个数量count2，应该是先获取count1，然后count2要小于《count1，然后再选择count2之后，主机标签这里也要限制选择的数量
+  formThird1: FieldConfig[] = [];
+  formThird1Radios: object[] = [];
+  formThird1RadioEntity: object = {};
   ipTag$: string[];
   serviceVersion$: string[];
   formThird: FieldConfig[] = [
@@ -149,41 +171,41 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         'width': '400px'
       }
     },
-    {
-      type: 'input',
-      label: '集群节点数',
-      name: 'instancesCount',
-      placeholder: '请输入集群节点数',
-      validation: [Validators.required],
-      inputType: 'number',
-      styles: {
-        'width': '400px'
-      }
-    },
-    {
-      type: 'select',
-      label: '服务版本',
-      name: 'version',
-      options: this.serviceVersion$,
-      placeholder: '选择服务版本',
-      validation: [Validators.required],
-      styles: {
-        'width': '400px'
-      },
-      // ifTags: 'true'
-    },
-    {
-      type: 'select',
-      label: '主机标签',
-      name: 'ip_tag',
-      options: this.ipTag$,
-      placeholder: '选择主机标签',
-      // validation: [Validators.required, Validators.minLength(3)],
-      styles: {
-        'width': '400px'
-      },
-      ifTags: 'true'
-    },
+    // {
+    //   type: 'input',
+    //   label: '集群节点数',
+    //   name: 'instancesCount',
+    //   placeholder: '请输入集群节点数',
+    //   validation: [Validators.required],
+    //   inputType: 'number',
+    //   styles: {
+    //     'width': '400px'
+    //   }
+    // },
+    // {
+    //   type: 'select',
+    //   label: '服务版本',
+    //   name: 'version',
+    //   options: this.serviceVersion$,
+    //   placeholder: '选择服务版本',
+    //   validation: [Validators.required],
+    //   styles: {
+    //     'width': '400px'
+    //   },
+    //   // ifTags: 'true'
+    // },
+    // {
+    //   type: 'select',
+    //   label: '主机标签',
+    //   name: 'ip_tag',
+    //   options: this.ipTag$,
+    //   placeholder: '选择主机标签',
+    //   // validation: [Validators.required, Validators.minLength(3)],
+    //   styles: {
+    //     'width': '400px'
+    //   },
+    //   ifTags: 'true'
+    // },
   ]
   serviceTabs: string[] = [];
   services: string[] = [];
@@ -208,22 +230,22 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   formThird2Radios: object[] = [];
   formThird2RadioEntity: object = {};
 
-  async toggleButton() {
-    await this.getIpTag();
-    this.formThird[3] = {
-      type: 'select',
-      label: '主机标签',
-      name: 'ip_tag',
-      options: this.ipTag$,
-      placeholder: '选择主机标签',
-      // validation: [Validators.required, Validators.minLength(3)],
-      styles: {
-        'width': '400px'
-      },
-      ifTags: 'true'
-    },
-      this.formThirdProject.setValue('ip_tag', this.formThird[3]);
-  }
+  // async toggleButton() {
+  //   await this.getIpTag();
+  //   this.formThird[3] = {
+  //     type: 'select',
+  //     label: '主机标签',
+  //     name: 'ip_tag',
+  //     options: this.ipTag$,
+  //     placeholder: '选择主机标签',
+  //     // validation: [Validators.required, Validators.minLength(3)],
+  //     styles: {
+  //       'width': '400px'
+  //     },
+  //     ifTags: 'true'
+  //   },
+  //     this.formThirdProject.setValue('ip_tag', this.formThird[3]);
+  // }
 
   getIpTag() {
     return new Promise((resolve, reject) => {
@@ -264,6 +286,196 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     });
   }
 
+  getServiceBasic() {
+    return new Promise((resolve, reject) => {
+      this.http.get(environment.apiService + '/apiService/services/' + this.serviceId).subscribe(data => {
+        // 这里每次都需要清除一次数据，不然数据会重复
+        this.formThird1 = [];
+        this.formThird1Radios = [];
+        _.map(data['basic_config'], (value, key) => {
+          switch (value['type']) {
+            case 'string': {
+              // this.formThird1
+              this.formThird1[key] = {
+                type: 'input',
+                defaultValue: value['default_value'],
+                label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
+                name: value['attribute_name'],
+                placeholder: (value['description'] && value['description']['zh'] !== '') ?
+                  value['description']['zh'] : value['attribute_name'],
+                validation: [Validators.required],
+                // notNecessary: true,
+                styles: {
+                  'width': '400px'
+                }
+              }
+              break;
+            }
+            case 'int': {
+              this.formThird1[key] = {
+                type: 'input',
+                defaultValue: value['default_value'],
+                inputType: 'number',
+                label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
+                name: value['attribute_name'],
+                placeholder: (value['description'] && value['description']['zh'] !== '') ?
+                  value['description']['zh'] : value['attribute_name'],
+                validation: [Validators.required],
+                // notNecessary: true,
+                styles: {
+                  'width': '400px'
+                }
+              }
+              break;
+            }
+            case 'radio_group_tab': {
+              // const radioAttriName = value['attribute_name']
+              this.formThird1Radios[key] = {
+                label: value['display_name']['zh'],
+                name: value['attribute_name'],
+                labelContent: value['option'],
+                defaultValue: value['option'][0]
+              }
+              break;
+            }
+            case 'option': {
+              let options$ = _.map(value['option'], (value1, key1) => {
+                if (_.isObject(value1)) {
+                  const optionType = [];
+                  _.forIn(value1, (value2, key2) => {
+                    optionType[key1] = key2;
+                  });
+                  return value1[optionType[key1]];
+                } else {
+                  return value1;
+                }
+              });
+              if (value['attribute_name'] === 'cluster_size') {
+                let cluserOption = [];
+                _.map(options$, (valueOp, keyOp) => {
+                  switch (valueOp) {
+                    case 'XXS': {
+                      cluserOption[keyOp] = {
+                        insSize: valueOp,
+                        cpuSize: 0.125,
+                        memSize: 256,
+                        choosed: true
+                      }
+                      break;
+                    }
+                    case 'XS': {
+                      cluserOption[keyOp] = {
+                        insSize: valueOp,
+                        cpuSize: 0.25,
+                        memSize: 512
+                      }
+                      break;
+                    }
+                    case 'S': {
+                      cluserOption[keyOp] = {
+                        insSize: valueOp,
+                        cpuSize: 0.5,
+                        memSize: 1
+                      }
+                      break;
+                    }
+                    case 'M': {
+                      cluserOption[keyOp] = {
+                        insSize: valueOp,
+                        cpuSize: 1,
+                        memSize: 2
+                      }
+                      break;
+                    }
+                    case 'L': {
+                      cluserOption[keyOp] = {
+                        insSize: valueOp,
+                        cpuSize: 2,
+                        memSize: 4
+                      }
+                      break;
+                    }
+                    case 'XL': {
+                      cluserOption[keyOp] = {
+                        insSize: valueOp,
+                        cpuSize: 4,
+                        memSize: 8
+                      }
+                      break;
+                    }
+                    default:
+                      break;
+                  }
+                })
+                _.map(cluserOption, (valueIns, keyIns) => {
+                  this.formThird1Radios[keyIns] = {
+                    instance_size: valueIns.insSize,
+                    cpuSize: valueIns.cpuSize,
+                    memSize: valueIns.memSize,
+                    focused: valueIns.choosed ? true : false,
+                    currentClass: {
+                      'focused': valueIns.choosed ? true : false
+                    }
+                  }
+                });
+              } else {
+                this.formThird1[key] = {
+                  type: 'select',
+                  label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
+                  name: value['attribute_name'],
+                  options: options$,
+                  placeholder: (value['description'] && value['description']['zh'] !== '') ?
+                    value['description']['zh'] : value['attribute_name'],
+                  validation: [Validators.required],
+                  styles: {
+                    'width': '400px'
+                  },
+                }
+              }
+              break;
+            }
+            case 'multi_option': {
+              let options$;
+              if (value['option'].length !== 0 && value['option'].length !== undefined) {
+                options$ = _.map(value['option'], (value1, key1) => {
+                  if (_.isObject(value1)) {
+                    const optionType = [];
+                    _.forIn(value1, (value2, key2) => {
+                      optionType[key1] = key2;
+                    });
+                    return value1[optionType[key1]];
+                  } else {
+                    return value1;
+                  }
+                });
+              } else {
+                options$ = this.ipTag$;
+              }
+              this.formThird1[key] = {
+                type: 'select',
+                label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
+                name: value['attribute_name'],
+                options: options$,
+                placeholder: (value['description'] && value['description']['zh'] !== '') ?
+                  value['description']['zh'] : value['attribute_name'],
+                validation: [Validators.required],
+                styles: {
+                  'width': '400px'
+                },
+              }
+              break;
+            }
+            default:
+              break;
+          }
+        });
+        this.formThird1 = _.uniqWith(_.compact(this.formThird1), _.isEqual);
+        this.formThird1Radios = _.uniqWith(_.compact(this.formThird1Radios), _.isEqual);
+        resolve();
+      });
+    });
+  }
+
   getServiceAdvanced() {
     return new Promise((resolve, reject) => {
       this.http.get(environment.apiService + '/apiService/services/' + this.serviceId).subscribe(data => {
@@ -299,7 +511,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
                 name: value['attribute_name'],
                 placeholder: (value['description'] && value['description']['zh'] !== '') ?
-                value['description']['zh'] : value['attribute_name'],
+                  value['description']['zh'] : value['attribute_name'],
                 // validation: [Validators.required],
                 notNecessary: true,
                 styles: {
@@ -328,7 +540,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 name: value['attribute_name'],
                 options: options$,
                 placeholder: (value['description'] && value['description']['zh'] !== '') ?
-                value['description']['zh'] : value['attribute_name'],
+                  value['description']['zh'] : value['attribute_name'],
                 validation: [Validators.required],
                 styles: {
                   'width': '400px'
@@ -365,7 +577,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         // }
       }
       case 1: {
-        console.log('form333', this.formThirdProject);
+        // console.log('form333', this.formThirdProject);
         this.formData['microservices'][0] = {
           storageSize: 0,
           scaling_mode: 'MANUAL',
@@ -380,20 +592,23 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         }
         if (this.serviceId) {
           // console.log('这是seriveId', this.serviceId);
-          await this.getServiceVersion();
-          this.formThird[2] = {
-            type: 'select',
-            label: '服务版本',
-            name: 'version',
-            options: this.serviceVersion$,
-            placeholder: '选择服务版本',
-            validation: [Validators.required],
-            styles: {
-              'width': '400px'
-            },
-            // ifTags: 'true'
-          };
-          this.formThirdProject.setValue('version', this.formThird[2]);
+          // await this.getServiceVersion();
+          // this.formThird[2] = {
+          //   type: 'select',
+          //   label: '服务版本',
+          //   name: 'version',
+          //   options: this.serviceVersion$,
+          //   placeholder: '选择服务版本',
+          //   validation: [Validators.required],
+          //   styles: {
+          //     'width': '400px'
+          //   },
+          //   // ifTags: 'true'
+          // };
+          // this.formThirdProject.setValue('version', this.formThird[2]);
+          await this.getIpTag();
+          await this.getServiceBasic();
+          this.formThird1Project.setConfig(this.formThird1);
           await this.getServiceAdvanced();
           this.formThird2Project.setConfig(this.formThird2);
         }
@@ -430,6 +645,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         // }
       })
     }
+    if (this.formThird1Radios) {
+      _.map(this.formThird1Radios, (value, key) => {
+        
+      })
+    }
     console.log('formThird2', this.formThird2Project);
     console.log('instance', this.instanceThird);
     // this._message.success('done');
@@ -437,11 +657,12 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       storageSize: 0,
       serviceId: this.serviceId,
       instanceName: this.formThirdProject.value['instanceName'],
-      instancesCount: parseInt(this.formThirdProject.value['instancesCount']),
-      cpuSize: this.instanceThird.value['cpuSize'] * this.formThirdProject.value['instancesCount'],
-      memSize: this.instanceThird.value['memSize'] * this.formThirdProject.value['instancesCount'],
+      instancesCount: parseInt(this.formThird1Project.value['num_of_nodes']),
+      cpuSize: this.instanceThird.value['cpuSize'] * this.formThird1Project.value['num_of_nodes'],
+      memSize: this.instanceThird.value['memSize'] * this.formThird1Project.value['num_of_nodes'],
       clusterName: this.radioValue === 'prodDomain' ? 'ebd' : 'cmss',
       info: {
+        basic_config: this.formThird1Project.value,
         advanced_config: _.assign(this.formThird2Project.value, this.formThird2RadioEntity)
       }
     }
@@ -466,20 +687,23 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         this.serviceId = value['id'];
       }
     });
-    await this.getServiceVersion();
-    this.formThird[2] = {
-      type: 'select',
-      label: '服务版本',
-      name: 'version',
-      options: this.serviceVersion$,
-      placeholder: '选择服务版本',
-      validation: [Validators.required],
-      styles: {
-        'width': '400px'
-      },
-      // ifTags: 'true'
-    };
-    this.formThirdProject.setValue('version', this.formThird[2]);
+    // await this.getServiceVersion();
+    // this.formThird[2] = {
+    //   type: 'select',
+    //   label: '服务版本',
+    //   name: 'version',
+    //   options: this.serviceVersion$,
+    //   placeholder: '选择服务版本',
+    //   validation: [Validators.required],
+    //   styles: {
+    //     'width': '400px'
+    //   },
+    //   // ifTags: 'true'
+    // };
+    // this.formThirdProject.setValue('version', this.formThird[2]);
+    await this.getIpTag();
+    await this.getServiceBasic();
+    this.formThird1Project.setConfig(this.formThird1);
     // 这里获取服务的advanced_config
     await this.getServiceAdvanced();
     console.log('这是formThird2', this.formThird2);
@@ -496,7 +720,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         return !this.formSecondProject.valid;
       }
       case 2: {
-        return !this.formThirdProject.valid || !this.formThird2Project.valid;
+        return !this.formThirdProject.valid || !this.formThird2Project.valid || !this.formThird1Project.valid;
+        // return  !this.formThird2Project.valid || !this.formThird1Project.valid;
       }
     }
   }
@@ -529,10 +754,9 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   }
 
   async ngOnInit() {
-    var test = this.formThirdProject;
     await this.getIpTag();
     // this.getServiceVersion();
-    this.toggleButton();
+    // this.toggleButton();
     this.http.get(environment.api + '/api/2/warehouse/repository').subscribe(data => {
       this.images = _.map(data['images'], (value, key) => {
         return value;
@@ -559,10 +783,9 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     // @ViewChild('form2') form2: DynamicFormComponent;
     console.log('form111', this.formFirstProject);
     console.log('form222', this.formSecondProject);
-    console.log('form333', this.formThirdProject);
+    // console.log('form333', this.formThirdProject);
     console.log('instance2', this.instanceSecond);
     console.log('instance3', this.instanceThird);
-    var test = this.formThirdProject;
     // console.log('form111', this.formFirstProject);
   }
 

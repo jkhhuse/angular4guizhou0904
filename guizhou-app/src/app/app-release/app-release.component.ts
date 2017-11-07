@@ -85,10 +85,16 @@ export class AppReleaseComponent implements OnInit {
       label: '发布',
       name: 'submit',
       type: 'button',
+      buttonType: 'primart',
       styles: {
-
+        'margin-left': '20%'
+      },
+      divStyles: {
+        'width': '80%',
+        'border-top': '1px solid #ddd',
+        'padding-top': '20px'
       }
-    }
+    },
   ]
 
   FileSelected() {
@@ -162,7 +168,13 @@ export class AppReleaseComponent implements OnInit {
             "registryId": this.imageOriginId,
             "repositoryName": formValue.appName + '-' + _.replace(value, '.', ''),
             "version": formValue.version
-          }).toPromise().then((response) => {
+            // }).toPromise().then((response) => {
+            //   console.log('这是response', response);
+            //   this.imageIdArr[key] = response;
+            //   this.repositories[key] = this.imageIdArr[key]['id'];
+            //   resolve();
+            // });
+          }).subscribe(response => {
             console.log('这是response', response);
             this.imageIdArr[key] = response;
             this.repositories[key] = this.imageIdArr[key]['id'];
@@ -268,6 +280,14 @@ export class AppReleaseComponent implements OnInit {
   createNotification = (type, title, content, options) => {
     this._notification.create(type, title, content, options);
   };
+
+  buttonDisabled() {
+    return !this.form.valid;
+  }
+
+  pre() {
+
+  }
 
   async submit(value: { [name: string]: any }) {
     // console.log('看下load', this.loadImage(value));

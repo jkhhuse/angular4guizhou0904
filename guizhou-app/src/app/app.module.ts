@@ -39,6 +39,7 @@ import { AppReleaseComponent } from './app-release/app-release.component';
 import { HashLocationStrategy, LocationStrategy } from "@angular/common";
 import { AppDeployComponent } from './app-deploy/app-deploy.component';
 import { ContainerInstanceComponent } from './container-instance/container-instance.component';
+import { ServiceSubscribeComponent } from './service-subscribe/service-subscribe.component';
 
 
 
@@ -68,6 +69,7 @@ import { ContainerInstanceComponent } from './container-instance/container-insta
         AppReleaseComponent,
         AppDeployComponent,
         ContainerInstanceComponent,
+        ServiceSubscribeComponent,
     ],
     imports: [
         BrowserModule,

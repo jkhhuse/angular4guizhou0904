@@ -15,6 +15,7 @@ import { ServiceInstanceDetailComponent } from "./service-instance-detail/servic
 import { AppReleaseComponent } from "./app-release/app-release.component";
 import { AppDeployComponent } from "./app-deploy/app-deploy.component";
 import { ComponentTestComponent } from "./component-test/component-test.component";
+import { ServiceSubscribeComponent } from "./service-subscribe/service-subscribe.component";
 
 const routes: Routes = [
     // 这里用来组件测试
@@ -27,6 +28,7 @@ const routes: Routes = [
     { path: 'appStore', component: AppStoreComponent },
     { path: 'appDetail/:module/:name/:tabName', component: AppDetailComponent },
     { path: 'appDeploy', component: AppDeployComponent },
+    { path: 'serviceSubscribe/:serviceId', component: ServiceSubscribeComponent },
 
     { path: 'serviceCatalog', component: ServiceCatalogComponent },
     { path: 'serviceDetail/:module/:serviceId/:tabName', component: ServiceDetailComponent },

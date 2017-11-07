@@ -1,8 +1,8 @@
-<div class="dynamic-field form-button" [formGroup]="group">
+<div [ngStyle]="config.divStyles" class="dynamic-field form-button" [formGroup]="group">
   <!-- <button [disabled]="config.disabled" type="submit">
     {{ config.label }}
   </button> -->
-  <button [ngStyle]="config.styles" nz-button [nzType]="'primary'" [disabled]="config.disabled" type="submit">
+  <button [ngStyle]="config.styles" nz-button [nzType]="config.buttonType" [disabled]="config.disabled" type="submit">
     <span>{{ config.label }}</span>
   </button>
 </div>
