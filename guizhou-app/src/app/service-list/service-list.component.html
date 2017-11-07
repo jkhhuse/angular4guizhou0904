@@ -4,7 +4,7 @@
             <div nz-col [nzSpan]="6">
                 <nz-card>
                     <ng-template #body>
-                        <a *ngIf="!service.appName"[routerLink]="['/'+moduleName+'Detail', moduleName, service.repositoryName ? service.repositoryName : service.id, tabName]">
+                        <a *ngIf="!service.appName"[routerLink]="['/'+moduleName+'Detail', moduleName, service.repositoryName ? service.repositoryName : service.serviceName + '@' + service.id, tabName]">
                             <div class="custom-image">
                                 <img [src]="serviceImgUrl" alt="" width="100%"/>
                             </div>

@@ -41,6 +41,6 @@ export class RandomUserService {
         params.set('results', `${pageSize}`);
         params.set('sortField', sortField);
         params.set('sortOrder', sortOrder);
-        return this.http.get(environment.apiApp + '/apiApp' + '/groups/2/clusters/' + tabName + '/overviews', {search: params}).map(res => res.json());
+        return this.http.get(environment.apiApp + '/apiApp' + '/groups/2/clusters/' + 'cmss' + '/overviews', {search: params}).map(res => res.json());
     }
 }
