@@ -10,6 +10,8 @@ export interface FieldConfig {
     validation?: ValidatorFn[],
     value?: any,
     styles?: any,
+    buttonType?: any,
+    divStyles?: any,
     ifTags?: string,
     inputType?: string,
     defaultValue?: any,

@@ -1,3 +1,14 @@
+nz-layout {
+    background: #fff;
+    padding: 20px;
+}
+nz-header, nz-content, nz-footer {
+    background: #fff;
+    padding: 0
+}
+a{
+    font-size: 16px;
+}
 .steps-content {
     // margin-top: 16px;
     // border: 1px dashed #e9e9e9;
@@ -9,18 +20,11 @@
 }
 
 .steps-action {
-    border-top: 1px solid #ddd;
-    width: 80%;
-    padding-top: 20px;
     // margin-top: 24px;
 }
 
 nz-header, nz-content, nz-footer {
     background: #fff
-}
-
-nz-content {
-    padding: 0px;
 }
 p {
     font-size: 16px;
@@ -44,5 +48,12 @@ p {
 }
 
 .marginTop20 {
-    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.steps-action {
+    border-top: 1px solid #ddd;
+    width: 80%;
+    padding-top: 20px;
+    // margin-top: 24px;
 }

@@ -16,7 +16,7 @@
         </div>
         <div nz-col [nzSpan]="6" [nzOffset]="12">
             <div class="detail-btn-group">
-                <button nz-button [nzType]="'primary'" [nzSize]="'large'">
+                <button [routerLink]="['/serviceSubscribe', serviceId]" nz-button [nzType]="'primary'" [nzSize]="'large'">
                     <span>订阅</span>
                 </button>
                 <button nz-button [nzType]="'default'" [nzSize]="'large'" class="detail-noraml-btn">

@@ -1,9 +1,17 @@
+nz-layout{
+    background: #fff;
+    padding: 20px;
+}
+
 nz-header, nz-content, nz-footer {
     background: #fff
 }
 
 nz-header {
     padding: 0;
+    width: 80%;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
 }
 
 nz-content {
@@ -13,6 +21,7 @@ nz-content {
         line-height: 30px;
     }
     .file {
+        margin-left: 10px;
         cursor: pointer;
         width: 90px;
         position: relative;
@@ -44,9 +53,9 @@ nz-content {
         }
     }
     nz-table {
-        th, td {
-            width: 33.3%;
-        }
+        // th, td {
+        //     width: 33.3%;
+        // }
     }
     .ant-row {
         margin-bottom: 10px;
@@ -54,5 +63,7 @@ nz-content {
 }
 
 nz-footer {
-    padding: 0;
+    // width: 80%;
+    // border-top: 1px solid #ddd;
+    // padding-top: 20px;
 }
