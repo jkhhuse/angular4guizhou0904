@@ -16,6 +16,7 @@ import { AppReleaseComponent } from "./app-release/app-release.component";
 import { AppDeployComponent } from "./app-deploy/app-deploy.component";
 import { ComponentTestComponent } from "./component-test/component-test.component";
 import { ServiceSubscribeComponent } from "./service-subscribe/service-subscribe.component";
+import { BuildImageComponent } from "./build-image/build-image.component";
 
 const routes: Routes = [
     // 这里用来组件测试
@@ -38,6 +39,7 @@ const routes: Routes = [
     { path: 'serviceInstanceDetail/:instanceId', component: ServiceInstanceDetailComponent },
 
     { path: 'repositoryStore', component: MirrorStoreComponent },
+    { path: 'buildImage', component: BuildImageComponent },
     { path: 'repositoryDetail/:module/:name/:tabName', component: RepositoryDetailComponent },
     { path: 'fileCenter', component: FileCenterComponent },
 

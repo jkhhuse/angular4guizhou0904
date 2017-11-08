@@ -40,6 +40,7 @@ import { HashLocationStrategy, LocationStrategy } from "@angular/common";
 import { AppDeployComponent } from './app-deploy/app-deploy.component';
 import { ContainerInstanceComponent } from './container-instance/container-instance.component';
 import { ServiceSubscribeComponent } from './service-subscribe/service-subscribe.component';
+import { BuildImageComponent } from './build-image/build-image.component';
 
 
 
@@ -70,6 +71,7 @@ import { ServiceSubscribeComponent } from './service-subscribe/service-subscribe
         AppDeployComponent,
         ContainerInstanceComponent,
         ServiceSubscribeComponent,
+        BuildImageComponent,
     ],
     imports: [
         BrowserModule,
