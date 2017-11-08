@@ -654,12 +654,13 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         // }
       })
     }
-    if (this.formThird1Radios) {
-      _.map(this.formThird1Radios, (value, key) => {
-        const valueName$ = value.name;
-        this.formThird1RadioEntity[valueName$] = value.instance_size;
-      })
-    }
+    // if (this.formThird1Radios) {
+    //   _.map(this.formThird1Radios, (value, key) => {
+    //     const valueName$ = value.name;
+    //     this.formThird1RadioEntity[valueName$] = value.instance_size;
+    //   })
+    // }
+    this.formThird1RadioEntity[this.instanceThird.value['name']] = this.instanceThird.value['instance_size']
     this.formThird1Project.value['num_of_nodes'] = parseInt(this.formThird1Project.value['num_of_nodes']);
     // if (this.formThird1Project.value['ip_tag'].length === 1) {
     //   const arr = [];
