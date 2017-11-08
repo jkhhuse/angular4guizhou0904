@@ -23,3 +23,7 @@ body, html{
 *{
     font-family: SourceHanSans-Light, sans-serif;
 }
+
+.marginTop20 {
+    margin-bottom: 20px;
+}

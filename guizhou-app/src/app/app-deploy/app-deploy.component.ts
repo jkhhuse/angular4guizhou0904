@@ -11,7 +11,8 @@ import {
 import { enableProdMode } from '@angular/core';
 enableProdMode();
 import { Validators } from '@angular/forms';
-import { NzMessageService } from 'ng-zorro-antd';
+import { ActivatedRoute } from '@angular/router';
+import { NzModalService, NzNotificationService, NzMessageService } from 'ng-zorro-antd';
 import { HttpClient } from "@angular/common/http";
 import { HttpParams } from "@angular/common/http";
 import * as _ from 'lodash';
@@ -30,6 +31,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   AfterContentInit, AfterContentChecked,
   AfterViewInit, AfterViewChecked,
   OnDestroy {
+  appId: string = '';
   formData: object = {
     createUserId: 1,
     groupId: 2,
@@ -252,17 +254,22 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       if (this.radioValue === 'prodDomain') {
         this.http.get(environment.apiAlauda + '/regions/alauda/ebd/nodes').subscribe(data => {
           console.log('这是主机标签', data);
-          this.ipTag$ = _.map(data, (value, key) => {
-            return value['private_ip'];
-          });
+          this.ipTag$ = _.compact(_.map(data, (value, key) => {
+            if (value['labels'].length > 0) {
+              return value['private_ip'];
+            }
+          }));
+          
           resolve();
         });
       } else {
         this.http.get(environment.apiAlauda + '/regions/alauda/cmss/nodes').subscribe(data => {
           console.log('这是主机标签', data);
-          this.ipTag$ = _.map(data, (value, key) => {
-            return value['private_ip'];
-          });
+          this.ipTag$ = _.compact(_.map(data, (value, key) => {
+            if (value['labels'].length > 0) {
+              return value['private_ip'];
+            }
+          }));
           resolve();
         });
       }
@@ -409,6 +416,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 })
                 _.map(cluserOption, (valueIns, keyIns) => {
                   this.formThird1Radios[keyIns] = {
+                    name: value['attribute_name'],
                     instance_size: valueIns.insSize,
                     cpuSize: valueIns.cpuSize,
                     memSize: valueIns.memSize,
@@ -452,6 +460,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 options$ = this.ipTag$;
               }
               this.formThird1[key] = {
+                ifTags: value['attribute_name'] === 'ip_tag' ? 'true' : 'false',
                 type: 'select',
                 label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
                 name: value['attribute_name'],
@@ -647,9 +656,16 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     }
     if (this.formThird1Radios) {
       _.map(this.formThird1Radios, (value, key) => {
-        
+        const valueName$ = value.name;
+        this.formThird1RadioEntity[valueName$] = value.instance_size;
       })
     }
+    this.formThird1Project.value['num_of_nodes'] = parseInt(this.formThird1Project.value['num_of_nodes']);
+    // if (this.formThird1Project.value['ip_tag'].length === 1) {
+    //   const arr = [];
+    //   arr[0] = this.formThird1Project.value['ip_tag'];
+    //   this.formThird1Project.value['ip_tag'] = arr;
+    // }
     console.log('formThird2', this.formThird2Project);
     console.log('instance', this.instanceThird);
     // this._message.success('done');
@@ -662,10 +678,27 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       memSize: this.instanceThird.value['memSize'] * this.formThird1Project.value['num_of_nodes'],
       clusterName: this.radioValue === 'prodDomain' ? 'ebd' : 'cmss',
       info: {
-        basic_config: this.formThird1Project.value,
+        basic_config: _.assign(this.formThird1Project.value, this.formThird1RadioEntity),
         advanced_config: _.assign(this.formThird2Project.value, this.formThird2RadioEntity)
       }
     }
+    this.http.post(environment.apiApp + '/apiApp/applications/' + this.appId + '/instances', this.formData).subscribe(data => {
+      console.log('应用部署成功', data);
+      this.confirmServ.success({
+        maskClosable: false,
+        title: '应用部署成功!',
+        content: '点确认按钮跳转到应用商城',
+        okText: '确定',
+        onOk() {
+          // .contentControl = true;
+          // console.log('form11', thisParent.form);
+          // const redirect = window.location.host + '/#/appStore';
+          window.location.href = window.location.origin + '/#/appStore';
+        },
+        onCancel() {
+        }
+      });
+    })
     console.log('formData', this.formData);
   }
   // todo 这里两个choosed函数可以优化
@@ -750,10 +783,12 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     }
   }
 
-  constructor(private _message: NzMessageService, private http: HttpClient) {
+  constructor(private confirmServ: NzModalService, 
+    private _message: NzMessageService, private http: HttpClient, private routeInfo: ActivatedRoute) {
   }
 
   async ngOnInit() {
+    this.appId = this.routeInfo.snapshot.params['appId'];
     await this.getIpTag();
     // this.getServiceVersion();
     // this.toggleButton();

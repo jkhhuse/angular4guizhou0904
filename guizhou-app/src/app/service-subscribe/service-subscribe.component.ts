@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Validators } from '@angular/forms';
-import { NzMessageService } from 'ng-zorro-antd';
+import { NzModalService, NzNotificationService, NzMessageService } from 'ng-zorro-antd';
 import { HttpClient } from "@angular/common/http";
 import { HttpParams } from "@angular/common/http";
 import { environment } from "../../environments/environment";
@@ -28,7 +28,15 @@ export class ServiceSubscribeComponent implements OnInit {
   private radioValue = "prodDomain";
   private serviceId: string;
   private ipTag$ = [];
-  private formData: object = {};
+  private formData: object = {
+    serviceInstances: [
+      {
+        storageSize: 0,
+        createUserId: 1,
+        groupId: 2,
+      }
+    ]
+  };
 
   @ViewChild('formThirdProject') formThirdProject: DynamicFormComponent;
   @ViewChild('instanceThird') instanceThird: ContainerInstanceComponent;
@@ -53,25 +61,30 @@ export class ServiceSubscribeComponent implements OnInit {
   @ViewChild('formThird2Project') formThird2Project: DynamicFormComponent;
   formThird2: FieldConfig[] = [];
   formThird2Radios: object[] = [];
+  formThird2RadioEntity: object = {};
 
-  constructor(private routeInfo: ActivatedRoute, private http: HttpClient) { }
+  constructor(private confirmServ: NzModalService, private routeInfo: ActivatedRoute, private http: HttpClient) { }
 
   getIpTag() {
     return new Promise((resolve, reject) => {
       if (this.radioValue === 'prodDomain') {
         this.http.get(environment.apiAlauda + '/regions/alauda/ebd/nodes').subscribe(data => {
           console.log('这是主机标签', data);
-          this.ipTag$ = _.map(data, (value, key) => {
-            return value['private_ip'];
-          });
+          this.ipTag$ = _.compact(_.map(data, (value, key) => {
+            if (value['labels'].length > 0) {
+              return value['private_ip'];
+            }
+          }));
           resolve();
         });
       } else {
         this.http.get(environment.apiAlauda + '/regions/alauda/cmss/nodes').subscribe(data => {
           console.log('这是主机标签', data);
-          this.ipTag$ = _.map(data, (value, key) => {
-            return value['private_ip'];
-          });
+          this.ipTag$ = _.compact(_.map(data, (value, key) => {
+            if (value['labels'].length > 0) {
+              return value['private_ip'];
+            }
+          }));
           resolve();
         });
       }
@@ -261,6 +274,7 @@ export class ServiceSubscribeComponent implements OnInit {
                 options$ = this.ipTag$;
               }
               this.formThird1[key] = {
+                ifTags: value['attribute_name'] === 'ip_tag' ? 'true' : 'false',
                 type: 'select',
                 label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
                 name: value['attribute_name'],
@@ -381,7 +395,61 @@ export class ServiceSubscribeComponent implements OnInit {
   }
 
   done() {
-    console.log('这是formdata');
+    if (this.formThird2Radios) {
+      _.map(this.formThird2Radios, (value, key) => {
+        // console.log('打印radio', value);
+        const valueName$ = value.name;
+        this.formThird2RadioEntity[valueName$] = value.defaultValue;
+        // this.formThird2RadioEntity[key] = {
+        //   [valueName$]: value.defaultValue
+        // }
+      })
+    }
+    if (this.formThird1Radios) {
+      _.map(this.formThird1Radios, (value, key) => {
+        const valueName$ = value.name;
+        this.formThird1RadioEntity[valueName$] = value.instance_size;
+      })
+    }
+    this.formThird1Project.value['num_of_nodes'] = parseInt(this.formThird1Project.value['num_of_nodes']);
+    // if (this.formThird1Project.value['ip_tag'].length === 1) {
+    //   const arr = [];
+    //   arr[0] = this.formThird1Project.value['ip_tag'];
+    //   this.formThird1Project.value['ip_tag'] = arr;
+    // }
+    this.formData['serviceInstances'][0] = {
+      storageSize: 0,
+      createUserId: 1,
+      groupId: 2,
+      serviceId: this.serviceId,
+      instanceName: this.formThirdProject.value['instanceName'],
+      instancesCount: parseInt(this.formThird1Project.value['num_of_nodes']),
+      cpuSize: this.instanceThird.value['cpuSize'] * this.formThird1Project.value['num_of_nodes'],
+      memSize: this.instanceThird.value['memSize'] * this.formThird1Project.value['num_of_nodes'],
+      clusterName: this.radioValue === 'prodDomain' ? 'ebd' : 'cmss',
+      info: {
+        basic_config: _.assign(this.formThird1Project.value, this.formThird1RadioEntity),
+        advanced_config: _.assign(this.formThird2Project.value, this.formThird2RadioEntity)
+      }
+    }
+    this.http.post(environment.apiService + '/apiService/services/' + this.serviceId + '/instances', 
+    this.formData['serviceInstances'][0]).subscribe(data => {
+      console.log('服务订购成功', data);
+      this.confirmServ.success({
+        maskClosable: false,
+        title: '服务订购成功!',
+        content: '点确认按钮跳转到服务商城',
+        okText: '确定',
+        onOk() {
+          // .contentControl = true;
+          // console.log('form11', thisParent.form);
+          // const redirect = window.location.host + '/#/appStore';
+          window.location.href = window.location.origin + '/#/serviceCatalog';
+        },
+        onCancel() {
+        }
+      });
+    })
+    console.log('这是formdata', this.formData);
   }
-
 }
