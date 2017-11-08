@@ -29,6 +29,14 @@ export class ServiceDetailComponent implements OnInit {
     getServiceInstances(serviceName):  Observable<any[]> {
         return this.http.get(environment.apiService + '/apiService' + '/groups/2/services/' + serviceName + '/instances').map(res => res.json());
     }
+    // 删除服务接口
+    deleteService(serviceId, serviceName): void {
+        console.log('删除服务实例：' + serviceName + '  ' + serviceId);
+        // 返回是string 不是json
+        this.http.delete(environment.apiService + '/apiService' + '/groups/2/service-instances/' + serviceId).subscribe((data) => {
+            console.log(data.status);  // 返回状态204删除成功
+        });
+    }
     constructor(private routeInfo: ActivatedRoute, private servicesService: ServicesService, private http: Http) {
     }
 

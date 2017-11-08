@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build -base-href /passWrapper/WebContent/",
+    "build": "ng build -base-href /pass/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
