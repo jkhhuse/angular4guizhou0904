@@ -31,11 +31,11 @@
                                 <span style="color: #999999">{{service.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                                 <span class="pull-right">
                                     <span *ngIf="service.repositoryName" class="glyphicon glyphicon-trash"
-                                          (click)="deleteMirror(service.repositoryName)">a</span>
+                                          (click)="deleteMirror(service.repositoryName)"></span>
                                     <!--<span *ngIf="service.serviceName" class="glyphicon glyphicon-trash"
                                           (click)="deleteService(service.id, service.serviceName)">b</span>-->
                                      <span *ngIf="service.appName" class="glyphicon glyphicon-trash"
-                                           (click)="deleteApp(service.id, service.appName)">c</span>
+                                           (click)="deleteApp(service.id, service.appName)"></span>
                                 </span>
                             </div>
                         </div>

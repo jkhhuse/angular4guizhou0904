@@ -39,11 +39,21 @@ export class AppStoreComponent implements OnInit {
     changeAppName(appName): void {
         this.appName = appName;
     }
+    getUserId(): string  {
+        // const url = window.location.href;
+        const url = 'http://10.254.3.120:8080/pass/#/appStore?userId=1';
+        console.log('url: ' + url);
+        const search = url.split('?');
+        console.log('search: ' + search);
+        const searchArray = search[1].split('=');
+        console.log('searchArray: ' + searchArray);
+        return searchArray[1];
+    }
 
     constructor() {
     }
 
     ngOnInit() {
+        console.log('this.getUserId(): ' + this.getUserId());
     }
-
 }
