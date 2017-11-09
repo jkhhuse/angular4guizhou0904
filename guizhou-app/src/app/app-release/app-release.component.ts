@@ -134,6 +134,7 @@ export class AppReleaseComponent implements OnInit {
           console.log('form11', thisParent.form);
         },
         onCancel() {
+          window.location.href = window.location.origin + '/#/appStore';
         }
       });
     }
