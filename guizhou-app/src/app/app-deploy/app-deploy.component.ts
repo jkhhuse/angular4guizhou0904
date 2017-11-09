@@ -571,6 +571,9 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   //region pre
   pre() {
     this.current -= 1;
+    if (this.current === -1) {
+      window.location.href = window.location.origin + '/#/appStore';
+    }
     this.changeContent();
   }
   //endregion pre
