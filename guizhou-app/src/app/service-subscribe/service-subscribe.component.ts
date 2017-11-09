@@ -391,7 +391,7 @@ export class ServiceSubscribeComponent implements OnInit {
   }
 
   pre() {
-
+    window.location.href = window.location.origin + '/#/serviceCatalog';
   }
 
   done() {
