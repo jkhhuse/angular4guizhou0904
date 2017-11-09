@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AppOutput} from '../header/header.component';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
+import {Http} from '@angular/http';
+import {ServicesService} from '../shared/services.service';
 
 @Component({
     selector: 'app-app-store',
@@ -9,6 +11,8 @@ import {FormControl} from "@angular/forms";
 })
 export class AppStoreComponent implements OnInit {
     private _current = 1;
+    public data: any = '';
+    public groupList: any = '';
     public title: String = '应用商城';
     mirrorImgUrl = 'assets/service/mysql.png';
     appName: String = 'private';
@@ -39,21 +43,19 @@ export class AppStoreComponent implements OnInit {
     changeAppName(appName): void {
         this.appName = appName;
     }
-    getUserId(): string  {
-        // const url = window.location.href;
-        const url = 'http://10.254.3.120:8080/pass/#/appStore?userId=1';
-        console.log('url: ' + url);
-        const search = url.split('?');
-        console.log('search: ' + search);
-        const searchArray = search[1].split('=');
-        console.log('searchArray: ' + searchArray);
-        return searchArray[1];
-    }
 
-    constructor() {
+    constructor(private servicesService: ServicesService, private http: Http) {
     }
 
     ngOnInit() {
-        console.log('this.getUserId(): ' + this.getUserId());
+        this.groupList = this.servicesService.getGroupList();
+        // 订阅流，获取grouplist
+        this.groupList.subscribe((data) => {
+            this.data = data;
+            if (this.data.user) {
+                this.groupList = this.data.user.groups;
+                console.log(this.groupList);
+            }
+        });
     }
 }

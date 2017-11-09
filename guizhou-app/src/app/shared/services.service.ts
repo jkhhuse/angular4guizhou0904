@@ -6,7 +6,7 @@ import {environment} from "../../environments/environment";
 
 @Injectable()
 export class ServicesService {
-
+    private userId: string;
     constructor(private http: Http) {
     }
     getServices(tabName, moduleName): Observable<any[]> {
@@ -32,10 +32,34 @@ export class ServicesService {
             .toPromise()
             .then(response => response.json().data as Services[]);
     }
+    // 通过url获取op侧的userid
+    getUserId(): string  {
+        // const url = window.location.href;
+        const url = 'http://10.254.3.120:8080/pass/#/appStore?userId=1';
+        console.log('url: ' + url);
+        if (!!url) {
+            const search = url.split('?');
+            if (!!search) {
+                const searchArray = search[1].split('=');
+                console.log('searchArray: ' + searchArray);
+                return searchArray[1];
+            }
+        } else {
+            return '';
+        }
+    }
+    getGroupList(): any {
+        this.userId = this.getUserId();
+        console.log('user: ' + this.userId);
+        if (this.userId === '') {
+            return '';
+        } else {
+            return this.http.get(environment.apiOP + '/renter/users/' + this.userId + '/groups?roleName=all').map(res => res.json());
+        }
+    }
 }
 
 export class Services {
-
     constructor(public name: string,
                 public createTime: string,
                 public updateTime: string,
