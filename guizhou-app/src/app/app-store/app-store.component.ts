@@ -12,7 +12,7 @@ import {ServicesService} from '../shared/services.service';
 export class AppStoreComponent implements OnInit {
     private _current = 1;
     public data: any = '';
-    public groupList: any = '';
+    public groupList: any;
     public title: String = '应用商城';
     mirrorImgUrl = 'assets/service/mysql.png';
     appName: String = 'private';
@@ -48,14 +48,11 @@ export class AppStoreComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.groupList = this.servicesService.getGroupList();
-        // 订阅流，获取grouplist
-        this.groupList.subscribe((data) => {
-            this.data = data;
-            if (this.data.user) {
-                this.groupList = this.data.user.groups;
-                console.log(this.groupList);
-            }
+        // 订阅流
+        this.servicesService.getGroupList().subscribe((data) => {
+            // 过滤出需要的数据，拼接成一个array
+            this.groupList  =  this.servicesService.getGroupNameList(data);
+            console.log('groupList: ' + this.groupList);
         });
     }
 }

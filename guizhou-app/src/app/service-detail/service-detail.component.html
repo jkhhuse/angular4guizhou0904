@@ -137,8 +137,6 @@
                                     <div class="card-content">
                                         <span style="color: #999999">{{serviceInstance.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                                         <span class="pull-right">
-                                            <p>{{serviceInstance.id}}</p>
-                                            <p>{{serviceInstance.instanceName}}</p>
                                             <span *ngIf="serviceInstance.instanceName" class="glyphicon glyphicon-trash"
                                                   (click)="deleteService(serviceInstance.id, serviceInstance.instanceName)"></span>
                                 </span>

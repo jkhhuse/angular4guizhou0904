@@ -29,5 +29,4 @@ export class ServiceInstanceDetailComponent implements OnInit {
             this.instanceDetail = data;
         });
     }
-
 }
