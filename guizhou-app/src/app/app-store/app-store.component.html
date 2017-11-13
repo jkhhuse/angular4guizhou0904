@@ -12,7 +12,7 @@
     接受到子组件header传来的title为{{childTitle}}
 </p>-->
 <app-header [title]="title"></app-header>
-<app-group-select [groupList]="groupList"></app-group-select>
+<app-group-select [groupList]="groupList" (groupidHandler)="groupidHandler($event)"></app-group-select>
 
 <nz-content class="app-store-wrapper">
     <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" class="appTab">
@@ -23,7 +23,9 @@
             <div nz-row class="app-btns-wrapper">
                 <div nz-col [nzSpan]="6" class="catalog-option">
                     <button nz-button [nzType]="'primary'" routerLink="/appRelease">发布</button>
+<!--
                     <button nz-button [nzType]="'default'" class="btn">删除</button>
+-->
                 </div>
                 <div nz-col [nzSpan]="6" [nzOffset]="12">
                     <div class="input-group">

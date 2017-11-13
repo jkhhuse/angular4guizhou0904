@@ -42,6 +42,7 @@ import { ContainerInstanceComponent } from './container-instance/container-insta
 import { ServiceSubscribeComponent } from './service-subscribe/service-subscribe.component';
 import { BuildImageComponent } from './build-image/build-image.component';
 import { GroupSelectComponent } from './group-select/group-select.component';
+import {CookieService} from "angular2-cookie/core";
 
 
 
@@ -92,6 +93,7 @@ import { GroupSelectComponent } from './group-select/group-select.component';
         ApplicationService,
         RandomUserService,
         ServicesService,
+        CookieService,
         { provide: LocationStrategy, useClass: HashLocationStrategy }
     ],
     bootstrap: [AppComponent]

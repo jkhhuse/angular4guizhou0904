@@ -3,12 +3,13 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 import {Http} from '@angular/http';
 import {environment} from "../../environments/environment";
+import { CookieService } from 'angular2-cookie';
 
 @Injectable()
 export class ServicesService {
     private userId: string;
 
-    constructor(private http: Http) {
+    constructor(private http: Http, private _cookieService: CookieService) {
     }
 
     getServices(tabName, moduleName): Observable<any[]> {
@@ -86,6 +87,12 @@ export class ServicesService {
         } else {
             return [];
         }
+    }
+    getCookie(key: string) {
+        return this._cookieService.get(key);
+    }
+    setCookie(key: string, group: any) {
+        return this._cookieService.put(key, group);
     }
 }
 

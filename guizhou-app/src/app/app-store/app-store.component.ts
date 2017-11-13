@@ -17,6 +17,7 @@ export class AppStoreComponent implements OnInit {
     mirrorImgUrl = 'assets/service/mysql.png';
     appName: String = 'private';
     titleFilter: FormControl = new FormControl();
+    public groupid: any;
     public childTitle: String;
     appOutput: AppOutput = new AppOutput('', 0);
     private tabs = [
@@ -40,6 +41,12 @@ export class AppStoreComponent implements OnInit {
         this.childTitle = event;
     }
 
+    groupidHandler(event: any) {
+        console.log('app event: ' + event);
+        this.groupid = event;
+        console.log('app get groupid: ' + this.groupid);
+    }
+
     changeAppName(appName): void {
         this.appName = appName;
     }
@@ -48,11 +55,20 @@ export class AppStoreComponent implements OnInit {
     }
 
     ngOnInit() {
-        // 订阅流
-        this.servicesService.getGroupList().subscribe((data) => {
+        this.groupList = ['BDOC-TEST-11?5', 'test111?8', 'asd?7'];
+        // 如果groupid是空的，去cookie里面取得默认值
+        if (this.groupid = 'undefined') {
+            this.groupid = this.servicesService.getCookie('groupID');
+        }
+        console.log('groupList: ' + this.groupList);
+        console.log('groupID 默认: ' + this.groupid);
+        console.log('groupID cookie: ' + this.servicesService.getCookie('groupID'));
+
+        // 订阅op的group流
+       /* this.servicesService.getGroupList().subscribe((data) => {
             // 过滤出需要的数据，拼接成一个array
-            this.groupList  =  this.servicesService.getGroupNameList(data);
+            // this.groupList  =  this.servicesService.getGroupNameList(data);
             console.log('groupList: ' + this.groupList);
-        });
+        });*/
     }
 }
