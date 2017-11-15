@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { Field } from '../../models/field.interface';
@@ -15,5 +15,13 @@ export class FormSelectComponent implements Field {
 
   get validation() {
     return this.group.get(this.config.name);
+  }
+
+  @Output() valueArr = new EventEmitter<any>();
+
+  valueArrEntity() {
+    const value$ = this.group.get(this.config.name).value;
+    this.valueArr.emit(value$);
+    // return this.group.get(this.config.name).value;
   }
 }

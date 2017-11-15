@@ -27,6 +27,7 @@ import * as _ from 'lodash';
 export class ServiceSubscribeComponent implements OnInit {
   private radioValue = "prodDomain";
   private serviceId: string;
+  private serviceName: string;
   private ipTag$ = [];
   private formData: object = {
     serviceInstances: [
@@ -63,12 +64,66 @@ export class ServiceSubscribeComponent implements OnInit {
   formThird2Radios: object[] = [];
   formThird2RadioEntity: object = {};
 
+  @ViewChild('formThird3Project') formThird3Project: DynamicFormComponent;
+  formThird3: object[] = [
+    {
+      type: 'select',
+      label: 'Master 节点地址',
+      name: 'master_node_addr',
+      options: [],
+      placeholder: '请选择master节点地址',
+      validation: [Validators.required],
+      styles: {
+        'width': '400px'
+      },
+    }
+  ];
+  formThird3Entity: object = {};
+
   constructor(private confirmServ: NzModalService, private routeInfo: ActivatedRoute, private http: HttpClient) { }
+
+  toggleRadio() {
+    // console.log(this.formThird2Radio.defaultValue);
+    _.map(this.formThird2Radios, (value, key) => {
+      if (value.name === 'mode') {
+        if (value.defaultValue === 'replication') {
+          const options$ = this.formThird1Project.value['ip_tag'];
+          this.formThird3[0] = {
+            type: 'select',
+            label: 'Master 节点地址',
+            name: 'master_node_addr',
+            options: options$,
+            placeholder: '请选择master节点地址',
+            validation: [Validators.required],
+            styles: {
+              'width': '400px'
+            },
+          }
+        } else {
+          // 这里用来隐藏上面的元素，因为form不接收空对象，所以这里用display none
+          // this.formThird3Project['valid'] = true;
+          this.formThird3[0] = {
+            label: '发布',
+            name: 'submit',
+            type: 'button',
+            buttonType: 'primary',
+            divStyles: {
+              'display': 'none'
+            }
+          }
+        }
+        // 这里需要手动点击toggleRadio才能触发数据刷新，考虑给form的select增加一个监听事件，每次下拉
+        // 选择值的时候，就output出来给父组件，然后父组件this.set设置这个值
+        this.formThird3Project.setConfig(this.formThird3);
+      }
+    });
+
+  }
 
   getIpTag() {
     return new Promise((resolve, reject) => {
       if (this.radioValue === 'prodDomain') {
-        this.http.get(environment.apiAlauda + '/regions/alauda/ebd/nodes').subscribe(data => {
+        this.http.get(environment.apiAlauda + '/regions/alauda/cmss/nodes').subscribe(data => {
           console.log('这是主机标签', data);
           this.ipTag$ = _.compact(_.map(data, (value, key) => {
             if (value['labels'].length > 0) {
@@ -78,7 +133,7 @@ export class ServiceSubscribeComponent implements OnInit {
           resolve();
         });
       } else {
-        this.http.get(environment.apiAlauda + '/regions/alauda/cmss/nodes').subscribe(data => {
+        this.http.get(environment.apiAlauda + '/regions/alauda/ebd/nodes').subscribe(data => {
           console.log('这是主机标签', data);
           this.ipTag$ = _.compact(_.map(data, (value, key) => {
             if (value['labels'].length > 0) {
@@ -94,11 +149,24 @@ export class ServiceSubscribeComponent implements OnInit {
   async toggleButton() {
     await this.getIpTag();
     await this.getServiceBasic();
+    await this.getServiceAdvanced();
     this.formThird1Project.setConfig(this.formThird1);
   }
 
   buttonDisabled() {
-    return !this.formThirdProject.valid || !this.formThird2Project.valid || !this.formThird1Project.valid;
+    let mode$;
+    if (this.formThird2Radios && this.formThird3Project) {
+      _.map(this.formThird2Radios, (value, key) => {
+        if (value.name === 'mode') {
+          if (value.defaultValue === 'replication') {
+            mode$ = !this.formThird3Project.valid;
+          } else {
+            mode$ = false;
+          }
+        }
+      });
+    }
+    return !this.formThirdProject.valid || !this.formThird2Project.valid || !this.formThird1Project.valid || mode$;
   }
 
   getServiceBasic() {
@@ -376,6 +444,21 @@ export class ServiceSubscribeComponent implements OnInit {
           }
         });
         this.formThird2 = _.uniqWith(_.compact(this.formThird2), _.isEqual);
+        if (this.serviceName === 'kafka') {
+          const config$ = {
+            ifTags: 'true',
+            type: 'select',
+            label: '已经部署的zookeeper集群',
+            name: 'ip_tag_zoo',
+            options: this.ipTag$,
+            placeholder: '请选择',
+            validation: [Validators.required],
+            styles: {
+              'width': '400px'
+            },
+          }
+          this.formThird2 = _.concat(config$, this.formThird2);
+        }
         this.formThird2Radios = _.uniqWith(_.compact(this.formThird2Radios), _.isEqual);
         resolve();
       });
@@ -384,6 +467,7 @@ export class ServiceSubscribeComponent implements OnInit {
 
   async ngOnInit() {
     this.serviceId = this.routeInfo.snapshot.params['serviceId'];
+    this.serviceName = this.routeInfo.snapshot.params['serviceName'];
     await this.getIpTag();
     await this.getServiceBasic();
     await this.getServiceAdvanced();
@@ -404,6 +488,13 @@ export class ServiceSubscribeComponent implements OnInit {
         //   [valueName$]: value.defaultValue
         // }
       })
+    }
+    if (this.formThird3Project) {
+      _.mapKeys(this.formThird3Project['value'], (value, key) => {
+        this.formThird3Entity[key] = value;
+      })
+    } else {
+      this.formThird3Entity = {};
     }
     // if (this.formThird1Radios) {
     //   _.map(this.formThird1Radios, (value, key) => {
@@ -427,30 +518,30 @@ export class ServiceSubscribeComponent implements OnInit {
       instancesCount: parseInt(this.formThird1Project.value['num_of_nodes']),
       cpuSize: this.instanceThird.value['cpuSize'] * this.formThird1Project.value['num_of_nodes'],
       memSize: this.instanceThird.value['memSize'] * this.formThird1Project.value['num_of_nodes'],
-      clusterName: this.radioValue === 'prodDomain' ? 'ebd' : 'cmss',
+      clusterName: this.radioValue === 'prodDomain' ? 'cmss' : 'ebd',
       info: {
         basic_config: _.assign(this.formThird1Project.value, this.formThird1RadioEntity),
-        advanced_config: _.assign(this.formThird2Project.value, this.formThird2RadioEntity)
+        advanced_config: _.assign(this.formThird2Project.value, this.formThird2RadioEntity, this.formThird3Entity)
       }
     }
-    this.http.post(environment.apiService + '/apiService/services/' + this.serviceId + '/instances', 
-    this.formData['serviceInstances'][0]).subscribe(data => {
-      console.log('服务订购成功', data);
-      this.confirmServ.success({
-        maskClosable: false,
-        title: '服务订购成功!',
-        content: '点确认按钮跳转到服务商城',
-        okText: '确定',
-        onOk() {
-          // .contentControl = true;
-          // console.log('form11', thisParent.form);
-          // const redirect = window.location.host + '/#/appStore';
-          window.location.href = window.location.origin + '/#/serviceCatalog';
-        },
-        onCancel() {
-        }
-      });
-    })
+    this.http.post(environment.apiService + '/apiService/services/' + this.serviceId + '/instances',
+      this.formData['serviceInstances'][0]).subscribe(data => {
+        console.log('服务订购成功', data);
+        this.confirmServ.success({
+          maskClosable: false,
+          title: '服务订购成功!',
+          content: '点确认按钮跳转到服务商城',
+          okText: '确定',
+          onOk() {
+            // .contentControl = true;
+            // console.log('form11', thisParent.form);
+            // const redirect = window.location.host + '/#/appStore';
+            window.location.href = window.location.origin + '/#/serviceCatalog';
+          },
+          onCancel() {
+          }
+        });
+      })
     console.log('这是formdata', this.formData);
   }
 }
