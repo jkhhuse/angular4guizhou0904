@@ -36,6 +36,7 @@ export class AppReleaseComponent implements OnInit {
   public uploaderIcon: FileUploader = new FileUploader({
     url: this.urlIcon,
     allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg'],
+    queueLimit: 1,
   });
   _dataSet = this.uploader.queue;
   _dataSetIcon = this.uploaderIcon.queue;
@@ -113,6 +114,10 @@ export class AppReleaseComponent implements OnInit {
 
   public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
+    this.uploaderIcon.onBeforeUploadItem = (item) => {
+      item.withCredentials = false;
+      item.url = this.urlIcon + this.form.value['appName'] + '.png';
+    }
   }
 
   FileSelected(uploaderType: any) {
@@ -358,7 +363,7 @@ export class AppReleaseComponent implements OnInit {
   }
 
   constructor(private confirmServ: NzModalService, private http: HttpClient, private _notification: NzNotificationService) {
-    this.showConfirm();
+    // this.showConfirm();
     console.log('11', this.contentControl);
   }
 

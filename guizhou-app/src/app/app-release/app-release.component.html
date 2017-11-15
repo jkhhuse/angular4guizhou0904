@@ -1,4 +1,5 @@
-<div [hidden]="contentControl === false">
+<!-- <div [hidden]="contentControl === false"> -->
+<div>
   <nz-layout>
     <nz-header style="line-height:32px">
       <a style="font-size: 16px" href="#">
@@ -51,7 +52,7 @@
               <p>图片格式: jpg、jpeg、png</p>
             </ng-template>
             <div nz-tooltip nz-col class="file">上传图片
-              <input type="file" ng2FileSelect [uploader]="uploaderIcon" (change)="FileSelected('icon')" multiple>
+              <input type="file" ng2FileSelect [uploader]="uploaderIcon" (change)="FileSelected('icon')">
             </div>
           </nz-tooltip>
         </div>
@@ -64,7 +65,7 @@
         <div nz-col [nzSpan]="10">
           <!-- 这里先把分页去掉，nzAjaxData方式，获取分页有点问题，有想法是把uploader.queue的队列，放到一个服务器上，
           然后在这里实现分页，最后在我这里进行nzAjaxData远程异步获取，可以看nzAjaxData在官网的实例 -->
-          <nz-table #nzTable [nzScroll]="{ y: 240 }" [nzShowSizeChanger]="true" [nzAjaxData]="_dataSet" [nzIsPagination]="false">
+          <nz-table #nzTable [nzScroll]="{ y: 120 }" [nzShowSizeChanger]="true" [nzAjaxData]="_dataSet" [nzIsPagination]="false">
             <ng-template #nzFixedHeader>
               <thead nz-thead>
                 <tr>
