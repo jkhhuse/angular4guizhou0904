@@ -100,4 +100,9 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     setConfig(config) {
         this.config = config;
     }
+
+    // 这里涉及到select子组件，往上传值
+    valueArr(event: any) {
+        console.log('这是select value', event);
+    }
 }

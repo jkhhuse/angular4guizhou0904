@@ -11,6 +11,7 @@ import {
 import { enableProdMode } from '@angular/core';
 enableProdMode();
 import { Validators } from '@angular/forms';
+import { Observable } from "rxjs/Observable";
 import { ActivatedRoute } from '@angular/router';
 import { NzModalService, NzNotificationService, NzMessageService } from 'ng-zorro-antd';
 import { HttpClient } from "@angular/common/http";
@@ -43,9 +44,9 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       }
     ],
     serviceInstances: [
-      {
-        storageSize: 0,
-      }
+      // {
+      //   storageSize: 0,
+      // }
     ]
   }
   current = 0;
@@ -232,6 +233,22 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   formThird2Radios: object[] = [];
   formThird2RadioEntity: object = {};
 
+  @ViewChild('formThird3Project') formThird3Project: DynamicFormComponent;
+  formThird3: object[] = [
+    {
+      type: 'select',
+      label: 'Master 节点地址',
+      name: 'master_node_addr',
+      options: [],
+      placeholder: '请选择master节点地址',
+      validation: [Validators.required],
+      styles: {
+        'width': '400px'
+      },
+    }
+  ];
+  formThird3Entity: object = {};
+
   // async toggleButton() {
   //   await this.getIpTag();
   //   this.formThird[3] = {
@@ -252,18 +269,18 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   getIpTag() {
     return new Promise((resolve, reject) => {
       if (this.radioValue === 'prodDomain') {
-        this.http.get(environment.apiAlauda + '/regions/alauda/ebd/nodes').subscribe(data => {
+        this.http.get(environment.apiAlauda + '/regions/alauda/cmss/nodes').subscribe(data => {
           console.log('这是主机标签', data);
           this.ipTag$ = _.compact(_.map(data, (value, key) => {
             if (value['labels'].length > 0) {
               return value['private_ip'];
             }
           }));
-          
+
           resolve();
         });
       } else {
-        this.http.get(environment.apiAlauda + '/regions/alauda/cmss/nodes').subscribe(data => {
+        this.http.get(environment.apiAlauda + '/regions/alauda/ebd/nodes').subscribe(data => {
           console.log('这是主机标签', data);
           this.ipTag$ = _.compact(_.map(data, (value, key) => {
             if (value['labels'].length > 0) {
@@ -562,6 +579,21 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           }
         });
         this.formThird2 = _.uniqWith(_.compact(this.formThird2), _.isEqual);
+        if (this.choosedServiceName === 'kafka') {
+          const config$ = {
+            ifTags: 'true',
+            type: 'select',
+            label: '已经部署的zookeeper集群',
+            name: 'ip_tag_zoo',
+            options: this.ipTag$,
+            placeholder: '请选择',
+            validation: [Validators.required],
+            styles: {
+              'width': '400px'
+            },
+          }
+          this.formThird2 = _.concat(config$, this.formThird2);
+        }
         this.formThird2Radios = _.uniqWith(_.compact(this.formThird2Radios), _.isEqual);
         resolve();
       });
@@ -599,7 +631,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           repositoryId: this.repositoryId,
           instance_size: this.instanceSecond.value['instance_size'],
           // 这里由于线上可用的集群就两个：cmss和ebd，所以先暂时写死
-          clusterName: this.radioValue === 'prodDomain' ? 'ebd' : 'cmss'
+          clusterName: this.radioValue === 'prodDomain' ? 'cmss' : 'ebd'
           // clusterName: this.radioValue === 'prodDomain' ? this.networkRadioValue : 'testDomain'
         }
         if (this.serviceId) {
@@ -647,15 +679,39 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
 
   done() {
     // 这里，需要复习一下object[变量]和object['常量']的区别
-    if (this.formThird2Radios) {
-      _.map(this.formThird2Radios, (value, key) => {
-        // console.log('打印radio', value);
-        const valueName$ = value.name;
-        this.formThird2RadioEntity[valueName$] = value.defaultValue;
-        // this.formThird2RadioEntity[key] = {
-        //   [valueName$]: value.defaultValue
-        // }
-      })
+    if (this.serviceTabs.length > 0) {
+      if (this.formThird2Radios) {
+        _.map(this.formThird2Radios, (value, key) => {
+          // console.log('打印radio', value);
+          const valueName$ = value.name;
+          this.formThird2RadioEntity[valueName$] = value.defaultValue;
+          // this.formThird2RadioEntity[key] = {
+          //   [valueName$]: value.defaultValue
+          // }
+        });
+      }
+      if (this.formThird3Project) {
+        _.mapKeys(this.formThird3Project['value'], (value, key) => {
+          this.formThird3Entity[key] = value;
+        })
+      } else {
+        this.formThird3Entity = {};
+      }
+      this.formThird1RadioEntity[this.instanceThird.value['name']] = this.instanceThird.value['instance_size']
+      this.formThird1Project.value['num_of_nodes'] = parseInt(this.formThird1Project.value['num_of_nodes']);
+      this.formData['serviceInstances'][0] = {
+        storageSize: 0,
+        serviceId: this.serviceId,
+        instanceName: this.formThirdProject.value['instanceName'],
+        instancesCount: parseInt(this.formThird1Project.value['num_of_nodes']),
+        cpuSize: this.instanceThird.value['cpuSize'] * this.formThird1Project.value['num_of_nodes'],
+        memSize: this.instanceThird.value['memSize'] * this.formThird1Project.value['num_of_nodes'],
+        clusterName: this.radioValue === 'prodDomain' ? 'cmss' : 'ebd',
+        info: {
+          basic_config: _.assign(this.formThird1Project.value, this.formThird1RadioEntity),
+          advanced_config: _.assign(this.formThird2Project.value, this.formThird2RadioEntity, this.formThird3Entity)
+        }
+      }
     }
     // if (this.formThird1Radios) {
     //   _.map(this.formThird1Radios, (value, key) => {
@@ -663,29 +719,15 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     //     this.formThird1RadioEntity[valueName$] = value.instance_size;
     //   })
     // }
-    this.formThird1RadioEntity[this.instanceThird.value['name']] = this.instanceThird.value['instance_size']
-    this.formThird1Project.value['num_of_nodes'] = parseInt(this.formThird1Project.value['num_of_nodes']);
+
     // if (this.formThird1Project.value['ip_tag'].length === 1) {
     //   const arr = [];
     //   arr[0] = this.formThird1Project.value['ip_tag'];
     //   this.formThird1Project.value['ip_tag'] = arr;
     // }
-    console.log('formThird2', this.formThird2Project);
-    console.log('instance', this.instanceThird);
+    // console.log('formThird2', this.formThird2Project);
+    // console.log('instance', this.instanceThird);
     // this._message.success('done');
-    this.formData['serviceInstances'][0] = {
-      storageSize: 0,
-      serviceId: this.serviceId,
-      instanceName: this.formThirdProject.value['instanceName'],
-      instancesCount: parseInt(this.formThird1Project.value['num_of_nodes']),
-      cpuSize: this.instanceThird.value['cpuSize'] * this.formThird1Project.value['num_of_nodes'],
-      memSize: this.instanceThird.value['memSize'] * this.formThird1Project.value['num_of_nodes'],
-      clusterName: this.radioValue === 'prodDomain' ? 'ebd' : 'cmss',
-      info: {
-        basic_config: _.assign(this.formThird1Project.value, this.formThird1RadioEntity),
-        advanced_config: _.assign(this.formThird2Project.value, this.formThird2RadioEntity)
-      }
-    }
     this.http.post(environment.apiApp + '/apiApp/applications/' + this.appId + '/instances', this.formData).subscribe(data => {
       console.log('应用部署成功', data);
       this.confirmServ.success({
@@ -719,6 +761,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
 
   async choosedServiceFunc(tab) {
     this.choosedServiceName = tab;
+    // 这里this.services为什么是空？
     _.map(this.services, (value, key) => {
       if (value['serviceName'] === this.choosedServiceName) {
         this.serviceId = value['id'];
@@ -757,7 +800,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         return !this.formSecondProject.valid;
       }
       case 2: {
-        return !this.formThirdProject.valid || !this.formThird2Project.valid || !this.formThird1Project.valid;
+        if (this.serviceTabs.length === 0) {
+          return false;
+        } else {
+          return !this.formThirdProject.valid || !this.formThird2Project.valid || !this.formThird1Project.valid;
+        }
         // return  !this.formThird2Project.valid || !this.formThird1Project.valid;
       }
     }
@@ -787,8 +834,95 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     }
   }
 
-  constructor(private confirmServ: NzModalService, 
+  constructor(private confirmServ: NzModalService,
     private _message: NzMessageService, private http: HttpClient, private routeInfo: ActivatedRoute) {
+  }
+
+  getServiceInit() {
+    // 这里用到了async-await 和 rxjs里面的forkJoin，
+    // async-await可参考链接：https://cnodejs.org/topic/5640b80d3a6aa72c5e0030b6
+    // rxjs可参考链接：https://segmentfault.com/a/1190000010259536#articleHeader12
+    return new Promise((resolve, reject) => {
+    const url$ = Observable.forkJoin(
+      this.http.get(environment.api + '/api/2/warehouse/repository'),
+      this.http.get(environment.apiService + '/apiService/groups/2/services?isPublic=1'),
+      this.http.get(environment.apiApp + '/apiApp/groups/2/applications/' + this.appId)
+    );
+    url$.subscribe(values => {
+      console.log('这里是所有数据', values);
+      // this.images = _.map(values[0]['images'], (value, key) => {
+      //   return value;
+      // });
+      // this.services = _.map(values[1], (value, key) => {
+      //   return value;
+      // });
+      this.images = values[2]['repositories'];
+      this.services = values[2]['services'];
+      this.imageTabs = _.map(values[2]['repositories'], (value, key) => {
+        return value['repositoryName'];
+      });
+      this.serviceTabs = _.map(values[2]['services'], (value, key) => {
+        return value['serviceName'];
+      });
+      resolve();
+    });
+    // this.http.get(environment.api + '/api/2/warehouse/repository').subscribe(data => {
+    //   this.images = _.map(data['images'], (value, key) => {
+    //     return value;
+    //   });
+    // });
+    // this.http.get(environment.apiService + '/apiService/groups/2/services?isPublic=1').subscribe(data => {
+    //   this.services = _.map(data, (value, key) => {
+    //     return value;
+    //   });
+    // });
+    // this.http.get(environment.apiApp + '/apiApp/groups/2/applications/' + this.appId).subscribe(data => {
+    //   this.imageTabs = _.map(data['repositories'], (value, key) => {
+    //     return value['repositoryName'];
+    //   });
+    //   this.serviceTabs = _.map(data['services'], (value, key) => {
+    //     return value['serviceName'];
+    //   });
+    // });
+    })
+  }
+ 
+  toggleRadio() {
+    // console.log(this.formThird2Radio.defaultValue);
+    _.map(this.formThird2Radios, (value, key) => {
+      if (value.name === 'mode') {
+        if (value.defaultValue === 'replication') {
+          const options$ = this.formThird1Project.value['ip_tag'];
+          this.formThird3[0] = {
+            type: 'select',
+            label: 'Master 节点地址',
+            name: 'master_node_addr',
+            options: options$,
+            placeholder: '请选择master节点地址',
+            validation: [Validators.required],
+            styles: {
+              'width': '400px'
+            },
+          }
+        } else {
+          // 这里用来隐藏上面的元素，因为form不接收空对象，所以这里用display none
+          // this.formThird3Project['valid'] = true;
+          this.formThird3[0] = {
+            label: '发布',
+            name: 'submit',
+            type: 'button',
+            buttonType: 'primary',
+            divStyles: {
+              'display': 'none'
+            }
+          }
+        }
+        // 这里需要手动点击toggleRadio才能触发数据刷新，考虑给form的select增加一个监听事件，每次下拉
+        // 选择值的时候，就output出来给父组件，然后父组件this.set设置这个值
+        this.formThird3Project.setConfig(this.formThird3);
+      }
+    });
+
   }
 
   async ngOnInit() {
@@ -796,22 +930,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     await this.getIpTag();
     // this.getServiceVersion();
     // this.toggleButton();
-    this.http.get(environment.api + '/api/2/warehouse/repository').subscribe(data => {
-      this.images = _.map(data['images'], (value, key) => {
-        return value;
-      });
-      this.imageTabs = _.map(data['images'], (value, key) => {
-        return value['repositoryName'];
-      });
-    });
-    this.http.get(environment.apiService + '/apiService/groups/2/services?isPublic=1').subscribe(data => {
-      this.services = _.map(data, (value, key) => {
-        return value;
-      });
-      this.serviceTabs = _.map(data, (value, key) => {
-        return value['serviceName'];
-      });
-    });
+    await this.getServiceInit();
+    // 这里要手动调用一下，渲染service的basic和advanced配置，不然到服务配置会出不来数据
+    await this.choosedImageFunc(this.imageTabs[0]);
+    await this.choosedServiceFunc(this.serviceTabs[0]);
+    console.log('测试服务Init', this.imageTabs, this.images, this.services, this.serviceTabs);
   }
 
   ngAfterViewInit() {

@@ -3,7 +3,7 @@
     <nz-header style="line-height:32px">
       <a href="#/serviceCatalog">
         <返回</a>
-          <p>订购mysql服务</p>
+          <p>订购 {{ serviceName }}</p>
     </nz-header>
     <nz-content>
       <div style="width:80%;margin-top:10px">
@@ -15,7 +15,7 @@
             <div nz-col [nzSpan]="21">
               <div>
                 <p>基本信息</p>
-                <span>该模板用于在IT-PaaS 上部署 Kafka 集群</span>
+                <span>该模板用于在IT-PaaS 上部署 {{ serviceName }}</span>
               </div>
             </div>
           </span>
@@ -23,7 +23,7 @@
       </div>
       <p class="borderBottom80 marginTop20">基本配置</p>
       <div nz-row style="margin-bottom: 15px">
-        <div nz-row>
+        <div style="margin-bottom: 10px" nz-row>
           <div nz-col [nzSpan]="4" style="text-align: right">
             <span style="display: block;
                     font-size: 13px;
@@ -84,11 +84,11 @@
       <div>
         <p class="borderBottom80 marginTop20">高级配置</p>
         <div style="text-align: center">
-          <nz-spin [nzTip]="'正在读取数据...'" *ngIf="formThird2.length === 0"></nz-spin>
+          <nz-spin [nzTip]="'正在读取数据...'" *ngIf="formThird2.length === 0 && formThird2Radios.length === 0"></nz-spin>
         </div>
-        <div *ngIf="formThird2.length > 0" nz-row style="margin-bottom: 15px">
+        <div *ngIf="formThird2.length > 0 || formThird2Radios.length > 0" nz-row style="margin-bottom: 15px">
           <dynamic-form #formThird2Project [config]="formThird2"></dynamic-form>
-          <div *ngFor="let formThird2Radio of formThird2Radios" nz-row>
+          <div class="marginBottom15" *ngFor="let formThird2Radio of formThird2Radios" nz-row>
             <div nz-col [nzSpan]="4" style="text-align: right">
               <span style="display: block;
                       font-size: 13px;
@@ -98,13 +98,14 @@
                       color: rgba(0, 0, 0, 0.9);">{{ formThird2Radio.label }}</span>
             </div>
             <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
-              <nz-radio-group [(ngModel)]="formThird2Radio.defaultValue">
+              <nz-radio-group (click)="toggleRadio()" [(ngModel)]="formThird2Radio.defaultValue">
                 <label *ngFor="let labelContent of formThird2Radio.labelContent" nz-radio [nzValue]="labelContent">
                   <span>{{ labelContent }}</span>
                 </label>
               </nz-radio-group>
             </div>
           </div>
+          <dynamic-form *ngIf="serviceName === 'redis'" #formThird3Project [config]="formThird3"></dynamic-form>
         </div>
       </div>
     </nz-content>

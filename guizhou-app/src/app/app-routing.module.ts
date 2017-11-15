@@ -29,7 +29,7 @@ const routes: Routes = [
     { path: 'appStore', component: AppStoreComponent },
     { path: 'appDetail/:module/:name/:tabName', component: AppDetailComponent },
     { path: 'appDeploy/:appId', component: AppDeployComponent },
-    { path: 'serviceSubscribe/:serviceId', component: ServiceSubscribeComponent },
+    { path: 'serviceSubscribe/:serviceName/:serviceId', component: ServiceSubscribeComponent },
 
     { path: 'serviceCatalog', component: ServiceCatalogComponent },
     { path: 'serviceDetail/:module/:serviceId/:tabName', component: ServiceDetailComponent },

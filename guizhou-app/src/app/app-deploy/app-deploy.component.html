@@ -80,6 +80,29 @@
             <div class="marginTop20">
               <p class="borderBottom80">基本配置</p>
               <div nz-row style="margin-bottom: 15px">
+                <div style="margin-bottom: 10px" *ngIf="this.radioValue === 'prodDomain'" nz-row>
+                  <div nz-col [nzSpan]="4" style="text-align: right">
+                    <span style="display: block;
+                                      font-size: 13px;
+                                      font-weight: 400;
+                                      letter-spacing: 0px;
+                                      margin-bottom: 10px;
+                                      color: rgba(0, 0, 0, 0.9);">集群</span>
+                  </div>
+                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                    <nz-radio-group [(ngModel)]="this.networkRadioValue">
+                      <label nz-radio [nzValue]="'portal'">
+                        <span>portal域</span>
+                      </label>
+                      <label nz-radio [nzValue]="'core'">
+                        <span>核心域</span>
+                      </label>
+                      <label nz-radio [nzValue]="'bussiness'">
+                        <span>互联网域</span>
+                      </label>
+                    </nz-radio-group>
+                  </div>
+                </div>
                 <dynamic-form #formSecondProject [config]="formSecond">
                 </dynamic-form>
                 <div nz-row>
@@ -97,29 +120,6 @@
                   </div>
                 </div>
               </div>
-              <div *ngIf="this.radioValue === 'prodDomain'" nz-row>
-                <div nz-col [nzSpan]="4" style="text-align: right">
-                  <span style="display: block;
-                                font-size: 13px;
-                                font-weight: 400;
-                                letter-spacing: 0px;
-                                margin-bottom: 10px;
-                                color: rgba(0, 0, 0, 0.9);">网络</span>
-                </div>
-                <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
-                  <nz-radio-group [(ngModel)]="this.networkRadioValue">
-                    <label nz-radio [nzValue]="'portal'">
-                      <span>portal域</span>
-                    </label>
-                    <label nz-radio [nzValue]="'core'">
-                      <span>核心域</span>
-                    </label>
-                    <label nz-radio [nzValue]="'bussiness'">
-                      <span>互联网域</span>
-                    </label>
-                  </nz-radio-group>
-                </div>
-              </div>
             </div>
           </nz-content>
         </nz-layout>
@@ -128,7 +128,7 @@
       <!-- 服务配置 -->
       <div [hidden]="current !== 2">
         <nz-layout>
-          <nz-content>
+          <nz-content [hidden]="serviceTabs.length === 0">
             <div class="marginTop20">
               <p>服务配置</p>
               <div class="borderTop80">
@@ -148,12 +148,12 @@
                     <div nz-col [nzSpan]="21">
                       <div>
                         <p>基本信息</p>
-                        <span>该模板用于在IT-PaaS 上部署 Kafka 集群</span>
+                        <span>该模板用于在IT-PaaS 上部署 {{ choosedServiceName }}</span>
                       </div>
-                      <div>
+                      <!-- <div>
                         <p>配置指南</p>
                         <span>Kafka 依赖于 zookeeper， 请确保选择的 region 下已经有通过应用市场部署的 zookeeper， 否则 kafka 将不能正常使用如果需要的话，可以修改下面的默认参数</span>
-                      </div>
+                      </div> -->
                     </div>
                   </span>
                 </nz-alert>
@@ -162,6 +162,29 @@
             <div class="marginTop20">
               <p class="borderBottom80">基本配置</p>
               <div nz-row style="margin-bottom: 15px">
+                <div style="margin-bottom: 10px" *ngIf="this.radioValue === 'prodDomain'" nz-row>
+                  <div nz-col [nzSpan]="4" style="text-align: right">
+                    <span style="display: block;
+                                      font-size: 13px;
+                                      font-weight: 400;
+                                      letter-spacing: 0px;
+                                      margin-bottom: 10px;
+                                      color: rgba(0, 0, 0, 0.9);">集群</span>
+                  </div>
+                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                    <nz-radio-group [(ngModel)]="this.networkRadioValue">
+                      <label nz-radio [nzValue]="'portal'">
+                        <span>portal域</span>
+                      </label>
+                      <label nz-radio [nzValue]="'core'">
+                        <span>核心域</span>
+                      </label>
+                      <label nz-radio [nzValue]="'bussiness'">
+                        <span>互联网域</span>
+                      </label>
+                    </nz-radio-group>
+                  </div>
+                </div>
                 <dynamic-form #formThirdProject [config]="formThird">
                 </dynamic-form>
                 <dynamic-form #formThird1Project [config]="formThird1">
@@ -181,35 +204,13 @@
                   </div>
                 </div>
               </div>
-              <div *ngIf="this.radioValue === 'prodDomain'" nz-row>
-                <div nz-col [nzSpan]="4" style="text-align: right">
-                  <span style="display: block;
-                                font-size: 13px;
-                                font-weight: 400;
-                                letter-spacing: 0px;
-                                margin-bottom: 10px;
-                                color: rgba(0, 0, 0, 0.9);">网络</span>
-                </div>
-                <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
-                  <nz-radio-group [(ngModel)]="this.networkRadioValue">
-                    <label nz-radio [nzValue]="'portal'">
-                      <span>portal域</span>
-                    </label>
-                    <label nz-radio [nzValue]="'core'">
-                      <span>核心域</span>
-                    </label>
-                    <label nz-radio [nzValue]="'bussiness'">
-                      <span>互联网域</span>
-                    </label>
-                  </nz-radio-group>
-                </div>
-              </div>
+
             </div>
             <div class="marginTop20">
               <p class="borderBottom80">高级配置</p>
               <div nz-row style="margin-bottom: 15px">
                 <dynamic-form #formThird2Project [config]="formThird2"></dynamic-form>
-                <div *ngFor="let formThird2Radio of formThird2Radios" nz-row>
+                <div class="marginBottom15" *ngFor="let formThird2Radio of formThird2Radios" nz-row>
                   <div nz-col [nzSpan]="4" style="text-align: right">
                     <span style="display: block;
                                   font-size: 13px;
@@ -219,13 +220,33 @@
                                   color: rgba(0, 0, 0, 0.9);">{{ formThird2Radio.label }}</span>
                   </div>
                   <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
-                    <nz-radio-group [(ngModel)]="formThird2Radio.defaultValue">
+                    <nz-radio-group (click)="toggleRadio()" [(ngModel)]="formThird2Radio.defaultValue">
                       <label *ngFor="let labelContent of formThird2Radio.labelContent" nz-radio [nzValue]="labelContent">
                         <span>{{ labelContent }}</span>
                       </label>
                     </nz-radio-group>
                   </div>
                 </div>
+                <dynamic-form *ngIf="choosedServiceName  === 'redis'" #formThird3Project [config]="formThird3"></dynamic-form>
+              </div>
+            </div>
+          </nz-content>
+          <nz-content *ngIf="serviceTabs.length === 0">
+            <div class="marginTop20">
+              <div class="borderTop80">
+                <nz-alert class="service-tips" [nzType]="'info'">
+                  <span alert-body nz-row>
+                    <div style="text-align: center; font-size: 20px; color:#10a5ef" nz-col [nzSpan]="1">
+                      <i class="anticon anticon-exclamation-circle-o"></i>
+                    </div>
+                    <div nz-col [nzSpan]="21">
+                      <div>
+                        <p>无需服务配置</p>
+                        <span>该应用没有依赖服务，请直接进行部署!</span>
+                      </div>
+                    </div>
+                  </span>
+                </nz-alert>
               </div>
             </div>
           </nz-content>

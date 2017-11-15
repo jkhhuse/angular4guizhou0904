@@ -13,7 +13,7 @@
     </option>
   </select> -->
   <div nz-col [nzSpan]="18" style="margin-left: 10px">
-    <nz-select [formControlName]="config.name" [nzTags]="config.ifTags" [ngStyle]="config.styles" [nzPlaceHolder]="config.placeholder"
+    <nz-select (nzOpenChange)="valueArrEntity()" [formControlName]="config.name" [nzTags]="config.ifTags" [ngStyle]="config.styles" [nzPlaceHolder]="config.placeholder"
       [nzShowSearch]="true">
       <nz-option *ngFor="let option of config.options" [nzValue]="option" [nzLabel]="option" [nzDisabled]="option.disabled">
       </nz-option>

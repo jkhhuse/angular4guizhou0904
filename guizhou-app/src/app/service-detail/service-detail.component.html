@@ -15,8 +15,8 @@
             </div>
         </div>
         <div nz-col [nzSpan]="6" [nzOffset]="12">
-            <div class="detail-btn-group">
-                <button [routerLink]="['/serviceSubscribe', serviceId]" nz-button [nzType]="'primary'"
+            <div *ngIf="serviceDetail" class="detail-btn-group">
+                <button *ngIf="serviceDetail.serviceName" [routerLink]="['/serviceSubscribe', serviceDetail.serviceName, serviceId]" nz-button [nzType]="'primary'"
                         [nzSize]="'large'">
                     <span>订阅</span>
                 </button>
