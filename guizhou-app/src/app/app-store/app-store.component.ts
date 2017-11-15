@@ -42,7 +42,6 @@ export class AppStoreComponent implements OnInit {
     }
 
     groupidHandler(event: any) {
-        console.log('app event: ' + event);
         this.groupid = event;
         console.log('app get groupid: ' + this.groupid);
     }

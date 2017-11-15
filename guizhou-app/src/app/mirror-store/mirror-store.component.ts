@@ -23,7 +23,7 @@ export class MirrorStoreComponent implements OnInit {
         },
         {
             index: 2,
-            name: '共有镜像',
+            name: '公有镜像',
             tabName: 'public'
         }
     ];

@@ -21,12 +21,12 @@ export class GroupSelectComponent implements OnInit {
             temp = data.toString().split('?');
             // this.groupId = temp[1];
             // this.groupName = temp[0];
-            console.log('temp1: ' + temp[1]);
+            // console.log('temp1: ' + temp[1]);
             if (this.servicesService.getCookie('groupID') === temp[1]) {
                 // 如果传入的新groupid和cookie里面已经保存的一样，不需要刷新页面
             } else {
                 this.servicesService.setCookie('groupID', temp[1]);
-                console.log(this.servicesService.getCookie('groupID'));
+                console.log('cookie: ' + this.servicesService.getCookie('groupID'));
                 // 如果更新groupid，向父组件传送一个子组件的string对象
                 this.groupidHandler.emit(temp[1]);
             }
