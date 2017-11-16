@@ -36,7 +36,6 @@ export class ServiceListComponent implements OnInit, OnChanges {
     // 删除应用接口
     deleteApp(appId, appName): void {
         console.log('删除应用：' + appName + '  ' + appId);
-        // 返回是string 不是json
         this.http.delete(environment.apiApp + '/apiApp' + '/groups/2/applications/' + appId ).subscribe((data) => {
             console.log(data.status); // 删除成功是204
         });
