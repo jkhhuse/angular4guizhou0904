@@ -41,6 +41,13 @@ export class ServiceListComponent implements OnInit, OnChanges {
             console.log(data.status); // 删除成功是204
         });
     }
+    // 无法获取图片路径，传入默认图片
+    errorImage($this): void {
+        $this.src = 'assets/service/mysql.png';
+        console.log($this);
+        // $this.src = this.serviceImgUrl;
+        // $this.onerror = null;
+    }
     constructor(private servicesService: ServicesService, private http: Http) {
     }
 
