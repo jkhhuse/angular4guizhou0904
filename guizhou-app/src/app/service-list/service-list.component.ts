@@ -5,6 +5,7 @@ import 'rxjs/Rx';
 import {Http} from '@angular/http';
 import {FormControl} from '@angular/forms';
 import {environment} from "../../environments/environment";
+import {NzModalService} from "ng-zorro-antd";
 
 @Component({
     selector: 'app-service-list',
@@ -22,23 +23,61 @@ export class ServiceListComponent implements OnInit, OnChanges {
     serviceImgUrl = 'assets/service/mirror.png';
     services: Observable<any[]>;
     products: any;
+    _isSpinning = false;
+
+    isVisible = false;
+    deleteID = '';
+    deleteName = '';
+
+    showModal = (id, name) => {
+        this.isVisible = true;
+        console.log('??'+id+name);
+        this.deleteID = id;
+        this.deleteName = name;
+    }
+
+    handleOk = (e) => {
+        let status = '';
+        console.log('点击了确定');
+        status = this.deleteApp(this.deleteID, this.deleteName);
+        if (status = '204') {
+            this._isSpinning = true;
+            setTimeout(() => {
+                this.isVisible = false;
+                console.log('删除成功，更新列表');
+                this.services = this.servicesService.getServices(this.tabName, this.moduleName);
+            }, 5000);
+        } else {
+            alert('删除失败');
+        }
+
+    }
+
+    handleCancel = (e) => {
+        console.log(e);
+        this.isVisible = false;
+    }
     // products 用来测试非async方法通过订阅获取数据而不是流
     // products: any;
     // 删除镜像接口
-    deleteMirror(mirrorName): void {
+    deleteMirror(mirrorName): string {
+        status = '';
         console.log('删除镜像：' + mirrorName + '  ' + this.tabName);
         // 返回是string 不是json
         this.http.delete(environment.api + '/api/2/warehouse/repository/' + mirrorName + '?region=' + this.tabName).subscribe((data) => {
-            console.log(data);
+            status =  data.toString();
         });
+        return status;
     }
 
     // 删除应用接口
-    deleteApp(appId, appName): void {
+    deleteApp(appId, appName): string {
+        status = '';
         console.log('删除应用：' + appName + '  ' + appId);
         this.http.delete(environment.apiApp + '/apiApp' + '/groups/2/applications/' + appId ).subscribe((data) => {
             console.log(data.status); // 删除成功是204
         });
+        return status;
     }
     // 无法获取图片路径，传入默认图片
     errorImage($this): void {
@@ -47,6 +86,22 @@ export class ServiceListComponent implements OnInit, OnChanges {
         // $this.src = this.serviceImgUrl;
         // $this.onerror = null;
     }
+    /*showConfirm = (id, appName) => {
+        this.confirmServ.confirm({
+            title  : '您是否确认删除应用' + appName,
+            onOk() {
+                console.log('确定');
+                return new Promise((resolve) => {
+                    setTimeout(resolve, 1000);
+                    this.deleteApp(id, appName);
+                    this.services = this.servicesService.getServices(this.tabName, this.moduleName);
+                });
+            },
+            onCancel() {
+            }
+        });
+    }*/
+
     constructor(private servicesService: ServicesService, private http: Http) {
     }
 

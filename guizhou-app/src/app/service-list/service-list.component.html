@@ -5,20 +5,25 @@
                 <nz-card>
                     <ng-template #body>
                         <!-- 如果不是应用，是镜像或者服务-->
-                        <a *ngIf="!service.appName"[routerLink]="['/'+moduleName+'Detail', moduleName, service.repositoryName ? service.repositoryName : service.serviceName + '@' + service.id, tabName]">
+                        <a *ngIf="!service.appName"
+                           [routerLink]="['/'+moduleName+'Detail', moduleName, service.repositoryName ? service.repositoryName : service.serviceName + '@' + service.id, tabName]">
                             <div class="custom-image">
-                                <img *ngIf="service.serviceName" [src]='"http://10.132.49.108:8180/api/0/files/apiService/fileName/" + service.serviceName + ".png"' alt=""/>
+                                <img *ngIf="service.serviceName"
+                                     [src]='"http://10.132.49.108:8180/api/0/files/apiService/fileName/" + service.serviceName + ".png"'
+                                     alt=""/>
 
                                 <img *ngIf="service.repositoryName" [src]="serviceImgUrl" alt=""/>
-<!--
-                                <img [src]="serviceImgUrl" alt="" width="100%"/>
--->
+                                <!--
+                                                                <img [src]="serviceImgUrl" alt="" width="100%"/>
+                                -->
                             </div>
                         </a>
                         <!-- 如果是应用-->
-                        <a *ngIf="service.appName" [routerLink]="['/'+moduleName+'Detail', moduleName, service.appName, tabName]">
+                        <a *ngIf="service.appName"
+                           [routerLink]="['/'+moduleName+'Detail', moduleName, service.appName, tabName]">
                             <div class="custom-image">
-                                <img *ngIf="service.appName" #customImg [src]= '"http://10.132.49.108:8180/api/2/files/app/fileName/" + service.appName + ".png"'
+                                <img *ngIf="service.appName" #customImg
+                                     [src]='"http://10.132.49.108:8180/api/2/files/app/fileName/" + service.appName + ".png"'
                                      alt="" onerror="this.src = 'assets/service/app.png'"/>
                             </div>
                         </a>
@@ -31,7 +36,7 @@
                                       [style.color]="!service.deleted ? '#006600' : '#999999'">
                                     {{!service.deleted ? '正常':'下架'}}</span>
 
-                             <span *ngIf="service.repositoryName">{{service.repositoryName}}</span>
+                                <span *ngIf="service.repositoryName">{{service.repositoryName}}</span>
                                 <span *ngIf="service.serviceName">{{service.serviceName}}</span>
                                 <span *ngIf="service.appName">{{service.appName}}</span>
                             </div>
@@ -43,7 +48,8 @@
                                     <!--<span *ngIf="service.serviceName" class="glyphicon glyphicon-trash"
                                           (click)="deleteService(service.id, service.serviceName)">b</span>-->
                                      <span *ngIf="service.appName" class="glyphicon glyphicon-trash"
-                                           (click)="deleteApp(service.id, service.appName)"></span>
+                                           (click)="showModal(service.id, service.appName);"></span>
+
                                 </span>
                             </div>
                         </div>
@@ -56,3 +62,12 @@
         </div>-->
     </div>
 </div>
+
+
+<nz-modal [nzVisible]="isVisible" [nzTitle]="'第一个 Modal'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
+    <ng-template #modalContent>
+        <p>对话框的内容</p>
+        <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning">
+        </nz-spin>
+    </ng-template>
+</nz-modal>

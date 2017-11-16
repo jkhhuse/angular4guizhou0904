@@ -52,7 +52,8 @@
                         {{data.version}}
                     </div>
                 </td>
-                <td nz-td>{{data.size}}MB</td>
+                <td nz-td *ngIf="data.size">{{data.size}}MB</td>
+                <td nz-td *ngIf="!data.size">暂无</td>
                 <td nz-td>
                     <div>
                         {{data.isEnable ? '正常': '错误'}}
