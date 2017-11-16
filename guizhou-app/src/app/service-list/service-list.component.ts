@@ -19,7 +19,7 @@ export class ServiceListComponent implements OnInit, OnChanges {
     @Input()
     moduleName: string;
     private keyword: string;
-    serviceImgUrl = 'assets/service/mysql.png';
+    serviceImgUrl = 'assets/service/mirror.png';
     services: Observable<any[]>;
     products: any;
     // products 用来测试非async方法通过订阅获取数据而不是流

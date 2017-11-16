@@ -7,9 +7,9 @@
                         <!-- 如果不是应用，是镜像或者服务-->
                         <a *ngIf="!service.appName"[routerLink]="['/'+moduleName+'Detail', moduleName, service.repositoryName ? service.repositoryName : service.serviceName + '@' + service.id, tabName]">
                             <div class="custom-image">
-                                <img *ngIf="service.serviceName" [src]='"http://10.132.49.108:8180/api/0/files/apiService/fileName/" + service.serviceName + ".png"' alt="" width="100%"/>
+                                <img *ngIf="service.serviceName" [src]='"http://10.132.49.108:8180/api/0/files/apiService/fileName/" + service.serviceName + ".png"' alt=""/>
 
-                                <img *ngIf="service.repositoryName" [src]="serviceImgUrl" alt="" width="100%"/>
+                                <img *ngIf="service.repositoryName" [src]="serviceImgUrl" alt=""/>
 <!--
                                 <img [src]="serviceImgUrl" alt="" width="100%"/>
 -->
@@ -19,7 +19,7 @@
                         <a *ngIf="service.appName" [routerLink]="['/'+moduleName+'Detail', moduleName, service.appName, tabName]">
                             <div class="custom-image">
                                 <img *ngIf="service.appName" #customImg [src]= '"http://10.132.49.108:8180/api/2/files/app/fileName/" + service.appName + ".png"'
-                                     alt="" width="100%" onerror="this.src = 'assets/service/mysql.png'"/>
+                                     alt="" onerror="this.src = 'assets/service/app.png'"/>
                             </div>
                         </a>
                         <div class="custom-card">

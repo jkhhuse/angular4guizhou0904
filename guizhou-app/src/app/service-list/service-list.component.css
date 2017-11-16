@@ -1,14 +1,19 @@
-.custom-card span{
+.custom-card span {
     font-size: 13px;
     color: #333333;
     text-decoration: none;
 }
-.card-content{
+
+.card-content {
     padding: 10px 0;
 }
-.custom-image img{
-    height:130px !important;
+
+.custom-image img {
+    height: 130px !important;
+    display: block;
+    margin: 0 auto;
 }
+
 .ant-card-bordered {
     margin-bottom: 4px !important;
 }
