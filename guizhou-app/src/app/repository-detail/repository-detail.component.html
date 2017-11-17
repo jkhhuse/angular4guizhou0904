@@ -5,10 +5,12 @@
             <span class="glyphicon glyphicon-menu-left"></span>
             返回</a>
     </div>
-
     <div class="detail-img-wrapper">
-        <div class="img-block">
-            <img class="detail-img" [src]="mirrorImgUrl" alt="" width="100%"/>
+        <div class="img-block" *ngIf='module === "app"'>
+            <img class="detail-img" [src]='"http://10.132.49.108:8180/api/2/files/app/fileName/" + name + ".png"' alt="" width="100%" onerror="this.src = 'assets/service/app.png'"/>
+        </div>
+        <div class="img-block" *ngIf='module === "repository"'>
+            <img class="detail-img" [src]="mirrorImgUrl" alt="" width="100%" />
         </div>
         <div class="img-block">
             <p class="detail-title">{{name}}</p>

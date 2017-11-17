@@ -13,7 +13,7 @@ import {environment} from "../../environments/environment";
 export class RepositoryDetailComponent implements OnInit {
     // 标签名
     public title: String = '镜像仓库';
-    mirrorImgUrl = 'assets/service/mysql.png';
+    mirrorImgUrl = 'assets/service/mirror.png';
     mirrorDetail: any;
     mirrorVersions: any;
     name: string;
