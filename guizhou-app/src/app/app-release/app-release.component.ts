@@ -5,6 +5,7 @@ import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
 import { Observable } from "rxjs/Observable";
 import { HttpClient } from "@angular/common/http";
 import { HttpParams } from "@angular/common/http";
+import { Router, RouterModule } from '@angular/router';
 import * as _ from 'lodash';
 
 import { environment } from "../../environments/environment";
@@ -124,6 +125,7 @@ export class AppReleaseComponent implements OnInit {
     if (uploaderType === 'image') {
       console.log('文件上传完了', this.uploader);
       this.uploader.onBeforeUploadItem = (item) => {
+        item.file.name = item.file.name.replace(/\s/g, '');
         item.withCredentials = false;
         item.url = this.url + item.file.name;
       }
@@ -131,6 +133,7 @@ export class AppReleaseComponent implements OnInit {
       console.log('Icon文件上传完了', this.uploaderIcon);
       console.log('这里打印form', this.form);
       this.uploaderIcon.onBeforeUploadItem = (item) => {
+        item.file.name = item.file.name.replace(/\s/g, '');
         item.withCredentials = false;
         item.url = this.urlIcon + this.form.value['appName'] + '.png';
       }
@@ -195,12 +198,14 @@ export class AppReleaseComponent implements OnInit {
       setTimeout(() => {
         console.log('测试promise', this);
         _.map(_.compact(fileArr), (value, key) => {
+          value = value.replace(/\s/g, '');
+          const reg = /\.\w+$/;
           this.http.post(environment.api + '/api/2/warehouse/repository?module=app', {
             "description": formValue.description,
             "fileName": value,
             "isApp": true,
             "registryId": this.imageOriginId,
-            "repositoryName": formValue.appName + '-' + _.replace(value, '.', ''),
+            "repositoryName": formValue.appName + '-' + value.replace(reg, ''),
             "version": formValue.version
             // }).toPromise().then((response) => {
             //   console.log('这是response', response);
@@ -342,6 +347,7 @@ export class AppReleaseComponent implements OnInit {
     value.createUserId = 1;
     value.containerSrvId = 1;
     this.http.post(environment.apiApp + '/apiApp/groups/2/applications', value).subscribe(data => {
+      const thisParent = this;
       console.log('发布应用成功', data);
       // this.createNotification('success', '发布应用成功', '正在跳转到应用商城页面', {nzDuration: 0});
       this.confirmServ.success({
@@ -353,7 +359,8 @@ export class AppReleaseComponent implements OnInit {
           // .contentControl = true;
           // console.log('form11', thisParent.form);
           // const redirect = window.location.host + '/#/appStore';
-          window.location.href = window.location.origin + '/#/appStore';
+          // window.location.href = window.location.origin + '/#/appStore';
+          thisParent.router.navigate(['appStore']);
         },
         onCancel() {
         }
@@ -362,7 +369,8 @@ export class AppReleaseComponent implements OnInit {
     console.log('打印value', value);
   }
 
-  constructor(private confirmServ: NzModalService, private http: HttpClient, private _notification: NzNotificationService) {
+  constructor(private router: Router,
+    private confirmServ: NzModalService, private http: HttpClient, private _notification: NzNotificationService) {
     // this.showConfirm();
     console.log('11', this.contentControl);
   }

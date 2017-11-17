@@ -7,6 +7,7 @@ import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dy
 import { HttpClient } from "@angular/common/http";
 import { HttpParams } from "@angular/common/http";
 import { NzModalService, NzNotificationService } from 'ng-zorro-antd';
+import { Router, RouterModule } from '@angular/router';
 import * as _ from 'lodash';
 
 @Component({
@@ -21,7 +22,7 @@ export class BuildImageComponent implements OnInit {
   public url: string = environment.api + '/api/2/upload/image/fileName/';
   // 这里的itemAlias是设置的name ="newname"，本来是name="file"，相当于form的name值
   // public uploader: FileUploader = new FileUploader({ url: this.url, itemAlias: 'newname' });
-  public uploader: FileUploader = new FileUploader({ url: this.url });
+  public uploader: FileUploader = new FileUploader({ url: this.url, queueLimit: 1, });
   _dataSet = this.uploader.queue;
 
   radioValue: string = 'newImage';
@@ -53,7 +54,19 @@ export class BuildImageComponent implements OnInit {
       }
     },
     {
-      label: '发布',
+      type: 'input',
+      label: '镜像描述',
+      name: 'description',
+      placeholder: '请输入镜像描述',
+      // validation: [Validators.required],
+      notNecessary: true,
+      inputType: 'textarea',
+      styles: {
+        'width': '400px'
+      }
+    },
+    {
+      label: '构建',
       name: 'submit',
       type: 'button',
       buttonType: 'primary',
@@ -68,7 +81,7 @@ export class BuildImageComponent implements OnInit {
     },
   ];
 
-  constructor(private http: HttpClient, private confirmServ: NzModalService) { }
+  constructor(private router: Router,private http: HttpClient, private confirmServ: NzModalService) { }
 
   ngOnInit() {
     this.getImageOrigin();
@@ -139,17 +152,19 @@ export class BuildImageComponent implements OnInit {
       setTimeout(() => {
         console.log('测试promise', this);
         _.map(_.compact(fileArr), (value, key) => {
-          const repositoryName = this.radioValue === 'newImage' ? formValue.imageName + '-' + 
-          _.replace(value, '.', '') : formValue.imageName
+          // const repositoryName = this.radioValue === 'newImage' ? formValue.imageName + '-' + 
+          // _.replace(value, '.', '') : formValue.imageName
           this.http.post(environment.api + '/api/2/warehouse/repository?module=image', {
             // "description": formValue.description,
             "fileName": value,
             "isApp": false,
             "registryId": this.imageOriginId,
-            "repositoryName": repositoryName,
+            "description": formValue.description,
+            "repositoryName": formValue.imageName,
             "version": formValue.version
           }).subscribe(response => {
             console.log('这是response', response);
+            const thisParent = this;
             this.confirmServ.success({
               maskClosable: false,
               title: '上传镜像成功!',
@@ -159,7 +174,8 @@ export class BuildImageComponent implements OnInit {
                 // .contentControl = true;
                 // console.log('form11', thisParent.form);
                 // const redirect = window.location.host + '/#/appStore';
-                window.location.href = window.location.origin + '/#/repositoryStore';
+                // window.location.href = window.location.origin + '/#/repositoryStore';
+                thisParent.router.navigate(['repositoryStore']);
               },
               onCancel() {
               }
