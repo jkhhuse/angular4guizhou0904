@@ -38,9 +38,10 @@ export class ServiceListComponent implements OnInit, OnChanges {
 
     handleOk = (e) => {
         let status = '';
-        if (this.deleteID = 'repository') {
+        // 如果对应的是删除镜像
+        if (this.deleteID === 'repository') {
             status = this.deleteMirror(this.deleteName);
-            if (status = '204') {
+            if (status ='204') {
                 this._isSpinning = true;
                 setTimeout(() => {
                     this.isVisible = false;
@@ -52,20 +53,21 @@ export class ServiceListComponent implements OnInit, OnChanges {
                 this.isVisible = false;
                 alert('删除失败');
             }
+            // 如果对应的是删除应用
+        } else if (this.deleteID.length > 0) {
+            status = this.deleteApp(this.deleteID, this.deleteName);
+            if (status = '204') {
+                this._isSpinning = true;
+                setTimeout(() => {
+                    this.isVisible = false;
+                    console.log('删除成功，更新列表');
+                    this.services = this.servicesService.getServices(this.tabName, this.moduleName);
+                    this._isSpinning = false;
+                }, 3000);
+            } else {
+                alert('删除失败');
+            }
         }
-        /*status = this.deleteApp(this.deleteID, this.deleteName);
-        if (status = '204') {
-            this._isSpinning = true;
-            setTimeout(() => {
-                this.isVisible = false;
-                console.log('删除成功，更新列表');
-                this.services = this.servicesService.getServices(this.tabName, this.moduleName);
-                this._isSpinning = false;
-            }, 3000);
-        } else {
-            alert('删除失败');
-        }*/
-
     }
 
     handleCancel = (e) => {
