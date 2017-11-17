@@ -44,7 +44,7 @@
                                 <span style="color: #999999">{{service.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                                 <span class="pull-right">
                                     <span *ngIf="service.repositoryName" class="glyphicon glyphicon-trash"
-                                          (click)="deleteMirror(service.repositoryName)"></span>
+                                          (click)="showModal('repository', service.repositoryName);"></span>
                                     <!--<span *ngIf="service.serviceName" class="glyphicon glyphicon-trash"
                                           (click)="deleteService(service.id, service.serviceName)">b</span>-->
                                      <span *ngIf="service.appName" class="glyphicon glyphicon-trash"
@@ -64,10 +64,11 @@
 </div>
 
 
-<nz-modal [nzVisible]="isVisible" [nzTitle]="'第一个 Modal'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
+<nz-modal [nzVisible]="isVisible" [nzTitle]="'操作确认'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
     <ng-template #modalContent>
-        <p>对话框的内容</p>
-        <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning">
-        </nz-spin>
+        <p>您是否确定删除{{deleteName}}</p>
+            <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="text-align: center;">
+            </nz-spin>
+
     </ng-template>
 </nz-modal>

@@ -7,16 +7,16 @@
     </div>
     <div nz-row class="detail-img-wrapper">
         <div nz-col [nzSpan]="6">
-            <div class="img-block">
-                <img class="detail-img" [src]="serviceImgUrl" alt=""/>
+            <div class="img-block" *ngIf="serviceDetail">
+                <img class="detail-img" [src]='"http://10.132.49.108:8180/api/0/files/apiService/fileName/" + serviceDetail.serviceName + ".png"' alt=""/>
             </div>
             <div class="img-block" *ngIf="serviceDetail">
-                <p *ngIf="serviceDetail.serviceName" class="detail-title">{{serviceDetail.serviceName}}</p>
+                <p class="detail-title">{{serviceDetail.serviceName}}</p>
             </div>
         </div>
         <div nz-col [nzSpan]="6" [nzOffset]="12">
             <div *ngIf="serviceDetail" class="detail-btn-group">
-                <button *ngIf="serviceDetail.serviceName" [routerLink]="['/serviceSubscribe', serviceDetail.serviceName, serviceId]" nz-button [nzType]="'primary'"
+                <button *ngIf="serviceDetail" [routerLink]="['/serviceSubscribe', serviceDetail.serviceName, serviceId]" nz-button [nzType]="'primary'"
                         [nzSize]="'large'">
                     <span>订阅</span>
                 </button>
@@ -124,8 +124,8 @@
                     <div *ngIf="serviceInstance; else hidden" nz-col [nzSpan]="6">
                         <nz-card>
                             <ng-template #body>
-                                <div class="custom-image">
-                                    <img [src]="serviceImgUrl" alt="" width="100%"/>
+                                <div class="custom-image"  *ngIf="serviceDetail">
+                                    <img [src]='"http://10.132.49.108:8180/api/0/files/apiService/fileName/" + serviceDetail.serviceName + ".png"' alt=""/>
                                 </div>
                                 <div class="custom-card">
                                     <div class="card-content">
