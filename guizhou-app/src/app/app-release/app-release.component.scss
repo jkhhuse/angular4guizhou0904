@@ -89,3 +89,16 @@ nz-footer {
 .ant-table-thead > tr > th {
     padding: 8px;
 }
+
+tbody {
+    tr {
+        td {
+            &:first-child {
+                width: 25%;
+            }
+            &:last-child {
+                width: 25%;
+            }
+        }
+    }
+}

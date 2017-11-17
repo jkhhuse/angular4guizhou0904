@@ -20,7 +20,7 @@
             color: rgba(0, 0, 0, 0.9);">选择镜像</span>
         </div>
         <div nz-col [nzSpan]="18" class="file">选择镜像
-          <input type="file" ng2FileSelect [uploader]="uploader" (change)="FileSelected('image')" multiple>
+          <input type="file" ng2FileSelect [uploader]="uploader" (change)="FileSelected('image')">
         </div>
       </div>
       <div *ngIf="_dataSet.length !== 0" style="margin-left: 10px; margin-top: 4px" nz-row>

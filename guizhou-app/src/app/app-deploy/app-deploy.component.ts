@@ -12,7 +12,7 @@ import { enableProdMode } from '@angular/core';
 enableProdMode();
 import { Validators } from '@angular/forms';
 import { Observable } from "rxjs/Observable";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NzModalService, NzNotificationService, NzMessageService } from 'ng-zorro-antd';
 import { HttpClient } from "@angular/common/http";
 import { HttpParams } from "@angular/common/http";
@@ -153,6 +153,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   choosedImageName: string = '';
   repositoryId: string = '';
   networkRadioValue: string = 'portal';
+  networkRadioValue2: string = 'portal';
   // 第三个表单
   @ViewChild('formThirdProject') formThirdProject: DynamicFormComponent;
   @ViewChild('instanceThird') instanceThird: ContainerInstanceComponent;
@@ -604,7 +605,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   pre() {
     this.current -= 1;
     if (this.current === -1) {
-      window.location.href = window.location.origin + '/#/appStore';
+      // window.location.href = window.location.origin + '/#/appStore';
+      this.router.navigate(['appStore']);
     }
     this.changeContent();
   }
@@ -729,6 +731,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     // console.log('instance', this.instanceThird);
     // this._message.success('done');
     this.http.post(environment.apiApp + '/apiApp/applications/' + this.appId + '/instances', this.formData).subscribe(data => {
+      const thisParent = this;
       console.log('应用部署成功', data);
       this.confirmServ.success({
         maskClosable: false,
@@ -739,7 +742,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           // .contentControl = true;
           // console.log('form11', thisParent.form);
           // const redirect = window.location.host + '/#/appStore';
-          window.location.href = window.location.origin + '/#/appStore';
+          // window.location.href = window.location.origin + '/#/appStore';
+          thisParent.router.navigate(['appStore']);
         },
         onCancel() {
         }
@@ -834,7 +838,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     }
   }
 
-  constructor(private confirmServ: NzModalService,
+  constructor(private router: Router, private confirmServ: NzModalService,
     private _message: NzMessageService, private http: HttpClient, private routeInfo: ActivatedRoute) {
   }
 

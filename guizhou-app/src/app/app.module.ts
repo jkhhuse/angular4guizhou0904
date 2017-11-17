@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FileUploadModule } from 'ng2-file-upload';
-// import {Routes, RouterModule} from '@angular/router';
+import {Routes, Router, RouterModule} from '@angular/router';
 // import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { AppComponent } from './app.component';
 import { DynamicFormModule } from './dynamic-form/dynamic-form.module';

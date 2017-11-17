@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Validators } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { NzModalService, NzNotificationService, NzMessageService } from 'ng-zorro-antd';
 import { HttpClient } from "@angular/common/http";
 import { HttpParams } from "@angular/common/http";
@@ -80,7 +81,7 @@ export class ServiceSubscribeComponent implements OnInit {
   ];
   formThird3Entity: object = {};
 
-  constructor(private confirmServ: NzModalService, private routeInfo: ActivatedRoute, private http: HttpClient) { }
+  constructor(private router: Router, private confirmServ: NzModalService, private routeInfo: ActivatedRoute, private http: HttpClient) { }
 
   toggleRadio() {
     // console.log(this.formThird2Radio.defaultValue);
@@ -475,7 +476,8 @@ export class ServiceSubscribeComponent implements OnInit {
   }
 
   pre() {
-    window.location.href = window.location.origin + '/#/serviceCatalog';
+    this.router.navigate(['serviceCatalog']);
+    // window.location.href = window.location.origin + '/#/serviceCatalog';
   }
 
   done() {
@@ -526,6 +528,7 @@ export class ServiceSubscribeComponent implements OnInit {
     }
     this.http.post(environment.apiService + '/apiService/services/' + this.serviceId + '/instances',
       this.formData['serviceInstances'][0]).subscribe(data => {
+        const thisParent = this;
         console.log('服务订购成功', data);
         this.confirmServ.success({
           maskClosable: false,
@@ -536,7 +539,8 @@ export class ServiceSubscribeComponent implements OnInit {
             // .contentControl = true;
             // console.log('form11', thisParent.form);
             // const redirect = window.location.host + '/#/appStore';
-            window.location.href = window.location.origin + '/#/serviceCatalog';
+            // window.location.href = window.location.origin + '/#/serviceCatalog';
+            thisParent.router.navigate(['serviceCatalog']);
           },
           onCancel() {
           }
