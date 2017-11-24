@@ -12,8 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { NzModalService, NzNotificationService, NzMessageService } from 'ng-zorro-antd';
-import { HttpClient } from "@angular/common/http";
-import { HttpParams } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { FieldConfig } from '../dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
@@ -527,7 +526,8 @@ export class ServiceSubscribeComponent implements OnInit {
       }
     }
     this.http.post(environment.apiService + '/apiService/services/' + this.serviceId + '/instances',
-      this.formData['serviceInstances'][0]).subscribe(data => {
+      this.formData['serviceInstances'][0]).subscribe(
+        data => {
         const thisParent = this;
         console.log('服务订购成功', data);
         this.confirmServ.success({
@@ -545,7 +545,15 @@ export class ServiceSubscribeComponent implements OnInit {
           onCancel() {
           }
         });
-      })
+      },
+      // (err: HttpErrorResponse) => {
+      //   if (err.error instanceof Error) {
+      //     console.log('An error occurred:', err.error.message);
+      //   } else {
+      //     console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
+      //   }
+      // }
+    )
     console.log('这是formdata', this.formData);
   }
 }
