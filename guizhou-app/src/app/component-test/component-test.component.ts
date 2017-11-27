@@ -5,6 +5,8 @@ import { FieldConfig } from '../dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { ContainerInstanceComponent } from '../container-instance/container-instance.component';
 
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-component-test',
   templateUrl: './component-test.component.html',
@@ -16,7 +18,7 @@ export class ComponentTestComponent implements AfterViewInit {
   agreed = 0;
   disagreed = 0;
   voters = ['Mr. IQ', 'Ms. Universe', 'Bombasto'];
- 
+
   onVoted(agreed: boolean) {
     agreed ? this.agreed++ : this.disagreed++;
   }
@@ -122,7 +124,12 @@ export class ComponentTestComponent implements AfterViewInit {
     console.log(value);
   }
 
-  constructor() { }
+  constructor(public translateService: TranslateService) {
+    translateService.addLangs(["zh", "en"]);
+    translateService.setDefaultLang("en");
+    const browserLang = this.translateService.getBrowserLang();
+    translateService.use(browserLang.match(/zh|en/) ? browserLang : 'zh');
+   }
 
   ngOnInit() {
     // for (let i = 0; i < 46; i++) {
@@ -133,6 +140,9 @@ export class ComponentTestComponent implements AfterViewInit {
     //     address: `London, Park Lane no. ${i}`,
     //   });
     // }
+     // --- set i18n begin ---
+     
+     // --- set i18n end ---
     this._dataSet = [
       {
         key: 0,

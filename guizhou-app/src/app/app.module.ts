@@ -2,9 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FileUploadModule } from 'ng2-file-upload';
-import {Routes, Router, RouterModule} from '@angular/router';
+import { Routes, Router, RouterModule } from '@angular/router';
+// 这里是国际化翻译引入的文件
+import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { AppComponent } from './app.component';
 import { DynamicFormModule } from './dynamic-form/dynamic-form.module';
@@ -42,9 +47,13 @@ import { ContainerInstanceComponent } from './container-instance/container-insta
 import { ServiceSubscribeComponent } from './service-subscribe/service-subscribe.component';
 import { BuildImageComponent } from './build-image/build-image.component';
 import { GroupSelectComponent } from './group-select/group-select.component';
-import {CookieService} from "angular2-cookie/core";
+import { CookieService } from "angular2-cookie/core";
+import { ErrorInterceptorComponent } from './util/error-interceptor/error-interceptor.component';
+import { ServiceTestService } from './service-test/service-test.service';
 
-
+export function createTranslateHttpLoader(http: HttpClient) {
+    return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
+}
 
 @NgModule({
     declarations: [
@@ -75,6 +84,7 @@ import {CookieService} from "angular2-cookie/core";
         ServiceSubscribeComponent,
         BuildImageComponent,
         GroupSelectComponent,
+        ErrorInterceptorComponent,
     ],
     imports: [
         BrowserModule,
@@ -86,7 +96,15 @@ import {CookieService} from "angular2-cookie/core";
         BrowserAnimationsModule,
         HttpClientModule,
         DynamicFormModule,
-        FileUploadModule
+        FileUploadModule,
+        // 国际化翻译配置
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: (createTranslateHttpLoader),
+                deps: [HttpClient]
+            }
+        })
         // InMemoryWebApiModule.forRoot(InMemoryDataService)
     ],
     providers: [
@@ -94,7 +112,15 @@ import {CookieService} from "angular2-cookie/core";
         RandomUserService,
         ServicesService,
         CookieService,
-        { provide: LocationStrategy, useClass: HashLocationStrategy }
+        ServiceTestService,
+        { provide: LocationStrategy, useClass: HashLocationStrategy },
+        // 全局异常捕捉
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ErrorInterceptorComponent,
+            multi: true,
+            // deps: [Http]
+        }
     ],
     bootstrap: [AppComponent]
 })
