@@ -1,0 +1,5 @@
+{
+    "hello": "the word is hello",
+
+    "catalog_invalid_node_ip_tag": "The node num and node tag of the configuration is mismatched",
+}
