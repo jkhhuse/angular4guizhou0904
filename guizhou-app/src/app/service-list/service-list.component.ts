@@ -22,12 +22,14 @@ export class ServiceListComponent implements OnInit, OnChanges {
     private keyword: string;
     serviceImgUrl = 'assets/service/mirror.png';
     services: Observable<any[]>;
+    services2: any;
     products: any;
     _isSpinning = false;
 
     isVisible = false;
     deleteID = '';
     deleteName = '';
+    _dataSet = [];
 
     showModal = (id, name) => {
         this.isVisible = true;
@@ -130,11 +132,25 @@ export class ServiceListComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
+        for (let i = 0; i < 46; i++) {
+            this._dataSet.push({
+                key    : i,
+                name   : `Edward King ${i}`,
+                age    : 32,
+                address: `London, Park Lane no. ${i}`,
+            });
+        }
+
         /* this.servicesService.getServices().subscribe((data) => {
              this.products = data;
              this.products = this.products.images;
          });*/
-        this.services = this.servicesService.getServices(this.tabName, this.moduleName);
+        // this.services = this.servicesService.getServices(this.tabName, this.moduleName);
+       this.servicesService.getServices(this.tabName, this.moduleName).subscribe((data) => {
+           console.log(data);
+           console.log(data.length);
+          this.services2 = data;
+        });
         this.titleFilter.valueChanges
             .debounceTime(500)
             .subscribe(
