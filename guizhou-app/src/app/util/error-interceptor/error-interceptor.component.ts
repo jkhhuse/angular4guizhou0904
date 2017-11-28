@@ -1,5 +1,5 @@
 import { Component, OnInit, Injectable, Inject, Injector } from '@angular/core';
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { NzNotificationService } from 'ng-zorro-antd';
 import 'rxjs/add/operator/catch';
@@ -18,6 +18,9 @@ export class ErrorInterceptorComponent implements HttpInterceptor, OnInit {
   };
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // const clonedRequest = req.clone({
+    //   responseType: 'text'
+    // });
     // install an error handler
     // 这里是注入translateService，不能在constructor里面注入
     const translateService = this.inj.get(TranslateService);
@@ -27,33 +30,50 @@ export class ErrorInterceptorComponent implements HttpInterceptor, OnInit {
     const browserLang = translateService.getBrowserLang();
     // translateService.use(browserLang.match(/zh|en/) ? browserLang : 'zh');
     // 这里是注入translateService，不能在constructor里面注入
-    return next.handle(req).catch((err: HttpErrorResponse) => {
-      console.log(err);
-      if (err.error instanceof Error) {
-        // A client-side or network error occurred. Handle it accordingly.
-        console.log('An error occurred111:', err.error.message);
-      } else {
-        // translateService.setDefaultLang("zh");
-        const errMsg = JSON.parse(JSON.parse(err.error).message)['errors'][0]['code'];
-        // 这里存在两个问题：
-        // 1、需要确定.json file loaded之后，才进行调用translateService.get method，但是调试发现第一次httperror，并不会
-        // 加载出来.json文件，第二次触发才能加载。
-        // 2、translateService.get(errMsg)，文件不翻译问题，已经提issue: https://github.com/ngx-translate/core/issues/733
-        translateService.use(browserLang.match(/zh|en/) ? browserLang : 'zh').subscribe(() => {
-          translateService.get(errMsg).subscribe((res) => {
-            this.createNotification('error', '服务器错误', res);
-          });
-        });
-        // The backend returned an unsuccessful response code.
-        // The response body may contain clues as to what went wrong,
-        console.log(`Backend returned code222 ${err.status}, body was: ${err.error}`);
-        // console.log(`err message ${errMsg}`);
-      }
-      // 这里必须return才可以
-      // return Observable.throw(new Error('Your custom error'));
-      // this.createNotification('error', '服务器错误', err.error);
-      return Observable.throw(err.error || 'backend server error');
-    });
+    return next.handle(req)
+      // .map((event: HttpEvent<any>) => {
+      //   if (event instanceof HttpResponse) {
+      //     return event.clone({
+      //       body: JSON.parse(event.body),
+      //     });
+      //   }
+      // })
+      .catch((err: HttpErrorResponse) => {
+        // console.log(err);
+        let parsedError;
+        if (err.status === 400) {
+          parsedError = Object.assign({}, err, { err: JSON.parse(err.error) });
+        } else {
+          parsedError = err;
+        }
+        if (err.error instanceof Error) {
+          // A client-side or network error occurred. Handle it accordingly.
+          console.log('An error occurred111:', err.error.message);
+        } else {
+          // translateService.setDefaultLang("zh");
+          let errMsg;
+          if (err.status === 400) {
+            errMsg = JSON.parse(JSON.parse(err.error).message)['errors'][0]['code'];
+            translateService.use(browserLang.match(/zh|en/) ? browserLang : 'zh').subscribe(() => {
+              translateService.get(errMsg).subscribe((res) => {
+                this.createNotification('error', '服务器错误', res);
+              });
+            });
+          }
+          // 这里存在两个问题：
+          // 1、需要确定.json file loaded之后，才进行调用translateService.get method，但是调试发现第一次httperror，并不会
+          // 加载出来.json文件，第二次触发才能加载。
+          // 2、translateService.get(errMsg)，文件不翻译问题，已经提issue: https://github.com/ngx-translate/core/issues/733
+          // The backend returned an unsuccessful response code.
+          // The response body may contain clues as to what went wrong,
+          console.log(`Backend returned code222 ${err.status}, body was: ${err.error}`);
+          // console.log(`err message ${errMsg}`);
+        }
+        // 这里必须return才可以
+        // return Observable.throw(new Error('Your custom error'));
+        // this.createNotification('error', '服务器错误', err.error);
+        return Observable.throw(new HttpErrorResponse(parsedError) || 'backend server error');
+      });
   }
 
   // 1、当constructor(private _notification: NzNotificationService, public translateService: TranslateService)的时候

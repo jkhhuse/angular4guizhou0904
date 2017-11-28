@@ -126,7 +126,7 @@ export class ComponentTestComponent implements AfterViewInit {
 
   constructor(public translateService: TranslateService) {
     translateService.addLangs(["zh", "en"]);
-    translateService.setDefaultLang("en");
+    translateService.setDefaultLang("zh");
     const browserLang = this.translateService.getBrowserLang();
     translateService.use(browserLang.match(/zh|en/) ? browserLang : 'zh');
    }
