@@ -1,6 +1,5 @@
 {
     "hello": "你好",
     "helloyou": "你好啊",
-
-    "catalog_invalid_node_ip_tag": "主机标签与集群节点数量不匹配",
+    "catalog_invalid_node_ip_tag": "主机标签与集群节点数量不匹配"
 }
