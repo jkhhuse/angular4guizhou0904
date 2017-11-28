@@ -1,0 +1,40 @@
+.mirror-store-wrapper{
+    padding-left: 30px;
+    padding-right: 100px;
+}
+.link-back{
+    margin-top: 35px;
+    margin-bottom: 20px;
+}
+.detail-img{
+    width: 100px;
+}
+.detail-title{
+    margin-left: 25px;
+    font-size: 28px;
+}
+.detail-img-wrapper .img-block{
+    display: table-cell;
+    vertical-align: middle;
+}
+.detail-desc-wrapper{
+    margin: 20px 0;
+    border: solid 1px #e4e4e4;
+}
+.detail-12col{
+    padding: 15px 30px;
+}
+.detail-line{
+    line-height: 40px;
+    padding-left: 20px;
+    background-color: #f8f9f8;
+}
+.detail-line span{
+    margin-right: 80px;
+}
+.detail-line-value{
+    color: #2C9CFA;
+}
+.detail-versions-wrapper a{
+    padding-right: 25px;
+}

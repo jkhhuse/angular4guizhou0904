@@ -38,11 +38,11 @@ export class AppOverviewComponent implements OnInit {
     _total = 1;
     _loading = true;
     sortMap = {
-        appName: null,
-        createTime: null,
-        podsCount: null,
+        instanceName: null,
+        opContainerApp: null,
         cpuSize: null,
-        memSize: null
+        instancesCount: null,
+        createTime: null
     };
     _sortName = null;
     _sortValue = null;
@@ -79,7 +79,7 @@ export class AppOverviewComponent implements OnInit {
             console.log(data);*/
 
             this._loading = false;
-            this._total = 30;
+            this._total = data.length;
             this._dataSet = data;
 
             this._dataSet = [...this._dataSet.sort((a, b) => {
@@ -92,6 +92,7 @@ export class AppOverviewComponent implements OnInit {
                 }
             })];
             this._dataSet = data;
+            console.log(this._dataSet);
         });
     }
 

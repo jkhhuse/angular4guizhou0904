@@ -1,22 +1,44 @@
+<!--
 <nz-table *ngIf="services2" #nzTable [nzDataSource]="services2" [nzPageSize]="10" [nzShowSizeChanger]="true">
     <thead nz-thead>
     <tr>
         <th nz-th><span>Name1</span></th>
     </tr>
     </thead>
-    <tbody nz-tbody>
+    <tbody nz-tbody class="card-table">
     <tr nz-tbody-tr>
-        <td nz-td  *ngFor="let data of nzTable.data">
+        <td nz-td  *ngFor="let service of nzTable.data">
             <nz-card style="width:300px;">
-                <ng-template #title>
-{{data.repositoryName}}                </ng-template>
-                <ng-template #extra>
-                    <a>More</a>
-                </ng-template>
                 <ng-template #body>
-                    <p>Card content</p>
-                    <p>Card content</p>
-                    <p>Card content</p>
+                    <div class="custom-card">
+                        <div class="card-content">
+                            <div class="custom-image">
+                                <img *ngIf="service.repositoryName" [src]="serviceImgUrl" alt=""/>
+                            </div>
+                                    <span *ngIf="service.status" class="pull-right"
+                                          [style.color]="service.status ? '#006600' : '#999999'">
+                                    {{service.isEnable ? '正常':'下架'}}</span>
+                            <span *ngIf="service.deleted || !service.deleted" class="pull-right"
+                                  [style.color]="!service.deleted ? '#006600' : '#999999'">
+                                    {{!service.deleted ? '正常':'下架'}}</span>
+
+                            <span *ngIf="service.repositoryName">{{service.repositoryName}}</span>
+                            <span *ngIf="service.serviceName">{{service.serviceName}}</span>
+                            <span *ngIf="service.appName">{{service.appName}}</span>
+                        </div>
+                        <div class="card-content">
+                            <span style="color: #999999">{{service.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                            <span class="pull-right">
+                                    <span *ngIf="service.repositoryName" class="glyphicon glyphicon-trash"
+                                          (click)="showModal('repository', service.repositoryName);"></span>
+                                &lt;!&ndash;<span *ngIf="service.serviceName" class="glyphicon glyphicon-trash"
+                                      (click)="deleteService(service.id, service.serviceName)">b</span>&ndash;&gt;
+                                     <span *ngIf="service.appName" class="glyphicon glyphicon-trash"
+                                           (click)="showModal(service.id, service.appName);"></span>
+
+                                </span>
+                        </div>
+                    </div>
                 </ng-template>
             </nz-card>
         </td>
@@ -24,6 +46,7 @@
     </tr>
     </tbody>
 </nz-table>
+-->
 
 <div *ngIf="services">
     <div nz-row [nzGutter]="8">

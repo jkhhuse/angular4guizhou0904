@@ -7,30 +7,19 @@
             <ng-template #nzTabHeading>
                 {{tab.name}}
             </ng-template>
-            <div nz-row class="catalog-options-wrapper">
-                <div nz-col [nzSpan]="6" class="catalog-option">
-                    服务类别
-                    <nz-checkbox-group [(ngModel)]="catalogOption"
-                                       (ngModelChange)="_log(catalogOption)"></nz-checkbox-group>
+            <div nz-row class="service-search-wrapper">
+                <div nz-col [nzSpan]="18"></div>
+                <div nz-col [nzSpan]="6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="按服务名称搜索..." [formControl]="titleFilter">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+
                 </div>
-                <div nz-col [nzSpan]="7" class="catalog-option">
-                    网络
-                    <nz-checkbox-group [(ngModel)]="internetOption"
-                                       (ngModelChange)="_log(resourceOption)"></nz-checkbox-group>
-                </div>
-                <div nz-col [nzSpan]="6" class="catalog-option">
-                    关键字
-                    <input type="text" class="form-control" placeholder="按服务名称搜索..." [formControl]="titleFilter">
-                </div>
-                <div nz-col [nzSpan]="2" class="catalog-option">
-                    <button nz-button [nzType]="'primary'">搜索</button>
-                </div>
-            </div>
-            <div na-row class="catalog-order-wrapper">
-                <button nz-button [nzType]="'default'" class="timeOrderBtn">按发布时间排序</button>
-                <label nz-checkbox [(ngModel)]="_checked" (ngModelChange)="_console($event)">
-                    <span>只显示正常状态的服务</span>
-                </label>
             </div>
 
             <app-service-list [moduleName]="'service'" [tabName]="tabName" [titleFilter]="titleFilter"></app-service-list>

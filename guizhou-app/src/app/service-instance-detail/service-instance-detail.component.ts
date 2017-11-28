@@ -12,7 +12,7 @@ import {environment} from "../../environments/environment";
 export class ServiceInstanceDetailComponent implements OnInit {
     // 标签名
     public title: String = '服务实例';
-    serviceImgUrl = 'assets/service/mysql.png';
+    serviceImgUrl = 'assets/service/mirror.png';
     private instanceId: String;
     private instanceDetail: any;
     getServiceInstanceDetail(instanceId): Observable<any[]> {

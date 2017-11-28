@@ -17,7 +17,7 @@ export class RandomUserService {
         return this.http.get(environment.apiApp + '/apiApp' + '/groups/2/application-overview').map(res => res.json());
     }
 
-    getUsers(pageIndex = 1, pageSize = 5, sortField, sortOrder): Observable<any> {
+    getUsers(pageIndex = 1, pageSize = 10, sortField, sortOrder): Observable<any> {
         const params = new URLSearchParams();
         params.set('page', `${pageIndex}`);
         params.set('results', `${pageSize}`);
@@ -26,7 +26,7 @@ export class RandomUserService {
         return this.http.get(environment.api + '/api/results', {search: params}).map(res => res.json().data);
     }
 
-    getServiceInstances(pageIndex = 1, pageSize = 5, sortField, sortOrder): Observable<any> {
+    getServiceInstances(pageIndex = 1, pageSize = 10, sortField, sortOrder): Observable<any> {
         const params = new URLSearchParams();
         params.set('page', `${pageIndex}`);
         params.set('results', `${pageSize}`);
@@ -35,12 +35,24 @@ export class RandomUserService {
         return this.http.get(environment.apiService + '/apiService' + '/groups/2/service-instances', {search: params}).map(res => res.json());
     }
 
-    getAppInstances(pageIndex = 1, pageSize = 5, sortField, sortOrder, tabName): Observable<any> {
+    getAppInstances(pageIndex = 1, pageSize = 10, sortField, sortOrder, tabName): Observable<any> {
         const params = new URLSearchParams();
         params.set('page', `${pageIndex}`);
         params.set('results', `${pageSize}`);
         params.set('sortField', sortField);
         params.set('sortOrder', sortOrder);
-        return this.http.get(environment.apiApp + '/apiApp' + '/groups/2/clusters/' + tabName + '/overviews', {search: params}).map(res => res.json());
+        return this.http.get(environment.apiApp + '/apiApp' + '/groups/2/application-instances', {search: params}).map(res => res.json());
+    }
+
+    getAppInstanceDetailTable(pageIndex = 1, pageSize = 10, sortField, sortOrder, instanceID): Observable<any> {
+        const params = new URLSearchParams();
+        params.set('page', `${pageIndex}`);
+        params.set('results', `${pageSize}`);
+        params.set('sortField', sortField);
+        params.set('sortOrder', sortOrder);
+        return this.http.get(environment.apiApp + '/apiApp' + '/application-instances/' + instanceID , {search: params}).map(res => res.json());
+    }
+    getAppInstanceDetail(instanceID): Observable<any> {
+        return this.http.get(environment.apiApp + '/apiApp' + '/application-instances/' + instanceID).map(res => res.json());
     }
 }

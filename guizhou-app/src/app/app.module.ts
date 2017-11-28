@@ -50,6 +50,7 @@ import { GroupSelectComponent } from './group-select/group-select.component';
 import { CookieService } from "angular2-cookie/core";
 import { ErrorInterceptorComponent } from './util/error-interceptor/error-interceptor.component';
 import { ServiceTestService } from './service-test/service-test.service';
+import { AppOverviewDetailComponent } from './app-overview-detail/app-overview-detail.component';
 
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
@@ -85,6 +86,7 @@ export function createTranslateHttpLoader(http: HttpClient) {
         BuildImageComponent,
         GroupSelectComponent,
         ErrorInterceptorComponent,
+        AppOverviewDetailComponent,
     ],
     imports: [
         BrowserModule,

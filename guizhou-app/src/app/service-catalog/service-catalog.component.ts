@@ -14,13 +14,13 @@ export class ServiceCatalogComponent implements OnInit {
     private tabs = [
         {
             index: 1,
-            name: '私有服务',
-            tabName: '0'
+            name: '公有服务',
+            tabName: '1'
         },
         {
             index: 2,
-            name: '公有服务',
-            tabName: '1'
+            name: '私有服务',
+            tabName: '0'
         }
     ];
     // 多选框
@@ -36,7 +36,7 @@ export class ServiceCatalogComponent implements OnInit {
     // input输入框
     inputValue: string;
     titleFilter: FormControl = new FormControl();
-    tabName: String = '0';
+    tabName: String = '1';
     changeTabName(tabName): void {
         this.tabName = tabName;
     }

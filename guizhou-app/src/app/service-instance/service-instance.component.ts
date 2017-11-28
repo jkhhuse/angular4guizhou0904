@@ -62,7 +62,7 @@ export class ServiceInstanceComponent implements OnInit {
             console.log(data);*/
 
             this._loading = false;
-            this._total = 30;
+            this._total = data.length;
             this._dataSet = data;
 
             this._dataSet = [...this._dataSet.sort((a, b) => {

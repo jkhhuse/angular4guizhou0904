@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AppDetailComponent } from './app-detail/app-detail.component';
 import { AppOverviewComponent } from './app-overview/app-overview.component';
+import { AppOverviewDetailComponent } from './app-overview-detail/app-overview-detail.component';
 import { AppStoreComponent } from './app-store/app-store.component';
 import { MirrorStoreComponent } from './mirror-store/mirror-store.component';
 import { FileCenterComponent } from './file-center/file-center.component';
@@ -28,6 +29,7 @@ const routes: Routes = [
 
     { path: 'appStore', component: AppStoreComponent },
     { path: 'appDetail/:module/:name/:tabName', component: AppDetailComponent },
+    { path: 'appOverviewDetail/:instanceId', component: AppOverviewDetailComponent },
     { path: 'appDeploy/:appId', component: AppDeployComponent },
     { path: 'serviceSubscribe/:serviceName/:serviceId', component: ServiceSubscribeComponent },
 
