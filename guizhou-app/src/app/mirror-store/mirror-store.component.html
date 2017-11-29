@@ -8,7 +8,7 @@
             </ng-template>
             <div nz-row class="mirror-btns-wrapper">
                 <div nz-col [nzSpan]="6" class="catalog-option">
-                    <button nz-button [nzType]="'primary'" routerLink="/buildImage">构建</button>
+                    <button *ngIf="tab.tabName == 'private'" nz-button [nzType]="'primary'" routerLink="/buildImage">构建</button>
                 </div>
                 <div nz-col [nzSpan]="6" [nzOffset]="12">
                     <!--<nz-input class="serviceInstanceSearch"

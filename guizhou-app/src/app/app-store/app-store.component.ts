@@ -24,12 +24,14 @@ export class AppStoreComponent implements OnInit {
         {
             index: 1,
             name: '我的应用',
-            tabName: 'private'
+            tabName: 'private',
+            disabled: false
         },
         {
             index: 2,
             name: '公共应用',
-            tabName: 'public'
+            tabName: 'public',
+            disabled: true
         }
     ];
 

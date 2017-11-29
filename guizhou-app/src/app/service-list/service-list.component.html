@@ -93,7 +93,7 @@
                             <div class="card-content">
                                 <span style="color: #999999">{{service.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
                                 <span class="pull-right">
-                                    <span *ngIf="service.repositoryName" class="glyphicon glyphicon-trash"
+                                    <span *ngIf="service.repositoryName && tabName =='private'" class="glyphicon glyphicon-trash"
                                           (click)="showModal('repository', service.repositoryName);"></span>
                                     <!--<span *ngIf="service.serviceName" class="glyphicon glyphicon-trash"
                                           (click)="deleteService(service.id, service.serviceName)">b</span>-->

@@ -28,7 +28,7 @@
             </div>
         </div>
         <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" class="mirrorTab">
-            <nz-tab *ngFor="let tab of tabs" (nzClick)="changeMirrorName(tab.tabName)">
+            <nz-tab *ngFor="let tab of tabs"  [nzDisabled]="tab.disabled" (nzClick)="changeMirrorName(tab.tabName)">
                 <ng-template #nzTabHeading>
                     {{tab.name}}
                 </ng-template>

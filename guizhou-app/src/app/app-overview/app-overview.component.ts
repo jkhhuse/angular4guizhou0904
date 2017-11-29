@@ -23,12 +23,14 @@ export class AppOverviewComponent implements OnInit {
         {
             index: 1,
             name: '生产域',
-            tabName: 'cmss'
+            tabName: 'cmss',
+            disabled: false
         },
         {
             index: 2,
             name: '测试域',
-            tabName: 'cmss'
+            tabName: 'cmss',
+            disabled: true
         }
     ];
     private keyword: string;

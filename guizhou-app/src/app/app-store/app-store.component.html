@@ -16,7 +16,7 @@
 
 <nz-content class="app-store-wrapper">
     <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" class="appTab">
-        <nz-tab *ngFor="let tab of tabs" (nzClick)="changeAppName(tab.tabName)">
+        <nz-tab *ngFor="let tab of tabs" [nzDisabled]="tab.disabled" (nzClick)="changeAppName(tab.tabName)">
             <ng-template #nzTabHeading>
                 {{tab.name}}
             </ng-template>
