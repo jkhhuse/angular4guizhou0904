@@ -11,12 +11,12 @@
     </div>
   </div>
   <div nz-row class="detail-desc-wrapper">
-    <div nz-col [nzSpan]="12" class="detail-12col">
+    <div nz-col [nzSpan]="12" class="detail-12col first-line">
       <div class="detail-line">
         <span>应用版本</span>
         <span class="detail-line-value" *ngIf="appInstanceDetail">{{appInstanceDetail.app.version}}</span></div>
     </div>
-    <div nz-col [nzSpan]="12" class="detail-12col">
+    <div nz-col [nzSpan]="12" class="detail-12col first-line">
       <div class="detail-line">
         <span>应用状态</span>
         <span class="detail-line-value" *ngIf="appInstanceDetail">{{appInstanceDetail.status ? '正常':'异常'}}</span>
@@ -105,7 +105,7 @@
           <td nz-td>{{data.repository||data.serviceName}}</td>
           <td nz-td>{{data.status? '正常':'不正常'}}</td>
           <td nz-td>{{data.podsCount || data.instancesCount}}</td>
-          <td nz-td>{{data.storageSize}}G</td>
+          <td nz-td>{{data.cpuSize}}核 {{data.memSize}}M</td>
         </tr>
         </tbody>
       </nz-table>

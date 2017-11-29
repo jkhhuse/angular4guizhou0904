@@ -14,12 +14,17 @@ export class ServiceCatalogComponent implements OnInit {
     private tabs = [
         {
             index: 1,
-            name: '公有服务',
+            name: '中间件服务',
             tabName: '1'
         },
         {
             index: 2,
-            name: '私有服务',
+            name: '数据库服务',
+            tabName: '0'
+        },
+        {
+            index: 3,
+            name: '微服务框架',
             tabName: '0'
         }
     ];

@@ -22,7 +22,8 @@
     border: solid 1px #e4e4e4;
 }
 .detail-12col{
-    padding: 15px 30px;
+    padding: 0px 40px 10px 40px;
+    border-right: 1px solid #E1EFDA;
 }
 .detail-line{
     line-height: 40px;
@@ -37,4 +38,7 @@
 }
 .detail-versions-wrapper a{
     padding-right: 25px;
+}
+.first-line{
+    padding-top:10px !important;
 }
