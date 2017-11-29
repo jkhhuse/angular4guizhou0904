@@ -21,6 +21,7 @@ export class ServiceListComponent implements OnInit, OnChanges {
     moduleName: string;
     private keyword: string;
     serviceImgUrl = 'assets/service/mirror.png';
+    imgUrl = environment.api + 'api/' + environment.groupId + '/files/app/fileName/';
     services: Observable<any[]>;
     services2: any;
     products: any;
@@ -83,7 +84,7 @@ export class ServiceListComponent implements OnInit, OnChanges {
         status = '';
         console.log('删除镜像：' + mirrorName + '  ' + this.tabName);
         // 返回是string 不是json
-        this.http.delete(environment.api + '/api/2/warehouse/repository/' + mirrorName + '?region=' + this.tabName).subscribe((data) => {
+        this.http.delete(environment.api + '/api/' + environment.groupId + '/warehouse/repository/' + mirrorName + '?region=' + this.tabName).subscribe((data) => {
             status = data.toString();
         });
         return status;
@@ -93,7 +94,7 @@ export class ServiceListComponent implements OnInit, OnChanges {
     deleteApp(appId, appName): string {
         status = '';
         console.log('删除应用：' + appName + '  ' + appId);
-        this.http.delete(environment.apiApp + '/apiApp' + '/groups/2/applications/' + appId).subscribe((data) => {
+        this.http.delete(environment.apiApp + '/apiApp' + '/groups/' + environment.groupId + '/applications/' + appId).subscribe((data) => {
             console.log(data.status); // 删除成功是204
         });
         return status;
@@ -148,7 +149,6 @@ export class ServiceListComponent implements OnInit, OnChanges {
         // this.services = this.servicesService.getServices(this.tabName, this.moduleName);
        this.servicesService.getServices(this.tabName, this.moduleName).subscribe((data) => {
            console.log(data);
-           console.log(data.length);
           this.services2 = data;
         });
         this.titleFilter.valueChanges

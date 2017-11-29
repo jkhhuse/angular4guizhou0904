@@ -56,7 +56,7 @@ export class AppStoreComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.groupList = ['BDOC-TEST-11?5', 'test111?8', 'asd?7'];
+        // this.groupList = ['BDOC-TEST-11?5', 'test111?8', 'asd?7'];
         // 如果groupid是空的，去cookie里面取得默认值
         if (this.groupid = 'undefined') {
             this.groupid = this.servicesService.getCookie('groupID');
@@ -66,10 +66,10 @@ export class AppStoreComponent implements OnInit {
         console.log('groupID cookie: ' + this.servicesService.getCookie('groupID'));
 
         // 订阅op的group流
-       /* this.servicesService.getGroupList().subscribe((data) => {
+        this.servicesService.getGroupList().subscribe((data) => {
             // 过滤出需要的数据，拼接成一个array
             // this.groupList  =  this.servicesService.getGroupNameList(data);
             console.log('groupList: ' + this.groupList);
-        });*/
+        });
     }
 }

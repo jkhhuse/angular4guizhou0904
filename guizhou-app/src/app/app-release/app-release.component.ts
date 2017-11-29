@@ -23,7 +23,7 @@ export class AppReleaseComponent implements OnInit {
   public contentControl: boolean = false;
   // 文件上传
   fileName: string;
-  public url: string = environment.api + '/api/2/upload/app/fileName/';
+  public url: string = environment.api + '/api/' + environment.groupId + '/upload/app/fileName/';
   // 这里的itemAlias是设置的name ="newname"，本来是name="file"，相当于form的name值
   // public uploader: FileUploader = new FileUploader({ url: this.url, itemAlias: 'newname' });
   public uploader: FileUploader = new FileUploader({
@@ -33,7 +33,7 @@ export class AppReleaseComponent implements OnInit {
   });
 
   public hasBaseDropZoneOver: boolean = false;
-  public urlIcon: string = environment.api + '/api/2/upload/app/fileName/';
+  public urlIcon: string = environment.api + '/api/' + environment.groupId + '/upload/app/fileName/';
   public uploaderIcon: FileUploader = new FileUploader({
     url: this.urlIcon,
     allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg'],
@@ -163,7 +163,7 @@ export class AppReleaseComponent implements OnInit {
   // }
 
   getImageOrigin() {
-    this.http.get(environment.api + '/api/2/warehouse/registry').subscribe(data => {
+    this.http.get(environment.api + '/api/' + environment.groupId + '/warehouse/registry').subscribe(data => {
       const dataValue = data;
       this.imageOriginId = dataValue['id'];
       // this.imageOriginId = dataValue.id;
@@ -171,7 +171,7 @@ export class AppReleaseComponent implements OnInit {
   }
 
   getApplications() {
-    this.http.get(environment.apiApp + '/apiApp/groups/2/applications').subscribe(data => {
+    this.http.get(environment.apiApp + '/apiApp/groups/' + environment.groupId + '/applications').subscribe(data => {
       this.applications$ = _.map(data, (value, key) => {
         return value['appName'];
       })
@@ -200,7 +200,7 @@ export class AppReleaseComponent implements OnInit {
         _.map(_.compact(fileArr), (value, key) => {
           value = value.replace(/\s/g, '');
           const reg = /\.\w+$/;
-          this.http.post(environment.api + '/api/2/warehouse/repository?module=app', {
+          this.http.post(environment.api + '/api/' + environment.groupId + '/warehouse/repository?module=app', {
             "description": formValue.description,
             "fileName": value,
             "isApp": true,
@@ -346,7 +346,7 @@ export class AppReleaseComponent implements OnInit {
     })
     value.createUserId = 1;
     value.containerSrvId = 1;
-    this.http.post(environment.apiApp + '/apiApp/groups/2/applications', value).subscribe(data => {
+    this.http.post(environment.apiApp + '/apiApp/groups/' + environment.groupId + '/applications', value).subscribe(data => {
       const thisParent = this;
       console.log('发布应用成功', data);
       // this.createNotification('success', '发布应用成功', '正在跳转到应用商城页面', {nzDuration: 0});
@@ -394,7 +394,7 @@ export class AppReleaseComponent implements OnInit {
     // this.refreshData();
     // 获取services列表
     const params = new HttpParams().set('isPublic', '1');
-    this.http.get(environment.apiService + '/apiService/groups/2/services', {
+    this.http.get(environment.apiService + '/apiService/groups/' + environment.groupId + '/services', {
       params: new HttpParams().set('isPublic', '1')
     }).subscribe(data => {
       this.services$ = _.values(data);

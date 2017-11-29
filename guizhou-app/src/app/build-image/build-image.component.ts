@@ -19,7 +19,7 @@ export class BuildImageComponent implements OnInit {
 
   // 这里后端api有一个Module，是存放文件的目录，比如应用，那么就是app，服务，涉及到文件上传时，就是service，镜像，就是image
   // 这里前端定义好，后面有Get请求，需要用到这个module的话，可以参照
-  public url: string = environment.api + '/api/2/upload/image/fileName/';
+  public url: string = environment.api + '/api/' + environment.groupId + '/upload/image/fileName/';
   // 这里的itemAlias是设置的name ="newname"，本来是name="file"，相当于form的name值
   // public uploader: FileUploader = new FileUploader({ url: this.url, itemAlias: 'newname' });
   public uploader: FileUploader = new FileUploader({ url: this.url, queueLimit: 1, });
@@ -154,7 +154,7 @@ export class BuildImageComponent implements OnInit {
         _.map(_.compact(fileArr), (value, key) => {
           // const repositoryName = this.radioValue === 'newImage' ? formValue.imageName + '-' + 
           // _.replace(value, '.', '') : formValue.imageName
-          this.http.post(environment.api + '/api/2/warehouse/repository?module=image', {
+          this.http.post(environment.api + '/api/' + environment.groupId + '/warehouse/repository?module=image', {
             // "description": formValue.description,
             "fileName": value,
             "isApp": false,
@@ -191,7 +191,7 @@ export class BuildImageComponent implements OnInit {
   }
 
   getImageOrigin() {
-    this.http.get(environment.api + '/api/2/warehouse/registry').subscribe(data => {
+    this.http.get(environment.api + '/api/' + environment.groupId + '/warehouse/registry').subscribe(data => {
       const dataValue = data;
       this.imageOriginId = dataValue['id'];
       // this.imageOriginId = dataValue.id;
@@ -199,7 +199,7 @@ export class BuildImageComponent implements OnInit {
   }
 
   getImages() {
-    this.http.get(environment.api + '/api/2/warehouse/repository').subscribe(data => {
+    this.http.get(environment.api + '/api/' + environment.groupId + '/warehouse/repository').subscribe(data => {
       this.images = _.map(data['images'], (value, key) => {
         return value['repositoryName'];
       })

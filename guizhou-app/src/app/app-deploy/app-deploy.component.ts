@@ -848,9 +848,9 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     // rxjs可参考链接：https://segmentfault.com/a/1190000010259536#articleHeader12
     return new Promise((resolve, reject) => {
     const url$ = Observable.forkJoin(
-      this.http.get(environment.api + '/api/2/warehouse/repository'),
-      this.http.get(environment.apiService + '/apiService/groups/2/services?isPublic=1'),
-      this.http.get(environment.apiApp + '/apiApp/groups/2/applications/' + this.appId)
+      this.http.get(environment.api + '/api/' + environment.groupId + '/warehouse/repository'),
+      this.http.get(environment.apiService + '/apiService/groups/' + environment.groupId + '/services?isPublic=1'),
+      this.http.get(environment.apiApp + '/apiApp/groups/' + environment.groupId + '/applications/' + this.appId)
     );
     url$.subscribe(values => {
       console.log('这里是所有数据', values);
