@@ -19,7 +19,7 @@ export class ServiceInstanceComponent implements OnInit {
     _total = 1;
     _loading = true;
     sortMap = {
-        appName: null,
+        serviceDisplayName: null,
         instanceName: null,
         createTime: null,
         status: null,
@@ -55,11 +55,11 @@ export class ServiceInstanceComponent implements OnInit {
         }
         this._loading = true;
         this._randomUser.getServiceInstances(this._current, this._pageSize, this._sortName, this._sortValue).subscribe((data: any) => {
-            /*console.log(this._current);
+            console.log(this._current);
             console.log(this._pageSize);
             console.log(this._sortName);
             console.log(this._sortValue);
-            console.log(data);*/
+            console.log(data);
 
             this._loading = false;
             this._total = data.length;
