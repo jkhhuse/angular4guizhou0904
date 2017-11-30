@@ -10,6 +10,8 @@ import { FormButtonComponent } from './components/form-button/form-button.compon
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { FormSelectComponent } from './components/form-select/form-select.component';
 import { FormRadioComponent } from './components/form-radio/form-radio.component';
+// 子组件也要导入才可以https://github.com/ngx-translate/core/issues/430
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
     imports: [
@@ -17,7 +19,8 @@ import { FormRadioComponent } from './components/form-radio/form-radio.component
         BrowserAnimationsModule,
         CommonModule,
         ReactiveFormsModule,
-        NgZorroAntdModule
+        NgZorroAntdModule,
+        TranslateModule
     ],
     declarations: [
         DynamicFieldDirective,

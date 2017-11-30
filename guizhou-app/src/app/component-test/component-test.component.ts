@@ -6,6 +6,9 @@ import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dy
 import { ContainerInstanceComponent } from '../container-instance/container-instance.component';
 
 import { TranslateService } from '@ngx-translate/core';
+import { NameValidator } from '../util/reg-pattern/reg-name.directive';
+import { userNameAsyncValidator } from '../util/reg-pattern/reg-name.directive';
+import { nicknameValidator } from '../util/reg-pattern/reg-name.directive';
 
 @Component({
   selector: 'app-component-test',
@@ -18,10 +21,6 @@ export class ComponentTestComponent implements AfterViewInit {
   agreed = 0;
   disagreed = 0;
   voters = ['Mr. IQ', 'Ms. Universe', 'Bombasto'];
-
-  onVoted(agreed: boolean) {
-    agreed ? this.agreed++ : this.disagreed++;
-  }
 
   @ViewChild(ContainerInstanceComponent) ContainerInstance: ContainerInstanceComponent;
   instanceConfig = [
@@ -62,6 +61,7 @@ export class ComponentTestComponent implements AfterViewInit {
       }
     },
   ]
+  
   _dataSet = [];
 
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
@@ -71,7 +71,8 @@ export class ComponentTestComponent implements AfterViewInit {
       label: 'Full name',
       name: 'Fname',
       placeholder: 'Enter your Fname',
-      validation: [Validators.required, Validators.minLength(4)],
+      validation: [Validators.required, NameValidator('name', /^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
+      // [null, Validators.compose([Validators.required, Validators.minLength(6)]), nicknameValidator.bind(this)]
       styles: {
         'width': '400px',
       }
@@ -107,6 +108,9 @@ export class ComponentTestComponent implements AfterViewInit {
     }
   ];
 
+  onVoted(agreed: boolean) {
+    agreed ? this.agreed++ : this.disagreed++;
+  }
   ngAfterViewInit() {
     let previousValid = this.form.valid;
     this.form.changes.subscribe(() => {
@@ -129,7 +133,7 @@ export class ComponentTestComponent implements AfterViewInit {
     translateService.setDefaultLang("zh");
     const browserLang = this.translateService.getBrowserLang();
     translateService.use(browserLang.match(/zh|en/) ? browserLang : 'zh');
-   }
+  }
 
   ngOnInit() {
     // for (let i = 0; i < 46; i++) {
@@ -140,9 +144,9 @@ export class ComponentTestComponent implements AfterViewInit {
     //     address: `London, Park Lane no. ${i}`,
     //   });
     // }
-     // --- set i18n begin ---
-     
-     // --- set i18n end ---
+    // --- set i18n begin ---
+
+    // --- set i18n end ---
     this._dataSet = [
       {
         key: 0,
