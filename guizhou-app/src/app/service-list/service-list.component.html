@@ -59,13 +59,10 @@
                            [routerLink]="['/'+moduleName+'Detail', moduleName, service.repositoryName ? service.repositoryName : service.serviceName + '@' + service.id, tabName]">
                             <div class="custom-image">
                                 <img *ngIf="service.serviceName"
-                                     [src]='"http://10.132.49.108:8180/api/0/files/apiService/fileName/" + service.serviceName + ".png"'
+                                     [src]='serviceImgUrl + service.serviceName + ".png"'
                                      alt=""/>
 
-                                <img *ngIf="service.repositoryName" [src]="serviceImgUrl" alt=""/>
-                                <!--
-                                                                <img [src]="serviceImgUrl" alt="" width="100%"/>
-                                -->
+                                <img *ngIf="service.repositoryName" [src]="mirrorImgUrl" alt=""/>
                             </div>
                         </a>
                         <!-- 如果是应用-->
@@ -73,7 +70,7 @@
                            [routerLink]="['/'+moduleName+'Detail', moduleName, service.appName, tabName]">
                             <div class="custom-image">
                                 <img *ngIf="service.appName" #customImg
-                                     [src]='imgUrl + service.appName + ".png"'
+                                     [src]='appimgUrl + service.appName + ".png"'
                                      alt="" onerror="this.src = 'assets/service/app.png'"/>
                             </div>
                         </a>

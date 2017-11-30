@@ -20,8 +20,9 @@ export class ServiceListComponent implements OnInit, OnChanges {
     @Input()
     moduleName: string;
     private keyword: string;
-    serviceImgUrl = 'assets/service/mirror.png';
-    imgUrl = environment.api + 'api/' + environment.groupId + '/files/app/fileName/';
+    mirrorImgUrl = 'assets/service/mirror.png';
+    appimgUrl = environment.api + '/api/' + environment.groupId + '/files/app/fileName/';
+    serviceImgUrl = environment.api + '/api/' + environment.adminGroupId + '/files/apiService/fileName/';
     services: Observable<any[]>;
     services2: any;
     products: any;
