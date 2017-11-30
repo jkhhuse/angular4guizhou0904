@@ -12,7 +12,7 @@ import {environment} from "../../environments/environment";
 })
 export class RepositoryDetailComponent implements OnInit {
     // 标签名
-    public title: String = '镜像仓库';
+    public title: String = '详情内容';
     mirrorImgUrl = 'assets/service/mirror.png';
     imgUrl = environment.api + '/api/' + environment.groupId + '/files/app/fileName/';
     mirrorDetail: any;
