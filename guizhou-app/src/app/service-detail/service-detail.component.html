@@ -20,10 +20,10 @@
                         [nzSize]="'large'">
                     <span>订阅</span>
                 </button>
-                <button nz-button [nzType]="'default'" [nzSize]="'large'" class="detail-noraml-btn">
+                <button disabled="disabled" nz-button [nzType]="'default'" [nzSize]="'large'" class="detail-noraml-btn">
                     <span>更新</span>
                 </button>
-                <button nz-button [nzType]="'default'" [nzSize]="'large'" class="detail-noraml-btn">
+                <button disabled="disabled"  nz-button [nzType]="'default'" [nzSize]="'large'" class="detail-noraml-btn">
                     <span>下架</span>
                 </button>
             </div>
@@ -154,7 +154,11 @@
     </div>
     <h4 class="detail-h3">套餐</h4>
     <div nz-row class="detail-package-wrapper">
-        <div nz-row class="detail-package">
+        <div nz-col [nzSpan]="24" style="margin-left: 10px">
+            <app-container-instance #instanceThird [config]="formThird1Radios">
+            </app-container-instance>
+        </div>
+       <!-- <div nz-row class="detail-package">
             <div nz-col [nzSpan]="3" [nzOffset]="1">
                 容器XS
             </div>
@@ -177,7 +181,7 @@
             <div nz-col [nzSpan]="5" [nzOffset]="1" class="detail-package-num">
                 8 核 / 16 GB / 10 TB
             </div>
-        </div>
+        </div>-->
     </div>
     <!--  <h4 class="detail-h3">附件</h4>
       <div nz-row class="detail-attach-wrapper">

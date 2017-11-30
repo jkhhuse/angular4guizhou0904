@@ -11,7 +11,6 @@ export class AppComponent {
 
     title = '贵州pass平台';
     constructor() {
-        console.log('代码是' + environment.name);
     }
 
 }

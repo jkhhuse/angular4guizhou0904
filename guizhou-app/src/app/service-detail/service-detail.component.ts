@@ -18,6 +18,38 @@ export class ServiceDetailComponent implements OnInit {
     private serviceName: string;
     private serviceId: string;
     private tabName: string;
+    private formThird1Radios = [
+        {
+            cpuSize: 0.125,
+            memSize: '256',
+            instance_size: 'XXS'
+        },
+        {
+            cpuSize: 0.25,
+            memSize: '512',
+            instance_size: 'XS'
+        },
+        {
+            cpuSize: 0.5,
+            memSize: '1',
+            instance_size: 'S'
+        },
+        {
+            cpuSize: 1,
+            memSize: '2',
+            instance_size: 'M'
+        },
+        {
+            cpuSize: 2,
+            memSize: '4',
+            instance_size: 'L'
+        },
+        {
+            cpuSize: 4,
+            memSize: '8',
+            instance_size: 'XL'
+        }
+    ];
     serviceImgUrl = 'assets/service/mysql.png';
     serviceDetail: any;
     serviceInstances: any;
