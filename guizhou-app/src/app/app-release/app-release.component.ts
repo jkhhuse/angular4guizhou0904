@@ -1,16 +1,16 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Validators } from '@angular/forms';
+import { Validators, FormControl } from '@angular/forms';
 import { NzModalService, NzNotificationService } from 'ng-zorro-antd';
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
 import { Observable } from "rxjs/Observable";
-import { HttpClient } from "@angular/common/http";
-import { HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpErrorResponse } from "@angular/common/http";
 import { Router, RouterModule } from '@angular/router';
 import * as _ from 'lodash';
 
 import { environment } from "../../environments/environment";
 import { FieldConfig } from '../dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
+// import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
 @Component({
   selector: 'app-app-release',
@@ -57,7 +57,7 @@ export class AppReleaseComponent implements OnInit {
       label: '应用名称',
       name: 'appName',
       placeholder: '请输入应用名称',
-      validation: [Validators.required],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
       styles: {
         'width': '400px'
       }
@@ -67,7 +67,7 @@ export class AppReleaseComponent implements OnInit {
       label: '应用版本',
       name: 'version',
       placeholder: '请输入应用版本',
-      validation: [Validators.required],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z0-9]([.a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
       styles: {
         'width': '400px'
       }
@@ -365,7 +365,18 @@ export class AppReleaseComponent implements OnInit {
         onCancel() {
         }
       });
-    })
+    },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          // A client-side or network error occurred. Handle it accordingly.
+          console.log('An error occurred:', err.error.message);
+        } else {
+          // The backend returned an unsuccessful response code.
+          // The response body may contain clues as to what went wrong,
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
+        }
+      }
+    );
     console.log('打印value', value);
   }
 

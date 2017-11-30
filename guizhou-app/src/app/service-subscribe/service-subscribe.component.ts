@@ -18,6 +18,7 @@ import { FieldConfig } from '../dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { ContainerInstanceComponent } from '../container-instance/container-instance.component';
 import * as _ from 'lodash';
+// import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
 @Component({
   selector: 'app-service-subscribe',
@@ -52,7 +53,7 @@ export class ServiceSubscribeComponent implements OnInit {
       label: '实例名称',
       name: 'instanceName',
       placeholder: '请输入实例名称',
-      validation: [Validators.required],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
       styles: {
         'width': '400px'
       }
@@ -203,7 +204,7 @@ export class ServiceSubscribeComponent implements OnInit {
                 name: value['attribute_name'],
                 placeholder: (value['description'] && value['description']['zh'] !== '') ?
                   value['description']['zh'] : value['attribute_name'],
-                validation: [Validators.required],
+                validation: [Validators.required, Validators.min(1)],
                 // notNecessary: true,
                 styles: {
                   'width': '400px'
@@ -386,8 +387,8 @@ export class ServiceSubscribeComponent implements OnInit {
                 name: value['attribute_name'],
                 placeholder: (value['description'] && value['description']['zh'] !== '') ?
                   value['description']['zh'] : value['attribute_name'],
-                // validation: [Validators.required],
-                notNecessary: true,
+                validation: [Validators.required],
+                // notNecessary: true,
                 styles: {
                   'width': '400px'
                 }
@@ -403,8 +404,8 @@ export class ServiceSubscribeComponent implements OnInit {
                 name: value['attribute_name'],
                 placeholder: (value['description'] && value['description']['zh'] !== '') ?
                   value['description']['zh'] : value['attribute_name'],
-                // validation: [Validators.required],
-                notNecessary: true,
+                validation: [Validators.required, Validators.min(1)],
+                // notNecessary: true,
                 styles: {
                   'width': '400px'
                 }

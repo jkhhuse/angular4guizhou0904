@@ -9,6 +9,7 @@ import { HttpParams } from "@angular/common/http";
 import { NzModalService, NzNotificationService } from 'ng-zorro-antd';
 import { Router, RouterModule } from '@angular/router';
 import * as _ from 'lodash';
+// import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
 @Component({
   selector: 'app-build-image',
@@ -38,7 +39,7 @@ export class BuildImageComponent implements OnInit {
       label: '镜像名称',
       name: 'imageName',
       placeholder: '请输入镜像名称',
-      validation: [Validators.required],
+      validation: [Validators.required, Validators.pattern(/^[a-z0-9][a-z0-9\-\_]*[a-z0-9]$/i)],
       styles: {
         'width': '400px'
       }
@@ -48,7 +49,7 @@ export class BuildImageComponent implements OnInit {
       label: '镜像版本',
       name: 'version',
       placeholder: '请输入镜像版本',
-      validation: [Validators.required],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z0-9]([.a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
       styles: {
         'width': '400px'
       }
@@ -112,7 +113,7 @@ export class BuildImageComponent implements OnInit {
         label: '镜像名称',
         name: 'imageName',
         placeholder: '请输入镜像名称',
-        validation: [Validators.required],
+        validation: [Validators.required, Validators.pattern(/^[a-z0-9][a-z0-9\-\_]*[a-z0-9]$/i)],
         styles: {
           'width': '400px'
         }

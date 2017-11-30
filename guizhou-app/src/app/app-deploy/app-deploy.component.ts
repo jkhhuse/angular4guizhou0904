@@ -22,6 +22,7 @@ import { environment } from "../../environments/environment";
 import { FieldConfig } from '../dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { ContainerInstanceComponent } from '../container-instance/container-instance.component';
+// import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
 @Component({
   selector: 'app-app-deploy',
@@ -58,7 +59,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       label: '应用名称',
       name: 'instanceName',
       placeholder: '请输入应用名称',
-      validation: [Validators.required],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
       styles: {
         'width': '400px'
       }
@@ -74,7 +75,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       label: '实例名称',
       name: 'microserviceName',
       placeholder: '请输入实例名称',
-      validation: [Validators.required],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
       styles: {
         'width': '400px'
       }
@@ -84,7 +85,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       label: '容器实例数量',
       name: 'podsCount',
       placeholder: '请输入容器实例数量',
-      validation: [Validators.required],
+      validation: [Validators.required, Validators.min(1), Validators.max(256)],
       inputType: 'number',
       styles: {
         'width': '400px'
@@ -170,7 +171,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       label: '实例名称',
       name: 'instanceName',
       placeholder: '请输入实例名称',
-      validation: [Validators.required],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
       styles: {
         'width': '400px'
       }
@@ -345,7 +346,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 name: value['attribute_name'],
                 placeholder: (value['description'] && value['description']['zh'] !== '') ?
                   value['description']['zh'] : value['attribute_name'],
-                validation: [Validators.required],
+                validation: [Validators.required, Validators.min(1)],
                 // notNecessary: true,
                 styles: {
                   'width': '400px'
@@ -539,7 +540,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 name: value['attribute_name'],
                 placeholder: (value['description'] && value['description']['zh'] !== '') ?
                   value['description']['zh'] : value['attribute_name'],
-                // validation: [Validators.required],
+                validation: [Validators.required, Validators.min(1)],
                 notNecessary: true,
                 styles: {
                   'width': '400px'
@@ -807,7 +808,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         if (this.serviceTabs.length === 0) {
           return false;
         } else {
-          return !this.formThirdProject.valid || !this.formThird2Project.valid || !this.formThird1Project.valid;
+          return !this.formThirdProject.valid || !this.formThird2Project.valid ||
+          !this.formThird1Project.valid || !this.formThird3Project.valid;
         }
         // return  !this.formThird2Project.valid || !this.formThird1Project.valid;
       }
