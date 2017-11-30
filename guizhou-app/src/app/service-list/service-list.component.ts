@@ -45,7 +45,7 @@ export class ServiceListComponent implements OnInit, OnChanges {
         // 如果对应的是删除镜像
         if (this.deleteID === 'repository') {
             status = this.deleteMirror(this.deleteName);
-            if (status ='204') {
+            if (status = '204') {
                 this._isSpinning = true;
                 setTimeout(() => {
                     this.isVisible = false;
@@ -60,6 +60,7 @@ export class ServiceListComponent implements OnInit, OnChanges {
             // 如果对应的是删除应用
         } else if (this.deleteID.length > 0) {
             status = this.deleteApp(this.deleteID, this.deleteName);
+            console.log('asdasd' + status);
             if (status = '204') {
                 this._isSpinning = true;
                 setTimeout(() => {
