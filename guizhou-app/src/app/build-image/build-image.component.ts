@@ -9,6 +9,7 @@ import { HttpParams } from "@angular/common/http";
 import { NzModalService, NzNotificationService } from 'ng-zorro-antd';
 import { Router, RouterModule } from '@angular/router';
 import * as _ from 'lodash';
+import { ActivatedRoute } from '@angular/router';
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
 @Component({
@@ -17,6 +18,7 @@ import * as _ from 'lodash';
   styleUrls: ['./build-image.component.scss']
 })
 export class BuildImageComponent implements OnInit {
+  mirrorName: '';
 
   // 这里后端api有一个Module，是存放文件的目录，比如应用，那么就是app，服务，涉及到文件上传时，就是service，镜像，就是image
   // 这里前端定义好，后面有Get请求，需要用到这个module的话，可以参照
@@ -82,9 +84,10 @@ export class BuildImageComponent implements OnInit {
     },
   ];
 
-  constructor(private router: Router,private http: HttpClient, private confirmServ: NzModalService) { }
+  constructor(private routeInfo: ActivatedRoute, private router: Router, private http: HttpClient, private confirmServ: NzModalService) { }
 
   ngOnInit() {
+    this.mirrorName = this.routeInfo.snapshot.params['mirrorName'];
     this.getImageOrigin();
     this.getImages();
   }
@@ -200,7 +203,7 @@ export class BuildImageComponent implements OnInit {
   }
 
   getImages() {
-    this.http.get(environment.api + '/api/' + environment.groupId + '/warehouse/repository').subscribe(data => {
+    this.http.get(environment.api + '/api/' + environment.groupId + '/warehouse/repository?region=' + this.mirrorName).subscribe(data => {
       this.images = _.map(data['images'], (value, key) => {
         return value['repositoryName'];
       })

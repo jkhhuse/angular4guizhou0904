@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
-import {ServicesService} from "../shared/services.service";
-import {Http} from "@angular/http";
-import {FormControl} from "@angular/forms";
-import {environment} from "../../environments/environment";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { ServicesService } from "../shared/services.service";
+import { Http } from "@angular/http";
+import { HttpClient, HttpParams, HttpErrorResponse } from "@angular/common/http";
+import { FormControl } from "@angular/forms";
+import { environment } from "../../environments/environment";
 
 @Component({
     selector: 'app-service-detail',
@@ -98,24 +99,26 @@ export class ServiceDetailComponent implements OnInit {
         this.isVisible = false;
     }
 
-    getServiceDetail(serviceId):  Observable<any[]> {
-        return this.http.get(environment.apiService + '/apiService' + '/services/' + serviceId).map(res => res.json());
+    getServiceDetail(serviceId): Observable<any> {
+        return this.http.get(environment.apiService + '/apiService' + '/services/' + serviceId);
     }
-    getServiceInstances(serviceName):  Observable<any[]> {
-        return this.http.get(environment.apiService + '/apiService' + '/groups/' + environment.groupId + '/services/' + serviceName + '/instances').map(res => res.json());
+    getServiceInstances(serviceName): Observable<any> {
+        return this.http.get(environment.apiService + '/apiService' + '/groups/' + environment.groupId + '/services/' +
+        serviceName + '/instances');
     }
     // 删除服务接口
     deleteService(serviceId, serviceName): string {
         status = '';
         console.log('删除服务实例：' + serviceName + '  ' + serviceId);
         // 返回是string 不是json
-        this.http.delete(environment.apiService + '/apiService' + '/groups/' + environment.groupId + '/service-instances/' + serviceId).subscribe((data) => {
-            status = data.status.toString();  // 返回状态204删除成功
+        this.http.delete(environment.apiService + '/apiService' + '/groups/' +
+        environment.groupId + '/service-instances/' + serviceId).subscribe((data) => {
+            status = data['status'].toString();  // 返回状态204删除成功
             console.log('删除接口返回状态status：' + status);
         });
         return status;
     }
-    constructor(private routeInfo: ActivatedRoute, private servicesService: ServicesService, private http: Http) {
+    constructor(private routeInfo: ActivatedRoute, private servicesService: ServicesService, private http: HttpClient) {
     }
 
     ngOnInit() {

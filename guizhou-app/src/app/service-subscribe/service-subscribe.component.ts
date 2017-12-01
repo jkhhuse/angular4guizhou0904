@@ -127,7 +127,8 @@ export class ServiceSubscribeComponent implements OnInit {
         this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/cmss/nodes').subscribe(data => {
           console.log('这是主机标签', data);
           this.ipTag$ = _.compact(_.map(data, (value, key) => {
-            if (value['labels'].length > 0) {
+            // if (value['labels'].length > 0) {
+            if (value['node_tag']) {
               return value['private_ip'];
             }
           }));
@@ -137,7 +138,8 @@ export class ServiceSubscribeComponent implements OnInit {
         this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/ebd/nodes').subscribe(data => {
           console.log('这是主机标签', data);
           this.ipTag$ = _.compact(_.map(data, (value, key) => {
-            if (value['labels'].length > 0) {
+            // if (value['labels'].length > 0) {
+            if (value['node_tag']) {
               return value['private_ip'];
             }
           }));
@@ -528,7 +530,7 @@ export class ServiceSubscribeComponent implements OnInit {
     }
     this.http.post(environment.apiService + '/apiService/services/' + this.serviceId + '/instances',
       this.formData['serviceInstances'][0]).subscribe(
-        data => {
+      data => {
         const thisParent = this;
         console.log('服务订购成功', data);
         this.confirmServ.success({

@@ -274,7 +274,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/cmss/nodes').subscribe(data => {
           console.log('这是主机标签', data);
           this.ipTag$ = _.compact(_.map(data, (value, key) => {
-            if (value['labels'].length > 0) {
+            // if (value['labels'].length > 0) {
+            if (value['node_tag']) {
               return value['private_ip'];
             }
           }));
@@ -285,7 +286,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/ebd/nodes').subscribe(data => {
           console.log('这是主机标签', data);
           this.ipTag$ = _.compact(_.map(data, (value, key) => {
-            if (value['labels'].length > 0) {
+            // if (value['labels'].length > 0) {
+            if (value['node_tag']) {
               return value['private_ip'];
             }
           }));
@@ -809,7 +811,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           return false;
         } else {
           return !this.formThirdProject.valid || !this.formThird2Project.valid ||
-          !this.formThird1Project.valid || !this.formThird3Project.valid;
+            !this.formThird1Project.valid || !this.formThird3Project.valid;
         }
         // return  !this.formThird2Project.valid || !this.formThird1Project.valid;
       }
@@ -849,50 +851,50 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     // async-await可参考链接：https://cnodejs.org/topic/5640b80d3a6aa72c5e0030b6
     // rxjs可参考链接：https://segmentfault.com/a/1190000010259536#articleHeader12
     return new Promise((resolve, reject) => {
-    const url$ = Observable.forkJoin(
-      this.http.get(environment.api + '/api/' + environment.groupId + '/warehouse/repository'),
-      this.http.get(environment.apiService + '/apiService/groups/' + environment.groupId + '/services?isPublic=1'),
-      this.http.get(environment.apiApp + '/apiApp/groups/' + environment.groupId + '/applications/' + this.appId)
-    );
-    url$.subscribe(values => {
-      console.log('这里是所有数据', values);
-      // this.images = _.map(values[0]['images'], (value, key) => {
-      //   return value;
-      // });
-      // this.services = _.map(values[1], (value, key) => {
-      //   return value;
-      // });
-      this.images = values[2]['repositories'];
-      this.services = values[2]['services'];
-      this.imageTabs = _.map(values[2]['repositories'], (value, key) => {
-        return value['repositoryName'];
+      const url$ = Observable.forkJoin(
+        this.http.get(environment.api + '/api/' + environment.groupId + '/warehouse/repository'),
+        this.http.get(environment.apiService + '/apiService/groups/' + environment.groupId + '/services?isPublic=1'),
+        this.http.get(environment.apiApp + '/apiApp/groups/' + environment.groupId + '/applications/' + this.appId)
+      );
+      url$.subscribe(values => {
+        console.log('这里是所有数据', values);
+        // this.images = _.map(values[0]['images'], (value, key) => {
+        //   return value;
+        // });
+        // this.services = _.map(values[1], (value, key) => {
+        //   return value;
+        // });
+        this.images = values[2]['repositories'];
+        this.services = values[2]['services'];
+        this.imageTabs = _.map(values[2]['repositories'], (value, key) => {
+          return value['repositoryName'];
+        });
+        this.serviceTabs = _.map(values[2]['services'], (value, key) => {
+          return value['serviceName'];
+        });
+        resolve();
       });
-      this.serviceTabs = _.map(values[2]['services'], (value, key) => {
-        return value['serviceName'];
-      });
-      resolve();
-    });
-    // this.http.get(environment.api + '/api/2/warehouse/repository').subscribe(data => {
-    //   this.images = _.map(data['images'], (value, key) => {
-    //     return value;
-    //   });
-    // });
-    // this.http.get(environment.apiService + '/apiService/groups/2/services?isPublic=1').subscribe(data => {
-    //   this.services = _.map(data, (value, key) => {
-    //     return value;
-    //   });
-    // });
-    // this.http.get(environment.apiApp + '/apiApp/groups/2/applications/' + this.appId).subscribe(data => {
-    //   this.imageTabs = _.map(data['repositories'], (value, key) => {
-    //     return value['repositoryName'];
-    //   });
-    //   this.serviceTabs = _.map(data['services'], (value, key) => {
-    //     return value['serviceName'];
-    //   });
-    // });
+      // this.http.get(environment.api + '/api/2/warehouse/repository').subscribe(data => {
+      //   this.images = _.map(data['images'], (value, key) => {
+      //     return value;
+      //   });
+      // });
+      // this.http.get(environment.apiService + '/apiService/groups/2/services?isPublic=1').subscribe(data => {
+      //   this.services = _.map(data, (value, key) => {
+      //     return value;
+      //   });
+      // });
+      // this.http.get(environment.apiApp + '/apiApp/groups/2/applications/' + this.appId).subscribe(data => {
+      //   this.imageTabs = _.map(data['repositories'], (value, key) => {
+      //     return value['repositoryName'];
+      //   });
+      //   this.serviceTabs = _.map(data['services'], (value, key) => {
+      //     return value['serviceName'];
+      //   });
+      // });
     })
   }
- 
+
   toggleRadio() {
     // console.log(this.formThird2Radio.defaultValue);
     _.map(this.formThird2Radios, (value, key) => {
