@@ -40,23 +40,48 @@ export class ErrorInterceptorComponent implements HttpInterceptor, OnInit {
       // })
       .catch((err: HttpErrorResponse) => {
         // console.log(err);
-        let parsedError;
-        if (err.status === 400) {
-          parsedError = Object.assign({}, err, { err: JSON.parse(err.error) });
-        } else {
-          parsedError = err;
-        }
+        // let parsedError;
+        // if (err.status === 400 || err.status === 403) {
+        //   parsedError = Object.assign({}, err, { err: JSON.parse(err.error) });
+        // } else {
+        //   parsedError = err;
+        // }
         if (err.error instanceof Error) {
           // A client-side or network error occurred. Handle it accordingly.
           console.log('An error occurred111:', err.error.message);
         } else {
           // translateService.setDefaultLang("zh");
-          let errMsg;
-          if (err.status === 400) {
-            errMsg = JSON.parse(JSON.parse(err.error).message)['errors'][0]['code'];
+          let errCode, errMsg, errMsg2;
+          const chinaReg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+          if (err.status === 400 || err.status === 403) {
+            if (err.error.errorMsg !== undefined) {
+              errMsg2 = err.error.errorMsg;
+              errCode = 'others';
+            } else {
+              if (chinaReg.test(err.error.message)) {
+                errMsg = err.error['message'];
+                errCode = 'others';
+              } else {
+                errCode = JSON.parse(err.error.message)['errors'][0]['code'];
+                errMsg = JSON.parse(err.error.message)['errors'][0]['message'];
+              }
+            }
             translateService.use(browserLang.match(/zh|en/) ? browserLang : 'zh').subscribe(() => {
-              translateService.get(errMsg).subscribe((res) => {
-                this.createNotification('error', '服务器错误', res);
+              translateService.get(errCode).subscribe((res) => {
+                if (errCode !== 'others') {
+                  if (errCode === res) {
+                    this.createNotification('error', '服务器错误', errMsg);
+                  } else {
+                    this.createNotification('error', '服务器错误', res);
+                  }
+                } else {
+                  if (errMsg2 !== undefined) {
+                    this.createNotification('error', '服务器错误', errMsg2);
+                  } else {
+                    this.createNotification('error', '服务器错误', errMsg);
+                  }
+                }
+                // 如果国际化翻译文件没有的话，就显示errMsg的信息
               });
             });
           }
@@ -72,7 +97,7 @@ export class ErrorInterceptorComponent implements HttpInterceptor, OnInit {
         // 这里必须return才可以
         // return Observable.throw(new Error('Your custom error'));
         // this.createNotification('error', '服务器错误', err.error);
-        return Observable.throw(new HttpErrorResponse(parsedError) || 'backend server error');
+        return Observable.throw(new HttpErrorResponse(err.error) || 'backend server error');
       });
   }
 

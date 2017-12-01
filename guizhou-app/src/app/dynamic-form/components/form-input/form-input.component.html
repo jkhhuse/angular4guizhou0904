@@ -1,4 +1,4 @@
-<div class="dynamic-field form-input" [formGroup]="group" nz-row>
+<div nz-form-item class="dynamic-field form-input" [formGroup]="group" nz-row>
     <div nz-col [nzSpan]="4" style="text-align: right">
         <label>
             {{ config.label }}
@@ -7,15 +7,28 @@
     </div>
     <!-- <input type="text" [attr.placeholder]="config.placeholder" [formControlName]="config.name"> -->
     <!-- <nz-input style="width: 400px" [nzPlaceHolder]="config.placeholder" [formControlName]="config.name"></nz-input> -->
-    <div nz-col [nzSpan]="18" style="margin-left: 10px">
-        <nz-input [ngModel]="config.defaultValue" [nzType]="config.inputType" [id]="config.name" [ngStyle]="config.styles" [nzPlaceHolder]="config.placeholder"
-            [formControlName]="config.name"></nz-input>
-        <div [ngStyle]="config.styles" *ngIf="validation.invalid && (validation.dirty || validation.touched)">
+    <!-- 这里先用ngClass来优化样式的问题，regdirective逻辑没问题，但是样式出不来，用原生的pattern -->
+    <!-- <div [ngClass]="(getFormControl().invalid && getFormControl().dirty && getFormControl().hasError('nameReg')) ? 'has-error'  : ''"  nz-col nz-form-control [nzValidateStatus]="getFormControl()" [nzSpan]="18" style="margin-left: 10px"> -->
+    <div [ngClass]="(getFormControl().invalid && getFormControl().dirty) && (getFormControl().hasError('max') || getFormControl().hasError('min')) ? 'has-error'  : ''" nz-col nz-form-control [nzValidateStatus]="getFormControl()" [nzSpan]="18" style="margin-left: 10px">
+        <nz-input nzHasFeedback [ngModel]="config.defaultValue" [nzType]="config.inputType" [id]="config.name" [ngStyle]="config.styles"
+            [nzPlaceHolder]="config.placeholder" [formControlName]="config.name"></nz-input>
+        <!-- 这里增加getFormControl().touched校验可以成功，但是style没有变化，官方建议是增加dirty和touched校验的，这里是个Bug -->
+        <div *ngIf="getFormControl().invalid && getFormControl().dirty">
+            <div nz-form-explain *ngIf="getFormControl().hasError('required')">{{config.label}}不能为空</div>
+            <div nz-form-explain *ngIf="getFormControl().hasError('pattern')">正确格式为: {{ getFormControl()?.errors?.pattern?.requiredPattern | translate }}</div>
+            <!-- 这里的?.写法，可以解决undefined的问题 -->
+            <div nz-form-explain *ngIf="getFormControl().hasError('min')">低于最小值 {{ getFormControl()?.errors?.min?.min }}</div>
+            <div nz-form-explain *ngIf="getFormControl().hasError('max')">超出最大值 {{ getFormControl()?.errors?.max?.max }}</div>
+            <!-- <div nz-form-explain *ngIf="!getFormControl().hasError('required') && getFormControl().hasError('nameReg')">格式错误</div> -->
+            <!-- <div nz-form-explain *ngIf="getFormControl().dirty&&getFormControl().hasError('duplicated')">The username is redundant!</div> -->
+            <div nz-form-explain *ngIf="getFormControl().pending">校验中...</div>
+        </div>
+        <!-- <div [ngStyle]="config.styles" *ngIf="validation.invalid && (validation.dirty || validation.touched)">
             <nz-alert *ngIf="validation.errors.required" [nzType]="'error'" nzMessage="{{config.label}}不能为空" [nzShowIcon]="'true'">
             </nz-alert>
 
             <nz-alert *ngIf="validation.errors.minlength" [nzType]="'error'" nzMessage="字符串长度不符合条件" [nzShowIcon]="'true'">
             </nz-alert>
-        </div>
+        </div> -->
     </div>
 </div>
