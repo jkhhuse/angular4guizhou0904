@@ -41,7 +41,7 @@ const routes: Routes = [
     { path: 'serviceInstanceDetail/:instanceId', component: ServiceInstanceDetailComponent },
 
     { path: 'repositoryStore', component: MirrorStoreComponent },
-    { path: 'buildImage', component: BuildImageComponent },
+    { path: 'buildImage/:mirrorName', component: BuildImageComponent },
     { path: 'repositoryDetail/:module/:name/:tabName', component: RepositoryDetailComponent },
     { path: 'fileCenter', component: FileCenterComponent },
 
