@@ -53,7 +53,7 @@ export class ServicesService {
         }
     }
 
-    getGroupList(): any {
+  /*  getGroupList(): any {
         this.userId = this.getUserId();
         // console.log('getGroupList user: ' + this.userId);
         if (this.userId === '') {
@@ -87,7 +87,7 @@ export class ServicesService {
         } else {
             return [];
         }
-    }
+    }*/
     getCookie(key: string) {
         return this._cookieService.get(key);
     }

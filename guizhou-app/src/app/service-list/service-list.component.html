@@ -76,10 +76,10 @@
                         </a>
                         <div class="custom-card">
                             <div class="card-content">
-                                    <span *ngIf="service.status" class="pull-right"
+                                    <span *ngIf="service.status" style="float: right"
                                           [style.color]="service.status ? '#006600' : '#999999'">
                                     {{service.isEnable ? '正常':'下架'}}</span>
-                                <span *ngIf="service.deleted || !service.deleted" class="pull-right"
+                                <span *ngIf="service.deleted || !service.deleted"  style="float: right"
                                       [style.color]="!service.deleted ? '#006600' : '#999999'">
                                     {{!service.deleted ? '正常':'下架'}}</span>
 

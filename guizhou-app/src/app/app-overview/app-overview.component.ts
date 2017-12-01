@@ -111,9 +111,11 @@ export class AppOverviewComponent implements OnInit {
     ngOnInit() {
         this.totalTemp = this._randomUser.getTotals();
         this.totalTemp.subscribe((data) => {
-            if (!(data == null) && data.appCount) {
-                this.totals = new AppTotalsClass(data.appCount, data.podsCount, 38);
-                // console.log(this.totals);
+            console.log('data: ' + data);
+
+            if (!(data == null)) {
+                this.totals = new AppTotalsClass(data.appCount, data.podsCount, 3);
+                 console.log(this.totals);
             }
         });
         this.refreshData();

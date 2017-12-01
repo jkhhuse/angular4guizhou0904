@@ -270,7 +270,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   getIpTag() {
     return new Promise((resolve, reject) => {
       if (this.radioValue === 'prodDomain') {
-        this.http.get(environment.apiAlauda + '/regions/alauda/cmss/nodes').subscribe(data => {
+        this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/cmss/nodes').subscribe(data => {
           console.log('这是主机标签', data);
           this.ipTag$ = _.compact(_.map(data, (value, key) => {
             if (value['labels'].length > 0) {
@@ -281,7 +281,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           resolve();
         });
       } else {
-        this.http.get(environment.apiAlauda + '/regions/alauda/ebd/nodes').subscribe(data => {
+        this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/ebd/nodes').subscribe(data => {
           console.log('这是主机标签', data);
           this.ipTag$ = _.compact(_.map(data, (value, key) => {
             if (value['labels'].length > 0) {

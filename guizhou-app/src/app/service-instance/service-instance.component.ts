@@ -87,7 +87,7 @@ export class ServiceInstanceComponent implements OnInit {
 
     ngOnInit() {
         this.refreshData();
-        this.titleFilter.valueChanges
+       /* this.titleFilter.valueChanges
             .debounceTime(500)
             .subscribe(
                 value => {
@@ -95,7 +95,7 @@ export class ServiceInstanceComponent implements OnInit {
                     console.log(value);
                     console.log(this.keyword);
                 }
-            );
+            );*/
     }
 }
 

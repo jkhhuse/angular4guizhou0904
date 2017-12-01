@@ -12,7 +12,8 @@ export const environment = {
     apiAlauda: 'http://10.132.49.108:8039/apiJakiro/v1',
     apiOP: 'http://10.139.5.45:7080/bdoc/v2',
     groupId: '2',
-    adminGroupId: '0'
+    adminGroupId: '0',
+    namespace: 'alauda'
 };
 /*export const environment = {
     production: false,
@@ -21,8 +22,9 @@ export const environment = {
     apiApp: 'http://10.198.102.89:8031',
     api: 'http://10.198.102.89:8180',
     apiAlauda: 'http://10.198.102.89:8039/apiJakiro/v1',
-    apiOP: 'http://10.139.5.45:7080/bdoc/v2',
+    apiOP: 'http://10.198.102.180:7080/bdoc/v2',
     groupId: '2',
-    adminGroupId: '0'
+    adminGroupId: '0',
+    namespace: 'admin'
 };*/
 

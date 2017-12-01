@@ -8,7 +8,7 @@
     <div nz-row class="detail-img-wrapper">
         <div nz-col [nzSpan]="6">
             <div class="img-block" *ngIf="serviceDetail">
-                <img class="detail-img" [src]='"http://10.132.49.108:8180/api/0/files/apiService/fileName/" + serviceDetail.serviceName + ".png"' alt=""/>
+                <img class="detail-img" [src]='imgUrl + serviceDetail.serviceName + ".png"' alt=""/>
             </div>
             <div class="img-block" *ngIf="serviceDetail">
                 <p class="detail-title">{{serviceDetail.serviceName}}</p>

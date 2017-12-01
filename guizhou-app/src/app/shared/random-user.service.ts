@@ -4,6 +4,7 @@ import 'rxjs/Rx';
 import {Http} from '@angular/http';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {environment} from "../../environments/environment";
+import { URLSearchParams } from '@angular/http';
 
 @Injectable()
 export class RandomUserService {

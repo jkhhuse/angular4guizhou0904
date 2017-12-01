@@ -5,24 +5,24 @@
         <div class="app-overview-totals">
             <div nz-row [nzGutter]="30">
                 <div nz-col class="total-row" [nzSpan]="8">
-                    <div class="total-box"  *ngIf="totals">
+                    <div class="total-box">
                         <img [src]="appImgUrl1" alt="" width="100%" class="appImg"/>
                         <span class="app-total-span">应用总数</span>
-                        <span class="app-total-num num-color1">{{totals.appTotalNum}}</span>
+                        <span class="app-total-num num-color1"  *ngIf="totals">{{totals.appTotalNum ? totals.appTotalNum : 0}}</span>
                     </div>
                 </div>
                 <div nz-col class="total-row" [nzSpan]="8">
-                    <div class="total-box"  *ngIf="totals">
+                    <div class="total-box">
                         <img [src]="appImgUrl1" alt="" width="100%" class="appImg"/>
                         <span class="app-total-span">容器个数</span>
-                        <span class="app-total-num num-color2">{{totals.dockerTotalNum}}</span>
+                        <span class="app-total-num num-color2"  *ngIf="totals">{{totals.dockerTotalNum ? totals.dockerTotalNum : 0}}</span>
                     </div>
                 </div>
                 <div nz-col class="total-row" [nzSpan]="8">
-                    <div class="total-box"  *ngIf="totals">
+                    <div class="total-box">
                         <img [src]="appImgUrl2" alt="" width="100%" class="appImg"/>
                         <span class="app-total-span">项目个数</span>
-                        <span class="app-total-num num-color3">{{totals.projectTotalNum}}</span>
+                        <span class="app-total-num num-color3"  *ngIf="totals">{{totals.projectTotalNum ? totals.projectTotalNum : 0}}</span>
                     </div>
                 </div>
             </div>

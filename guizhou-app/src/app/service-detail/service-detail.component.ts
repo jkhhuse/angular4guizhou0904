@@ -51,6 +51,8 @@ export class ServiceDetailComponent implements OnInit {
         }
     ];
     serviceImgUrl = 'assets/service/mysql.png';
+    imgUrl = environment.api + '/api/' + environment.adminGroupId + '/files/apiService/fileName/';
+
     serviceDetail: any;
     serviceInstances: any;
     titleFilter: FormControl = new FormControl();
