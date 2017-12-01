@@ -15,7 +15,9 @@
           letter-spacing: 0px;
           margin-bottom: 10px;
           text-align:right;
-          color: rgba(0, 0, 0, 0.9);">选择镜像</span>
+          color: rgba(0, 0, 0, 0.9);">选择镜像
+            <span style="color: red;margin-left: 3px;">*</span>
+          </span>
         </div>
         <nz-tooltip>
           <ng-template #nzTemplate>
@@ -216,12 +218,12 @@
         </span> -->
       </div>
     </nz-content>
-    <nz-footer>
-      <!-- <div nz-row>
+    <!-- <nz-footer>
+      <div nz-row>
         <div nz-col [nzSpan]="4"></div>
         <div nz-col [nzSpan]="18">
           <span>
-            <button [disabled]="buttonDisabled()" nz-button [nzType]="'primary'" (click)="submit($event)">
+            <button [disabled]="buttonDisabled()" nz-button [nzType]="'primary'" (click)="submit()">
               <span>发布</span>
             </button>
           </span>
@@ -231,7 +233,7 @@
             </button>
           </span>
         </div>
-      </div> -->
-    </nz-footer>
+      </div>
+    </nz-footer> -->
   </nz-layout>
 </div>
