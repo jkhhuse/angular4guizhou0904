@@ -185,6 +185,9 @@ export class AppReleaseComponent implements OnInit {
         return value['file']['name'];
       }
     })
+    const fileArrErr = _.map(_.compact(fileArr), (value, key) => {
+      return value;
+    });
     console.log('formValue', formValue);
     // return new Promise((resolve, reject) => {
     //   setTimeout( () => {
@@ -194,54 +197,58 @@ export class AppReleaseComponent implements OnInit {
     //     resolve();
     //   }, 1000);
     // });
-    return new Promise((resolve, reject) => {
-      // 这里箭头函数，解决闭包之后This指向windows的问题
-      // setTimeout(() => {
-      console.log('测试promise', this);
-      // _.map(_.compact(fileArr), (value, key) => {
-      // value = value.replace(/\s/g, '');
-      const reg = /\.\w+$/;
-      const httpArr = Observable.forkJoin(
-        _.map(_.compact(fileArr), (value, key) => {
-          value = value.replace(/\s/g, '');
-          return this.http.post(environment.api + '/api/' + environment.groupId + '/warehouse/repository?module=app', {
-            "description": formValue.description,
-            "fileName": value,
-            "isApp": true,
-            "registryId": this.imageOriginId,
-            "repositoryName": formValue.appName + '-' + value.replace(reg, ''),
-            "version": formValue.version
-            // }).toPromise().then((response) => {
-            //   console.log('这是response', response);
-            //   this.imageIdArr[key] = response;
-            //   this.repositories[key] = this.imageIdArr[key]['id'];
-            //   resolve();
-            // });
-          });
-        })
-      );
-      httpArr.subscribe(values => {
-        if (values.length > 0) {
-          console.log(values);
-          _.map(values, (value, key) => {
-            this.imageIdArr[key] = value;
-            this.repositories[key] = this.imageIdArr[key]['id'];
-          });
-          resolve();
-        } else {
-          throw new Error('error');
-        }
+    if (fileArrErr.length === 0) {
+      this.createNotification('error', '服务器错误', '请上传镜像文件!');
+    } else {
+      return new Promise((resolve, reject) => {
+        // 这里箭头函数，解决闭包之后This指向windows的问题
+        // setTimeout(() => {
+        console.log('测试promise', this);
+        // _.map(_.compact(fileArr), (value, key) => {
+        // value = value.replace(/\s/g, '');
+        const reg = /\.\w+$/;
+        const httpArr = Observable.forkJoin(
+          _.map(_.compact(fileArr), (value, key) => {
+            value = value.replace(/\s/g, '');
+            return this.http.post(environment.api + '/api/' + environment.groupId + '/warehouse/repository?module=app', {
+              "description": formValue.description,
+              "fileName": value,
+              "isApp": true,
+              "registryId": this.imageOriginId,
+              "repositoryName": formValue.appName + '-' + value.replace(reg, ''),
+              "version": formValue.version
+              // }).toPromise().then((response) => {
+              //   console.log('这是response', response);
+              //   this.imageIdArr[key] = response;
+              //   this.repositories[key] = this.imageIdArr[key]['id'];
+              //   resolve();
+              // });
+            });
+          })
+        );
+        httpArr.subscribe(values => {
+          if (values.length > 0) {
+            console.log(values);
+            _.map(values, (value, key) => {
+              this.imageIdArr[key] = value;
+              this.repositories[key] = this.imageIdArr[key]['id'];
+            });
+            resolve();
+          } else {
+            throw new Error('error');
+          }
+        });
+        // }).subscribe(response => {
+        //   console.log('这是response', response);
+        //   this.imageIdArr[key] = response;
+        //   this.repositories[key] = this.imageIdArr[key]['id'];
+        //   resolve();
+        // });
+        // });
+        // resolve();
+        // }, 0);
       });
-      // }).subscribe(response => {
-      //   console.log('这是response', response);
-      //   this.imageIdArr[key] = response;
-      //   this.repositories[key] = this.imageIdArr[key]['id'];
-      //   resolve();
-      // });
-      // });
-      // resolve();
-      // }, 0);
-    });
+    }
     // _.map(_.compact(fileArr), (value, key) => {
     //   this.http.post(environment.api + '/api/2/warehouse/repository?module=app', {
     //     "description": formValue.description,
@@ -277,10 +284,10 @@ export class AppReleaseComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    setTimeout(() => {
-      this.form.setDisabled('submit', true);
-    }, 0);
+    // setTimeout(() => {
     console.log('form11', this.form.controls);
+    this.form.setDisabled('submit', true);
+    // }, 0);
     let previousValid = this.form.valid;
     this.form.changes.subscribe(() => {
       if (this.form.valid !== previousValid) {
@@ -335,8 +342,8 @@ export class AppReleaseComponent implements OnInit {
     console.log(this.formConfig);
   }
 
-  createNotification = (type, title, content, options) => {
-    this._notification.create(type, title, content, options);
+  createNotification = (type, title, content) => {
+    this._notification.create(type, title, content);
   };
 
   buttonDisabled() {
