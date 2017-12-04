@@ -109,7 +109,8 @@ export class AppReleaseComponent implements OnInit {
         'width': '80%',
         'border-top': '1px solid #ddd',
         'padding-top': '20px'
-      }
+      },
+      // buttonDis: this.buttonDisabled()
     },
   ]
 
@@ -195,12 +196,15 @@ export class AppReleaseComponent implements OnInit {
     // });
     return new Promise((resolve, reject) => {
       // 这里箭头函数，解决闭包之后This指向windows的问题
-      setTimeout(() => {
-        console.log('测试promise', this);
+      // setTimeout(() => {
+      console.log('测试promise', this);
+      // _.map(_.compact(fileArr), (value, key) => {
+      // value = value.replace(/\s/g, '');
+      const reg = /\.\w+$/;
+      const httpArr = Observable.forkJoin(
         _.map(_.compact(fileArr), (value, key) => {
           value = value.replace(/\s/g, '');
-          const reg = /\.\w+$/;
-          this.http.post(environment.api + '/api/' + environment.groupId + '/warehouse/repository?module=app', {
+          return this.http.post(environment.api + '/api/' + environment.groupId + '/warehouse/repository?module=app', {
             "description": formValue.description,
             "fileName": value,
             "isApp": true,
@@ -213,15 +217,30 @@ export class AppReleaseComponent implements OnInit {
             //   this.repositories[key] = this.imageIdArr[key]['id'];
             //   resolve();
             // });
-          }).subscribe(response => {
-            console.log('这是response', response);
-            this.imageIdArr[key] = response;
-            this.repositories[key] = this.imageIdArr[key]['id'];
-            resolve();
           });
-        });
-        // resolve();
-      }, 0);
+        })
+      );
+      httpArr.subscribe(values => {
+        if (values.length > 0) {
+          console.log(values);
+          _.map(values, (value, key) => {
+            this.imageIdArr[key] = value;
+            this.repositories[key] = this.imageIdArr[key]['id'];
+          });
+          resolve();
+        } else {
+          throw new Error('error');
+        }
+      });
+      // }).subscribe(response => {
+      //   console.log('这是response', response);
+      //   this.imageIdArr[key] = response;
+      //   this.repositories[key] = this.imageIdArr[key]['id'];
+      //   resolve();
+      // });
+      // });
+      // resolve();
+      // }, 0);
     });
     // _.map(_.compact(fileArr), (value, key) => {
     //   this.http.post(environment.api + '/api/2/warehouse/repository?module=app', {
@@ -321,7 +340,15 @@ export class AppReleaseComponent implements OnInit {
   };
 
   buttonDisabled() {
-    return !this.form.valid;
+    let fileArr = _.map(this._dataSet, (value, key) => {
+      if (value['isSuccess'] === true) {
+        return value['file']['name'];
+      }
+    });
+    fileArr = _.map(_.compact(fileArr), (value, key) => {
+      return value;
+    });
+    return !this.form.valid || fileArr.length === 0;
   }
 
   pre() {

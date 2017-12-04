@@ -15,5 +15,6 @@ export interface FieldConfig {
     ifTags?: string,
     inputType?: string,
     defaultValue?: any,
-    notNecessary?: boolean
+    notNecessary?: boolean,
+    buttonDis?: any
 }
