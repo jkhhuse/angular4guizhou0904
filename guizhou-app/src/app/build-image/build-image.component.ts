@@ -84,13 +84,19 @@ export class BuildImageComponent implements OnInit {
     },
   ];
 
-  constructor(private routeInfo: ActivatedRoute, private router: Router, private http: HttpClient, private confirmServ: NzModalService) { }
+  constructor(private _notification: NzNotificationService, private routeInfo: ActivatedRoute,
+    private router: Router,
+    private http: HttpClient, private confirmServ: NzModalService) { }
 
   ngOnInit() {
     this.mirrorName = this.routeInfo.snapshot.params['mirrorName'];
     this.getImageOrigin();
     this.getImages();
   }
+
+  createNotification = (type, title, content) => {
+    this._notification.create(type, title, content);
+  };
 
   FileSelected(uploaderType: any) {
     if (uploaderType === 'image') {
@@ -149,11 +155,17 @@ export class BuildImageComponent implements OnInit {
       if (value['isSuccess'] === true) {
         return value['file']['name'];
       }
-    })
+    });
+    const fileArrErr = _.map(_.compact(fileArr), (value, key) => {
+      return value;
+    });
     console.log('formValue', formValue);
-    return new Promise((resolve, reject) => {
-      // 这里箭头函数，解决闭包之后This指向windows的问题
-      setTimeout(() => {
+    if (fileArrErr.length === 0) {
+      this.createNotification('error', '服务器错误', '请上传镜像文件!');
+    } else {
+      return new Promise((resolve, reject) => {
+        // 这里箭头函数，解决闭包之后This指向windows的问题
+        // setTimeout(() => {
         console.log('测试promise', this);
         _.map(_.compact(fileArr), (value, key) => {
           // const repositoryName = this.radioValue === 'newImage' ? formValue.imageName + '-' + 
@@ -190,8 +202,9 @@ export class BuildImageComponent implements OnInit {
           });
         });
         // resolve();
-      }, 0);
-    });
+        // }, 0);
+      });
+    }
   }
 
   getImageOrigin() {
