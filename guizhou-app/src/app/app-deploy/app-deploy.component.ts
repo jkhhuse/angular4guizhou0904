@@ -251,6 +251,10 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   ];
   formThird3Entity: object = {};
 
+  @ViewChild('formThird4Project') formThird4Project: DynamicFormComponent;
+  formThird4: object[] = [];
+  formThird4Entity: object = {};
+
   // async toggleButton() {
   //   await this.getIpTag();
   //   this.formThird[3] = {
@@ -267,6 +271,34 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   //   },
   //     this.formThirdProject.setValue('ip_tag', this.formThird[3]);
   // }
+
+  buttonDisabled() {
+    switch (this.current) {
+      case 0: {
+        return !this.formFirstProject.valid;
+      }
+      case 1: {
+        return !this.formSecondProject.valid;
+      }
+      case 2: {
+        if (this.serviceTabs.length === 0) {
+          return false;
+        } else {
+          let ThirdValid;
+          if (this.choosedServiceName === 'redis' && this.formThird3Project !== undefined) {
+            if (this.formThird3Project['config'][0]['label'] === '发布') {
+              ThirdValid = false;
+            } else {
+              ThirdValid = !this.formThird3Project.valid;
+            }
+          }
+          return !this.formThirdProject.valid || !this.formThird2Project.valid ||
+            !this.formThird1Project.valid || ThirdValid;
+        }
+        // return  !this.formThird2Project.valid || !this.formThird1Project.valid;
+      }
+    }
+  }
 
   getIpTag() {
     return new Promise((resolve, reject) => {
@@ -449,6 +481,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 });
               } else {
                 this.formThird1[key] = {
+                  selectedOption: undefined,
                   type: 'select',
                   label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
                   name: value['attribute_name'],
@@ -583,6 +616,29 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           }
         });
         this.formThird2 = _.uniqWith(_.compact(this.formThird2), _.isEqual);
+        _.map(data['true_config'], (value, key) => {
+          switch (value['type']) {
+            case 'string': {
+              this.formThird4[key] = {
+                type: 'input',
+                defaultValue: value['default_value'],
+                label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
+                name: value['attribute_name'],
+                placeholder: (value['description'] && value['description']['zh'] !== '') ?
+                  value['description']['zh'] : value['attribute_name'],
+                // validation: [Validators.required],
+                notNecessary: true,
+                styles: {
+                  'width': '400px'
+                }
+              }
+              break;
+            }
+            default:
+              break;
+          }
+        });
+        this.formThird4 = _.uniqWith(_.compact(this.formThird4), _.isEqual);
         if (this.choosedServiceName === 'kafka') {
           const config$ = {
             ifTags: 'true',
@@ -660,6 +716,9 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           this.formThird1Project.setConfig(this.formThird1);
           await this.getServiceAdvanced();
           this.formThird2Project.setConfig(this.formThird2);
+          if (this.choosedServiceName === 'zookeeper') {
+            this.formThird4Project.setConfig(this.formThird4);
+          }
         }
         console.log('formData', this.formData);
         // this.formData['microserviceName'] = this.formSecondProject.value['microserviceName'];
@@ -702,6 +761,15 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       } else {
         this.formThird3Entity = {};
       }
+      if (this.formThird4Project) {
+        if (this.formThird4Project['config'].length !== 0) {
+          _.mapKeys(this.formThird4Project['value'], (value, key) => {
+            this.formThird4Entity[key] = value;
+          });
+        } else {
+          this.formThird4Entity = {};
+        }
+      }
       this.formThird1RadioEntity[this.instanceThird.value['name']] = this.instanceThird.value['instance_size']
       this.formThird1Project.value['num_of_nodes'] = parseInt(this.formThird1Project.value['num_of_nodes']);
       this.formData['serviceInstances'][0] = {
@@ -714,7 +782,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         clusterName: this.radioValue === 'prodDomain' ? 'cmss' : 'ebd',
         info: {
           basic_config: _.assign(this.formThird1Project.value, this.formThird1RadioEntity),
-          advanced_config: _.assign(this.formThird2Project.value, this.formThird2RadioEntity, this.formThird3Entity)
+          advanced_config: _.assign(this.formThird2Project.value, this.formThird2RadioEntity, this.formThird3Entity, this.formThird4Entity)
         }
       }
     }
@@ -791,32 +859,22 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     await this.getIpTag();
     await this.getServiceBasic();
     this.formThird1Project.setConfig(this.formThird1);
+    this.formThird1Project.setFormValue('image_tag', undefined);
     // 这里获取服务的advanced_config
     await this.getServiceAdvanced();
     console.log('这是formThird2', this.formThird2);
     this.formThird2Project.setConfig(this.formThird2);
+    if (this.choosedServiceName === 'zookeeper') {
+      this.formThird4Project.setConfig(this.formThird4);
+    }
+    if (this.choosedServiceName === 'redis') {
+      this.formThird3Project.setConfig(this.formThird3);
+    }
+    this.buttonDisabled();
     console.log('service-id', this.serviceId);
   }
 
-  buttonDisabled() {
-    switch (this.current) {
-      case 0: {
-        return !this.formFirstProject.valid;
-      }
-      case 1: {
-        return !this.formSecondProject.valid;
-      }
-      case 2: {
-        if (this.serviceTabs.length === 0) {
-          return false;
-        } else {
-          return !this.formThirdProject.valid || !this.formThird2Project.valid ||
-            !this.formThird1Project.valid || !this.formThird3Project.valid;
-        }
-        // return  !this.formThird2Project.valid || !this.formThird1Project.valid;
-      }
-    }
-  }
+  
 
   changeContent() {
     switch (this.current) {
@@ -928,9 +986,14 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         // 这里需要手动点击toggleRadio才能触发数据刷新，考虑给form的select增加一个监听事件，每次下拉
         // 选择值的时候，就output出来给父组件，然后父组件this.set设置这个值
         this.formThird3Project.setConfig(this.formThird3);
+      } else if (value.name === 'mount_volume') {
+        if (value.defaultValue === 'true') {
+          this.formThird4Project.setConfig(this.formThird4);
+        } else {
+          this.formThird4Project.setConfig([]);
+        }
       }
     });
-
   }
 
   async ngOnInit() {
