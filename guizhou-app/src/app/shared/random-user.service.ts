@@ -56,4 +56,7 @@ export class RandomUserService {
     getAppInstanceDetail(instanceID): Observable<any> {
         return this.http.get(environment.apiApp + '/apiApp' + '/application-instances/' + instanceID).map(res => res.json());
     }
+    getSubInstanceDetail(appName): Observable<any> {
+      return this.http.get(environment.apiApp + '/apiApp'  + '/groups/' + environment.groupId + '/applications/' + appName + '/instances').map(res => res.json());
+    }
 }

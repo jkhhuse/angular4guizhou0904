@@ -25,8 +25,8 @@
         <div nz-col [nzSpan]="12" class="detail-12col first-line">
             <div class="detail-line">
                 <span>更新时间</span>
-                <span class="detail-line-value" *ngIf="mirrorDetail.updateTime">{{mirrorDetail.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                <span class="detail-line-value" *ngIf="!mirrorDetail.updateTime">暂无更新</span>
+                <span class="detail-line-value" *ngIf="mirrorDetail.createTime">{{mirrorDetail.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                <span class="detail-line-value" *ngIf="!mirrorDetail.createTime">暂无更新</span>
             </div>
         </div>
         <div nz-col [nzSpan]="12" class="detail-12col">
@@ -79,6 +79,28 @@
             </tr>
             </tbody>
         </nz-table>
+      <div *ngIf="module === 'app'">
+        <div class="app-detail-block">
+          <div class="app-detail-title">依赖的服务</div>
+          <div class="" *ngIf="mirrorDetail">
+            <div *ngFor="let service of mirrorDetail.services">
+              {{service.serviceName}}
+            </div>
+          </div>
+        </div>
+        <div class="app-detail-block">
+          <div class="app-detail-title">镜像</div>
+          <div class="" *ngIf="mirrorDetail.repositories">
+            <app-app-nztable [mirrorDetail]="mirrorDetail" [tableNum]="1" [tableTitle]="table1Title"></app-app-nztable>
+          </div>
+        </div>
+        <div class="app-detail-block">
+          <div class="app-detail-title">已订购实例</div>
+          <div class="" *ngIf="subInstances">
+            <app-app-nztable [mirrorDetail]="subInstances" [tableNum]="2" [tableTitle]="table2Title"></app-app-nztable>
+          </div>
+        </div>
+      </div>
     </div>
 </nz-content>
 <nz-modal [nzVisible]="isVisible" [nzTitle]="'操作确认'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">

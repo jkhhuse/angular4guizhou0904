@@ -52,6 +52,7 @@ import { ErrorInterceptorComponent } from './util/error-interceptor/error-interc
 import { ServiceTestService } from './service-test/service-test.service';
 import { AppOverviewDetailComponent } from './app-overview-detail/app-overview-detail.component';
 import { RegNameDirective } from './util/reg-pattern/reg-name.directive';
+import { AppNztableComponent } from './app-nztable/app-nztable.component';
 
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
@@ -89,6 +90,7 @@ export function createTranslateHttpLoader(http: HttpClient) {
         ErrorInterceptorComponent,
         AppOverviewDetailComponent,
         RegNameDirective,
+        AppNztableComponent,
     ],
     imports: [
         BrowserModule,
