@@ -228,6 +228,8 @@
                   </div>
                 </div>
                 <dynamic-form *ngIf="choosedServiceName  === 'redis'" #formThird3Project [config]="formThird3"></dynamic-form>
+                <!-- 这里可以用zookeeper && radio === true，也可以和上面redis一样的处理逻辑 -->
+                <dynamic-form *ngIf="choosedServiceName  === 'zookeeper'" #formThird4Project [config]="formThird4"></dynamic-form>
               </div>
             </div>
           </nz-content>

@@ -101,6 +101,11 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         this.config = config;
     }
 
+    setFormValue(key, value) {
+        // this.form.controls[key]['value'] = value;
+        console.log(this.form.value);
+    }
+
     // 这里涉及到select子组件，往上传值
     valueArr(event: any) {
         console.log('这是select value', event);

@@ -16,5 +16,6 @@ export interface FieldConfig {
     inputType?: string,
     defaultValue?: any,
     notNecessary?: boolean,
-    buttonDis?: any
+    buttonDis?: any,
+    selectedOption?: any
 }
