@@ -16,6 +16,8 @@ export class RepositoryDetailComponent implements OnInit {
   public title: String = '详情内容';
   mirrorImgUrl = 'assets/service/mirror.png';
   imgUrl = environment.api + '/api/' + environment.groupId + '/files/app/fileName/';
+  serviceImgUrl = environment.api + '/api/' + environment.adminGroupId + '/files/apiService/fileName/';
+
   mirrorDetail: any;
   subInstances: any;
   mirrorVersions: any;

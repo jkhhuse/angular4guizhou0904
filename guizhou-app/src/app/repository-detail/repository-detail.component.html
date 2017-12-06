@@ -79,12 +79,17 @@
             </tr>
             </tbody>
         </nz-table>
+
       <div *ngIf="module === 'app'">
         <div class="app-detail-block">
           <div class="app-detail-title">依赖的服务</div>
-          <div class="" *ngIf="mirrorDetail">
+          <div class="custom-image-wrapper" *ngIf="mirrorDetail">
             <div *ngFor="let service of mirrorDetail.services">
-              {{service.serviceName}}
+              <div class="custom-image">
+                <img *ngIf="service.serviceName"
+                     [src]='serviceImgUrl + service.serviceName + ".png"'
+                     alt=""/>
+              </div>
             </div>
           </div>
         </div>
