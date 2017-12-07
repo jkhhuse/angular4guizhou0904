@@ -31,7 +31,7 @@ export class AppStoreComponent implements OnInit {
             index: 2,
             name: '公共应用',
             tabName: 'public',
-            disabled: true
+            disabled: false
         }
     ];
 
@@ -44,31 +44,40 @@ export class AppStoreComponent implements OnInit {
     }
 
     groupidHandler(event: any) {
+        console.log('change event: ' + event);
+        console.log('change event this.groupid: ' + this.groupid);
         this.groupid = event;
-        console.log('app get groupid: ' + this.groupid);
+        // console.log('change！！ get groupid: ' + this.groupid);
+        // console.log('change！！ cookie: ' + this.servicesService.getCookie('groupID'));
     }
 
     changeAppName(appName): void {
         this.appName = appName;
+        console.log('changeAppName');
     }
 
     constructor(private servicesService: ServicesService, private http: Http) {
     }
 
     ngOnInit() {
-        // this.groupList = ['BDOC-TEST-11?5', 'test111?8', 'asd?7'];
+
+        /*// this.groupList = ['BDOC-TEST-11?5', 'test111?8', 'asd?7'];
         // 如果groupid是空的，去cookie里面取得默认值
-        /*if (this.groupid = 'undefined') {
+        if (this.groupid = 'undefined') {
+            console.log('groupid = \'undefined\': ' + this.groupid);
+
             this.groupid = this.servicesService.getCookie('groupID');
-        }*/
-        /*console.log('groupList: ' + this.groupList);
+            console.log('groupid = \'2222222\': ' + this.groupid);
+
+        }
+        console.log('groupList: ' + this.groupList);
         console.log('groupID 默认: ' + this.groupid);
-        console.log('groupID cookie: ' + this.servicesService.getCookie('groupID'));*/
+        console.log('groupID cookie: ' + this.servicesService.getCookie('groupID'));
 
         // 订阅op的group流
-        /*this.servicesService.getGroupList().subscribe((data) => {
+        this.servicesService.getGroupList().subscribe((data) => {
             // 过滤出需要的数据，拼接成一个array
-            // this.groupList  =  this.servicesService.getGroupNameList(data);
+             this.groupList  =  this.servicesService.getGroupNameList(data);
             console.log('groupList: ' + this.groupList);
         });*/
     }

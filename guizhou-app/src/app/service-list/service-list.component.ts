@@ -14,6 +14,8 @@ import {NzModalService} from "ng-zorro-antd";
 })
 export class ServiceListComponent implements OnInit, OnChanges {
     @Input()
+    groupid: string;
+    @Input()
     tabName: string;
     @Input()
     titleFilter: FormControl = new FormControl();
@@ -130,19 +132,14 @@ export class ServiceListComponent implements OnInit, OnChanges {
     }
 
     ngOnChanges(changes: SimpleChanges) {
+        console.log('servicelist ngOnChanges');
+        console.log('servicelist  groupid: ' + this.groupid);
+
         this.services = this.servicesService.getServices(this.tabName, this.moduleName);
         this.keyword = '';
     }
 
     ngOnInit() {
-        for (let i = 0; i < 46; i++) {
-            this._dataSet.push({
-                key    : i,
-                name   : `Edward King ${i}`,
-                age    : 32,
-                address: `London, Park Lane no. ${i}`,
-            });
-        }
 
         /* this.servicesService.getServices().subscribe((data) => {
              this.products = data;
@@ -150,7 +147,7 @@ export class ServiceListComponent implements OnInit, OnChanges {
          });*/
         // this.services = this.servicesService.getServices(this.tabName, this.moduleName);
        this.servicesService.getServices(this.tabName, this.moduleName).subscribe((data) => {
-           console.log(data);
+        //   console.log(data);
           this.services2 = data;
         });
         this.titleFilter.valueChanges

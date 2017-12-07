@@ -21,6 +21,7 @@ export class ServicesService {
             //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());
             return this.http.get(environment.apiService + '/apiService' + '/groups/' + environment.groupId + '/services?isPublic=' + tabName).map(res => res.json());
         } else if (moduleName === 'app') {
+            console.log('getService get cookie: ' + this.getCookie('groupID'));
             //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());
             return this.http.get(environment.apiApp + '/apiApp' + '/groups/' + environment.groupId + '/applications').map(res => res.json());
         }
@@ -53,9 +54,9 @@ export class ServicesService {
         }
     }
 
-  /*  getGroupList(): any {
+    getGroupList(): any {
         this.userId = this.getUserId();
-        // console.log('getGroupList user: ' + this.userId);
+         console.log('getservice userID: ' + this.userId);
         if (this.userId === '') {
             return '';
         } else {
@@ -79,7 +80,7 @@ export class ServicesService {
                     // console.log('groupList length: ' + groupList.length);
                     temp = groupList[i];
                     // console.log('temp: ' + temp);
-                    groupArray[i] = temp.name + '?' + temp.id;
+                    groupArray[i] = temp.name + '_' + temp.id;
                     // console.log(' groupArray[i]: ' +  groupArray[i]);
                 }
                 return groupArray;
@@ -87,7 +88,7 @@ export class ServicesService {
         } else {
             return [];
         }
-    }*/
+    }
     getCookie(key: string) {
         return this._cookieService.get(key);
     }

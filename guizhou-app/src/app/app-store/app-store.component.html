@@ -12,9 +12,9 @@
     接受到子组件header传来的title为{{childTitle}}
 </p>-->
 <app-header [title]="title"></app-header>
-<!--
-<app-group-select [groupList]="groupList" (groupidHandler)="groupidHandler($event)"></app-group-select>
--->
+
+<app-group-select (groupidHandler)="groupidHandler($event)"></app-group-select>
+
 
 <nz-content class="app-store-wrapper">
     <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" class="appTab">
@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            <app-service-list [moduleName]="'app'" [tabName]="appName" [titleFilter]="titleFilter"></app-service-list>
+            <app-service-list [moduleName]="'app'" [tabName]="appName" [groupid]="groupid" [titleFilter]="titleFilter"></app-service-list>
         </nz-tab>
     </nz-tabset>
 </nz-content>
