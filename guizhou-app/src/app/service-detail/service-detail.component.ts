@@ -103,7 +103,7 @@ export class ServiceDetailComponent implements OnInit {
         return this.http.get(environment.apiService + '/apiService' + '/services/' + serviceId);
     }
     getServiceInstances(serviceName): Observable<any> {
-        return this.http.get(environment.apiService + '/apiService' + '/groups/' + environment.groupId + '/services/' +
+        return this.http.get(environment.apiService + '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' +
         serviceName + '/instances');
     }
     // 删除服务接口
@@ -111,7 +111,7 @@ export class ServiceDetailComponent implements OnInit {
         status = '';
         console.log('删除服务实例：' + serviceName + '  ' + serviceId);
         // 返回是string 不是json
-        this.http.delete(environment.apiService + '/apiService' + '/groups/' +
+        this.http.delete(this.servicesService.getCookie('groupID') + '/apiService' + '/groups/' +
         environment.groupId + '/service-instances/' + serviceId).subscribe((data) => {
             status = data['status'].toString();  // 返回状态204删除成功
             console.log('删除接口返回状态status：' + status);

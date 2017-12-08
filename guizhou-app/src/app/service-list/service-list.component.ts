@@ -23,7 +23,7 @@ export class ServiceListComponent implements OnInit, OnChanges {
     moduleName: string;
     private keyword: string;
     mirrorImgUrl = 'assets/service/mirror.png';
-    appimgUrl = environment.api + '/api/' + environment.groupId + '/files/app/fileName/';
+    appimgUrl = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/files/app/fileName/';
     serviceImgUrl = environment.api + '/api/' + environment.adminGroupId + '/files/apiService/fileName/';
     services: Observable<any[]>;
     services2: any;
@@ -88,7 +88,7 @@ export class ServiceListComponent implements OnInit, OnChanges {
         status = '';
         console.log('删除镜像：' + mirrorName + '  ' + this.tabName);
         // 返回是string 不是json
-        this.http.delete(environment.api + '/api/' + environment.groupId + '/warehouse/repository/' + mirrorName + '?region=' + this.tabName).subscribe((data) => {
+        this.http.delete(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + mirrorName + '?region=' + this.tabName).subscribe((data) => {
             status = data.toString();
         });
         return status;
@@ -98,7 +98,7 @@ export class ServiceListComponent implements OnInit, OnChanges {
     deleteApp(appId, appName): string {
         status = '';
         console.log('删除应用：' + appName + '  ' + appId);
-        this.http.delete(environment.apiApp + '/apiApp' + '/groups/' + environment.groupId + '/applications/' + appId).subscribe((data) => {
+        this.http.delete(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + appId).subscribe((data) => {
             console.log(data.status); // 删除成功是204
         });
         return status;

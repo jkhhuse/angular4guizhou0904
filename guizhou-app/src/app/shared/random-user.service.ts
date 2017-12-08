@@ -30,12 +30,14 @@ export class RandomUserService {
     }
 
     getServiceInstances(pageIndex = 1, pageSize = 10, sortField, sortOrder): Observable<any> {
+        console.log('getServiceInstances cookie: ' + this.servicesService.getCookie('groupID'));
+
         const params = new URLSearchParams();
         params.set('page', `${pageIndex}`);
         params.set('results', `${pageSize}`);
         params.set('sortField', sortField);
         params.set('sortOrder', sortOrder);
-        return this.http.get(environment.apiService + '/apiService' + '/groups/' + environment.groupId + '/service-instances', {search: params}).map(res => res.json());
+        return this.http.get(environment.apiService + '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/service-instances', {search: params}).map(res => res.json());
     }
 
     getAppInstances(pageIndex = 1, pageSize = 10, sortField, sortOrder, tabName): Observable<any> {
@@ -60,6 +62,6 @@ export class RandomUserService {
         return this.http.get(environment.apiApp + '/apiApp' + '/application-instances/' + instanceID).map(res => res.json());
     }
     getSubInstanceDetail(appName): Observable<any> {
-      return this.http.get(environment.apiApp + '/apiApp'  + '/groups/' + environment.groupId + '/applications/' + appName + '/instances').map(res => res.json());
+      return this.http.get(environment.apiApp + '/apiApp'  + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + appName + '/instances').map(res => res.json());
     }
 }

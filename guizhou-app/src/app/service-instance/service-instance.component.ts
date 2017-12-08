@@ -10,6 +10,8 @@ import {FormControl} from "@angular/forms";
 export class ServiceInstanceComponent implements OnInit {
 // 标签名
     title: String = '服务实例';
+    public groupid: any;
+
     // input输入框
     titleFilter: FormControl = new FormControl();
     private keyword: string;
@@ -32,6 +34,14 @@ export class ServiceInstanceComponent implements OnInit {
     _dataSet = [];
     copyData = [...this._dataSet];
 
+    groupidHandler(event: any) {
+        console.log('change event: ' + event);
+        console.log('change event this.groupid: ' + this.groupid);
+        this.groupid = event;
+        // console.log('change！！ get groupid: ' + this.groupid);
+        // console.log('change！！ cookie: ' + this.servicesService.getCookie('groupID'));
+        this.refreshData();
+    }
     sort(sortName, value) {
         this._sortName = sortName;
         this._sortValue = value;
@@ -86,16 +96,10 @@ export class ServiceInstanceComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.refreshData();
-       /* this.titleFilter.valueChanges
-            .debounceTime(500)
-            .subscribe(
-                value => {
-                    this.keyword = value;
-                    console.log(value);
-                    console.log(this.keyword);
-                }
-            );*/
+        // 添加timeout时间，把init时间放到队列末尾，等待groupselect加载完成。
+        setTimeout(() => {
+            this.refreshData();
+        }, 0);
     }
 }
 

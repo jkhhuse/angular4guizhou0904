@@ -5,6 +5,7 @@ import {Http} from '@angular/http';
 import {isUndefined} from "util";
 import {environment} from "../../environments/environment";
 import {RandomUserService} from "../shared/random-user.service";
+import {ServicesService} from "../shared/services.service";
 
 @Component({
   selector: 'app-repository-detail',
@@ -15,7 +16,7 @@ export class RepositoryDetailComponent implements OnInit {
   // 标签名
   public title: String = '详情内容';
   mirrorImgUrl = 'assets/service/mirror.png';
-  imgUrl = environment.api + '/api/' + environment.groupId + '/files/app/fileName/';
+  imgUrl = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/files/app/fileName/';
   serviceImgUrl = environment.api + '/api/' + environment.adminGroupId + '/files/apiService/fileName/';
 
   mirrorDetail: any;
@@ -71,26 +72,26 @@ export class RepositoryDetailComponent implements OnInit {
   ];
   // 获取流
   getServiceDetail() {
-    return this.http.get(environment.api + '/api/' + environment.groupId + '/warehouse/repository/' + this.name + '?region=' + this.tabName).map(res => res.json().images);
+    return this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + this.name + '?region=' + this.tabName).map(res => res.json().images);
   }
 
   // 获取流
   getAppVersions() {
-    return this.http.get(environment.apiApp + '/apiApp' + '/groups/' + environment.groupId + '/applications/' + this.name + '/versions').map(res => res.json());
+    return this.http.get(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + this.name + '/versions').map(res => res.json());
   }
 
   // 获取流
   getAppDetail(firstVersionId) {
-    return this.http.get(environment.apiApp + '/apiApp' + '/groups/' + environment.groupId + '/applications/' + firstVersionId).map(res => res.json());
+    return this.http.get(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + firstVersionId).map(res => res.json());
   }
 
-  constructor(private routeInfo: ActivatedRoute, private http: Http, private _randomUser: RandomUserService) {
+  constructor(private routeInfo: ActivatedRoute, private http: Http, private _randomUser: RandomUserService, private servicesService: ServicesService) {
   }
 
   deleteVersion(name, versionId) {
     status = '';
     console.log('删除版本：' + name + '  ' + versionId);
-    this.http.delete(environment.apiApp + '/apiApp' + '/groups/' + environment.groupId + '/applications/' + versionId).subscribe((data1) => {
+    this.http.delete(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + versionId).subscribe((data1) => {
       status = data1.status.toString();
       console.log('调用后status：' + status);
       if (status === '204') {

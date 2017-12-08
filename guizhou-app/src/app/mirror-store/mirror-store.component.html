@@ -1,4 +1,5 @@
 <app-header [title]="title"></app-header>
+<app-group-select (groupidHandler)="groupidHandler($event)"></app-group-select>
 
 <nz-content class="mirror-store-wrapper">
     <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" class="mirrorTab">
@@ -6,7 +7,6 @@
             <ng-template #nzTabHeading>
                 {{tab.name}}
             </ng-template>
-            <app-group-select (groupidHandler)="groupidHandler($event)"></app-group-select>
 
             <div nz-row class="mirror-btns-wrapper">
                 <div nz-col [nzSpan]="6" class="catalog-option">
