@@ -1,5 +1,6 @@
 <div class="app-overview">
     <app-header [title]="title"></app-header>
+    <app-group-select (groupidHandler)="groupidHandler($event)"></app-group-select>
 
     <nz-content class="overview-content-wrapper">
         <div class="app-overview-totals">

@@ -6,6 +6,8 @@
             <ng-template #nzTabHeading>
                 {{tab.name}}
             </ng-template>
+            <app-group-select (groupidHandler)="groupidHandler($event)"></app-group-select>
+
             <div nz-row class="mirror-btns-wrapper">
                 <div nz-col [nzSpan]="6" class="catalog-option">
                     <button *ngIf="tab.tabName == 'private'" nz-button [nzType]="'primary'" [routerLink]="['/buildImage', mirrorName]">构建</button>

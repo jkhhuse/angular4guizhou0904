@@ -31,7 +31,7 @@ export class AppStoreComponent implements OnInit {
             index: 2,
             name: '公共应用',
             tabName: 'public',
-            disabled: false
+            disabled: true
         }
     ];
 

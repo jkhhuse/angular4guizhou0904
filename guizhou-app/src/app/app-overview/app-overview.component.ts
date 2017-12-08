@@ -13,6 +13,7 @@ export class AppOverviewComponent implements OnInit {
     // private totals: AppTotalsClass = new AppTotalsClass(110, 220, 330);
     private totals: AppTotalsClass;
     private totalTemp: any;
+    public groupid: any;
     appImgUrl1 = 'assets/application/u3225.png';
     appImgUrl2 = 'assets/application/u3227.png';
     title: String = '应用概览';
@@ -97,37 +98,37 @@ export class AppOverviewComponent implements OnInit {
             console.log(this._dataSet);
         });
     }
+    groupidHandler(event: any) {
+        console.log('change event: ' + event);
+        console.log('change event this.groupid: ' + this.groupid);
+        this.groupid = event;
+        // console.log('change！！ get groupid: ' + this.groupid);
+        // console.log('change！！ cookie: ' + this.servicesService.getCookie('groupID'));
+        this.getTotalNums();
+        this.refreshData();
+    }
 
     changeMirrorName(mirrorName): void {
         this.mirrorName = mirrorName;
         this.refreshData();
-
-        console.log(this.mirrorName);
     }
-
-    constructor(private _randomUser: RandomUserService) {
-    }
-
-    ngOnInit() {
+    getTotalNums() {
         this.totalTemp = this._randomUser.getTotals();
         this.totalTemp.subscribe((data) => {
             console.log('data: ' + data);
 
             if (!(data == null)) {
                 this.totals = new AppTotalsClass(data.appCount, data.podsCount, 3);
-                 console.log(this.totals);
+                console.log(this.totals);
             }
         });
+    }
+    constructor(private _randomUser: RandomUserService) {
+    }
+
+    ngOnInit() {
+        this.getTotalNums();
         this.refreshData();
-        this.titleFilter.valueChanges
-            .debounceTime(500)
-            .subscribe(
-                value => {
-                    this.keyword = value;
-                    console.log(value);
-                    console.log(this.keyword);
-                }
-            );
     }
 
 }

@@ -13,6 +13,7 @@ export class MirrorStoreComponent implements OnInit {
     mirrorImgUrl = 'assets/service/mysql.png';
     mirrorName: String = 'private';
     titleFilter: FormControl = new FormControl();
+    public groupid: any;
 
     // 分页
     private tabs = [
@@ -27,6 +28,13 @@ export class MirrorStoreComponent implements OnInit {
             tabName: 'public'
         }
     ];
+    groupidHandler(event: any) {
+        console.log('change event: ' + event);
+        console.log('change event this.groupid: ' + this.groupid);
+        this.groupid = event;
+        // console.log('change！！ get groupid: ' + this.groupid);
+        // console.log('change！！ cookie: ' + this.servicesService.getCookie('groupID'));
+    }
     changeMirrorName(mirrorName): void {
         this.mirrorName = mirrorName;
     }

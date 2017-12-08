@@ -23,7 +23,7 @@ export class ServicesService {
         } else if (moduleName === 'app') {
             console.log('getService get cookie: ' + this.getCookie('groupID'));
             //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());
-            return this.http.get(environment.apiApp + '/apiApp' + '/groups/' + environment.groupId + '/applications').map(res => res.json());
+            return this.http.get(environment.apiApp + '/apiApp' + '/groups/' + this.getCookie('groupID') + '/applications').map(res => res.json());
         }
         /* else if (moduleName === 'serviceDetail') {
             //  服务详情里面，tabName字段传入的是服务id，serviceId
@@ -60,7 +60,9 @@ export class ServicesService {
         if (this.userId === '') {
             return '';
         } else {
-           return this.http.get(environment.apiOP + '/renter/users/' + this.userId + '/groups?roleName=all').map(res => res.json());
+            return '';
+
+           // return this.http.get(environment.apiOP + '/renter/users/' + this.userId + '/groups?roleName=all').map(res => res.json());
         }
     }
 
