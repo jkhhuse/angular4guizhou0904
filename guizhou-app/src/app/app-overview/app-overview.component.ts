@@ -127,8 +127,10 @@ export class AppOverviewComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getTotalNums();
-        this.refreshData();
+        setTimeout(() => {
+            this.getTotalNums();
+            this.refreshData();
+        }, 0);
     }
 
 }
