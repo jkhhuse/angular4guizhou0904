@@ -110,7 +110,7 @@
             <nz-timeline-item>更新V1.1.2 2017-09-27</nz-timeline-item>
         </nz-timeline>
     </div>
-    <h4 class="detail-h3">已订购实例</h4>
+   <!-- <h4 class="detail-h3">已订购实例</h4>
     <div nz-row class="detail-instance-wrapper">
         <div *ngIf="serviceInstances">
             <div nz-row [nzGutter]="8">
@@ -146,12 +146,20 @@
                         </nz-card>
                     </div>
                 </div>
-                <!--<div *ngFor="let service of services | async">
+                &lt;!&ndash;<div *ngFor="let service of services | async">
                     {{service.name}}
-                </div>-->
+                </div>&ndash;&gt;
             </div>
         </div>
     </div>
+-->
+    <div class="app-detail-block">
+      <div class="app-detail-title">已订购实例</div>
+      <div class="detail-instance-wrapper" *ngIf="serviceInstances">
+        <app-app-nztable [mirrorDetail]="serviceInstances" [tableNum]="3" [tableTitle]="table3Title"></app-app-nztable>
+      </div>
+    </div>
+
     <h4 class="detail-h3">套餐</h4>
     <div nz-row class="detail-package-wrapper">
         <div nz-col [nzSpan]="24" style="margin-left: 10px">

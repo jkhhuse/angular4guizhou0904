@@ -30,5 +30,22 @@
     <td nz-td>{{data.instancesCount}} 个</td>
     <td nz-td>{{data.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
   </tr>
+  <tbody nz-tbody *ngIf="tableNum === 3">
+  <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+    <td nz-td>
+      <!--<a [routerLink]="['/appOverviewDetail', data.id]">
+        {{data.instanceName}}
+      </a>-->
+      {{data.instanceName}}
+    </td>
+    <td nz-td>{{data.clusterName}}</td>
+    <td nz-td>///</td>
+    <td nz-td>{{data.status}}</td>
+    <td nz-td>{{data.instancesCount}} 个</td>
+    <td nz-td>{{data.cpuSize}} 核 {{data.memSize}} M</td>
+    <td nz-td>
+      <a [routerLink]="['/serviceInstanceDetail', data.id]">查看详情</a>
+    </td>
+  </tr>
   </tbody>
 </nz-table>

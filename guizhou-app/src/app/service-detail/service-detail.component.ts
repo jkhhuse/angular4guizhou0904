@@ -19,6 +19,37 @@ export class ServiceDetailComponent implements OnInit {
     private serviceName: string;
     private serviceId: string;
     private tabName: string;
+  //表格3thead
+  table3Title = [
+    {
+      index: 1,
+      name: '实例名称',
+    },
+    {
+      index: 2,
+      name: '所属集群',
+    },
+    {
+      index: 3,
+      name: '服务地址',
+    },
+    {
+      index: 3,
+      name: '状态',
+    },
+    {
+      index: 3,
+      name: '容器数量',
+    },
+    {
+      index: 3,
+      name: '大小',
+    },
+    {
+      index: 3,
+      name: '操作',
+    }
+  ];
     private formThird1Radios = [
         {
             cpuSize: 0.125,
@@ -84,8 +115,11 @@ export class ServiceDetailComponent implements OnInit {
                 this.getServiceDetail(this.serviceId).subscribe((data) => {
                     this.serviceDetail = data;
                 });
-                // 不订阅服务详情下的实例 的流
-                this.serviceInstances = this.getServiceInstances(this.serviceName);
+                // 订阅服务详情下的实例 的流
+                // this.serviceInstances = this.getServiceInstances(this.serviceName);
+                this.getServiceInstances(this.serviceName).subscribe((data) => {
+                  this.serviceInstances = data;
+                });
                 this._isSpinning = false;
             }, 3000);
         } else {
@@ -127,8 +161,8 @@ export class ServiceDetailComponent implements OnInit {
             let temp = this.serviceInfo.split('@');
             this.serviceName = temp[0];
             this.serviceId = temp[1];
-            // console.log(this.serviceId);
-            // console.log(this.serviceName);
+             console.log(this.serviceId);
+             console.log(this.serviceName);
         } else {
             this.serviceInfo = '';
         }
@@ -137,7 +171,10 @@ export class ServiceDetailComponent implements OnInit {
         this.getServiceDetail(this.serviceId).subscribe((data) => {
             this.serviceDetail = data;
         });
-        // 不订阅服务详情下的实例 的流
-        this.serviceInstances = this.getServiceInstances(this.serviceName);
+        // 订阅服务详情下的实例 的流
+        // this.serviceInstances = this.getServiceInstances(this.serviceName);
+        this.getServiceInstances(this.serviceName).subscribe((data) => {
+          this.serviceInstances = data;
+        });
     }
 }
