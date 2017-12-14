@@ -61,8 +61,8 @@
             </div>
         </div>
     </div>
-    <h4 class="detail-h3">发展历程</h4>
-    <div nz-row class="detail-develop-wrapper">
-
-    </div>
+    <h4 class="detail-h3">子服务列表</h4>
+      <div class="detail-instance-wrapper" *ngIf="instanceDetail">
+        <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="4" [tableTitle]="table4Title"></app-app-nztable>
+      </div>
 </nz-content>

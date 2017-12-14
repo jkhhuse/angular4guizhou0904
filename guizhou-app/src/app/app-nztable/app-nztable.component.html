@@ -44,8 +44,20 @@
     <td nz-td>{{data.instancesCount}} 个</td>
     <td nz-td>{{data.cpuSize}} 核 {{data.memSize}} M</td>
     <td nz-td>
-      <a [routerLink]="['/serviceInstanceDetail', data.id]">查看详情</a>
+      <a [routerLink]="['/serviceInstanceDetailD', data.id]">查看详情</a>
     </td>
+  </tr>
+  </tbody>
+  <tbody nz-tbody *ngIf="tableNum === 4">
+  <tr nz-tbody-tr *ngFor="let data of nzTable.data.info.services; let i=index">
+    <td nz-td>
+      <a [routerLink]="['/appOverviewDetailDetail', nzTable.data.id , data.service_name]">
+        {{data.service_name}}
+      </a>
+    </td>
+    <td nz-td>{{data.current_status}}</td>
+    <td nz-td>{{data.custom_instance_size.cpu}} 核 {{data.custom_instance_size.mem}} MB</td>
+    <td nz-td>{{data.healthy_num_instances}} 个</td>
   </tr>
   </tbody>
 </nz-table>

@@ -15,9 +15,29 @@ export class ServiceInstanceDetailComponent implements OnInit {
     serviceImgUrl = 'assets/service/mirror.png';
     private instanceId: String;
     private instanceDetail: any;
-    getServiceInstanceDetail(instanceId): Observable<any[]> {
-        return this.http.get(environment.apiService + '/apiService' + '/service-instances/' + instanceId).map(res => res.json());
+  //表格4thead
+  table4Title = [
+    {
+      index: 1,
+      name: '名称',
+    },
+    {
+      index: 2,
+      name: '状态',
+    },
+    {
+      index: 3,
+      name: '容器大小',
+    },
+    {
+      index: 3,
+      name: '容器数目',
     }
+  ];
+
+  getServiceInstanceDetail(instanceId): Observable<any[]> {
+    return this.http.get(environment.apiService + '/apiService' + '/service-instances/' + instanceId).map(res => res.json());
+  }
 
     constructor(private routeInfo: ActivatedRoute, private http: Http) {
     }

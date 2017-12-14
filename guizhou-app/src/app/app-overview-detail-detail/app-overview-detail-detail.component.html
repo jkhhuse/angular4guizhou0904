@@ -1,0 +1,106 @@
+<app-header [title]="title"></app-header>
+<nz-content class="service-detail-wrapper">
+  <div class="link-back">
+    <a [routerLink]="['/serviceInstanceDetail' , instanceId]">
+      <span class="glyphicon glyphicon-menu-left"></span>
+      返回</a>
+  </div>
+  <div nz-row class="detail-img-wrapper">
+    <div nz-col [nzSpan]="6">
+      <div class="img-block">
+        <img class="detail-img" [src]="serviceImgUrl" alt=""/>
+      </div>
+      <div class="img-block" *ngIf="moduleName">
+        <p class="detail-title">{{moduleName}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div nz-row class="detail-content-wrapper" *ngIf="instanceDetail">
+    <div nz-col [nzSpan]="12" class="detail-content-one">
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          所在集群
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3" class="detail-package-num">
+          {{instanceDetail.region_name}}
+        </div>
+      </div>
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          创建时间
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{instanceDetail.created_at | date:'yyyy-MM-dd HH:mm:ss'}}
+        </div>
+      </div>
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          镜像版本
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3" class="detail-package-num">
+          {{instanceDetail.image_tag}}
+        </div>
+      </div>
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          网络模式
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3" class="detail-package-num">
+          {{instanceDetail.network_mode}}
+        </div>
+      </div>
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          弹性伸缩策略
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3" class="detail-package-num">
+          {{instanceDetail.scaling_mode}}
+        </div>
+      </div>
+    </div>
+    <div nz-col [nzSpan]="12">
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          容器大小
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{instanceDetail.custom_instance_size.cpu}} 核 {{instanceDetail.custom_instance_size.mem}} MB
+        </div>
+      </div>
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          更新时间
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{instanceDetail.updated_at | date:'yyyy-MM-dd HH:mm:ss'}}
+        </div>
+      </div>
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          执行命令
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{instanceDetail.run_command ? instanceDetail.run_command:'默认'}}
+        </div>
+      </div>
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          主机标签
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{instanceDetail.node_tag}}
+        </div>
+      </div>
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          所属子服务
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{instanceDetail.app_name}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</nz-content>

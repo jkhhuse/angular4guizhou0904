@@ -32,7 +32,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RandomUserService } from './shared/random-user.service';
 import { ServiceCatalogComponent } from './service-catalog/service-catalog.component';
 import { ServiceInstanceComponent } from './service-instance/service-instance.component';
-import { InMemoryDataService } from './data/in-memory-data.service';
 import { ServiceListComponent } from './service-list/service-list.component';
 import { ServicesService } from './shared/services.service';
 import { ServiceDetailComponent } from './service-detail/service-detail.component';
@@ -53,6 +52,7 @@ import { ServiceTestService } from './service-test/service-test.service';
 import { AppOverviewDetailComponent } from './app-overview-detail/app-overview-detail.component';
 import { RegNameDirective } from './util/reg-pattern/reg-name.directive';
 import { AppNztableComponent } from './app-nztable/app-nztable.component';
+import { AppOverviewDetailDetailComponent } from './app-overview-detail-detail/app-overview-detail-detail.component';
 
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
@@ -91,6 +91,7 @@ export function createTranslateHttpLoader(http: HttpClient) {
         AppOverviewDetailComponent,
         RegNameDirective,
         AppNztableComponent,
+        AppOverviewDetailDetailComponent,
     ],
     imports: [
         BrowserModule,
