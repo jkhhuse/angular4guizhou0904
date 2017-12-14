@@ -60,4 +60,24 @@
     <td nz-td>{{data.healthy_num_instances}} 个</td>
   </tr>
   </tbody>
+
+  <!-- 服务实例 服务子实例列表  服务实例详情  容器实例表格 -->
+  <tbody nz-tbody *ngIf="tableNum === 5">
+  <tr nz-tbody-tr *ngFor="let data of nzTable.data.instances">
+    <!--<td nz-td>
+      <a [routerLink]="['/appOverviewDetailDetail', nzTable.data.id , data.service_name]">
+        {{data.service_name}}
+      </a>
+    </td>-->
+    <td nz-td>{{data.instance_name}}</td>
+    <td nz-td>{{data.host_ip}}</td>
+    <td nz-td>{{data.container_ip}}</td>
+    <td nz-td>{{data.started_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+    <td nz-td>
+      <button nz-button [nzType]="'primary'" disabled>
+        <span>重建</span>
+      </button>
+    </td>
+  </tr>
+  </tbody>
 </nz-table>

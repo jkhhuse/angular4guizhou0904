@@ -102,5 +102,25 @@
       </div>
     </div>
   </div>
-
+  <div nz-row class="detail-content-wrapper" style="background: none" *ngIf="instanceDetail">
+    <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+      <nz-tab *ngFor="let tab of tabs">
+        <ng-template #nzTabHeading>
+          {{tab.name}}
+        </ng-template>
+        <div class="detail-tab-div" *ngIf="tab.index === 1">敬请期待..</div>
+        <div class="detail-tab-div" *ngIf="tab.index === 2">
+          <div class="detail-instance-wrapper" *ngIf="instanceDetail">
+            <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="5"
+                             [tableTitle]="table5Title"></app-app-nztable>
+          </div>
+        </div>
+        <div class="detail-tab-div" *ngIf="tab.index === 3">敬请期待..</div>
+        <div class="detail-tab-div" *ngIf="tab.index === 4">敬请期待..</div>
+        <div class="detail-tab-div" *ngIf="tab.index === 5">敬请期待..</div>
+        <div class="detail-tab-div" *ngIf="tab.index === 6">敬请期待..</div>
+        <div class="detail-tab-div" *ngIf="tab.index === 7">敬请期待..</div>
+      </nz-tab>
+    </nz-tabset>
+  </div>
 </nz-content>
