@@ -60,9 +60,11 @@ export class ServiceInstanceComponent implements OnInit {
     }
 
     refreshData(reset = false) {
-        if (reset) {
-            this._current = 1;
-        }
+        /*
+          if (reset) {
+              this._current = 1;
+          }
+        */
         this._loading = true;
         this._randomUser.getServiceInstances(this._current, this._pageSize, this._sortName, this._sortValue).subscribe((data: any) => {
             console.log(this._current);
@@ -73,7 +75,7 @@ export class ServiceInstanceComponent implements OnInit {
 
             this._loading = false;
             this._total = data.length;
-            this._dataSet = data;
+            this._dataSet = data.slice((this._current - 1) * this._pageSize, this._current * this._pageSize);
 
             this._dataSet = [...this._dataSet.sort((a, b) => {
                 if (a[this._sortName] > b[this._sortName]) {
@@ -84,7 +86,8 @@ export class ServiceInstanceComponent implements OnInit {
                     return 0;
                 }
             })];
-            this._dataSet = data;
+
+            // this._dataSet = data;
         });
     }
 
@@ -98,7 +101,7 @@ export class ServiceInstanceComponent implements OnInit {
     ngOnInit() {
         // 添加timeout时间，把init时间放到队列末尾，等待groupselect加载完成。
         setTimeout(() => {
-            this.refreshData();
+            this.refreshData(true);
         }, 0);
     }
 }

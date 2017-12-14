@@ -37,7 +37,7 @@ export class RandomUserService {
         params.set('results', `${pageSize}`);
         params.set('sortField', sortField);
         params.set('sortOrder', sortOrder);
-        return this.http.get(environment.apiService + '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/service-instances', {search: params}).map(res => res.json());
+        return this.http.get(environment.apiService + '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/service-instances', {params: params}).map(res => res.json());
     }
 
     getAppInstances(pageIndex = 1, pageSize = 10, sortField, sortOrder, tabName): Observable<any> {
@@ -47,7 +47,7 @@ export class RandomUserService {
         params.set('results', `${pageSize}`);
         params.set('sortField', sortField);
         params.set('sortOrder', sortOrder);
-        return this.http.get(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/application-instances', {search: params}).map(res => res.json());
+        return this.http.get(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/application-instances', {params: params}).map(res => res.json());
     }
 
     getAppInstanceDetailTable(pageIndex = 1, pageSize = 10, sortField, sortOrder, instanceID): Observable<any> {

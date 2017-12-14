@@ -21,9 +21,10 @@
             </div>
         </div>
     </div>
+
     <nz-table #nzTable
               [nzAjaxData]="_dataSet"
-              [nzShowSizeChanger]="true"
+              nzShowSizeChanger
               [nzShowTotal]="true"
               [nzLoading]="_loading"
               [nzTotal]="_total"
