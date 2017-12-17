@@ -20,6 +20,8 @@
       </nz-option>
     </nz-select>
     <div nz-form-explain *ngIf="getFormControl().dirty&&getFormControl().hasError('required')">{{config.label}}不能为空</div>
+    <!-- 下面是测试 -->
+    <div>{{ config.selectedOption }}</div>
     <!-- <div nz-form-explain *ngIf="getFormControl().dirty&&getFormControl().hasError('duplicated')">The username is redundant!</div> -->
     <!-- <div nz-form-explain *ngIf="getFormControl().dirty&&getFormControl().pending">校验中...</div> -->
 

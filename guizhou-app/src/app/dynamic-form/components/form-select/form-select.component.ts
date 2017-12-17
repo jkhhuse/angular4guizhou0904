@@ -17,7 +17,8 @@ export class FormSelectComponent implements Field {
     return this.group.get(this.config.name);
   }
 
-  @Output() valueArr = new EventEmitter<any>();
+  @Output()
+  valueArr = new EventEmitter<any>();
 
   valueArrEntity() {
     const value$ = this.group.get(this.config.name).value;

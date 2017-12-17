@@ -1,3 +1,4 @@
+// 参考链接：https://segmentfault.com/a/1190000009186703
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -38,7 +39,7 @@ import { TranslateModule } from '@ngx-translate/core';
         FormInputComponent,
         FormSelectComponent
     ]  ,
-    // schemas: [CUSTOM_ELEMENTS_SCHEMA]  
+    // schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
 export class DynamicFormModule {}

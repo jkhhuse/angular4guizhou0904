@@ -25,6 +25,7 @@ export class ComponentTestComponent implements AfterViewInit {
   @ViewChild(ContainerInstanceComponent) ContainerInstance: ContainerInstanceComponent;
   instanceConfig = [
     {
+     
       instance_size: 'XXS',
       cpuSize: '0.125核',
       memSize: '256MB',
@@ -88,6 +89,8 @@ export class ComponentTestComponent implements AfterViewInit {
       }
     },
     {
+      // selectedOption: undefined,
+      ifTags: 'true',
       type: 'select',
       label: 'Favourite Food',
       name: 'food',
@@ -108,6 +111,10 @@ export class ComponentTestComponent implements AfterViewInit {
     }
   ];
 
+  getFormValue() {
+    console.log(this.form);
+  }
+
   onVoted(agreed: boolean) {
     agreed ? this.agreed++ : this.disagreed++;
   }
@@ -121,6 +128,7 @@ export class ComponentTestComponent implements AfterViewInit {
     });
 
     this.form.setDisabled('submit', true);
+    // this.form.setValue({})
     // this.form.setValue('name', '');
   }
 
