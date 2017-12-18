@@ -1,31 +1,34 @@
-<div *ngIf="services">
+<div *ngIf="services" id="mirror-list-wrapper">
   <div *ngFor="let service of services | async  | appFilter: moduleName : keyword">
-    <div nz-col [nzSpan]="6">
+    <div nz-col [nzSpan]="5" class="">
       <nz-card>
         <ng-template #title>
-          <a
-            [routerLink]="['/'+moduleName+'Detail', moduleName, service.repositoryName ? service.repositoryName : service.serviceName + '@' + service.id, tabName]">
-            {{service.repositoryName}}
-          </a>
+          <div class="mirror-header">
+            <a
+              [routerLink]="['/'+moduleName+'Detail', moduleName, service.repositoryName ? service.repositoryName : service.serviceName + '@' + service.id, tabName]">
+              {{service.repositoryName}}
+            </a>
+          </div>
         </ng-template>
         <ng-template #body>
           <div class="custom-card">
             <div class="card-content">
               <p *ngIf="services">{{service.description}}</p>
-<!--
-              拿到镜像分类的id，转换成对应的中文名称
--->
+            </div>
+            <!--
+                          拿到镜像分类的id，转换成对应的中文名称
+            -->
+            <div nz-row class="card-bottom">
               <div *ngFor="let tab of mirror_tabs">
-                <p *ngIf="tab.index === service.categoryId">{{tab.name}}</p>
+                <p *ngIf="tab.index === service.categoryId" class="card-cate">{{tab.name}}</p>
               </div>
-              <div class="card-content">
-                 <span class="glyphicon glyphicon-trash">同步</span>
-                 <span class="glyphicon glyphicon-trash"
-                       (click)="showModal(service.id, service.repositoryName);"> 删除
-                 </span>
+              <div class="card-action">
+                <i class="anticon anticon-share-alt"></i>
+                <i class="anticon anticon-delete"
+                   (click)="showModal(service.id, service.repositoryName);">
+                </i>
               </div>
             </div>
-
           </div>
         </ng-template>
       </nz-card>

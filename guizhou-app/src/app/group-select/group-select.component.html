@@ -1,4 +1,4 @@
-<nz-dropdown>
+<nz-dropdown class="group-select-wrapper">
   <button nz-button nz-dropdown><span #dropBtn>{{firstGroupName}}</span> <i class="anticon anticon-down"></i></button>
   <ul nz-menu>
     <li nz-menu-item *ngFor="let group of groupList" (click)="changeGroup(group);dropBtn.innerText = group">

@@ -1,15 +1,32 @@
-.mirror-store-wrapper{
-    margin-left: 28px;
-    margin-right: 60px;
+.mirror-store-wrapper {
+  margin-left: 28px;
+  margin-right: 60px;
 }
-.mirrorTab{
-    margin-top: 30px;
+
+.mirrorTab {
+  margin-top: 30px;
 }
-.mirror-btns-wrapper{
-    margin: 20px 0;
+
+.mirror-btns-wrapper {
+  margin: 20px 0;
+  height: 22px;
 }
-.radio-select-wrapper{
+
+.radio-select-wrapper {
   float: left;
-  width: 200px;
-  margin-right: 10px;
+  width: 128px;
+  height: 520px;
+  border: 1px solid #e4e4e4;
+  padding: 20px;
+}
+
+.catalog-option {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e4e4e4;
+  margin-bottom: 5px;
+}
+
+.radio-select-wrapper label {
+  line-height: 30px;
+  height: 30px;
 }

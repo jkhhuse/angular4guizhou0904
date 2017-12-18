@@ -16,24 +16,28 @@
             <p class="detail-title">{{name}}</p>
         </div>
     </div>
-    <div nz-row class="detail-desc-wrapper" *ngIf="mirrorDetail ">
+    <div nz-row class="detail-desc-wrapper" >
         <div nz-col [nzSpan]="12" class="detail-12col  first-line">
             <div class="detail-line">
                 <span>版本编号</span>
-                <span class="detail-line-value">{{firstVersionVersion}}</span></div>
+                <span *ngIf="mirrorDetail" class="detail-line-value">{{firstVersionVersion}}</span></div>
         </div>
         <div nz-col [nzSpan]="12" class="detail-12col first-line">
             <div class="detail-line">
                 <span>更新时间</span>
-                <span class="detail-line-value" *ngIf="mirrorDetail.createTime">{{mirrorDetail.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                <span class="detail-line-value" *ngIf="!mirrorDetail.createTime">暂无更新</span>
+                <span class="detail-line-value" *ngIf="mirrorDetail">{{mirrorDetail.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
             </div>
         </div>
         <div nz-col [nzSpan]="12" class="detail-12col">
             <div class="detail-line">
                 <span>实例描述</span>
-                <span class="detail-line-value">{{mirrorDetail.description}}</span></div>
+                <span class="detail-line-value" *ngIf="mirrorDetail">{{mirrorDetail.description}}</span></div>
         </div>
+      <div nz-col [nzSpan]="12" class="detail-12col">
+        <div class="detail-line">
+          <span>所属分类</span>
+          <span class="detail-line-value" *ngIf="mirrorDetail">{{mirrorDetailCateName}}</span></div>
+      </div>
     </div>
 
     <div class="detail-versions-wrapper" *ngIf="mirrorVersions">

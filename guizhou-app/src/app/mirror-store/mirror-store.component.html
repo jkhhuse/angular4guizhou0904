@@ -2,48 +2,56 @@
 <app-group-select (groupidHandler)="groupidHandler($event)"></app-group-select>
 
 <nz-content class="mirror-store-wrapper">
-    <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" class="mirrorTab">
-        <nz-tab *ngFor="let tab of tabs" (nzClick)="changeMirrorName(tab.tabName)">
-            <ng-template #nzTabHeading>
-                {{tab.name}}
-            </ng-template>
+  <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" class="mirrorTab">
+    <nz-tab *ngFor="let tab of tabs" (nzClick)="changeMirrorName(tab.tabName)">
+      <ng-template #nzTabHeading>
+        {{tab.name}}
+      </ng-template>
 
-            <div nz-row class="mirror-btns-wrapper">
-                <div nz-col [nzSpan]="6" class="catalog-option">
-                    <button *ngIf="tab.tabName == 'private'" nz-button [nzType]="'primary'" [routerLink]="['/buildImageCategory', mirrorName]">构建</button>
-                </div>
-                <div nz-col [nzSpan]="6" [nzOffset]="12">
-                    <!--<nz-input class="serviceInstanceSearch"
-                              [nzSize]="large"
-                              [(ngModel)]="inputValue"
-                              [nzPlaceHolder]="'按表名称、描述、标签搜索...'"
-                              (ngModelChange)="_console($event)">
-                        <ng-template #addOnAfter><i class="anticon anticon-search"></i></ng-template>
-                    </nz-input>-->
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="按镜像名称搜索..." [formControl]="titleFilter">
-                        <span class="input-group-btn">
+
+      <div class="mirror-body-wrapper">
+
+        <div class="radio-select-wrapper">
+          <div nz-col class="catalog-option">
+            <button *ngIf="tab.tabName == 'private'" nz-button [nzType]="'primary'"
+                    [routerLink]="['/buildImageCategory', mirrorName]">构建
+            </button>
+          </div>
+          <nz-radio-group [(ngModel)]="radioValue" *ngFor="let mirrorTab of mirror_tabs"
+                          [formControl]="radioValueFilter">
+            <label nz-radio [nzValue]="mirrorTab.index" (nzClick)="changeRadioName(mirrorTab.index)">
+              <span [ngClass]="currentClasses">{{mirrorTab.name}}</span>
+            </label>
+          </nz-radio-group>
+        </div>
+        <div nz-row class="mirror-btns-wrapper">
+
+          <div nz-col [nzSpan]="6" [nzOffset]="12">
+            <!--<nz-input class="serviceInstanceSearch"
+                      [nzSize]="large"
+                      [(ngModel)]="inputValue"
+                      [nzPlaceHolder]="'按表名称、描述、标签搜索...'"
+                      (ngModelChange)="_console($event)">
+                <ng-template #addOnAfter><i class="anticon anticon-search"></i></ng-template>
+            </nz-input>-->
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="按镜像名称搜索..." [formControl]="titleFilter">
+              <span class="input-group-btn">
                             <button class="btn btn-default" type="button">
                                 <span class="glyphicon glyphicon-search"></span>
                             </button>
                         </span>
-                    </div>
-                </div>
-            </div>
-          <div class="mirror-body-wrapper">
-            <div class="radio-select-wrapper">
-              <nz-radio-group [(ngModel)]="radioValue" *ngFor="let mirrorTab of mirror_tabs" [formControl]="radioValueFilter">
-                <label nz-radio [nzValue]="mirrorTab.index">
-                  <span [ngClass]="currentClasses">{{mirrorTab.name}}</span>
-                </label>
-              </nz-radio-group>
-            </div>
-            <div class="mirror-card-wrapper">
-              <app-mirror-store-list [moduleName]="'repository'" [groupid]="groupid" [tabName]="mirrorName" [titleFilter]="titleFilter" [radioValueFilter]="radioValueFilter"></app-mirror-store-list>
             </div>
           </div>
-        </nz-tab>
-    </nz-tabset>
+        </div>
+        <div class="mirror-card-wrapper">
+          <app-mirror-store-list [radioValue]="radioValue" [moduleName]="'repository'" [groupid]="groupid"
+                                 [tabName]="mirrorName" [titleFilter]="titleFilter"
+                                 [radioValueFilter]="radioValueFilter"></app-mirror-store-list>
+        </div>
+      </div>
+    </nz-tab>
+  </nz-tabset>
 </nz-content>
 
 <!--

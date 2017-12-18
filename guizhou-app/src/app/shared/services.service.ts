@@ -34,7 +34,9 @@ export class ServicesService {
             return this.http.get('/apiService' + '/groups/1/services/' + tabName + '/instances').map(res => res.json());
         }*/
     }
-
+  getCateServices(tabName, moduleName, cateID): Observable<any[]> {
+    return this.http.get(environment.api + '/api/' + this.getCookie('groupID') + '/warehouse/dir/' + cateID + '?region=' + tabName).map(res => res.json());
+  }
     getHeroes(): Promise<Services[]> {
         return this.http.get(environment.api + '/api/services')
             .toPromise()

@@ -24,6 +24,7 @@ export class RepositoryDetailComponent implements OnInit {
   mirrorVersions: any;
   name: string;
   module: string;
+  mirrorDetailCateName: string;
   private tabName: string;
   private appName: string;
   private firstVersionId: string;
@@ -70,9 +71,43 @@ export class RepositoryDetailComponent implements OnInit {
       name: '创建时间',
     }
   ];
+  mirror_tabs = [
+    {
+      index: 0,
+      name: '其他'
+    },
+    {
+      index: 1,
+      name: '操作系统'
+    },
+    {
+      index: 2,
+      name: '运行环境'
+    },
+    {
+      index: 3,
+      name: '中间件'
+    },
+    {
+      index: 4,
+      name: '数据库'
+    },
+    {
+      index: 5,
+      name: '微服务框架'
+    },
+    {
+      index: 6,
+      name: '大数据'
+    },
+    {
+      index: 7,
+      name: '应用'
+    }
+  ];
   // 获取流
   getServiceDetail() {
-    return this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + this.name + '?region=' + this.tabName).map(res => res.json().images);
+    return this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + this.name + '?region=' + this.tabName).map(res => res.json());
   }
 
   // 获取流
@@ -148,12 +183,22 @@ export class RepositoryDetailComponent implements OnInit {
       // 订阅流
       this.getServiceDetail().subscribe((data) => {
         this.mirrorDetail = data;
+        console.log("mirrorDetail: " + data.categoryId);
+        for(let i=0;i<this.mirror_tabs.length;i++){
+         if(data.categoryId === this.mirror_tabs[i].index) {
+           this.mirrorDetailCateName = this.mirror_tabs[i].name;
+         }
+        }
       });
       // 订阅流
       this.getServiceDetail().subscribe((data) => {
-        this.mirrorVersions = data.opRepository;
-        this.firstVersionId = data.opRepository[0].id;
-        this.firstVersionVersion = data.opRepository[0].version;
+        if(data.images == '' || data.images == null) {
+
+        } else{
+          this.mirrorVersions = data.images.opRepository;
+          this.firstVersionId = data.images.opRepository[0].id;
+          this.firstVersionVersion = data.images.opRepository[0].version;
+        }
       });
     } else if (this.module === 'app') {
       // this.mirrorVersions = this.getAppVersions();

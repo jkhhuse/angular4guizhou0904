@@ -22,6 +22,8 @@ export class MirrorStoreListComponent implements OnInit {
   radioValueFilter: FormControl = new FormControl();
   @Input()
   moduleName: string;
+  @Input()
+  radioValue: string;
 
   services: Observable<any[]>;
   keyword: string;
@@ -59,22 +61,65 @@ export class MirrorStoreListComponent implements OnInit {
       name: '应用'
     }
   ];
+  isVisible = false;
+  _isSpinning = false;
+  deleteID = '';
+  deleteName = '';
+
+  // 删除镜像接口
+  deleteMirror(mirrorName): string {
+    status = '';
+    console.log('删除镜像：' + mirrorName + '  ' + this.tabName);
+    // 返回是string 不是json
+    this.http.delete(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/dir/' + mirrorName).subscribe((data) => {
+      status = data.toString();
+    });
+    return status;
+  }
+
+  showModal = (id, name) => {
+    this.isVisible = true;
+    console.log('??' + id + name);
+    this.deleteID = id;
+    this.deleteName = name;
+  }
+  handleOk = (e) => {
+    let status = '';
+    console.log("this.deleteID: " + this.deleteID);
+    // 如果对应的是删除镜像
+    status = this.deleteMirror(this.deleteName);
+    if (status = '204') {
+      this._isSpinning = true;
+      setTimeout(() => {
+        this.isVisible = false;
+        console.log('删除成功，更新列表');
+        this.services = this.servicesService.getServices(this.tabName, this.moduleName);
+        this._isSpinning = false;
+      }, 3000);
+    } else {
+      this.isVisible = false;
+      alert('删除失败');
+    }
+  }
+
+  handleCancel = (e) => {
+    console.log(e);
+    this.isVisible = false;
+  }
+
   constructor(private servicesService: ServicesService, private http: Http) {
 
   }
+
   ngOnChanges(changes: SimpleChanges) {
     console.log('servicelist  ngOnChanges');
     console.log('servicelist  groupid: ' + this.groupid);
 
-    this.services = this.servicesService.getServices(this.tabName, this.moduleName);
+    this.services = this.servicesService.getCateServices(this.tabName, this.moduleName, this.radioValue);
     this.keyword = '';
   }
+
   ngOnInit() {
-    console.log('groupid: ' + this.groupid);
-    console.log('tabName: ' + this.tabName);
-    console.log('titleFilter: ' + this.titleFilter);
-    console.log('moduleName: ' + this.moduleName);
-    console.log('services: ' + this.services);
     this.titleFilter.valueChanges
       .debounceTime(500)
       .subscribe(

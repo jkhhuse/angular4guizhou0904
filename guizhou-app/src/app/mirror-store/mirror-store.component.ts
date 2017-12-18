@@ -72,6 +72,10 @@ export class MirrorStoreComponent implements OnInit {
     // console.log('change！！ cookie: ' + this.servicesService.getCookie('groupID'));
   }
 
+  changeRadioName(cateIndex) {
+    console.log("cateIndex: " + cateIndex);
+
+  }
   changeMirrorName(mirrorName): void {
     this.mirrorName = mirrorName;
   }

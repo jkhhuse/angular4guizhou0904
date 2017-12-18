@@ -1,0 +1,35 @@
+#mirror-list-wrapper .ant-card{
+  margin-left: 15px;
+  margin-bottom: 15px;
+  height: 200px;
+}
+.card-bottom{
+  padding: 5px 0;
+}
+.card-content{
+  height: 100px;
+}
+.card-bottom{
+
+}
+.card-cate{
+  float: left;
+  color: rgb(204, 204, 204);
+  font-size: 13px;
+  font-weight: 400;
+}
+.card-action{
+  float: right;
+  margin-right: 12px;
+}
+.anticon{
+  width: 18px;
+  height: 18px;
+}
+:host ::ng-deep .ant-card-head{
+  padding: 0 10px;
+}
+
+:host ::ng-deep  .ant-card-body{
+  padding: 10px;
+}

@@ -14,7 +14,7 @@
     <div nz-col [nzSpan]="12" class="detail-12col first-line">
       <div class="detail-line">
         <span>应用版本</span>
-        <span class="detail-line-value" *ngIf="appInstanceDetail">{{appInstanceDetail.app.version}}</span></div>
+        <span class="detail-line-value" *ngIf="appInstanceDetail && appInstanceDetail.app">{{appInstanceDetail.app.version}}</span></div>
     </div>
     <div nz-col [nzSpan]="12" class="detail-12col first-line">
       <div class="detail-line">
