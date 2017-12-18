@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 import { Validators } from '@angular/forms';
 
 import { FieldConfig } from '../dynamic-form/models/field-config.interface';
@@ -9,14 +10,16 @@ import { TranslateService } from '@ngx-translate/core';
 import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 import { userNameAsyncValidator } from '../util/reg-pattern/reg-name.directive';
 import { nicknameValidator } from '../util/reg-pattern/reg-name.directive';
+import { ComponentService } from "../dynamic-form/services/component-service.service";
 
 @Component({
   selector: 'app-component-test',
   templateUrl: './component-test.component.html',
   styleUrls: ['./component-test.component.scss']
 })
-export class ComponentTestComponent implements AfterViewInit {
+export class ComponentTestComponent implements AfterViewInit, OnInit {
   // 测试
+  valueSub: Subscription;
   major = 1;
   agreed = 0;
   disagreed = 0;
@@ -25,6 +28,7 @@ export class ComponentTestComponent implements AfterViewInit {
   @ViewChild(ContainerInstanceComponent) ContainerInstance: ContainerInstanceComponent;
   instanceConfig = [
     {
+     
       instance_size: 'XXS',
       cpuSize: '0.125核',
       memSize: '256MB',
@@ -88,6 +92,8 @@ export class ComponentTestComponent implements AfterViewInit {
       }
     },
     {
+      // selectedOption: undefined,
+      ifTags: 'true',
       type: 'select',
       label: 'Favourite Food',
       name: 'food',
@@ -96,7 +102,8 @@ export class ComponentTestComponent implements AfterViewInit {
       validation: [Validators.required],
       styles: {
         'width': '400px',
-      }
+      },
+      valueUpdate: true
     },
     {
       label: 'Submit',
@@ -107,6 +114,27 @@ export class ComponentTestComponent implements AfterViewInit {
       }
     }
   ];
+
+  @ViewChild('form2') form2: DynamicFormComponent;
+  config2: FieldConfig[] = [
+    {
+      // selectedOption: undefined,
+      // ifTags: 'true',
+      type: 'select',
+      label: 'Favourite2 Food',
+      name: 'food2',
+      options: [],
+      placeholder: 'Select an option',
+      validation: [Validators.required],
+      styles: {
+        'width': '400px',
+      }
+    },
+  ]
+
+  getFormValue() {
+    console.log(this.form);
+  }
 
   onVoted(agreed: boolean) {
     agreed ? this.agreed++ : this.disagreed++;
@@ -121,6 +149,7 @@ export class ComponentTestComponent implements AfterViewInit {
     });
 
     this.form.setDisabled('submit', true);
+    // this.form.setValue({})
     // this.form.setValue('name', '');
   }
 
@@ -128,7 +157,7 @@ export class ComponentTestComponent implements AfterViewInit {
     console.log(value);
   }
 
-  constructor(public translateService: TranslateService) {
+  constructor(public translateService: TranslateService, private component: ComponentService) {
     translateService.addLangs(["zh", "en"]);
     translateService.setDefaultLang("zh");
     const browserLang = this.translateService.getBrowserLang();
@@ -147,6 +176,24 @@ export class ComponentTestComponent implements AfterViewInit {
     // --- set i18n begin ---
 
     // --- set i18n end ---
+    this.valueSub = this.component.componentValue$.subscribe(
+      value => {
+        const config2 = {
+          // selectedOption: undefined,
+          // ifTags: 'true',
+          type: 'select',
+          label: 'Favourite2 Food',
+          name: 'food2',
+          options: value,
+          placeholder: 'Select an option',
+          validation: [Validators.required],
+          styles: {
+            'width': '400px',
+          },
+        };
+        this.form2.setValue('food2', config2);
+      }
+    );
     this._dataSet = [
       {
         key: 0,

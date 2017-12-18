@@ -9,7 +9,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { enableProdMode } from '@angular/core';
-enableProdMode();
+// enableProdMode();
 import { Validators } from '@angular/forms';
 import { Observable } from "rxjs/Observable";
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
@@ -852,6 +852,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     //   validation: [Validators.required],
     //   styles: {
     //     'width': '400px'
+    
     //   },
     //   // ifTags: 'true'
     // };

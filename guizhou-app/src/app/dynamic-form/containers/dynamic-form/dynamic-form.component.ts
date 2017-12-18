@@ -65,40 +65,47 @@ export class DynamicFormComponent implements OnChanges, OnInit {
         this.submit.emit(this.value);
     }
 
+    // setTimeout黑科技去除报错:https://github.com/toddmotto/angular-dynamic-forms/pull/5
     setDisabled(name: string, disable: boolean) {
-        console.log('子组件disab', name);
-        if (this.form.controls[name]) {
-            console.log('子组件disab11111', name);
-            const method = disable ? 'disable' : 'enable';
-            this.form.controls[name][method]();
-            return;
-        }
-
-        this.config = this.config.map((item) => {
-            if (item.name === name) {
-                item.disabled = disable;
+        setTimeout(() => {
+            console.log('子组件disab', name);
+            if (this.form.controls[name]) {
+                console.log('子组件disab11111', name);
+                const method = disable ? 'disable' : 'enable';
+                this.form.controls[name][method]();
+                return;
             }
-            return item;
-        });
+
+            this.config = this.config.map((item) => {
+                if (item.name === name) {
+                    item.disabled = disable;
+                }
+                return item;
+            });
+        }, 0);
     }
 
     setValue(name: any, value: any) {
-        console.log('子组件value', name);
-        // this.form.controls[name] = value;
-        console.log('子组件con', this.form);
+        setTimeout(() => {
+            console.log('子组件value', name);
+            // this.form.controls[name] = value;
+            console.log('子组件con', this.form);
 
-        console.log('子组件config', this.config);
-        this.config = this.config.map((item) => {
-            if (item.name === name) {
-                item = value;
-            }
-            return item;
-        });
+            console.log('子组件config', this.config);
+            this.config = this.config.map((item) => {
+                if (item.name === name) {
+                    item = value;
+                }
+                return item;
+            });
+        }, 0);
         // this.form.controls[name].setValue(value, { emitEvent: true });
     }
 
     setConfig(config) {
-        this.config = config;
+        setTimeout(() => {
+            this.config = config;
+        }, 0);
     }
 
     setFormValue(key, value) {

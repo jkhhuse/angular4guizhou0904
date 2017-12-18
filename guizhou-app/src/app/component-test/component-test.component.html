@@ -7,6 +7,9 @@
   <!-- <dynamic-form [config]="config" form="dynamicForm" (submit)="submit($event)"> -->
   <dynamic-form #form [config]="config" (submit)="submit($event)">
   </dynamic-form>
+
+  <dynamic-form #form2 [config]="config2">
+  </dynamic-form>
   <!-- {{ form.valid }} {{ form.value | json }} -->
 </div>
 
@@ -48,6 +51,8 @@
   <span> test the i18n module: ngx-translate</span>
   <h1>{{ 'helloyou' | translate }}</h1>
 </div>
+
+<div>{{ component.getValue }}</div>
 
 <!-- <app-container-instance *ngFor="let voter of voters" [name]="voter" (onVoted)="onVoted($event)">
 

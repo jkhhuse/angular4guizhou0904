@@ -1,3 +1,4 @@
+// 参考链接：https://segmentfault.com/a/1190000009186703
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,6 +13,7 @@ import { FormSelectComponent } from './components/form-select/form-select.compon
 import { FormRadioComponent } from './components/form-radio/form-radio.component';
 // 子组件也要导入才可以https://github.com/ngx-translate/core/issues/430
 import { TranslateModule } from '@ngx-translate/core';
+import { ComponentService } from "./services/component-service.service";
 
 @NgModule({
     imports: [
@@ -37,8 +39,9 @@ import { TranslateModule } from '@ngx-translate/core';
         FormButtonComponent,
         FormInputComponent,
         FormSelectComponent
-    ]  ,
-    // schemas: [CUSTOM_ELEMENTS_SCHEMA]  
+    ],
+    providers: [ComponentService]
+    // schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
 export class DynamicFormModule {}
