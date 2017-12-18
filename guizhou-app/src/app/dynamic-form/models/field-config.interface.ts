@@ -17,5 +17,6 @@ export interface FieldConfig {
     defaultValue?: any,
     notNecessary?: boolean,
     buttonDis?: any,
-    selectedOption?: any
+    selectedOption?: any,
+    valueUpdate?: boolean
 }

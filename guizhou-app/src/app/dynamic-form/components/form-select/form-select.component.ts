@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 
 import { Field } from '../../models/field.interface';
 import { FieldConfig } from '../../models/field-config.interface';
+import { ComponentService } from "../../services/component-service.service";
 
 @Component({
   selector: 'form-select',
@@ -17,16 +18,22 @@ export class FormSelectComponent implements Field {
     return this.group.get(this.config.name);
   }
 
-  @Output()
-  valueArr = new EventEmitter<any>();
+  // @Output()
+  // valueArr = new EventEmitter<any>();
 
   valueArrEntity() {
     const value$ = this.group.get(this.config.name).value;
-    this.valueArr.emit(value$);
+    if (this.config.valueUpdate === true) {
+      this.component.updateValue(value$);
+    }
+    console.log(value$);
+    // this.valueArr.emit(value$);
     // return this.group.get(this.config.name).value;
   }
 
   getFormControl() {
     return this.group.controls[this.config.name];
   }
+
+  constructor(private component: ComponentService) {}
 }
