@@ -9,7 +9,8 @@ import {FormControl} from "@angular/forms";
 export class SearchComponent implements OnInit {
   @Input()
   titleFilter: FormControl;
-
+  @Input()
+  offset: string;
   constructor() { }
 
   ngOnInit() {
