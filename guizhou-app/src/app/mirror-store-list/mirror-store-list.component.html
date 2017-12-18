@@ -1,0 +1,45 @@
+<div *ngIf="services">
+  <div *ngFor="let service of services | async  | appFilter: moduleName : keyword">
+    <div nz-col [nzSpan]="6">
+      <nz-card>
+        <ng-template #title>
+          <a
+            [routerLink]="['/'+moduleName+'Detail', moduleName, service.repositoryName ? service.repositoryName : service.serviceName + '@' + service.id, tabName]">
+            {{service.repositoryName}}
+          </a>
+        </ng-template>
+        <ng-template #body>
+          <div class="custom-card">
+            <div class="card-content">
+              <p *ngIf="services">{{service.description}}</p>
+<!--
+              拿到镜像分类的id，转换成对应的中文名称
+-->
+              <div *ngFor="let tab of mirror_tabs">
+                <p *ngIf="tab.index === service.categoryId">{{tab.name}}</p>
+              </div>
+              <div class="card-content">
+                 <span class="glyphicon glyphicon-trash">同步</span>
+                 <span class="glyphicon glyphicon-trash"
+                       (click)="showModal(service.id, service.repositoryName);"> 删除
+                 </span>
+              </div>
+            </div>
+
+          </div>
+        </ng-template>
+      </nz-card>
+    </div>
+  </div>
+</div>
+
+
+<nz-modal [nzVisible]="isVisible" [nzTitle]="'操作确认'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)"
+          (nzOnOk)="handleOk($event)">
+  <ng-template #modalContent>
+    <p>您是否确定删除{{deleteName}}</p>
+    <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="text-align: center;">
+    </nz-spin>
+
+  </ng-template>
+</nz-modal>

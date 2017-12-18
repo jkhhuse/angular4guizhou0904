@@ -18,7 +18,7 @@ export class ServicesService {
         if (moduleName === 'repository') {
             console.log('getService repository cookie: ' + this.getCookie('groupID'));
 
-            return this.http.get(environment.api + '/api/' + this.getCookie('groupID') + '/warehouse/repository?region=' + tabName).map(res => res.json().images);
+            return this.http.get(environment.api + '/api/' + this.getCookie('groupID') + '/warehouse/dir?region=' + tabName).map(res => res.json());
         } else if (moduleName === 'service') {
             console.log('getService service cookie: ' + this.getCookie('groupID'));
 

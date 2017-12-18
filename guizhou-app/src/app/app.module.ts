@@ -53,6 +53,8 @@ import { AppOverviewDetailComponent } from './app-overview-detail/app-overview-d
 import { RegNameDirective } from './util/reg-pattern/reg-name.directive';
 import { AppNztableComponent } from './app-nztable/app-nztable.component';
 import { AppOverviewDetailDetailComponent } from './app-overview-detail-detail/app-overview-detail-detail.component';
+import { MirrorStoreListComponent } from './mirror-store-list/mirror-store-list.component';
+import { BuildImageCategoryComponent } from './build-image-category/build-image-category.component';
 
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
@@ -92,6 +94,8 @@ export function createTranslateHttpLoader(http: HttpClient) {
         RegNameDirective,
         AppNztableComponent,
         AppOverviewDetailDetailComponent,
+        MirrorStoreListComponent,
+        BuildImageCategoryComponent,
     ],
     imports: [
         BrowserModule,

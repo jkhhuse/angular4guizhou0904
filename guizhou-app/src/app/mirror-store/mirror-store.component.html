@@ -10,7 +10,7 @@
 
             <div nz-row class="mirror-btns-wrapper">
                 <div nz-col [nzSpan]="6" class="catalog-option">
-                    <button *ngIf="tab.tabName == 'private'" nz-button [nzType]="'primary'" [routerLink]="['/buildImage', mirrorName]">构建</button>
+                    <button *ngIf="tab.tabName == 'private'" nz-button [nzType]="'primary'" [routerLink]="['/buildImageCategory', mirrorName]">构建</button>
                 </div>
                 <div nz-col [nzSpan]="6" [nzOffset]="12">
                     <!--<nz-input class="serviceInstanceSearch"
@@ -30,7 +30,18 @@
                     </div>
                 </div>
             </div>
-            <app-service-list [moduleName]="'repository'" [groupid]="groupid" [tabName]="mirrorName" [titleFilter]="titleFilter"></app-service-list>
+          <div class="mirror-body-wrapper">
+            <div class="radio-select-wrapper">
+              <nz-radio-group [(ngModel)]="radioValue" *ngFor="let mirrorTab of mirror_tabs" [formControl]="radioValueFilter">
+                <label nz-radio [nzValue]="mirrorTab.index">
+                  <span [ngClass]="currentClasses">{{mirrorTab.name}}</span>
+                </label>
+              </nz-radio-group>
+            </div>
+            <div class="mirror-card-wrapper">
+              <app-mirror-store-list [moduleName]="'repository'" [groupid]="groupid" [tabName]="mirrorName" [titleFilter]="titleFilter" [radioValueFilter]="radioValueFilter"></app-mirror-store-list>
+            </div>
+          </div>
         </nz-tab>
     </nz-tabset>
 </nz-content>

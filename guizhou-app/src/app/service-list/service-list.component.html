@@ -54,15 +54,13 @@
             <div nz-col [nzSpan]="6">
                 <nz-card>
                     <ng-template #body>
-                        <!-- 如果不是应用，是镜像或者服务-->
-                        <a *ngIf="!service.appName"
-                           [routerLink]="['/'+moduleName+'Detail', moduleName, service.repositoryName ? service.repositoryName : service.serviceName + '@' + service.id, tabName]">
+                        <!-- 如果是服务-->
+                        <a *ngIf="service.serviceName"
+                           [routerLink]="['/'+moduleName+'Detail', moduleName, service.serviceName + '@' + service.id, tabName]">
                             <div class="custom-image">
                                 <img *ngIf="service.serviceName"
                                      [src]='serviceImgUrl + service.serviceName + ".png"'
                                      alt=""/>
-
-                                <img *ngIf="service.repositoryName" [src]="mirrorImgUrl" alt=""/>
                             </div>
                         </a>
                         <!-- 如果是应用-->
@@ -74,6 +72,7 @@
                                      alt="" onerror="this.src = 'assets/service/app.png'"/>
                             </div>
                         </a>
+
                         <div class="custom-card">
                             <div class="card-content">
                                     <span *ngIf="service.status" style="float: right"

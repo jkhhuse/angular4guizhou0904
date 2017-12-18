@@ -8,3 +8,8 @@
 .mirror-btns-wrapper{
     margin: 20px 0;
 }
+.radio-select-wrapper{
+  float: left;
+  width: 200px;
+  margin-right: 10px;
+}

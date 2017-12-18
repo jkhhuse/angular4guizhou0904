@@ -18,8 +18,10 @@ import {AppDeployComponent} from "./app-deploy/app-deploy.component";
 import {ComponentTestComponent} from "./component-test/component-test.component";
 import {ServiceSubscribeComponent} from "./service-subscribe/service-subscribe.component";
 import {BuildImageComponent} from "./build-image/build-image.component";
+import {BuildImageCategoryComponent} from "./build-image-category/build-image-category.component";
 import {AppOverviewDetailDetailComponent} from "./app-overview-detail-detail/app-overview-detail-detail.component";
 
+var BuildImageCateGoryComponent;
 const routes: Routes = [
   // 这里用来组件测试
   {path: 'componentTest', component: ComponentTestComponent},
@@ -45,6 +47,7 @@ const routes: Routes = [
 
   {path: 'repositoryStore', component: MirrorStoreComponent},
   {path: 'buildImage/:mirrorName', component: BuildImageComponent},
+  {path: 'buildImageCategory/:mirrorName', component: BuildImageCategoryComponent},
   {path: 'repositoryDetail/:module/:name/:tabName', component: RepositoryDetailComponent},
   {path: 'fileCenter', component: FileCenterComponent},
 
