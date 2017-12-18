@@ -15,7 +15,7 @@ import {ServicesService} from "../shared/services.service";
 @Component({
   selector: 'app-build-image-category',
   templateUrl: './build-image-category.component.html',
-  styleUrls: ['./build-image-category.component.css']
+  styleUrls: ['./build-image-category.component.scss']
 })
 export class BuildImageCategoryComponent implements OnInit {
   mirrorName: '';

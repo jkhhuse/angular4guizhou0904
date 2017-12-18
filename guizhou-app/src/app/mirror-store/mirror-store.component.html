@@ -24,26 +24,17 @@
             </label>
           </nz-radio-group>
         </div>
-        <div nz-row class="mirror-btns-wrapper">
-
+       <!-- <div nz-row class="mirror-btns-wrapper">
           <div nz-col [nzSpan]="6" [nzOffset]="12">
-            <!--<nz-input class="serviceInstanceSearch"
+            <nz-input class="serviceInstanceSearch"
                       [nzSize]="large"
-                      [(ngModel)]="inputValue"
                       [nzPlaceHolder]="'按表名称、描述、标签搜索...'"
-                      (ngModelChange)="_console($event)">
+                      [formControl]="titleFilter">
                 <ng-template #addOnAfter><i class="anticon anticon-search"></i></ng-template>
-            </nz-input>-->
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="按镜像名称搜索..." [formControl]="titleFilter">
-              <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </button>
-                        </span>
-            </div>
+            </nz-input>
           </div>
-        </div>
+        </div>-->
+        <app-search [titleFilter]="titleFilter"></app-search>
         <div class="mirror-card-wrapper">
           <app-mirror-store-list [radioValue]="radioValue" [moduleName]="'repository'" [groupid]="groupid"
                                  [tabName]="mirrorName" [titleFilter]="titleFilter"

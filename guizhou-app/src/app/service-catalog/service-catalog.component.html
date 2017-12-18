@@ -7,7 +7,7 @@
             <ng-template #nzTabHeading>
                 {{tab.name}}
             </ng-template>
-            <div nz-row class="service-search-wrapper">
+           <!-- <div nz-row class="service-search-wrapper">
                 <div nz-col [nzSpan]="18"></div>
                 <div nz-col [nzSpan]="6">
                     <div class="input-group">
@@ -20,7 +20,8 @@
                     </div>
 
                 </div>
-            </div>
+            </div>-->
+          <app-search [titleFilter]="titleFilter"></app-search>
 
             <app-service-list [moduleName]="'service'" [tabName]="tabName" [titleFilter]="titleFilter"></app-service-list>
 

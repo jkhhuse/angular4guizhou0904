@@ -2,15 +2,15 @@
 <app-group-select (groupidHandler)="groupidHandler($event)"></app-group-select>
 
 <nz-content>
-    <div nz-row class="catalog-options-wrapper">
+  <!--  <div nz-row class="catalog-options-wrapper">
         <div nz-col [nzSpan]="6" [nzOffset]="18">
-            <!-- <nz-input class="serviceInstanceSearch"
+            &lt;!&ndash; <nz-input class="serviceInstanceSearch"
                        [nzSize]="large"
                        [(ngModel)]="inputValue"
                        [nzPlaceHolder]="'按服务名称搜索...'"
                        (ngModelChange)="_console($event)">
                  <ng-template #addOnAfter><i class="anticon anticon-search"></i></ng-template>
-             </nz-input>-->
+             </nz-input>&ndash;&gt;
             <div class="input-group">
                 <input type="text" class="form-control" placeholder="按服务名称搜索..." [formControl]="titleFilter">
                 <span class="input-group-btn">
@@ -20,7 +20,8 @@
                 </span>
             </div>
         </div>
-    </div>
+    </div>-->
+  <app-search [titleFilter]="titleFilter"></app-search>
 
     <nz-table #nzTable
               [nzAjaxData]="_dataSet"

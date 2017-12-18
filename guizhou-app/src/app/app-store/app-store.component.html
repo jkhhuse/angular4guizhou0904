@@ -29,7 +29,7 @@
                     <button nz-button [nzType]="'default'" class="btn">删除</button>
 -->
                 </div>
-                <div nz-col [nzSpan]="6" [nzOffset]="12">
+               <!-- <div nz-col [nzSpan]="6" [nzOffset]="12">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="按应用名称搜索..." [formControl]="titleFilter">
                         <span class="input-group-btn">
@@ -38,7 +38,9 @@
                             </button>
                         </span>
                     </div>
-                </div>
+                </div>-->
+              <app-search [titleFilter]="titleFilter"></app-search>
+
             </div>
             <app-service-list [moduleName]="'app'" [tabName]="appName" [groupid]="groupid" [titleFilter]="titleFilter"></app-service-list>
         </nz-tab>

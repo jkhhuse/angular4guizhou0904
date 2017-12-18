@@ -1,8 +1,10 @@
-<div class="input-group">
-    <input type="text" class="form-control" placeholder="按应用名称搜索...">
-    <span class="input-group-btn">
-        <button class="btn btn-default" type="button">
-            <span class="glyphicon glyphicon-search"></span>
-        </button>
-      </span>
-</div><!-- /input-group -->
+<div nz-row class="mirror-btns-wrapper">
+  <div nz-col [nzSpan]="6" [nzOffset]="18">
+    <nz-input class="serviceInstanceSearch"
+              [nzSize]="large"
+              [nzPlaceHolder]="'按表名称、描述、标签搜索...'"
+              [formControl]="titleFilter">
+      <ng-template #addOnAfter><i class="anticon anticon-search"></i></ng-template>
+    </nz-input>
+  </div>
+</div>
