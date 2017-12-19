@@ -55,6 +55,7 @@ import { AppNztableComponent } from './app-nztable/app-nztable.component';
 import { AppOverviewDetailDetailComponent } from './app-overview-detail-detail/app-overview-detail-detail.component';
 import { MirrorStoreListComponent } from './mirror-store-list/mirror-store-list.component';
 import { BuildImageCategoryComponent } from './build-image-category/build-image-category.component';
+import { ServicePipePipe } from './pipe/service-pipe.pipe';
 
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
@@ -96,6 +97,7 @@ export function createTranslateHttpLoader(http: HttpClient) {
         AppOverviewDetailDetailComponent,
         MirrorStoreListComponent,
         BuildImageCategoryComponent,
+        ServicePipePipe,
     ],
     imports: [
         BrowserModule,

@@ -134,6 +134,7 @@ export class ServiceListComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     console.log('servicelist  ngOnChanges');
     console.log('servicelist  groupid: ' + this.groupid);
+    console.log('servicelist  tabName: ' + this.tabName);
 
     this.services = this.servicesService.getServices(this.tabName, this.moduleName);
     this.keyword = '';

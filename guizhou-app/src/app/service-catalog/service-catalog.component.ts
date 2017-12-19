@@ -15,19 +15,21 @@ export class ServiceCatalogComponent implements OnInit {
         {
             index: 1,
             name: '中间件服务',
-            tabName: '1'
+            tabName: 'Middleware'
         },
         {
             index: 2,
             name: '数据库服务',
-            tabName: '0'
+            tabName: 'Database'
         },
         {
             index: 3,
             name: '微服务框架',
-            tabName: '0'
+            tabName: 'Microservice'
         }
     ];
+  // 服务分类
+  private serviceType = ['Microservice', 'Database', 'Middleware'];
     // 多选框
     catalogOption = [
         { label: '中间件服务', value: 'tomcat', checked: true },
@@ -41,7 +43,7 @@ export class ServiceCatalogComponent implements OnInit {
     // input输入框
     inputValue: string;
     titleFilter: FormControl = new FormControl();
-    tabName: String = '1';
+    tabName: String = 'Middleware';
     changeTabName(tabName): void {
         this.tabName = tabName;
     }

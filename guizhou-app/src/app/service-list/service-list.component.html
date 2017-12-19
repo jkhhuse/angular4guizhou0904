@@ -51,7 +51,10 @@
 <div *ngIf="services">
     <div nz-row [nzGutter]="8">
         <div *ngFor="let service of services | async  | appFilter: moduleName : keyword">
-            <div nz-col [nzSpan]="6">
+<!--
+          判断如果是应用则显示。如果是服务，需要服务的类型等于tab中选择的类型，如数据库服务，过滤服务数据
+-->
+            <div nz-col [nzSpan]="6" *ngIf="(service.serviceName && service.serviceType === tabName) || service.appName">
                 <nz-card>
                     <ng-template #body>
                         <!-- 如果是服务-->
