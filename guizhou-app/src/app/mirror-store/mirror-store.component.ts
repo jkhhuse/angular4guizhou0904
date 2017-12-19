@@ -15,8 +15,12 @@ export class MirrorStoreComponent implements OnInit {
   titleFilter: FormControl = new FormControl();
   radioValueFilter: FormControl = new FormControl();
   public groupid: any;
-  radioValue = 0;
+  radioValue = 'all';
   mirror_tabs = [
+    {
+      index: 'all',
+      name: '全部'
+    },
     {
       index: 0,
       name: '其他'

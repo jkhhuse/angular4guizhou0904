@@ -29,6 +29,10 @@ export class MirrorStoreListComponent implements OnInit {
   keyword: string;
   mirror_tabs = [
     {
+      index: 'all',
+      name: '全部'
+    },
+    {
       index: 0,
       name: '其他'
     },
@@ -114,8 +118,12 @@ export class MirrorStoreListComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     console.log('servicelist  ngOnChanges');
     console.log('servicelist  groupid: ' + this.groupid);
-
-    this.services = this.servicesService.getCateServices(this.tabName, this.moduleName, this.radioValue);
+    console.log('servicelist radioValue: ' + this.radioValue);
+    if(this.radioValue === 'all') {
+      this.services = this.servicesService.getServices(this.tabName, this.moduleName);
+    } else {
+      this.services = this.servicesService.getCateServices(this.tabName, this.moduleName, this.radioValue);
+    }
     this.keyword = '';
   }
 
