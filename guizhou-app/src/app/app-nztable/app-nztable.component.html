@@ -44,7 +44,7 @@
     <td nz-td>{{data.instancesCount}} 个</td>
     <td nz-td>{{data.cpuSize}} 核 {{data.memSize}} M</td>
     <td nz-td>
-      <a [routerLink]="['/serviceInstanceDetailD', data.id]">查看详情</a>
+      <a [routerLink]="['/serviceInstanceDetail', data.id]">查看详情</a>
     </td>
   </tr>
   </tbody>
@@ -57,7 +57,7 @@
     </td>
     <td nz-td>{{data.current_status}}</td>
     <td nz-td>{{data.custom_instance_size.cpu}} 核 {{data.custom_instance_size.mem}} MB</td>
-    <td nz-td>{{data.healthy_num_instances}} 个</td>
+    <td nz-td>{{data.healthy_num_instances? data.healthy_num_instances : 0}} 个</td>
   </tr>
   </tbody>
 

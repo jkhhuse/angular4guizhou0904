@@ -1,15 +1,17 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Validators } from '@angular/forms';
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
-import { environment } from "../../environments/environment";
-import { FieldConfig } from '../dynamic-form/models/field-config.interface';
-import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
-import { HttpClient } from "@angular/common/http";
-import { HttpParams } from "@angular/common/http";
-import { NzModalService, NzNotificationService } from 'ng-zorro-antd';
-import { Router, RouterModule } from '@angular/router';
+import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import {Validators} from '@angular/forms';
+import {FileUploader, FileSelectDirective} from 'ng2-file-upload';
+import {environment} from "../../environments/environment";
+import {FieldConfig} from '../dynamic-form/models/field-config.interface';
+import {DynamicFormComponent} from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
+import {HttpClient} from "@angular/common/http";
+import {HttpParams} from "@angular/common/http";
+import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
+import {Router, RouterModule} from '@angular/router';
 import * as _ from 'lodash';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
+import {ServicesService} from "../shared/services.service";
+
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
 @Component({
@@ -19,13 +21,14 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class BuildImageComponent implements OnInit {
   mirrorName: '';
+  repoName: '';
 
   // 这里后端api有一个Module，是存放文件的目录，比如应用，那么就是app，服务，涉及到文件上传时，就是service，镜像，就是image
   // 这里前端定义好，后面有Get请求，需要用到这个module的话，可以参照
-  public url: string = environment.api + '/api/' + environment.groupId + '/upload/image/fileName/';
+  public url: string = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/upload/image/fileName/';
   // 这里的itemAlias是设置的name ="newname"，本来是name="file"，相当于form的name值
   // public uploader: FileUploader = new FileUploader({ url: this.url, itemAlias: 'newname' });
-  public uploader: FileUploader = new FileUploader({ url: this.url, queueLimit: 1, });
+  public uploader: FileUploader = new FileUploader({url: this.url, queueLimit: 1,});
   _dataSet = this.uploader.queue;
 
   radioValue: string = 'newImage';
@@ -33,19 +36,18 @@ export class BuildImageComponent implements OnInit {
   imageOriginId: string;
   // imageIdArr: object[] = [];
   // repositories: string[] = [];
-
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
   formConfig: FieldConfig[] = [
-    {
-      type: 'input',
-      label: '镜像名称',
-      name: 'imageName',
-      placeholder: '请输入镜像名称',
-      validation: [Validators.required, Validators.pattern(/^[a-z0-9][a-z0-9\-\_]*[a-z0-9]$/i)],
-      styles: {
-        'width': '400px'
-      }
-    },
+    /*  {
+        type: 'input',
+        label: '镜像名称',
+        name: 'imageName',
+        placeholder: '请输入镜像名称',
+        validation: [Validators.required, Validators.pattern(/^[a-z0-9][a-z0-9\-\_]*[a-z0-9]$/i)],
+        styles: {
+          'width': '400px'
+        }
+      },*/
     {
       type: 'input',
       label: '镜像版本',
@@ -56,7 +58,7 @@ export class BuildImageComponent implements OnInit {
         'width': '400px'
       }
     },
-    {
+    /*{
       type: 'input',
       label: '镜像描述',
       name: 'description',
@@ -67,7 +69,7 @@ export class BuildImageComponent implements OnInit {
       styles: {
         'width': '400px'
       }
-    },
+    },*/
     {
       label: '构建',
       name: 'submit',
@@ -84,12 +86,19 @@ export class BuildImageComponent implements OnInit {
     },
   ];
 
-  constructor(private _notification: NzNotificationService, private routeInfo: ActivatedRoute,
-    private router: Router,
-    private http: HttpClient, private confirmServ: NzModalService) { }
+  constructor(private _notification: NzNotificationService,
+              private routeInfo: ActivatedRoute,
+              private router: Router,
+              private http: HttpClient,
+              private confirmServ: NzModalService,
+              private servicesService: ServicesService) {
+  }
 
   ngOnInit() {
     this.mirrorName = this.routeInfo.snapshot.params['mirrorName'];
+    this.repoName = this.routeInfo.snapshot.params['name'];
+    console.log("mirrorName: " + this.mirrorName);
+    console.log("repoName: " + this.repoName);
     this.getImageOrigin();
     this.getImages();
   }
@@ -168,15 +177,17 @@ export class BuildImageComponent implements OnInit {
         // setTimeout(() => {
         console.log('测试promise', this);
         _.map(_.compact(fileArr), (value, key) => {
-          // const repositoryName = this.radioValue === 'newImage' ? formValue.imageName + '-' + 
+          // const repositoryName = this.radioValue === 'newImage' ? formValue.imageName + '-' +
           // _.replace(value, '.', '') : formValue.imageName
-          this.http.post(environment.api + '/api/' + environment.groupId + '/warehouse/repository?module=image', {
+          this.http.post(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository?module=image', {
             // "description": formValue.description,
+            "description": '',
             "fileName": value,
             "isApp": false,
             "registryId": this.imageOriginId,
-            "description": formValue.description,
-            "repositoryName": formValue.imageName,
+            // "description": formValue.description,
+            // "repositoryName": formValue.imageName,
+            "repositoryName": this.repoName,
             "version": formValue.version
           }).subscribe(response => {
             console.log('这是response', response);
@@ -184,14 +195,15 @@ export class BuildImageComponent implements OnInit {
             this.confirmServ.success({
               maskClosable: false,
               title: '上传镜像成功!',
-              content: '点确认按钮跳转到镜像商城',
+              content: '点确认按钮跳转到镜像详情',
               okText: '确定',
               onOk() {
                 // .contentControl = true;
                 // console.log('form11', thisParent.form);
                 // const redirect = window.location.host + '/#/appStore';
                 // window.location.href = window.location.origin + '/#/repositoryStore';
-                thisParent.router.navigate(['repositoryStore']);
+                // repositoryDetail/repository/asdasdasd/private
+                thisParent.router.navigate(['repositoryDetail', 'repository', thisParent.repoName, thisParent.mirrorName]);
               },
               onCancel() {
               }
@@ -208,7 +220,7 @@ export class BuildImageComponent implements OnInit {
   }
 
   getImageOrigin() {
-    this.http.get(environment.api + '/api/' + environment.groupId + '/warehouse/registry').subscribe(data => {
+    this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/registry').subscribe(data => {
       const dataValue = data;
       this.imageOriginId = dataValue['id'];
       // this.imageOriginId = dataValue.id;
@@ -216,7 +228,7 @@ export class BuildImageComponent implements OnInit {
   }
 
   getImages() {
-    this.http.get(environment.api + '/api/' + environment.groupId + '/warehouse/repository?region=' + this.mirrorName).subscribe(data => {
+    this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository?region=' + this.mirrorName).subscribe(data => {
       this.images = _.map(data['images'], (value, key) => {
         return value['repositoryName'];
       })

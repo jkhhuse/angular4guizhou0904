@@ -178,6 +178,9 @@ export class RepositoryDetailComponent implements OnInit {
     this.name = this.routeInfo.snapshot.params['name'];
     this.tabName = this.routeInfo.snapshot.params['tabName'];
     this.module = this.routeInfo.snapshot.params['module'];
+    console.log("name: " + this.name);
+    console.log("tabName: " + this.tabName);
+    console.log("module: " + this.module);
     if (this.module === 'repository') {
       this.mirrorDetail = this.getServiceDetail();
       // 订阅流

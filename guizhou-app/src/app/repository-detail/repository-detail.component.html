@@ -1,122 +1,129 @@
 <app-header [title]="title"></app-header>
 <nz-content class="mirror-store-wrapper">
-    <div class="link-back">
-        <a [routerLink]="['/'+ module +'Store']">
-            <span class="glyphicon glyphicon-menu-left"></span>
-            返回</a>
+  <div class="link-back">
+    <a [routerLink]="['/'+ module +'Store']">
+      <span class="glyphicon glyphicon-menu-left"></span>
+      返回</a>
+  </div>
+  <div class="detail-img-wrapper">
+    <div class="img-block" *ngIf='module === "app"'>
+      <img class="detail-img" [src]='imgUrl + name + ".png"' alt="" width="100%"
+           onerror="this.src = 'assets/service/app.png'"/>
     </div>
-    <div class="detail-img-wrapper">
-        <div class="img-block" *ngIf='module === "app"'>
-            <img class="detail-img" [src]='imgUrl + name + ".png"' alt="" width="100%" onerror="this.src = 'assets/service/app.png'"/>
-        </div>
-        <div class="img-block" *ngIf='module === "repository"'>
-            <img class="detail-img" [src]="mirrorImgUrl" alt="" width="100%" />
-        </div>
-        <div class="img-block">
-            <p class="detail-title">{{name}}</p>
-        </div>
+    <div class="img-block" *ngIf='module === "repository"'>
+      <img class="detail-img" [src]="mirrorImgUrl" alt="" width="100%"/>
     </div>
-    <div nz-row class="detail-desc-wrapper" >
-        <div nz-col [nzSpan]="12" class="detail-12col  first-line">
-            <div class="detail-line">
-                <span>版本编号</span>
-                <span *ngIf="mirrorDetail" class="detail-line-value">{{firstVersionVersion}}</span></div>
-        </div>
-        <div nz-col [nzSpan]="12" class="detail-12col first-line">
-            <div class="detail-line">
-                <span>更新时间</span>
-                <span class="detail-line-value" *ngIf="mirrorDetail">{{mirrorDetail.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-            </div>
-        </div>
-        <div nz-col [nzSpan]="12" class="detail-12col">
-            <div class="detail-line">
-                <span>实例描述</span>
-                <span class="detail-line-value" *ngIf="mirrorDetail">{{mirrorDetail.description}}</span></div>
-        </div>
-      <div nz-col [nzSpan]="12" class="detail-12col">
-        <div class="detail-line">
-          <span>所属分类</span>
-          <span class="detail-line-value" *ngIf="mirrorDetail">{{mirrorDetailCateName}}</span></div>
+    <div class="img-block">
+      <p class="detail-title">{{name}}</p>
+    </div>
+  </div>
+  <div nz-row class="detail-desc-wrapper">
+    <div nz-col [nzSpan]="12" class="detail-12col  first-line">
+      <div class="detail-line">
+        <span>版本编号</span>
+        <span *ngIf="mirrorDetail" class="detail-line-value">{{firstVersionVersion}}</span></div>
+    </div>
+    <div nz-col [nzSpan]="12" class="detail-12col first-line">
+      <div class="detail-line">
+        <span>更新时间</span>
+        <span class="detail-line-value"
+              *ngIf="mirrorDetail">{{mirrorDetail.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
       </div>
     </div>
+    <div nz-col [nzSpan]="12" class="detail-12col">
+      <div class="detail-line">
+        <span>实例描述</span>
+        <span class="detail-line-value" *ngIf="mirrorDetail">{{mirrorDetail.description}}</span></div>
+    </div>
+    <div nz-col [nzSpan]="12" class="detail-12col">
+      <div class="detail-line">
+        <span>所属分类</span>
+        <span class="detail-line-value" *ngIf="mirrorDetail">{{mirrorDetailCateName}}</span></div>
+    </div>
+  </div>
+  <div class="">
+    <button class="addVersion" nz-button [nzType]="'primary'" [routerLink]="['/buildImage', name, tabName]">
+      添加版本
+    </button>
+  </div>
+  <div class="detail-versions-wrapper" *ngIf="mirrorVersions">
+    <nz-table #nzTable [nzAjaxData]="mirrorVersions" [nzIsPagination]="false">
+      <thead nz-thead>
+      <tr>
+        <th nz-th><span>版本</span></th>
+        <th nz-th><span>大小</span></th>
+        <th nz-th><span>状态</span></th>
+        <th nz-th><span>发布时间</span></th>
+        <th nz-th><span>操作</span></th>
+      </tr>
+      </thead>
+      <tbody nz-tbody>
+      <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+        <td nz-td>
+          <div *ngIf="data.version">
+            {{data.version}}
+          </div>
+        </td>
+        <td nz-td *ngIf="data.size">{{data.size}}MB</td>
+        <td nz-td *ngIf="!data.size">暂无</td>
+        <td nz-td>
+          <div>
+            {{data.isEnable ? '正常': '错误'}}
+          </div>
+        </td>
+        <td nz-td>
+          <div *ngIf="data.createTime">
+            {{data.createTime | date:'yyyy-MM-dd HH:mm:ss'}}
+          </div>
+        </td>
+        <td nz-td>
+          <a href="" *ngIf="module === 'repository'" disabled="disabled">启动</a>
+          <a href="" *ngIf="module === 'app'" [routerLink]="['/appDeploy', data.id]">部署</a>
+          <a href="" disabled="disabled">同步</a>
+          <!--
+                              <a *ngIf="module === 'app'" (click)="deleteVersion(module, data.id)">删除</a>
+          -->
+          <a *ngIf="module === 'app'" (click)="showModal(data.version, data.id);">删除</a>
+          <a *ngIf="module === 'repository'" disabled="disabled">删除</a>
+        </td>
+      </tr>
+      </tbody>
+    </nz-table>
 
-    <div class="detail-versions-wrapper" *ngIf="mirrorVersions">
-        <nz-table #nzTable [nzAjaxData]="mirrorVersions" [nzIsPagination]="false">
-            <thead nz-thead>
-            <tr>
-                <th nz-th><span>版本</span></th>
-                <th nz-th><span>大小</span></th>
-                <th nz-th><span>状态</span></th>
-                <th nz-th><span>发布时间</span></th>
-                <th nz-th><span>操作</span></th>
-            </tr>
-            </thead>
-            <tbody nz-tbody>
-            <tr nz-tbody-tr *ngFor="let data of nzTable.data">
-                <td nz-td>
-                    <div *ngIf="data.version">
-                        {{data.version}}
-                    </div>
-                </td>
-                <td nz-td *ngIf="data.size">{{data.size}}MB</td>
-                <td nz-td *ngIf="!data.size">暂无</td>
-                <td nz-td>
-                    <div>
-                        {{data.isEnable ? '正常': '错误'}}
-                    </div>
-                </td>
-                <td nz-td>
-                    <div *ngIf="data.createTime">
-                        {{data.createTime | date:'yyyy-MM-dd HH:mm:ss'}}
-                    </div>
-                </td>
-                <td nz-td>
-                    <a href="" *ngIf="module === 'repository'" disabled="disabled">启动</a>
-                    <a href="" *ngIf="module === 'app'" [routerLink]="['/appDeploy', data.id]">部署</a>
-                    <a href="" disabled="disabled">同步</a>
-<!--
-                    <a *ngIf="module === 'app'" (click)="deleteVersion(module, data.id)">删除</a>
--->
-                    <a *ngIf="module === 'app'" (click)="showModal(data.version, data.id);">删除</a>
-                    <a *ngIf="module === 'repository'" disabled="disabled" >删除</a>
-                </td>
-            </tr>
-            </tbody>
-        </nz-table>
-
-      <div *ngIf="module === 'app'">
-        <div class="app-detail-block">
-          <div class="app-detail-title">依赖的服务</div>
-          <div class="custom-image-wrapper" *ngIf="mirrorDetail">
-            <div *ngFor="let service of mirrorDetail.services">
-              <div class="custom-image">
-                <img *ngIf="service.serviceName"
-                     [src]='serviceImgUrl + service.serviceName + ".png"'
-                     alt=""/>
-              </div>
+    <div *ngIf="module === 'app'">
+      <div class="app-detail-block">
+        <div class="app-detail-title">依赖的服务</div>
+        <div class="custom-image-wrapper" *ngIf="mirrorDetail">
+          <div *ngFor="let service of mirrorDetail.services">
+            <div class="custom-image">
+              <img *ngIf="service.serviceName"
+                   [src]='serviceImgUrl + service.serviceName + ".png"'
+                   alt=""/>
             </div>
-          </div>
-        </div>
-        <div class="app-detail-block">
-          <div class="app-detail-title">镜像</div>
-          <div class="" *ngIf="mirrorDetail.repositories">
-            <app-app-nztable [mirrorDetail]="mirrorDetail" [tableNum]="1" [tableTitle]="table1Title"></app-app-nztable>
-          </div>
-        </div>
-        <div class="app-detail-block">
-          <div class="app-detail-title">已订购实例</div>
-          <div class="" *ngIf="subInstances">
-            <app-app-nztable [mirrorDetail]="subInstances" [tableNum]="2" [tableTitle]="table2Title"></app-app-nztable>
           </div>
         </div>
       </div>
+      <div class="app-detail-block">
+        <div class="app-detail-title">镜像</div>
+        <div class="" *ngIf="mirrorDetail.repositories">
+          <app-app-nztable [mirrorDetail]="mirrorDetail" [tableNum]="1" [tableTitle]="table1Title"></app-app-nztable>
+        </div>
+      </div>
+      <div class="app-detail-block">
+        <div class="app-detail-title">已订购实例</div>
+        <div class="" *ngIf="subInstances">
+          <app-app-nztable [mirrorDetail]="subInstances" [tableNum]="2" [tableTitle]="table2Title"></app-app-nztable>
+        </div>
+      </div>
     </div>
+  </div>
 </nz-content>
-<nz-modal [nzVisible]="isVisible" [nzTitle]="'操作确认'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
-    <ng-template #modalContent>
-        <p>您是否确定删除{{name}}的{{deleteName}}版本？</p>
-        <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="text-align: center;">
-        </nz-spin>
+<nz-modal [nzVisible]="isVisible" [nzTitle]="'操作确认'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)"
+          (nzOnOk)="handleOk($event)">
+  <ng-template #modalContent>
+    <p>您是否确定删除{{name}}的{{deleteName}}版本？</p>
+    <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="text-align: center;">
+    </nz-spin>
 
-    </ng-template>
+  </ng-template>
 </nz-modal>
