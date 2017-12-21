@@ -56,6 +56,9 @@ import { AppOverviewDetailDetailComponent } from './app-overview-detail-detail/a
 import { MirrorStoreListComponent } from './mirror-store-list/mirror-store-list.component';
 import { BuildImageCategoryComponent } from './build-image-category/build-image-category.component';
 import { ServicePipePipe } from './pipe/service-pipe.pipe';
+import { ConfigControlComponent } from './config-control/config-control.component';
+import { DocFileComponent } from './doc-file/doc-file.component';
+import { BuildConfigComponent } from './build-config/build-config.component';
 
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
@@ -98,6 +101,9 @@ export function createTranslateHttpLoader(http: HttpClient) {
         MirrorStoreListComponent,
         BuildImageCategoryComponent,
         ServicePipePipe,
+        ConfigControlComponent,
+        DocFileComponent,
+        BuildConfigComponent,
     ],
     imports: [
         BrowserModule,

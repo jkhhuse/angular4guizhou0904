@@ -20,6 +20,9 @@ import {ServiceSubscribeComponent} from "./service-subscribe/service-subscribe.c
 import {BuildImageComponent} from "./build-image/build-image.component";
 import {BuildImageCategoryComponent} from "./build-image-category/build-image-category.component";
 import {AppOverviewDetailDetailComponent} from "./app-overview-detail-detail/app-overview-detail-detail.component";
+import {DocFileComponent} from "./doc-file/doc-file.component";
+import {ConfigControlComponent} from "./config-control/config-control.component";
+import {BuildConfigComponent} from "./build-config/build-config.component";
 
 var BuildImageCateGoryComponent;
 const routes: Routes = [
@@ -50,6 +53,10 @@ const routes: Routes = [
   {path: 'buildImageCategory/:mirrorName', component: BuildImageCategoryComponent},
   {path: 'repositoryDetail/:module/:name/:tabName', component: RepositoryDetailComponent},
   {path: 'fileCenter', component: FileCenterComponent},
+
+  {path: 'configControl', component: ConfigControlComponent},
+  {path: 'buildConfig', component: BuildConfigComponent},
+  {path: 'envDoc', component: DocFileComponent},
 
 
   {path: '**', component: Code404Component}

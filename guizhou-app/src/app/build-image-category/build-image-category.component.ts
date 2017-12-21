@@ -191,4 +191,17 @@ export class BuildImageCategoryComponent implements OnInit {
 
   }
 
+  ngAfterViewInit() {
+    // setTimeout(() => {
+    console.log('form11', this.form.controls);
+    this.form.setDisabled('submit', true);
+    // }, 0);
+    let previousValid = this.form.valid;
+    this.form.changes.subscribe(() => {
+      if (this.form.valid !== previousValid) {
+        previousValid = this.form.valid;
+        this.form.setDisabled('submit', !previousValid);
+      }
+    });
+  }
 }

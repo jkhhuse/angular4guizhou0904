@@ -94,6 +94,19 @@ export class BuildImageComponent implements OnInit {
               private servicesService: ServicesService) {
   }
 
+  ngAfterViewInit() {
+    // setTimeout(() => {
+    console.log('form11', this.form.controls);
+    this.form.setDisabled('submit', true);
+    // }, 0);
+    let previousValid = this.form.valid;
+    this.form.changes.subscribe(() => {
+      if (this.form.valid !== previousValid) {
+        previousValid = this.form.valid;
+        this.form.setDisabled('submit', !previousValid);
+      }
+    });
+  }
   ngOnInit() {
     this.mirrorName = this.routeInfo.snapshot.params['mirrorName'];
     this.repoName = this.routeInfo.snapshot.params['name'];

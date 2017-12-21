@@ -80,4 +80,25 @@
     </td>
   </tr>
   </tbody>
+
+  <!-- 配置中心表格 -->
+  <tbody nz-tbody *ngIf="tableNum === 6">
+  <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+    <td nz-td>
+      <a [routerLink]="['/appOverviewDetailDetail', data.id]">
+        {{data.configName}}
+      </a>
+    </td>
+<!--
+    <td nz-td>{{data.createUserId}}</td>
+-->
+    <td nz-td>{{data.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+    <td nz-td>{{data.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+    <td nz-td>
+      <button nz-button [nzType]="'primary'">
+        <span>删除</span>
+      </button>
+    </td>
+  </tr>
+  </tbody>
 </nz-table>

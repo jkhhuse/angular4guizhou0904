@@ -1,0 +1,9 @@
+<div class="config-control-wrapper">
+  <app-group-select (groupidHandler)="groupidHandler($event)"></app-group-select>
+
+  <button nz-button [nzType]="'primary'" [routerLink]="['/buildConfig']">构建
+  </button>
+</div>
+<div class="config-control-wrapper" *ngIf="configs">
+  <app-app-nztable [mirrorDetail]="configs" [tableNum]="6" [tableTitle]="table6Title"></app-app-nztable>
+</div>

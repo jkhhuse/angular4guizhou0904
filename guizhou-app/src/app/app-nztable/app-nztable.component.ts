@@ -1,11 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-app-nztable',
   templateUrl: './app-nztable.component.html',
   styleUrls: ['./app-nztable.component.css']
 })
-export class AppNztableComponent implements OnInit {
+export class AppNztableComponent implements OnInit, OnChanges {
   @Input()
   mirrorDetail: any;
   @Input()
@@ -22,7 +22,10 @@ export class AppNztableComponent implements OnInit {
     this._loading = false;
   }
   constructor() { }
+  ngOnChanges(changes: SimpleChanges) {
+    this.refreshData();
 
+  }
   ngOnInit() {
     console.log("mirrorDetail: " + this.mirrorDetail);
     console.log("tableNum: " + this.tableNum);
