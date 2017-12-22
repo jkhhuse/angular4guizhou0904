@@ -23,7 +23,8 @@ export class ServiceListComponent implements OnInit, OnChanges {
   moduleName: string;
   private keyword: string;
   mirrorImgUrl = 'assets/service/mirror.png';
-  appimgUrl = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/files/app/fileName/';
+  appimgUrl: string;
+  // appimgUrl = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/files/app/fileName/';
   serviceImgUrl = environment.api + '/api/' + environment.adminGroupId + '/files/apiService/fileName/';
   services: Observable<any[]>;
   services2: any;
@@ -137,10 +138,13 @@ export class ServiceListComponent implements OnInit, OnChanges {
     console.log('servicelist  tabName: ' + this.tabName);
 
     this.services = this.servicesService.getServices(this.tabName, this.moduleName);
+    this.appimgUrl = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/files/app/fileName/';
+
     this.keyword = '';
   }
 
   ngOnInit() {
+    this.appimgUrl = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/files/app/fileName/';
 
     /* this.servicesService.getServices().subscribe((data) => {
          this.products = data;
