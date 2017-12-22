@@ -303,25 +303,24 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   getIpTag() {
     return new Promise((resolve, reject) => {
       if (this.radioValue === 'prodDomain') {
-        this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/cmss/nodes').subscribe(data => {
+        this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/cmss/labels').subscribe(data => {
           console.log('这是主机标签', data);
-          this.ipTag$ = _.compact(_.map(data, (value, key) => {
+          this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
             // if (value['labels'].length > 0) {
-            if (value['node_tag']) {
-              return value['private_ip'];
-            }
+            // if (value['node_tag']) {
+              return value['value'];
+            // }
           }));
-
           resolve();
         });
       } else {
-        this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/ebd/nodes').subscribe(data => {
+        this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/ebd/labels').subscribe(data => {
           console.log('这是主机标签', data);
-          this.ipTag$ = _.compact(_.map(data, (value, key) => {
+          this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
             // if (value['labels'].length > 0) {
-            if (value['node_tag']) {
-              return value['private_ip'];
-            }
+            // if (value['node_tag']) {
+              return value['value'];
+            // }
           }));
           resolve();
         });
@@ -860,7 +859,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     await this.getIpTag();
     await this.getServiceBasic();
     this.formThird1Project.setConfig(this.formThird1);
-    this.formThird1Project.setFormValue('image_tag', undefined);
+    // this.formThird1Project.setFormValue('image_tag', undefined);
     // 这里获取服务的advanced_config
     await this.getServiceAdvanced();
     console.log('这是formThird2', this.formThird2);

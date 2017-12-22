@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
-export class ComponentService {
+export class ComponentServiceService {
   componentType: string = '';
   componentValue;
   componentValue$ = new BehaviorSubject<any>(this.componentValue);

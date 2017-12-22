@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { Field } from '../../models/field.interface';
 import { FieldConfig } from '../../models/field-config.interface';
 import { TranslateService } from '@ngx-translate/core';
-import { ComponentService } from "../../services/component-service.service";
+import { ComponentServiceService } from "../../services/component-service.service";
 
 @Component({
     selector: 'form-input',
@@ -36,7 +36,7 @@ export class FormInputComponent implements Field, OnInit {
         // console.log('33',this.validation)
     }
 
-    constructor(private translate: TranslateService, private component: ComponentService) {
+    constructor(private translate: TranslateService, private component: ComponentServiceService) {
         translate.addLangs(["zh", "en"]);
         translate.setDefaultLang("zh");
         const browserLang = translate.getBrowserLang();
