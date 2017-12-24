@@ -23,6 +23,9 @@ import {AppOverviewDetailDetailComponent} from "./app-overview-detail-detail/app
 import {DocFileComponent} from "./doc-file/doc-file.component";
 import {ConfigControlComponent} from "./config-control/config-control.component";
 import {BuildConfigComponent} from "./build-config/build-config.component";
+import {ConfigDetailComponent} from "./config-detail/config-detail.component";
+import {EditConfigComponent} from "./edit-config/edit-config.component";
+import {AddConfigComponent} from "./add-config/add-config.component";
 
 var BuildImageCateGoryComponent;
 const routes: Routes = [
@@ -55,7 +58,10 @@ const routes: Routes = [
   {path: 'fileCenter', component: FileCenterComponent},
 
   {path: 'configControl', component: ConfigControlComponent},
+  {path: 'configDetail/:configID', component: ConfigDetailComponent},
   {path: 'buildConfig', component: BuildConfigComponent},
+  {path: 'addConfig/:configID', component: AddConfigComponent},
+  {path: 'editConfig', component: EditConfigComponent},
   {path: 'envDoc', component: DocFileComponent},
 
 

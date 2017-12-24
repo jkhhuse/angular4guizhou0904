@@ -3,6 +3,7 @@ import {environment} from "../../environments/environment";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {ServicesService} from "../shared/services.service";
+import {NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-config-control',
@@ -12,6 +13,11 @@ import {ServicesService} from "../shared/services.service";
 export class ConfigControlComponent implements OnInit {
   public groupid: any;
   configs: any;
+  deleteID = '';
+  deleteName = '';
+  isVisible = false;
+  _isSpinning = false;
+
   //表格6thead
   table6Title = [
     {
@@ -48,20 +54,62 @@ export class ConfigControlComponent implements OnInit {
   getConfigs():any {
     // 订阅流
     this.getConfigsObservable().subscribe((data) => {
-      console.log(data);
+      console.log('config-control get data: ' + data);
       this.configs = data;
-
-      // 去掉后端返回configName中的"-"下划线字段
-      for(let i=0;i<data.length;i++) {
-        if(data.length>0 && data[i].configName) {
-          let temp = data[i].configName.split('_');
-          data[i].configName = temp[0];
-        }
-      }
-
     });
   }
-  constructor(private http: Http, private servicesService: ServicesService) {
+
+  // 删除配置接口
+  deleteConfig(configID, configName): string {
+    status = '';
+    console.log('删除配置：' + configName);
+    // 返回是string 不是json
+    this.http.delete(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') + '/configs/' + configID).subscribe((data) => {
+      console.log('data2: ' + data);
+      status = data.toString();
+      console.log('data: ' + data);
+    });
+    return status;
+  }
+
+  showModal = (id, name) => {
+    this.isVisible = true;
+    this.deleteID = id;
+    this.deleteName = name;
+  }
+
+  handleOk = (e) => {
+    let status = '';
+    // 如果对应的是删除镜像
+    status = this.deleteConfig(this.deleteID, this.deleteName);
+    console.log('status: ' + status);
+    if (status ='204') {
+      this._isSpinning = true;
+      setTimeout(() => {
+        this.isVisible = false;
+        console.log('删除成功，更新列表');
+        this.getConfigs();
+        this._isSpinning = false;
+      }, 3000);
+    } else {
+      this.isVisible = false;
+      this.createNotification('error', '删除失败', '删除失败');
+    }
+  }
+
+  createNotification = (type, title, content) => {
+    this._notification.create(type, title, content);
+  };
+
+
+  handleCancel = (e) => {
+    console.log(e);
+    this.isVisible = false;
+  }
+
+  constructor(private http: Http,
+              private servicesService: ServicesService,
+              private _notification: NzNotificationService) {
   }
 
   ngOnInit() {

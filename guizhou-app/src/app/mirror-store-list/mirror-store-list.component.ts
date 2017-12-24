@@ -5,6 +5,7 @@ import 'rxjs/Rx';
 import {Http} from '@angular/http';
 import {FormControl} from '@angular/forms';
 import {environment} from "../../environments/environment";
+import {NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-mirror-store-list',
@@ -77,6 +78,7 @@ export class MirrorStoreListComponent implements OnInit {
     // 返回是string 不是json
     this.http.delete(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/dir/' + mirrorName).subscribe((data) => {
       status = data.toString();
+      console.log('status: ' + status);
     });
     return status;
   }
@@ -92,17 +94,23 @@ export class MirrorStoreListComponent implements OnInit {
     console.log("this.deleteID: " + this.deleteID);
     // 如果对应的是删除镜像
     status = this.deleteMirror(this.deleteName);
+    console.log("this.status: " + status);
+
     if (status = '204') {
       this._isSpinning = true;
       setTimeout(() => {
         this.isVisible = false;
         console.log('删除成功，更新列表');
-        this.services = this.servicesService.getServices(this.tabName, this.moduleName);
+        if(this.radioValue === 'all') {
+          this.services = this.servicesService.getServices(this.tabName, this.moduleName);
+        } else {
+          this.services = this.servicesService.getCateServices(this.tabName, this.moduleName, this.radioValue);
+        }
         this._isSpinning = false;
       }, 3000);
     } else {
       this.isVisible = false;
-      alert('删除失败');
+      this.createNotification('error', '删除失败', '删除失败');
     }
   }
 
@@ -111,7 +119,14 @@ export class MirrorStoreListComponent implements OnInit {
     this.isVisible = false;
   }
 
-  constructor(private servicesService: ServicesService, private http: Http) {
+
+  createNotification = (type, title, content) => {
+    this._notification.create(type, title, content);
+  };
+
+  constructor(private servicesService: ServicesService,
+              private http: Http,
+              private _notification: NzNotificationService) {
 
   }
 

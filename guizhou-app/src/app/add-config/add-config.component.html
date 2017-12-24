@@ -1,0 +1,23 @@
+<div>
+  <nz-layout>
+    <nz-header style="line-height:32px">
+        <a style="font-size: 16px" [routerLink]="['/configDetail', configID]">
+        <返回</a>
+      <p style="font-size: 16px">添加配置项</p>
+    </nz-header>
+    <nz-content>
+      <div nz-row>
+        <dynamic-form [config]="formConfig" (submit)="submit($event)">
+        </dynamic-form>
+        <!-- <span>
+          <button nz-button [nzType]="'default'" (click)="pre()">
+            <span>取消</span>
+          </button>
+        </span> -->
+      </div>
+    </nz-content>
+    <nz-footer>
+
+    </nz-footer>
+  </nz-layout>
+</div>

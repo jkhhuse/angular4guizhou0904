@@ -59,6 +59,9 @@ import { ServicePipePipe } from './pipe/service-pipe.pipe';
 import { ConfigControlComponent } from './config-control/config-control.component';
 import { DocFileComponent } from './doc-file/doc-file.component';
 import { BuildConfigComponent } from './build-config/build-config.component';
+import { ConfigDetailComponent } from './config-detail/config-detail.component';
+import { AddConfigComponent } from './add-config/add-config.component';
+import { EditConfigComponent } from './edit-config/edit-config.component';
 
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
@@ -104,6 +107,9 @@ export function createTranslateHttpLoader(http: HttpClient) {
         ConfigControlComponent,
         DocFileComponent,
         BuildConfigComponent,
+        ConfigDetailComponent,
+        AddConfigComponent,
+        EditConfigComponent,
     ],
     imports: [
         BrowserModule,

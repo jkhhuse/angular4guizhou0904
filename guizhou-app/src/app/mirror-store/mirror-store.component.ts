@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
+import {NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-mirror-store',
@@ -84,7 +85,8 @@ export class MirrorStoreComponent implements OnInit {
     this.mirrorName = mirrorName;
   }
 
-  constructor() {
+
+  constructor(private _notification: NzNotificationService) {
   }
 
   ngOnInit() {

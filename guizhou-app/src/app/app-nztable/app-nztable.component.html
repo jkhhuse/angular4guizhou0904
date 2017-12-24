@@ -103,12 +103,4 @@
   </tbody>
 </nz-table>
 
-<nz-modal [nzVisible]="isVisible" [nzTitle]="'操作确认'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)"
-          (nzOnOk)="handleOk($event)">
-  <ng-template #modalContent>
-    <p>已选择配置：{{deleteName}}，是否确定删除？</p>
-    <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="text-align: center;">
-    </nz-spin>
 
-  </ng-template>
-</nz-modal>
