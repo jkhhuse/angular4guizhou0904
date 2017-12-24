@@ -61,7 +61,7 @@ const routes: Routes = [
   {path: 'configDetail/:configID', component: ConfigDetailComponent},
   {path: 'buildConfig', component: BuildConfigComponent},
   {path: 'addConfig/:configID', component: AddConfigComponent},
-  {path: 'editConfig', component: EditConfigComponent},
+  {path: 'editConfig/:configID/:configKey', component: EditConfigComponent},
   {path: 'envDoc', component: DocFileComponent},
 
 

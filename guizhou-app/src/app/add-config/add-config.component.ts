@@ -63,7 +63,7 @@ export class AddConfigComponent implements OnInit {
 
   createNotification = (type, title, content) => {
     this._notification.create(type, title, content);
-  };
+  }
   ngAfterViewInit() {
     // setTimeout(() => {
     console.log('form11', this.form.controls);

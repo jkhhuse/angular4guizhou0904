@@ -75,7 +75,7 @@ export class ConfigDetailComponent implements OnInit {
                         console.log('删除成功，更新列表');
                         this.getExistConfigs();
                         this._isSpinning = false;
-                    }, 3000);
+                    }, 1000);
                 } else {
                     this.isVisible = false;
                     this.createNotification('error', '删除失败', data['message']);

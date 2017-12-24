@@ -59,7 +59,7 @@
         <td nz-td>{{data.key}}</td>
         <td nz-td>{{data.value}}</td>
         <td nz-td>
-          <button nz-button [nzType]="'primary'" [routerLink]="['/editConfig', configID]">
+          <button nz-button [nzType]="'primary'" [routerLink]="['/editConfig', configID, data.key]">
             <span>编辑</span>
           </button>
           <button nz-button [nzType]="'primary'" (click)="showModal(data.key, data.value);">
