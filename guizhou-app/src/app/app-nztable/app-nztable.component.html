@@ -101,6 +101,15 @@
     </td>
   </tr>
   </tbody>
+
+  <!-- 应用实例详情 配置文件表格 -->
+  <tbody nz-tbody *ngIf="tableNum === 7">
+  <tr nz-tbody-tr *ngFor="let data of nzTable.data.microserviceConfigs">
+    <td nz-td>{{data.configName}}</td>
+    <td nz-td>{{data.key}}</td>
+    <td nz-td>{{data.value}}</td>
+  </tr>
+  </tbody>
 </nz-table>
 
 

@@ -100,7 +100,11 @@
         </thead>
         <tbody nz-tbody>
         <tr nz-tbody-tr *ngFor="let data of nzTable.data  | appFilter: 'instanceName' : keyword">
-          <td nz-td>{{data.microserviceName ||data.instanceName}}</td>
+          <td nz-td>
+            <a [routerLink]="['/appInstanceDetailDetail', instanceId, data.id]">
+              {{data.microserviceName ||data.instanceName}}
+            </a>
+          </td>
           <td nz-td>{{data.clusterName}}</td>
           <td nz-td>{{data.repository||data.serviceName}}</td>
           <td nz-td>{{data.status}}</td>

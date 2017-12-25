@@ -68,9 +68,9 @@ export class ServicesService {
     if (this.userId === '') {
       return '';
     } else {
-      return '';
+      // return '';
 
-      // return this.http.get(environment.apiOP + '/renter/users/' + this.userId + '/groups?roleName=all').map(res => res.json());
+      return this.http.get(environment.apiOP + '/renter/users/' + this.userId + '/groups?roleName=all').map(res => res.json());
     }
   }
 

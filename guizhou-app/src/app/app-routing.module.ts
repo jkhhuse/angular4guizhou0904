@@ -26,6 +26,7 @@ import {BuildConfigComponent} from "./build-config/build-config.component";
 import {ConfigDetailComponent} from "./config-detail/config-detail.component";
 import {EditConfigComponent} from "./edit-config/edit-config.component";
 import {AddConfigComponent} from "./add-config/add-config.component";
+import {AppInstanceDetailDetailComponent} from "./app-instance-detail-detail/app-instance-detail-detail.component";
 
 var BuildImageCateGoryComponent;
 const routes: Routes = [
@@ -39,6 +40,7 @@ const routes: Routes = [
   {path: 'appStore', component: AppStoreComponent},
   {path: 'appDetail/:module/:name/:tabName', component: AppDetailComponent},
   {path: 'appOverviewDetail/:instanceId', component: AppOverviewDetailComponent},
+  {path: 'appInstanceDetailDetail/:instanceId/:instanceDetailID', component: AppInstanceDetailDetailComponent},
   {path: 'appOverviewDetailDetail/:instanceId/:moduleName', component: AppOverviewDetailDetailComponent},
 
   {path: 'appDeploy/:appId', component: AppDeployComponent},

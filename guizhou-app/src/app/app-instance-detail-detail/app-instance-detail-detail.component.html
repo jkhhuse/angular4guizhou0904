@@ -1,0 +1,109 @@
+<app-header [title]="title"></app-header>
+<nz-content class="service-detail-wrapper">
+  <div class="link-back">
+    <a [routerLink]="['/appOverviewDetail' , instanceId]">
+      <span class="glyphicon glyphicon-menu-left"></span>
+      返回</a>
+  </div>
+  <div nz-row class="detail-img-wrapper">
+    <div nz-col [nzSpan]="6">
+      <div class="img-block" *ngIf="instanceDetail">
+        <p class="detail-title">{{instanceDetail.microserviceName}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div nz-row class="detail-content-wrapper" *ngIf="instanceDetail">
+    <div nz-col [nzSpan]="12" class="detail-content-one">
+
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          所在集群
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3" class="detail-package-num">
+          {{instanceDetail.clusterName}}
+        </div>
+      </div>
+
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          状态
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{instanceDetail.status }}
+        </div>
+      </div>
+
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          创建时间
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{instanceDetail.createTime | date:'yyyy-MM-dd HH:mm:ss'}}
+        </div>
+      </div>
+
+    </div>
+
+
+    <div nz-col [nzSpan]="12" class="detail-content-one">
+
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          容器大小
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{instanceDetail.cpuSize}} 核 {{instanceDetail.memSize}} MB
+        </div>
+      </div>
+
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          实例个数
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{instanceDetail.podsCount}}
+        </div>
+      </div>
+
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          更新时间
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{instanceDetail.updateTime ? (instanceDetail.updateTime | date:'yyyy-MM-dd HH:mm:ss') : '暂无更新'}}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div nz-row class="detail-content-wrapper" style="background: none" *ngIf="instanceDetail">
+    <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+      <nz-tab *ngFor="let tab of tabs">
+        <ng-template #nzTabHeading>
+          {{tab.name}}
+        </ng-template>
+        <div class="detail-tab-div" *ngIf="tab.index === 1"></div>
+        <div class="detail-tab-div" *ngIf="tab.index === 2">
+          <div class="detail-instance-wrapper" *ngIf="instanceDetail">
+            <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="5"
+                             [tableTitle]="table5Title"></app-app-nztable>
+          </div>
+        </div>
+        <div class="detail-tab-div" *ngIf="tab.index === 3"></div>
+        <div class="detail-tab-div" *ngIf="tab.index === 4"></div>
+        <div class="detail-tab-div" *ngIf="tab.index === 5"></div>
+        <div class="detail-tab-div" *ngIf="tab.index === 6">
+          <div class="detail-instance-wrapper" *ngIf="instanceDetail">
+            <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="7"
+                             [tableTitle]="table7Title"></app-app-nztable>
+          </div>
+        </div>
+        <div class="detail-tab-div" *ngIf="tab.index === 7"></div>
+      </nz-tab>
+    </nz-tabset>
+  </div>
+
+</nz-content>

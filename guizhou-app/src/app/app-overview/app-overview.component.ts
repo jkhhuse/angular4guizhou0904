@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RandomUserService} from '../shared/random-user.service';
 import {FormControl} from "@angular/forms";
+import {ServicesService} from "../shared/services.service";
 
 @Component({
   selector: 'app-app-overview',
@@ -14,6 +15,7 @@ export class AppOverviewComponent implements OnInit {
   private totals: AppTotalsClass;
   private totalTemp: any;
   public groupid: any;
+  public groupList: any;
   appImgUrl1 = 'assets/application/u3225.png';
   appImgUrl2 = 'assets/application/u3227.png';
   title: String = '应用概览';
@@ -120,15 +122,19 @@ export class AppOverviewComponent implements OnInit {
     this.totalTemp = this._randomUser.getTotals();
     this.totalTemp.subscribe((data) => {
       console.log('data: ' + data);
-
-      if (!(data == null)) {
-        this.totals = new AppTotalsClass(data.appCount, data.podsCount, 3);
+      // 订阅op的group流
+      this.servicesService.getGroupList().subscribe((data) => {
+      // 过滤出需要的数据，拼接成一个array
+        // 获取
+       this.groupList  =  this.servicesService.getGroupNameList(data);
+        this.totals = new AppTotalsClass(data.appCount, data.podsCount, this.groupList.length);
         console.log(this.totals);
-      }
+       });
+
     });
   }
 
-  constructor(private _randomUser: RandomUserService) {
+  constructor(private _randomUser: RandomUserService, private servicesService: ServicesService){
   }
 
   ngOnInit() {

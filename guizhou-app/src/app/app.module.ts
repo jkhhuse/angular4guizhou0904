@@ -62,6 +62,7 @@ import { BuildConfigComponent } from './build-config/build-config.component';
 import { ConfigDetailComponent } from './config-detail/config-detail.component';
 import { AddConfigComponent } from './add-config/add-config.component';
 import { EditConfigComponent } from './edit-config/edit-config.component';
+import { AppInstanceDetailDetailComponent } from './app-instance-detail-detail/app-instance-detail-detail.component';
 
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
@@ -110,6 +111,7 @@ export function createTranslateHttpLoader(http: HttpClient) {
         ConfigDetailComponent,
         AddConfigComponent,
         EditConfigComponent,
+        AppInstanceDetailDetailComponent,
     ],
     imports: [
         BrowserModule,

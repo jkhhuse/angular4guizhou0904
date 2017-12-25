@@ -52,10 +52,10 @@ export class GroupSelectComponent implements OnInit {
         console.log('groupID cookie: ' + this.servicesService.getCookie('groupID'));*/
 
         // 订阅op的group流
-        // this.servicesService.getGroupList().subscribe((data) => {
+         this.servicesService.getGroupList().subscribe((data) => {
             // 过滤出需要的数据，拼接成一个array
-            // this.groupList  =  this.servicesService.getGroupNameList(data);
-            this.groupList  = [ 'aaa_1', 'testd_2', 'BDOC-TEST-11_5', 'GGGGGGG_10', 'GROUP2_9', 'test111_8', 'asd_7'];
+           this.groupList  =  this.servicesService.getGroupNameList(data);
+            // this.groupList  = [ 'aaa_1', 'testd_2', 'BDOC-TEST-11_5', 'GGGGGGG_10', 'GROUP2_9', 'test111_8', 'asd_7'];
             console.log('groupList: ' + this.groupList);
             console.log('groupList[0]: ' + this.groupList[0]);
             // 加载项目选择框的时候，默认把第一个group作为默认项目组
@@ -69,7 +69,7 @@ export class GroupSelectComponent implements OnInit {
 
             // 往cookie中传入第一个id值
             this.servicesService.setCookie('groupID', this.firstGroupID);
-        // });
+         });
         console.log('group-select init cookie: ' + this.servicesService.getCookie('groupID'));
 
     }
