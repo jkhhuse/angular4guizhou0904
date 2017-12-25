@@ -137,7 +137,7 @@ export class BuildImageComponent implements OnInit {
   }
 
   toggleRadio() {
-    console.log(this.radioValue)
+    console.log(this.radioValue);
     if (this.radioValue === 'newImage') {
       this.formConfig[0] = {
         type: 'input',

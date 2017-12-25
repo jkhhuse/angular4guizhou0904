@@ -63,7 +63,7 @@ export class AddConfigComponent implements OnInit {
 
   createNotification = (type, title, content) => {
     this._notification.create(type, title, content);
-  };
+  }
   ngAfterViewInit() {
     // setTimeout(() => {
     console.log('form11', this.form.controls);
@@ -105,13 +105,13 @@ export class AddConfigComponent implements OnInit {
 
 
       // 根据表单中填写的key和value，拼接添加的content字符串
-    this.content.push({"key":formValue.configKey,"value":formValue.configValue});
+    this.content.push({'key': formValue.configKey, 'value': formValue.configValue});
       console.log('params3: ' + this.content);
 
       this.http.put(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') + '/configs/' + this.configID, {
-        "update_user_id": '',
-        "description": '',
-        "content": this.content,
+        'update_user_id': '',
+        'description': '',
+        'content': this.content,
       }).subscribe(response => {
         console.log('这是content', this.content);
         console.log('这是response', response);
@@ -148,10 +148,10 @@ export class AddConfigComponent implements OnInit {
       this.configDetail = data;
       console.log('data: ' + data);
       // 将已存在的配置信息拼接入content（params）数组
-      for(let i=0;i<this.configDetail.length;i++) {
+      for (let i = 0; i < this.configDetail.length; i++) {
         console.log('this.configdetail: ' + this.configDetail[i].key);
         console.log('this.configdetail: ' + this.configDetail[i].value);
-        this.content.push({"key":this.configDetail[i].key,"value":this.configDetail[i].value});
+        this.content.push({'key': this.configDetail[i].key, 'value': this.configDetail[i].value});
         console.log('params2: ' + this.content);
 
       }
