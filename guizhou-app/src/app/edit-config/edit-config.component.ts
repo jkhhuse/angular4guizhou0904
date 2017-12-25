@@ -31,7 +31,6 @@ export class EditConfigComponent implements OnInit {
             validation: [Validators.required],
             styles: {
                 'width': '400px',
-                'height': '200px'
             }
         },
         {
