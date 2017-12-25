@@ -12,6 +12,7 @@ import { enableProdMode } from '@angular/core';
 // enableProdMode();
 import { Validators } from '@angular/forms';
 import { Observable } from "rxjs/Observable";
+import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NzModalService, NzNotificationService, NzMessageService } from 'ng-zorro-antd';
 import { HttpClient } from "@angular/common/http";
@@ -22,6 +23,7 @@ import { environment } from "../../environments/environment";
 import { FieldConfig } from '../dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { ContainerInstanceComponent } from '../container-instance/container-instance.component';
+import { ComponentServiceService } from "../dynamic-form/services/component-service.service";
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
 @Component({
@@ -33,6 +35,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   AfterContentInit, AfterContentChecked,
   AfterViewInit, AfterViewChecked,
   OnDestroy {
+  selectValueSub: Subscription;
   appId: string = '';
   formData: object = {
     createUserId: 1,
@@ -66,6 +69,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     }
   ]
   radioValue: string = 'prodDomain';
+  private modelValue = 'replication';
   // 第二个表单
   @ViewChild('formSecondProject') formSecondProject: DynamicFormComponent;
   @ViewChild('instanceSecond') instanceSecond: ContainerInstanceComponent;
@@ -240,17 +244,29 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   @ViewChild('formThird3Project') formThird3Project: DynamicFormComponent;
   formThird3: object[] = [
     {
+      type: 'input',
+      inputType: 'number',
+      label: '从节点数',
+      name: 'replicas_per_shard',
+      placeholder: '设置从节点的个数',
+      validation: [Validators.required, Validators.min(1)],
+      styles: {
+        'width': '400px'
+      }
+    },
+    {
       type: 'select',
       label: 'Master 节点地址',
       name: 'master_node_addr',
       options: [],
-      placeholder: '请选择master节点地址',
+      placeholder: '设置主服务器的 ip 地址',
       validation: [Validators.required],
       styles: {
         'width': '400px'
       },
     }
   ];
+  operateMode = [];
   formThird3Entity: object = {};
 
   @ViewChild('formThird4Project') formThird4Project: DynamicFormComponent;
@@ -288,7 +304,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         } else {
           let ThirdValid;
           if (this.choosedServiceName === 'redis' && this.formThird3Project !== undefined) {
-            if (this.formThird3Project['config'][0]['label'] === '发布') {
+            if (this.formThird3Project.config.length > 0 && this.formThird3Project['config'][0]['label'] === '发布') {
               ThirdValid = false;
             } else {
               ThirdValid = !this.formThird3Project.valid;
@@ -310,7 +326,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
             // if (value['labels'].length > 0) {
             // if (value['node_tag']) {
-              return value['value'];
+            return value['value'];
             // }
           }));
           resolve();
@@ -321,7 +337,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
             // if (value['labels'].length > 0) {
             // if (value['node_tag']) {
-              return value['value'];
+            return value['value'];
             // }
           }));
           resolve();
@@ -526,6 +542,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 styles: {
                   'width': '400px'
                 },
+                valueUpdate: true
               }
               break;
             }
@@ -731,6 +748,43 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           this.formThird1Project.setConfig(this.formThird1);
           await this.getServiceAdvanced();
           this.formThird2Project.setConfig(this.formThird2);
+          // if (this.choosedServiceName === 'redis') {
+          //   await this.getOperateMode();
+          //   _.map(this.operateMode['replication'], (value1, key1) => {
+          //     if (value1['type'] === 'int') {
+          //       this.formThird3[key1] = {
+          //         type: 'input',
+          //         inputType: 'number',
+          //         label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
+          //         name: value1['attribute_name'],
+          //         placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
+          //           value1['description']['zh'] : value1['attribute_name'],
+          //         validation: [Validators.required, Validators.min(1)],
+          //         styles: {
+          //           'width': '400px'
+          //         }
+          //       };
+          //     } else if (value1['type'] === 'single_ip_tag') {
+          //       // const options$ = this.formThird1Project.value['ip_tag'] || [];
+          //       const options$ = [];
+          //       // const options$ = ['11', '22'];
+          //       this.formThird3[key1] = {
+          //         type: 'select',
+          //         label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
+          //         name: value1['attribute_name'],
+          //         options: options$,
+          //         placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
+          //           value1['description']['zh'] : value1['attribute_name'],
+          //         validation: [Validators.required],
+          //         styles: {
+          //           'width': '400px'
+          //         },
+          //       };
+          //     }
+          //   });
+          //   // this.formThird3Project.setConfig(this.formThird3);
+          // }
+          // this.formThird3Project.setConfig(this.formThird3);
           if (this.choosedServiceName === 'zookeeper') {
             this.formThird4Project.setConfig(this.formThird4);
           }
@@ -759,20 +813,24 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   done() {
     // 这里，需要复习一下object[变量]和object['常量']的区别
     if (this.serviceTabs.length > 0) {
-      if (this.formThird2Radios) {
-        _.map(this.formThird2Radios, (value, key) => {
-          // console.log('打印radio', value);
-          const valueName$ = value.name;
-          this.formThird2RadioEntity[valueName$] = value.defaultValue;
-          // this.formThird2RadioEntity[key] = {
-          //   [valueName$]: value.defaultValue
-          // }
-        });
+      if (this.choosedServiceName === 'zookeeper') {
+        if (this.formThird2Radios) {
+          _.map(this.formThird2Radios, (value, key) => {
+            // console.log('打印radio', value);
+            const valueName$ = value.name;
+            this.formThird2RadioEntity[valueName$] = value.defaultValue;
+            // this.formThird2RadioEntity[key] = {
+            //   [valueName$]: value.defaultValue
+            // }
+          });
+        }
+      } else {
+        this.formThird2RadioEntity['mode'] = 'replication';
       }
       if (this.formThird3Project) {
         _.mapKeys(this.formThird3Project['value'], (value, key) => {
           this.formThird3Entity[key] = value;
-        })
+        });
       } else {
         this.formThird3Entity = {};
       }
@@ -786,7 +844,9 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         }
       }
       this.formThird1RadioEntity[this.instanceThird.value['name']] = this.instanceThird.value['instance_size']
-      this.formThird1Project.value['num_of_nodes'] = parseInt(this.formThird1Project.value['num_of_nodes']);
+      if (this.choosedImageName === 'zookeeper') {
+        this.formThird1Project.value['num_of_nodes'] = parseInt(this.formThird1Project.value['num_of_nodes']);
+      }
       this.formData['serviceInstances'][0] = {
         storageSize: 0,
         serviceId: this.serviceId,
@@ -796,8 +856,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         memSize: this.instanceThird.value['memSize'] * this.formThird1Project.value['num_of_nodes'],
         clusterName: this.radioValue === 'prodDomain' ? 'cmss' : 'ebd',
         info: {
-          basic_config: _.assign(this.formThird1Project.value, this.formThird1RadioEntity),
-          advanced_config: _.assign(this.formThird2Project.value, this.formThird2RadioEntity, this.formThird3Entity, this.formThird4Entity)
+          basic_config: _.assign(this.formThird1Project.value, this.formThird1RadioEntity,
+             this.choosedServiceName === 'redis' ? this.formThird2RadioEntity : {},
+            this.formThird3Entity),
+          advanced_config: _.assign(this.formThird2Project.value, this.choosedServiceName === 'zookeeper' ?
+          this.formThird2RadioEntity : {}, this.formThird4Entity)
         }
       }
     }
@@ -869,30 +932,63 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     //   validation: [Validators.required],
     //   styles: {
     //     'width': '400px'
-    
+
     //   },
     //   // ifTags: 'true'
     // };
     // this.formThirdProject.setValue('version', this.formThird[2]);
     await this.getIpTag();
     await this.getServiceBasic();
-    this.formThird1Project.setConfig(this.formThird1);
     // this.formThird1Project.setFormValue('image_tag', undefined);
     // 这里获取服务的advanced_config
     await this.getServiceAdvanced();
     console.log('这是formThird2', this.formThird2);
+    this.formThird1Project.setConfig(this.formThird1);
     this.formThird2Project.setConfig(this.formThird2);
     if (this.choosedServiceName === 'zookeeper') {
       this.formThird4Project.setConfig(this.formThird4);
     }
     if (this.choosedServiceName === 'redis') {
+      await this.getOperateMode();
+      _.map(this.operateMode['replication'], (value1, key1) => {
+        if (value1['type'] === 'int') {
+          this.formThird3[key1] = {
+            type: 'input',
+            inputType: 'number',
+            label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
+            name: value1['attribute_name'],
+            placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
+              value1['description']['zh'] : value1['attribute_name'],
+            validation: [Validators.required, Validators.min(1)],
+            styles: {
+              'width': '400px'
+            }
+          };
+        } else if (value1['type'] === 'single_ip_tag') {
+          // const options$ = this.formThird1Project.value['ip_tag'] || [];
+          const options$ = [];
+          // const options$ = ['11', '22'];
+          this.formThird3[key1] = {
+            type: 'select',
+            label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
+            name: value1['attribute_name'],
+            options: options$,
+            placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
+              value1['description']['zh'] : value1['attribute_name'],
+            validation: [Validators.required],
+            styles: {
+              'width': '400px'
+            },
+          };
+        }
+      });
       this.formThird3Project.setConfig(this.formThird3);
     }
     this.buttonDisabled();
     console.log('service-id', this.serviceId);
   }
 
-  
+
 
   changeContent() {
     switch (this.current) {
@@ -919,7 +1015,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   }
 
   constructor(private router: Router, private confirmServ: NzModalService,
-    private _message: NzMessageService, private http: HttpClient, private routeInfo: ActivatedRoute) {
+    private _message: NzMessageService, private http: HttpClient, private routeInfo: ActivatedRoute,
+    private componentSer: ComponentServiceService) {
   }
 
   getServiceInit() {
@@ -973,44 +1070,61 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
 
   toggleRadio() {
     // console.log(this.formThird2Radio.defaultValue);
-    _.map(this.formThird2Radios, (value, key) => {
-      if (value.name === 'mode') {
-        if (value.defaultValue === 'replication') {
-          const options$ = this.formThird1Project.value['ip_tag'];
-          this.formThird3[0] = {
+    if (this.choosedImageName === 'redis') {
+      _.map(this.operateMode['replication'], (value1, key1) => {
+        if (value1['type'] === 'int') {
+          this.formThird3[key1] = {
+            type: 'input',
+            inputType: 'number',
+            label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
+            name: value1['attribute_name'],
+            placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
+              value1['description']['zh'] : value1['attribute_name'],
+            validation: [Validators.required, Validators.min(1)],
+            styles: {
+              'width': '400px'
+            }
+          };
+        } else if (value1['type'] === 'single_ip_tag') {
+          // const options$ = this.formThird1Project.value['ip_tag'] || [];
+          const options$ = [];
+          this.formThird3[key1] = {
             type: 'select',
-            label: 'Master 节点地址',
-            name: 'master_node_addr',
+            label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
+            name: value1['attribute_name'],
             options: options$,
-            placeholder: '请选择master节点地址',
+            placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
+              value1['description']['zh'] : value1['attribute_name'],
             validation: [Validators.required],
             styles: {
               'width': '400px'
             },
-          }
-        } else {
-          // 这里用来隐藏上面的元素，因为form不接收空对象，所以这里用display none
-          // this.formThird3Project['valid'] = true;
-          this.formThird3[0] = {
-            label: '发布',
-            name: 'submit',
-            type: 'button',
-            buttonType: 'primary',
-            divStyles: {
-              'display': 'none'
-            }
-          }
+          };
         }
-        // 这里需要手动点击toggleRadio才能触发数据刷新，考虑给form的select增加一个监听事件，每次下拉
-        // 选择值的时候，就output出来给父组件，然后父组件this.set设置这个值
-        this.formThird3Project.setConfig(this.formThird3);
-      } else if (value.name === 'mount_volume') {
+      });
+      this.formThird3Project.setConfig(this.formThird3);
+    } else {
+      _.map(this.formThird2Radios, (value, key) => {
         if (value.defaultValue === 'true') {
           this.formThird4Project.setConfig(this.formThird4);
         } else {
           this.formThird4Project.setConfig([]);
         }
-      }
+      });
+    }
+  }
+
+  getOperateMode() {
+    return new Promise((resolve, reject) => {
+      this.http.get(environment.apiService + '/apiService/services/' + this.serviceId).subscribe(data => {
+        // this.operateMode['standalone'] = data['standalone_config'];
+        // todo next
+        // this.operateMode['replication'] = data['replication_config'];
+        // this.operateMode['cluster'] = data['cluster_config'];
+        // todo next
+        this.operateMode['replication'] = data['replication_config'];
+        resolve();
+      });
     });
   }
 
@@ -1020,9 +1134,85 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     // this.getServiceVersion();
     // this.toggleButton();
     await this.getServiceInit();
+    // await this.getOperateMode();
+    // if (this.choosedServiceName === 'redis') {
+    //   await this.getOperateMode();
+    //   _.map(this.operateMode['replication'], (value1, key1) => {
+    //     if (value1['type'] === 'int') {
+    //       this.formThird3[key1] = {
+    //         type: 'input',
+    //         inputType: 'number',
+    //         label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
+    //         name: value1['attribute_name'],
+    //         placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
+    //           value1['description']['zh'] : value1['attribute_name'],
+    //         validation: [Validators.required, Validators.min(1)],
+    //         styles: {
+    //           'width': '400px'
+    //         }
+    //       };
+    //     } else if (value1['type'] === 'single_ip_tag') {
+    //       // const options$ = this.formThird1Project.value['ip_tag'] || [];
+    //       const options$ = [];
+    //       // const options$ = ['11', '22'];
+    //       this.formThird3[key1] = {
+    //         type: 'select',
+    //         label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
+    //         name: value1['attribute_name'],
+    //         options: options$,
+    //         placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
+    //           value1['description']['zh'] : value1['attribute_name'],
+    //         validation: [Validators.required],
+    //         styles: {
+    //           'width': '400px'
+    //         },
+    //       };
+    //     }
+    //   });
+    //   this.formThird3Project.setConfig(this.formThird3);
+    // }
     // 这里要手动调用一下，渲染service的basic和advanced配置，不然到服务配置会出不来数据
     await this.choosedImageFunc(this.imageTabs[0]);
     await this.choosedServiceFunc(this.serviceTabs[0]);
+    this.selectValueSub = this.componentSer.componentValue$.subscribe(
+      value => {
+        // const selectConfig = {
+        //   // selectedOption: undefined,
+        //   // ifTags: 'true',
+        //   type: 'select',
+        //   label: 'Favourite2 Food',
+        //   name: 'food2',
+        //   options: value,
+        //   placeholder: 'Select an option',
+        //   validation: [Validators.required],
+        //   styles: {
+        //     'width': '400px',
+        //   },
+        // };
+        // const formConfig3 = [];
+        if (value !== undefined) {
+          _.map(this.formThird3, (value3, key3) => {
+            console.log(value3);
+            // formConfig3[key3] = value3;
+            if (value3['type'] === 'select') {
+              this.formThird3[key3] = {
+                type: 'select',
+                label: value3['label'],
+                name: value3['name'],
+                options: value,
+                placeholder: value3['placeholder'],
+                validation: [Validators.required],
+                styles: {
+                  'width': '400px'
+                },
+              };
+            }
+          });
+          console.log(this.formThird3);
+          this.formThird3Project.setConfig(this.formThird3);
+        }
+      }
+    );
     console.log('测试服务Init', this.imageTabs, this.images, this.services, this.serviceTabs);
   }
 
