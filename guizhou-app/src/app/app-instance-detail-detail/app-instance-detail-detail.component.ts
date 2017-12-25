@@ -63,6 +63,67 @@ export class AppInstanceDetailDetailComponent implements OnInit {
       name: '值',
     }
   ];
+  // 服务地址表格
+  table8Title = [
+    {
+      index: 1,
+      name: '服务IP',
+    },
+    {
+      index: 2,
+      name: '服务端口',
+    },
+    {
+      index: 3,
+      name: '服务domain',
+    },
+    {
+      index: 4,
+      name: '服务IP类型',
+    },
+    {
+      index: 5,
+      name: '服务协议',
+    }
+  ];
+  // 容器实例表格
+  table9Title = [
+    {
+      index: 1,
+      name: '容器实例',
+    },
+    {
+      index: 2,
+      name: '主机IP',
+    },
+    {
+      index: 3,
+      name: '容器IP',
+    },
+    {
+      index: 4,
+      name: '开始时间',
+    },
+    {
+      index: 5,
+      name: '操作',
+    }
+  ];
+  // 存储卷表格
+  table10Title = [
+    {
+      index: 1,
+      name: '存储卷名称',
+    },
+    {
+      index: 2,
+      name: '驱动类型',
+    },
+    {
+      index: 3,
+      name: '关联服务路径',
+    }
+  ];
   createNotification = (type, title, content) => {
     this._notification.create(type, title, content);
   };

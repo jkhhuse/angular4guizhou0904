@@ -85,11 +85,16 @@
         <ng-template #nzTabHeading>
           {{tab.name}}
         </ng-template>
-        <div class="detail-tab-div" *ngIf="tab.index === 1"></div>
+        <div class="detail-tab-div" *ngIf="tab.index === 1">
+          <div class="detail-instance-wrapper" *ngIf="instanceDetail">
+            <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="8"
+                             [tableTitle]="table8Title"></app-app-nztable>
+          </div>
+        </div>
         <div class="detail-tab-div" *ngIf="tab.index === 2">
           <div class="detail-instance-wrapper" *ngIf="instanceDetail">
-            <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="5"
-                             [tableTitle]="table5Title"></app-app-nztable>
+            <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="9"
+                             [tableTitle]="table9Title"></app-app-nztable>
           </div>
         </div>
         <div class="detail-tab-div" *ngIf="tab.index === 3"></div>
@@ -101,7 +106,12 @@
                              [tableTitle]="table7Title"></app-app-nztable>
           </div>
         </div>
-        <div class="detail-tab-div" *ngIf="tab.index === 7"></div>
+        <div class="detail-tab-div" *ngIf="tab.index === 7">
+          <div class="detail-instance-wrapper" *ngIf="instanceDetail">
+            <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="10"
+                             [tableTitle]="table10Title"></app-app-nztable>
+          </div>
+        </div>
       </nz-tab>
     </nz-tabset>
   </div>
