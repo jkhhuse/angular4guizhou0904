@@ -37,7 +37,6 @@ export class BuildConfigComponent implements OnInit {
       inputType: 'textarea',
       styles: {
         'width': '400px',
-        'height': '200px'
       }
     },
     {

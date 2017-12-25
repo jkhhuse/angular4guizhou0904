@@ -43,7 +43,7 @@
     </div>
   </div>
   <h4 class="detail-h3">配置项</h4>
-  <button nz-button [nzType]="'primary'" [routerLink]="['/addConfig', configID]">添加配置项
+  <button nz-button class="addConfigBtn" [nzType]="'primary'" [routerLink]="['/addConfig', configID]">添加配置项
   </button>
   <div class="config-control-wrapper" *ngIf="configDetail">
     <nz-table #nzTable [nzAjaxData]="configDetail" [nzIsPagination]="false">

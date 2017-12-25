@@ -123,18 +123,18 @@ export class AppOverviewComponent implements OnInit {
     this.totalTemp.subscribe((data) => {
       console.log('data: ' + data);
       // 订阅op的group流
-      this.servicesService.getGroupList().subscribe((data) => {
-      // 过滤出需要的数据，拼接成一个array
-        // 获取
-       this.groupList  =  this.servicesService.getGroupNameList(data);
-        this.totals = new AppTotalsClass(data.appCount, data.podsCount, this.groupList.length);
-        console.log(this.totals);
-       });
+      // this.servicesService.getGroupList().subscribe((data) => {
+      // this.groupList  =  this.servicesService.getGroupNameList(data);
+      this.groupList = ['aaa_1', 'testd_2', 'BDOC-TEST-11_5', 'GGGGGGG_10', 'GROUP2_9', 'test111_8', 'asd_7'];
+
+      this.totals = new AppTotalsClass(data.appCount, data.podsCount, this.groupList.length);
+      console.log(this.totals);
+      // });
 
     });
   }
 
-  constructor(private _randomUser: RandomUserService, private servicesService: ServicesService){
+  constructor(private _randomUser: RandomUserService, private servicesService: ServicesService) {
   }
 
   ngOnInit() {

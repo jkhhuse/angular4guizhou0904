@@ -14,6 +14,7 @@ export class ConfigControlComponent implements OnInit {
   public groupid: any;
   configs: any;
   deleteID = '';
+  title = '配置中心';
   deleteName = '';
   isVisible = false;
   _isSpinning = false;

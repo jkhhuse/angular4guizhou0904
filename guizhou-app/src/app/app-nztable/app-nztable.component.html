@@ -11,7 +11,7 @@
     </th>
   </tr>
   </thead>
-  <tbody nz-tbody *ngIf="tableNum === 1">
+  <tbody nz-tbody *ngIf="tableNum === 1 && nzTable.data.repositories">
   <tr nz-tbody-tr *ngFor="let data of nzTable.data.repositories">
     <td nz-td>{{data.repositoryName}}</td>
     <td nz-td>{{data.size}}MB</td>
@@ -62,7 +62,7 @@
   </tbody>
 
   <!-- 服务实例 服务子实例列表  服务实例详情  容器实例表格 -->
-  <tbody nz-tbody *ngIf="tableNum === 5">
+  <tbody nz-tbody *ngIf="tableNum === 5 && nzTable.data.instances">
   <tr nz-tbody-tr *ngFor="let data of nzTable.data.instances">
     <!--<td nz-td>
       <a [routerLink]="['/appOverviewDetailDetail', nzTable.data.id , data.service_name]">
@@ -103,13 +103,53 @@
   </tbody>
 
   <!-- 应用实例详情 配置文件表格 -->
-  <tbody nz-tbody *ngIf="tableNum === 7">
+  <tbody nz-tbody *ngIf="tableNum === 7 && nzTable.data.microserviceConfigs">
   <tr nz-tbody-tr *ngFor="let data of nzTable.data.microserviceConfigs">
     <td nz-td>{{data.configName}}</td>
     <td nz-td>{{data.key}}</td>
     <td nz-td>{{data.value}}</td>
   </tr>
   </tbody>
+
+  <!-- 应用实例详情 服务地址表格 -->
+  <tbody nz-tbody *ngIf="tableNum === 8 && nzTable.data && nzTable.data.endpoints">
+  <tr nz-tbody-tr *ngFor="let data of nzTable.data.endpoints">
+    <td nz-td>{{data.ip}}</td>
+    <td nz-td>{{data.listener_port}}</td>
+    <td nz-td>{{data.domains}}</td>
+    <td nz-td>{{data.ip_type}}</td>
+    <td nz-td>{{data.protocol}}</td>
+  </tr>
+  </tbody>
+
+  <!-- 应用实例详情 容器实例表格 -->
+  <tbody nz-tbody *ngIf="tableNum === 9 && nzTable.data.info && nzTable.data.info.instances">
+  <tr nz-tbody-tr *ngFor="let data of nzTable.data.info.instances">
+    <td nz-td>{{data.instance_name}}</td>
+    <td nz-td>{{data.host_ip}}</td>
+    <td nz-td>{{data.container_ip}}</td>
+    <td nz-td>{{data.started_at}}</td>
+    <td nz-td>
+      <button nz-button [nzType]="'primary'" disabled>
+        <span>重建</span>
+      </button>
+    </td>
+  </tr>
+  </tbody>
+
+  <!-- 应用实例详情 存储卷表格 -->
+  <tbody nz-tbody *ngIf="tableNum === 10 && nzTable.data.info && nzTable.data.info.volumes">
+  <tr nz-tbody-tr *ngFor="let data of nzTable.data.info.volumes">
+    <td nz-td>{{data.volume_name}}</td>
+<!--
+    如果volume_id": "host_path"，驱动类型是主机路径，不然取diriver——name
+-->
+    <td nz-td *ngIf='data.driver_name === ""'>主机路径</td>
+    <td nz-td *ngIf='data.driver_name !== ""'>{{data.driver_name}}</td>
+    <td nz-td>{{data.app_volume_dir}}</td>
+  </tr>
+  </tbody>
+
 </nz-table>
 
 

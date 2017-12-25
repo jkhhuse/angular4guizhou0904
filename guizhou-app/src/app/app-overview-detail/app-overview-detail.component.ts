@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Http} from "@angular/http";
 import {RandomUserService} from "../shared/random-user.service";
+import {NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-app-overview-detail',
@@ -96,7 +97,10 @@ export class AppOverviewDetailComponent implements OnInit {
            // this._dataSet = data.microservices;
         });
     }
-    constructor(private _randomUser: RandomUserService, private routeInfo: ActivatedRoute, private http: Http) {
+  createNotification = (type, title, content) => {
+    this._notification.create(type, title, content);
+  };
+    constructor(private _notification: NzNotificationService, private _randomUser: RandomUserService, private routeInfo: ActivatedRoute, private http: Http) {
     }
   ngOnInit() {
       this.instanceId = this.routeInfo.snapshot.params['instanceId'];
@@ -104,7 +108,12 @@ export class AppOverviewDetailComponent implements OnInit {
       this._randomUser.getAppInstanceDetail(this.instanceId).subscribe((data) => {
           this.appInstanceDetail = data;
           console.log('appInstanceDetail: ' + this.appInstanceDetail);
-      });
+      },
+        err => {
+          console.log(err._body);
+          this.createNotification('error', '获取应用详情失败', err._body);
+        }
+        );
       console.log('instanceId: ' + this.instanceId);
       // 订阅流
     /*  this._randomUser.getAppInstanceDetail('201e4425-edc8-4008-b8b3-f2d1b0dbc760').subscribe((data) => {
