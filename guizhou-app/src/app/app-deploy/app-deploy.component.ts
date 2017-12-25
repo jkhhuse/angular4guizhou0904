@@ -152,6 +152,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   images: string[] = [];
   imageTabs: string[] = [];
   choosedImageName: string = '';
+  // todo next
+  // repositoryId: string[] = [];
   repositoryId: string = '';
   networkRadioValue: string = 'portal';
   networkRadioValue2: string = 'portal';
@@ -682,6 +684,20 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       }
       case 1: {
         // console.log('form333', this.formThirdProject);
+        // todo next
+        // _.map(this.repositoryId, (value1, key1) => {
+        //   this.formData['microservices'][key1] = {
+        //     storageSize: 0,
+        //     scaling_mode: 'MANUAL',
+        //     space_name: 'admin',
+        //     microserviceName: this.formSecondProject.value['microserviceName'],
+        //     podsCount: parseInt(this.formSecondProject.value['podsCount']),
+        //     repositoryId: value1,
+        //     instance_size: this.instanceSecond.value['instance_size'],
+        //     // 这里由于线上可用的集群就两个：cmss和ebd，所以先暂时写死
+        //     clusterName: this.radioValue === 'prodDomain' ? 'cmss' : 'ebd'
+        //   }
+        // });
         this.formData['microservices'][0] = {
           storageSize: 0,
           scaling_mode: 'MANUAL',
@@ -827,10 +843,12 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     this.choosedImageName = tab;
     _.map(this.images, (value, key) => {
       if (value['repositoryName'] === this.choosedImageName) {
+        // todo next
+        // this.repositoryId[key] = value['id'];
         this.repositoryId = value['id'];
       }
     })
-    console.log('image-id', this.repositoryId);
+    // console.log('image-id', this.repositoryId);
   }
 
   async choosedServiceFunc(tab) {
