@@ -3,7 +3,7 @@
 <nz-content class="service-catalog">
     <button nz-button [nzType]="'primary'" class="releaseServiceBtn" routerLink="/serviceRelease">发布服务</button>
     <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
-        <nz-tab *ngFor="let tab of tabs"  (nzClick)="changeTabName(tab.tabName)">
+        <nz-tab *ngFor="let tab of tabs" [nzDisabled]="tab.disabled" (nzClick)="changeTabName(tab.tabName)">
             <ng-template #nzTabHeading>
                 {{tab.name}}
             </ng-template>

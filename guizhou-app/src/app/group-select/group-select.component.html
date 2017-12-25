@@ -1,6 +1,8 @@
-<nz-dropdown class="group-select-wrapper">
+<nz-dropdown [nzTrigger]="'click'" class="group-select-wrapper">
+  <button nz-button class="group-name"><span>项目</span> </button>
+
   <button nz-button nz-dropdown><span #dropBtn>{{firstGroupName}}</span> <i class="anticon anticon-down"></i></button>
-  <ul nz-menu>
+  <ul nz-menu class="group-label">
     <li nz-menu-item *ngFor="let group of groupList" (click)="changeGroup(group);dropBtn.innerText = group">
       {{group}}
     </li>

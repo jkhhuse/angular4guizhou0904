@@ -15,17 +15,20 @@ export class ServiceCatalogComponent implements OnInit {
         {
             index: 1,
             name: '中间件服务',
-            tabName: 'Middleware'
+            tabName: 'Middleware',
+            disabled: false
         },
         {
             index: 2,
             name: '数据库服务',
-            tabName: 'Database'
+            tabName: 'Database',
+            disabled: true
         },
         {
             index: 3,
             name: '微服务框架',
-            tabName: 'Microservice'
+            tabName: 'Microservice',
+            disabled: true
         }
     ];
   // 服务分类

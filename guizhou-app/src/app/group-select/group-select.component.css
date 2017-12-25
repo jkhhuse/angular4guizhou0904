@@ -1,7 +1,30 @@
 .group-select-wrapper{
   margin: 30px 0 0 28px;
-  width: 90px;
 }
 .ant-btn{
-  padding: 0 24px!important;
+  width: 400px;
+}
+.ant-btn span{
+  float: left;
+}
+.ant-btn i{
+  float: right;
+}
+.group-label{
+  width: 400px;
+}
+.group-name {
+  padding: 0 !important;
+  width: 40px !important;
+  border: none !important;
+  text-align: left !important;
+}
+.ant-btn ul{
+  width: 400px !important;
+}
+.ant-dropdown-menu-item{
+  width: 400px !important;
+}
+.ant-dropdown{
+  width: 400px;
 }

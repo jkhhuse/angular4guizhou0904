@@ -80,7 +80,22 @@ export class AddConfigComponent implements OnInit {
   }
 
   async submit(value: { [name: string]: any }) {
-    await this.addConfig(value);
+    console.log("111111111: " + value.configKey);
+    let status = 'pass';
+    for(let i=0;i<this.configDetail.length;i++) {
+      if(this.configDetail[i].key === value.configKey) {
+        this._notification.create('error', '创建配置项失败', '已有相同的配置项，不能重复创建');
+        status = 'error';
+      }
+    }
+    if(status === 'pass') {
+      console.log('status: ' + status);
+      await this.addConfig(value);
+    }
+    else {
+      console.log('status: ' + status);
+
+    }
   }
   getConfigDetail(configID): any {
     return this.http.get(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') + '/configs/' + configID).map(res => res);
