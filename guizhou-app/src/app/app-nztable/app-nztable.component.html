@@ -112,7 +112,7 @@
   </tbody>
 
   <!-- 应用实例详情 服务地址表格 -->
-  <tbody nz-tbody *ngIf="tableNum === 8 && nzTable.data.endpoints">
+  <tbody nz-tbody *ngIf="tableNum === 8 && nzTable.data && nzTable.data.endpoints">
   <tr nz-tbody-tr *ngFor="let data of nzTable.data.endpoints">
     <td nz-td>{{data.ip}}</td>
     <td nz-td>{{data.listener_port}}</td>
@@ -147,12 +147,6 @@
     <td nz-td *ngIf='data.driver_name === ""'>主机路径</td>
     <td nz-td *ngIf='data.driver_name !== ""'>{{data.driver_name}}</td>
     <td nz-td>{{data.app_volume_dir}}</td>
-    <td nz-td>{{data.started_at}}</td>
-    <td nz-td>
-      <button nz-button [nzType]="'primary'" disabled>
-        <span>重建</span>
-      </button>
-    </td>
   </tr>
   </tbody>
 
