@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 
 import { Field } from '../../models/field.interface';
 import { FieldConfig } from '../../models/field-config.interface';
-import { ComponentService } from "../../services/component-service.service";
+import { ComponentServiceService } from "../../services/component-service.service";
 
 @Component({
   selector: 'form-select',
@@ -35,5 +35,5 @@ export class FormSelectComponent implements Field {
     return this.group.controls[this.config.name];
   }
 
-  constructor(private component: ComponentService) {}
+  constructor(private component: ComponentServiceService) {}
 }

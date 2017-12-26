@@ -10,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 import { userNameAsyncValidator } from '../util/reg-pattern/reg-name.directive';
 import { nicknameValidator } from '../util/reg-pattern/reg-name.directive';
-import { ComponentService } from "../dynamic-form/services/component-service.service";
+import { ComponentServiceService } from "../dynamic-form/services/component-service.service";
 
 @Component({
   selector: 'app-component-test',
@@ -19,6 +19,7 @@ import { ComponentService } from "../dynamic-form/services/component-service.ser
 })
 export class ComponentTestComponent implements AfterViewInit, OnInit {
   // 测试
+  radioValue = 'prodDomain';
   valueSub: Subscription;
   major = 1;
   agreed = 0;
@@ -132,6 +133,51 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     },
   ]
 
+  @ViewChild('form3') form3: DynamicFormComponent;
+  config3: FieldConfig[] = [
+    {
+      type: 'input',
+      label: 'Last name1',
+      name: 'Lname1',
+      placeholder: 'Enter your Lname',
+      validation: [Validators.required, Validators.minLength(4)],
+      styles: {
+        'width': '400px',
+      }
+    },
+  ];
+
+  toggleRadio() {
+    if (this.radioValue === 'prodDomain') {
+      this.config3 = [
+        {
+          type: 'input',
+          label: 'Last name2',
+          name: 'Lname2',
+          placeholder: 'Enter your Lname2',
+          validation: [Validators.required, Validators.minLength(4)],
+          styles: {
+            'width': '400px',
+          }
+        },
+      ];
+    } else {
+      this.config3 = [
+        {
+          type: 'input',
+          label: 'Last name3',
+          name: 'Lname3',
+          placeholder: 'Enter your Lname3',
+          validation: [Validators.required, Validators.minLength(4)],
+          styles: {
+            'width': '400px',
+          }
+        },
+      ];
+    }
+    this.form3.setConfig(this.config3);
+  }
+
   getFormValue() {
     console.log(this.form);
   }
@@ -157,7 +203,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     console.log(value);
   }
 
-  constructor(public translateService: TranslateService, private component: ComponentService) {
+  constructor(public translateService: TranslateService, private component: ComponentServiceService) {
     translateService.addLangs(["zh", "en"]);
     translateService.setDefaultLang("zh");
     const browserLang = this.translateService.getBrowserLang();
