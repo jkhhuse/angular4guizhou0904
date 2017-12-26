@@ -16,6 +16,8 @@ export class AppOverviewComponent implements OnInit {
     private totalTemp: any;
     public groupid: any;
     public groupList: any;
+    public appCount: any;
+    public podsCount: any;
     appImgUrl1 = 'assets/application/u3225.png';
     appImgUrl2 = 'assets/application/u3227.png';
     title: String = '应用概览';
@@ -122,15 +124,18 @@ export class AppOverviewComponent implements OnInit {
         this.totalTemp = this._randomUser.getTotals();
         this.totalTemp.subscribe((data) => {
             console.log('data: ' + data);
+            // 获取total总数中的应用总数和容器总数
+            this.appCount = data.appCount;
+            this.podsCount = data.podsCount;
             // 订阅op的group流
-            this.servicesService.getGroupList().subscribe((data) => {
-                this.groupList = this.servicesService.getGroupNameList(data);
+            this.servicesService.getGroupList().subscribe((data2) => {
+                this.groupList = this.servicesService.getGroupNameList(data2);
                 // this.groupList = ['aaa_1', 'testd_2', 'BDOC-TEST-11_5', 'GGGGGGG_10', 'GROUP2_9', 'test111_8', 'asd_7'];
                 // 如果成功获取op的grouplist，并且可以取到length长度，否则项目个数填写0
                 if (this.groupList.length) {
-                    this.totals = new AppTotalsClass(data.appCount, data.podsCount, this.groupList.length);
+                    this.totals = new AppTotalsClass(this.appCount, this.podsCount, this.groupList.length);
                 } else {
-                    this.totals = new AppTotalsClass(data.appCount, data.podsCount, 0);
+                    this.totals = new AppTotalsClass(this.appCount, this.podsCount, 0);
                 }
                 console.log(this.totals);
             });

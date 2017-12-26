@@ -7,112 +7,120 @@ import {CookieService} from 'angular2-cookie';
 
 @Injectable()
 export class ServicesService {
-  private userId: string;
+    private userId: string;
 
-  constructor(private http: Http, private _cookieService: CookieService) {
-  }
-
-  getServices(tabName, moduleName): Observable<any[]> {
-    // console.log('tabName: ' + tabName);
-    // console.log('moduleName: ' + moduleName);
-    if (moduleName === 'repository') {
-      console.log('getService repository cookie: ' + this.getCookie('groupID'));
-
-      return this.http.get(environment.api + '/api/' + this.getCookie('groupID') + '/warehouse/dir?region=' + tabName).map(res => res.json());
-    } else if (moduleName === 'service') {
-      console.log('getService service cookie: ' + this.getCookie('groupID'));
-      //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());
-      //isPubilc 传1，默认是共有的服务，现在没有私有服务
-      return this.http.get(environment.apiService + '/apiService' + '/groups/' + environment.groupId + '/services?isPublic=1').map(res => res.json());
-    } else if (moduleName === 'app') {
-      console.log('getService app cookie: ' + this.getCookie('groupID'));
-      //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());
-      return this.http.get(environment.apiApp + '/apiApp' + '/groups/' + this.getCookie('groupID') + '/applications').map(res => res.json());
+    constructor(private http: Http, private _cookieService: CookieService) {
     }
-    /* else if (moduleName === 'serviceDetail') {
-        //  服务详情里面，tabName字段传入的是服务id，serviceId
-        return this.http.get('/apiService' + '/groups/1/services/' + tabName + '/instances').map(res => res.json());
-    }*/
-  }
 
-  getCateServices(tabName, moduleName, cateID): Observable<any[]> {
-    return this.http.get(environment.api + '/api/' + this.getCookie('groupID') + '/warehouse/dir/' + cateID + '?region=' + tabName).map(res => res.json());
-  }
+    getServices(tabName, moduleName): Observable<any[]> {
+        // console.log('tabName: ' + tabName);
+        // console.log('moduleName: ' + moduleName);
+        if (moduleName === 'repository') {
+            console.log('getService repository cookie: ' + this.getCookie('groupID'));
 
-  getHeroes(): Promise<Services[]> {
-    return this.http.get(environment.api + '/api/services')
-      .toPromise()
-      .then(response => response.json().data as Services[]);
-  }
-
-  // 通过url获取op侧的userid
-  getUserId(): string {
-      // const url = window.location.href;
-     const url = 'http://10.254.3.120:8080/pass/#/appStore?userId=1';
-    // console.log('url: ' + url);
-    if (!!url) {
-      const search = url.split('?');
-      if (!!search) {
-        const searchArray = search[1].split('=');
-        console.log('URL searchArray: ' + searchArray);
-        return searchArray[1];
-      }
-    } else {
-      return '';
-    }
-  }
-
-  getGroupList(): any {
-    this.userId = this.getUserId();
-    console.log('getservice userID: ' + this.userId);
-    if (this.userId === '') {
-      return '';
-    } else {
-      // return '';
-       return this.http.get(environment.apiOP + '/renter/users/' + this.userId + '/groups?roleName=all').map(res => res.json());
-    }
-  }
-
-  getGroupNameList(data) {
-    let groupList: any;
-    let groupArray = [];
-    let temp: any;
-    // 如果op返回的json里面有user字段
-    // console.log('getGroupNameList data ' + data);
-    if (!!data.user) {
-      groupList = data.user.groups;
-      // 如果有group字段并且是一个array
-      if (groupList instanceof Array) {
-        // console.log(groupList instanceof Array);
-        // console.log('getGroupNameList groupList: ' + groupList);
-        for (let i = 0; i < groupList.length; i++) {
-          // console.log('groupList length: ' + groupList.length);
-          temp = groupList[i];
-          // console.log('temp: ' + temp);
-          groupArray[i] = temp.name + '_' + temp.id;
-          // console.log(' groupArray[i]: ' +  groupArray[i]);
+            return this.http.get(environment.api + '/api/' + this.getCookie('groupID') + '/warehouse/dir?region=' + tabName).map(res => res.json());
+        } else if (moduleName === 'service') {
+            console.log('getService service cookie: ' + this.getCookie('groupID'));
+            //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());
+            //isPubilc 传1，默认是共有的服务，现在没有私有服务
+            return this.http.get(environment.apiService + '/apiService' + '/groups/' + environment.groupId + '/services?isPublic=1').map(res => res.json());
+        } else if (moduleName === 'app') {
+            console.log('getService app cookie: ' + this.getCookie('groupID'));
+            //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());
+            return this.http.get(environment.apiApp + '/apiApp' + '/groups/' + this.getCookie('groupID') + '/applications').map(res => res.json());
         }
-        return groupArray;
-      }
-    } else {
-      return [];
+        /* else if (moduleName === 'serviceDetail') {
+            //  服务详情里面，tabName字段传入的是服务id，serviceId
+            return this.http.get('/apiService' + '/groups/1/services/' + tabName + '/instances').map(res => res.json());
+        }*/
     }
-  }
 
-  getCookie(key: string) {
-    return this._cookieService.get(key);
-  }
+    getCateServices(tabName, moduleName, cateID): Observable<any[]> {
+        return this.http.get(environment.api + '/api/' + this.getCookie('groupID') + '/warehouse/dir/' + cateID + '?region=' + tabName).map(res => res.json());
+    }
 
-  setCookie(key: string, group: any) {
-    return this._cookieService.put(key, group);
-  }
+    getHeroes(): Promise<Services[]> {
+        return this.http.get(environment.api + '/api/services')
+            .toPromise()
+            .then(response => response.json().data as Services[]);
+    }
+
+    // 通过url获取op侧的userid
+    getUserId(): string {
+        // const url = window.location.href;
+        const url = 'http://10.254.3.120:8080/pass/#/appStore?userId=1';
+        // console.log('url: ' + url);
+        if (!!url) {
+            const search = url.split('?');
+            if (!!search) {
+                const searchArray = search[1].split('=');
+                console.log('URL searchArray: ' + searchArray);
+                return searchArray[1];
+            }
+        } else {
+            return '';
+        }
+    }
+
+    getGroupList(): any {
+        this.userId = this.getUserId();
+        console.log('getservice userID: ' + this.userId);
+        if (this.userId === '') {
+            return '';
+        } else {
+            // return '';
+            return this.http.get(environment.apiOP + '/renter/users/' + this.userId + '/groups?roleName=all').map(res => res.json());
+        }
+    }
+
+    getGroupNameList(data) {
+        let groupList: any;
+        let groupArray = [];
+        let temp: any;
+        // 如果op返回的json里面有user字段
+        // console.log('getGroupNameList data ' + data);
+        if (!!data.user) {
+            groupList = data.user.groups;
+            // 如果有group字段并且是一个array
+            if (groupList instanceof Array) {
+                // console.log(groupList instanceof Array);
+                // console.log('getGroupNameList groupList: ' + groupList);
+                for (let i = 0; i < groupList.length; i++) {
+                    // console.log('groupList length: ' + groupList.length);
+                    temp = groupList[i];
+                    // 逻辑判断，如果op数组中的temp含有下划线_,需要去掉下划线
+                    // 如果没有下划线，正常添加进groupArray的数组
+                    if (temp.name && temp.name.indexOf('_') > 0) {
+                        // 通过split，join去掉op本来项目名称中的下划线，然后再拼接_groupid
+                        groupArray[i] = temp.name.split('_').join('') + '_' + temp.id;
+                    } else {
+                        // op项目组名没有下划线，正常拼接，加入groupArray
+                        groupArray[i] = temp.name + '_' + temp.id;
+                    }
+                    // console.log('temp: ' + temp);
+                    // console.log(' groupArray[i]: ' +  groupArray[i]);
+                }
+                return groupArray;
+            }
+        } else {
+            return [];
+        }
+    }
+
+    getCookie(key: string) {
+        return this._cookieService.get(key);
+    }
+
+    setCookie(key: string, group: any) {
+        return this._cookieService.put(key, group);
+    }
 }
 
 export class Services {
-  constructor(public name: string,
-              public createTime: string,
-              public updateTime: string,
-              public status: boolean,
-              public id: string) {
-  }
+    constructor(public name: string,
+                public createTime: string,
+                public updateTime: string,
+                public status: boolean,
+                public id: string) {
+    }
 }
