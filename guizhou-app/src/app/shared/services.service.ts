@@ -47,14 +47,14 @@ export class ServicesService {
 
   // 通过url获取op侧的userid
   getUserId(): string {
-    // const url = window.location.href;
-    const url = 'http://10.254.3.120:8080/pass/#/appStore?userId=1';
+      // const url = window.location.href;
+     const url = 'http://10.254.3.120:8080/pass/#/appStore?userId=1';
     // console.log('url: ' + url);
     if (!!url) {
       const search = url.split('?');
       if (!!search) {
         const searchArray = search[1].split('=');
-        // console.log('searchArray: ' + searchArray);
+        console.log('URL searchArray: ' + searchArray);
         return searchArray[1];
       }
     } else {
@@ -68,9 +68,8 @@ export class ServicesService {
     if (this.userId === '') {
       return '';
     } else {
-      return '';
-
-      // return this.http.get(environment.apiOP + '/renter/users/' + this.userId + '/groups?roleName=all').map(res => res.json());
+      // return '';
+       return this.http.get(environment.apiOP + '/renter/users/' + this.userId + '/groups?roleName=all').map(res => res.json());
     }
   }
 

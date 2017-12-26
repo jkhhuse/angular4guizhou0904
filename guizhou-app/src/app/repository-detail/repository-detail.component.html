@@ -41,11 +41,14 @@
         <span class="detail-line-value" *ngIf="mirrorDetail">{{mirrorDetailCateName}}</span></div>
     </div>
   </div>
-  <!--<div class="">
+<!--
+  添加版本按钮只在镜像仓库中展示
+-->
+  <div *ngIf="module === 'repository'">
     <button class="addVersion" nz-button [nzType]="'primary'" [routerLink]="['/buildImage', name, tabName]">
       添加版本
     </button>
-  </div>-->
+  </div>
   <div class="detail-versions-wrapper" *ngIf="mirrorVersions">
     <nz-table #nzTable [nzAjaxData]="mirrorVersions" [nzIsPagination]="false">
       <thead nz-thead>

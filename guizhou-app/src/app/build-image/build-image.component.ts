@@ -224,7 +224,11 @@ export class BuildImageComponent implements OnInit {
             // this.imageIdArr[key] = response;
             // this.repositories[key] = this.imageIdArr[key]['id'];
             resolve();
-          });
+          },
+            err => {
+                console.log(err._body);
+                this.createNotification('error', '创建失败', err._body);
+            });
         });
         // resolve();
         // }, 0);

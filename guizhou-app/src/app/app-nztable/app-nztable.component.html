@@ -112,13 +112,13 @@
   </tbody>
 
   <!-- 应用实例详情 服务地址表格 -->
-  <tbody nz-tbody *ngIf="tableNum === 8 && nzTable.data && nzTable.data.endpoints">
-  <tr nz-tbody-tr *ngFor="let data of nzTable.data.endpoints">
-    <td nz-td>{{data.ip}}</td>
-    <td nz-td>{{data.listener_port}}</td>
-    <td nz-td>{{data.domains}}</td>
-    <td nz-td>{{data.ip_type}}</td>
-    <td nz-td>{{data.protocol}}</td>
+  <tbody nz-tbody *ngIf="tableNum === 8 && nzTable.data && nzTable.data.endpoints  && nzTable.data.endpoints.listener_port">
+  <tr nz-tbody-tr >
+    <td nz-td>{{nzTable.data.endpoints.ip}}</td>
+    <td nz-td>{{nzTable.data.endpoints.listener_port}}</td>
+    <td nz-td>{{nzTable.data.endpoints.domains}}</td>
+    <td nz-td>{{nzTable.data.endpoints.ip_type}}</td>
+    <td nz-td>{{nzTable.data.endpoints.protocol}}</td>
   </tr>
   </tbody>
 
