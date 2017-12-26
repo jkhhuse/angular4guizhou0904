@@ -60,7 +60,7 @@ export class GroupSelectComponent implements OnInit {
             console.log('groupList[0]: ' + this.groupList[0]);
             // 加载项目选择框的时候，默认把第一个group作为默认项目组
             const temp = this.groupList[0].split('_');
-            this.firstGroupName = temp[0];
+            this.firstGroupName = this.groupList[0];
             this.firstGroupID = temp[1];
             console.log(this.firstGroupName);
             console.log(this.firstGroupID);

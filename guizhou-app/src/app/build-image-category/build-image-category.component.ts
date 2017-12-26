@@ -169,8 +169,8 @@ export class BuildImageCategoryComponent implements OnInit {
             const thisParent = this;
             this.confirmServ.success({
               maskClosable: false,
-              title: '上传镜像成功!',
-              content: '点确认按钮跳转到镜像商城',
+              title: '创建镜像仓库成功!',
+              content: '点确认按钮跳转到镜像仓库列表',
               okText: '确定',
               onOk() {
                 // .contentControl = true;
