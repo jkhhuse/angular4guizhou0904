@@ -9,7 +9,7 @@
     <!-- <nz-input style="width: 400px" [nzPlaceHolder]="config.placeholder" [formControlName]="config.name"></nz-input> -->
     <!-- 这里先用ngClass来优化样式的问题，regdirective逻辑没问题，但是样式出不来，用原生的pattern -->
     <!-- <div [ngClass]="(getFormControl().invalid && getFormControl().dirty && getFormControl().hasError('nameReg')) ? 'has-error'  : ''"  nz-col nz-form-control [nzValidateStatus]="getFormControl()" [nzSpan]="18" style="margin-left: 10px"> -->
-    <div [ngClass]="(getFormControl().invalid && getFormControl().dirty) && (getFormControl().hasError('max') || getFormControl().hasError('min')) ? 'has-error'  : ''" nz-col nz-form-control [nzValidateStatus]="getFormControl()" [nzSpan]="18" style="margin-left: 10px">
+    <div [ngClass]="(getFormControl().invalid && getFormControl().dirty) && (getFormControl().hasError('max') || getFormControl().hasError('min') || getFormControl().hasError('maxLength')) ? 'has-error'  : ''" nz-col nz-form-control [nzValidateStatus]="getFormControl()" [nzSpan]="18" style="margin-left: 10px">
         <nz-input nzHasFeedback [ngModel]="config.defaultValue" [nzType]="config.inputType" [id]="config.name" [ngStyle]="config.styles"
             [nzPlaceHolder]="config.placeholder" [formControlName]="config.name"></nz-input>
         <!-- 这里增加getFormControl().touched校验可以成功，但是style没有变化，官方建议是增加dirty和touched校验的，这里是个Bug -->
@@ -19,6 +19,7 @@
             <!-- 这里的?.写法，可以解决undefined的问题 -->
             <div nz-form-explain *ngIf="getFormControl().hasError('min')">低于最小值 {{ getFormControl()?.errors?.min?.min }}</div>
             <div nz-form-explain *ngIf="getFormControl().hasError('max')">超出最大值 {{ getFormControl()?.errors?.max?.max }}</div>
+            <div nz-form-explain *ngIf="getFormControl().hasError('maxlength')">长度限制为{{getFormControl()?.errors?.maxlength?.requiredLength}}个字符</div>
             <!-- <div nz-form-explain *ngIf="!getFormControl().hasError('required') && getFormControl().hasError('nameReg')">格式错误</div> -->
             <!-- <div nz-form-explain *ngIf="getFormControl().dirty&&getFormControl().hasError('duplicated')">The username is redundant!</div> -->
             <div nz-form-explain *ngIf="getFormControl().pending">校验中...</div>

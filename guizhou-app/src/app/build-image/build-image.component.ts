@@ -53,7 +53,7 @@ export class BuildImageComponent implements OnInit {
       label: '镜像版本',
       name: 'version',
       placeholder: '请输入镜像版本',
-      validation: [Validators.required, Validators.pattern(/^[a-zA-Z0-9]([.a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(6)],
       styles: {
         'width': '400px'
       }
@@ -144,7 +144,7 @@ export class BuildImageComponent implements OnInit {
         label: '镜像名称',
         name: 'imageName',
         placeholder: '请输入镜像名称',
-        validation: [Validators.required, Validators.pattern(/^[a-z0-9][a-z0-9\-\_]*[a-z0-9]$/i)],
+        validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
         styles: {
           'width': '400px'
         }

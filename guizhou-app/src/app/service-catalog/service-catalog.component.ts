@@ -22,7 +22,7 @@ export class ServiceCatalogComponent implements OnInit {
             index: 2,
             name: '数据库服务',
             tabName: 'Database',
-            disabled: true
+            disabled: false
         },
         {
             index: 3,
@@ -56,7 +56,11 @@ export class ServiceCatalogComponent implements OnInit {
     _log(value) {
         console.log(value);
     }
-  constructor() { }
+    groupidHandler(event: any) {
+        console.log('change event grouupid: ' + event);
+    }
+
+    constructor() { }
 
   ngOnInit() {
   }

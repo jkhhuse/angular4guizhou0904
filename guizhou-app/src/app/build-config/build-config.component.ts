@@ -22,7 +22,7 @@ export class BuildConfigComponent implements OnInit {
       label: '配置名称',
       name: 'configName',
       placeholder: '请输入配置名称',
-      validation: [Validators.required, Validators.pattern(/^[a-z0-9][a-z0-9\-\_]*[a-z0-9]$/i)],
+        validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
       styles: {
         'width': '400px'
       }
@@ -32,7 +32,7 @@ export class BuildConfigComponent implements OnInit {
       label: '描述',
       name: 'description',
       placeholder: '请输入描述信息',
-      // validation: [Validators.required],
+        validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
       notNecessary: true,
       inputType: 'textarea',
       styles: {

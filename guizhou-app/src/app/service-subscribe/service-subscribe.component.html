@@ -109,6 +109,8 @@
             </div>
             <dynamic-form *ngIf="serviceName === 'redis'" #formThird3Project [config]="formThird3">
             </dynamic-form>
+            <dynamic-form *ngIf="serviceName === 'mysql'" #formThird4Project [config]="formThird4">
+            </dynamic-form>
             <!-- <dynamic-form *ngIf="serviceName === 'redis'" #formThird4Project [config]="formThird4">
             </dynamic-form> -->
           </div>
@@ -132,9 +134,9 @@
       </div>
       <div>
         <p class="borderBottom80 marginTop20">高级配置</p>
-        <div style="text-align: center">
+       <!-- <div style="text-align: center">
           <nz-spin [nzTip]="'正在读取数据...'" *ngIf="formThird2.length === 0 && formThird2Radios.length === 0"></nz-spin>
-        </div>
+        </div>-->
         <div *ngIf="formThird2.length > 0 || formThird2Radios.length > 0" nz-row>
           <div nz-row style="margin-bottom: 15px">
             <dynamic-form #formThird2Project [config]="formThird2"></dynamic-form>

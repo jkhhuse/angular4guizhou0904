@@ -65,7 +65,7 @@ import { EditConfigComponent } from './edit-config/edit-config.component';
 import { AppInstanceDetailDetailComponent } from './app-instance-detail-detail/app-instance-detail-detail.component';
 
 export function createTranslateHttpLoader(http: HttpClient) {
-    return new TranslateHttpLoader(http, '../assets/i18n/', '.json');
+    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({

@@ -57,7 +57,7 @@ export class AppReleaseComponent implements OnInit {
       label: '应用名称',
       name: 'appName',
       placeholder: '请输入应用名称',
-      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
+        validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
       styles: {
         'width': '400px'
       }
@@ -67,7 +67,7 @@ export class AppReleaseComponent implements OnInit {
       label: '应用版本',
       name: 'version',
       placeholder: '请输入应用版本',
-      validation: [Validators.required, Validators.pattern(/^[a-zA-Z0-9]([.a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
+        validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(6)],
       styles: {
         'width': '400px'
       }
@@ -77,7 +77,7 @@ export class AppReleaseComponent implements OnInit {
       label: '应用描述',
       name: 'description',
       placeholder: '请输入应用描述',
-      // validation: [Validators.required],
+        validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
       notNecessary: true,
       inputType: 'textarea',
       styles: {
