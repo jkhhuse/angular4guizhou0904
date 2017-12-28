@@ -10,13 +10,13 @@ import {
 } from '@angular/core';
 import { enableProdMode } from '@angular/core';
 // enableProdMode();
-import { Validators } from '@angular/forms';
 import { Observable } from "rxjs/Observable";
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NzModalService, NzNotificationService, NzMessageService } from 'ng-zorro-antd';
 import { HttpClient } from "@angular/common/http";
 import { HttpParams } from "@angular/common/http";
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import * as _ from 'lodash';
 
 import { environment } from "../../environments/environment";
@@ -24,7 +24,7 @@ import { FieldConfig } from '../dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { ContainerInstanceComponent } from '../container-instance/container-instance.component';
 import { ComponentServiceService } from "../dynamic-form/services/component-service.service";
-import {ServicesService} from "../shared/services.service";
+import { ServicesService } from "../shared/services.service";
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
 @Component({
@@ -162,6 +162,73 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   repositoryId: string = '';
   networkRadioValue: string = 'portal';
   networkRadioValue2: string = 'portal';
+  // 镜像配置里的网络配置
+  networkConfig = 'FLANNEL';
+  loadBanlancer$ = [];
+  loadBanlancerForm: FormGroup;
+  lbControlLabel = [];
+  lbControlArray = [];
+  testOptions = [];
+  testSelectedOption;
+  @ViewChild('formImgNetworkProject') formImgNetworkProject: DynamicFormComponent;
+  formImgNetwork: FieldConfig[] = [
+    {
+      type: 'input',
+      label: '容器暴露端口',
+      name: 'ports',
+      inputType: 'number',
+      placeholder: '回车或者空格确定',
+      validation: [Validators.required, Validators.min(1)],
+      styles: {
+        'width': '400px'
+      },
+      defaultValue: 80
+    },
+    {
+      type: 'select',
+      label: '负载均衡器',
+      name: 'loadbanlancer',
+      options: ['haproxy-10-132-49-108 ( HAPROXY / 外网 / 10.132.49.108 )'] || this.loadBanlancer$,
+      placeholder: '选择负载均衡器',
+      validation: [Validators.required],
+      styles: {
+        'width': '400px'
+      },
+      // ifTags: 'true'
+    },
+  ];
+  // 镜像配置里的高级配置
+  serviceType = 'stateless';
+  serviceAdvancedLabel = [];
+  logForm: FormGroup;
+  env$ = [];
+  @ViewChild('logFormProject1') logFormProject1: DynamicFormComponent;
+  logFormConfig: FieldConfig[] = [{
+    type: 'input',
+    label: '日志文件',
+    placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
+    name: 'logPath',
+    validation: [Validators.required],
+    styles: {
+      'width': '400px'
+    }
+  }];
+  @ViewChild('envFormProject1') envFormProject1: DynamicFormComponent;
+  envFormConfig: FieldConfig[] = [{
+    type: 'select',
+    label: '环境变量文件',
+    placeholder: '请选择环境变量文件',
+    options: [],
+    name: 'envconfig',
+    validation: [Validators.required],
+    styles: {
+      'width': '400px'
+    }
+  }];
+  env1 = [];
+  env1Form: FormGroup;
+  env1Enty = {};
+  env1Array = [];
   // 第三个表单
   @ViewChild('formThirdProject') formThirdProject: DynamicFormComponent;
   @ViewChild('instanceThird') instanceThird: ContainerInstanceComponent;
@@ -297,7 +364,10 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         return !this.formFirstProject.valid;
       }
       case 1: {
-        return !this.formSecondProject.valid;
+        return !this.formSecondProject.valid || !this.formImgNetworkProject.valid ||
+        !this.logFormProject1.valid;
+        // todo next
+        // !this.logFormProject1.valid || !this.envFormProject1.valid;
       }
       case 2: {
         if (this.serviceTabs.length === 0) {
@@ -701,6 +771,9 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         // }
       }
       case 1: {
+        console.log(this.formImgNetworkProject, this.envFormProject1, this.logFormProject1, this.env1Form);
+        this.env1Enty[this.env1Form.value['key']] = this.env1Form.value['value'];
+        this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] = this.logFormProject1.value['logPath'];
         // console.log('form333', this.formThirdProject);
         // todo next
         // _.map(this.repositoryId, (value1, key1) => {
@@ -725,7 +798,34 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           repositoryId: this.repositoryId,
           instance_size: this.instanceSecond.value['instance_size'],
           // 这里由于线上可用的集群就两个：cmss和ebd，所以先暂时写死
-          clusterName: this.radioValue === 'prodDomain' ? 'cmss' : 'ebd'
+          clusterName: this.radioValue === 'prodDomain' ? 'cmss' : 'ebd',
+          network_mode: this.networkConfig,
+          ports: [this.formImgNetworkProject.value['ports']],
+          load_balancers: [
+            {
+              listeners: [
+                {
+                  listener_port: parseInt(this.loadBanlancerForm.value['listener_port']),
+                  container_port: this.loadBanlancerForm.value['container_port'],
+                  protocol: this.loadBanlancerForm.value['protocol'],
+                  rules: []
+                }
+              ],
+              load_balancer_id: "fd598eb5-83a1-4ee8-4235-586d32a2b2ba",
+              name: "haproxy-10-132-49-108",
+              type: "haproxy",
+              uniqueId: "load_balancer_id2",
+              version: 1
+            }
+          ],
+          // todo next
+          // envfiles: [
+          //   {
+          //     name: this.envFormProject1.value['envconfig']
+          //   }
+          // ],
+          // todo next
+          instance_envvars: this.env1Enty
           // clusterName: this.radioValue === 'prodDomain' ? this.networkRadioValue : 'testDomain'
         }
         if (this.serviceId) {
@@ -845,7 +945,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         }
       }
       this.formThird1RadioEntity[this.instanceThird.value['name']] = this.instanceThird.value['instance_size']
-      if (this.choosedImageName === 'zookeeper') {
+      if (this.choosedServiceName === 'zookeeper') {
         this.formThird1Project.value['num_of_nodes'] = parseInt(this.formThird1Project.value['num_of_nodes']);
       }
       this.formData['serviceInstances'][0] = {
@@ -858,10 +958,10 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         clusterName: this.radioValue === 'prodDomain' ? 'cmss' : 'ebd',
         info: {
           basic_config: _.assign(this.formThird1Project.value, this.formThird1RadioEntity,
-             this.choosedServiceName === 'redis' ? this.formThird2RadioEntity : {},
+            this.choosedServiceName === 'redis' ? this.formThird2RadioEntity : {},
             this.formThird3Entity),
           advanced_config: _.assign(this.formThird2Project.value, this.choosedServiceName === 'zookeeper' ?
-          this.formThird2RadioEntity : {}, this.formThird4Entity)
+            this.formThird2RadioEntity : {}, this.formThird4Entity)
         }
       }
     }
@@ -1015,7 +1115,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     }
   }
 
-  constructor(private router: Router, private confirmServ: NzModalService,
+  constructor(private fb: FormBuilder, private router: Router, private confirmServ: NzModalService,
     private _message: NzMessageService, private http: HttpClient, private routeInfo: ActivatedRoute,
     private componentSer: ComponentServiceService, private servicesService: ServicesService) {
   }
@@ -1129,7 +1229,140 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     });
   }
 
+  getEnvFile() {
+    return new Promise((resolve, reject) => {
+      this.http.get(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') + '/env-files').subscribe(data => {
+        // this.envFormConfig = []
+        const dataValue = [];
+        _.map(data, (value, key) => {
+          dataValue[key] = value['name'];
+        });
+        this.envFormConfig = [
+          {
+            type: 'select',
+            label: '环境变量文件',
+            placeholder: '请选择环境变量文件',
+            options: dataValue,
+            name: 'envconfig',
+            validation: [Validators.required],
+            styles: {
+              'width': '400px'
+            }
+          }];
+        resolve();
+      });
+    });
+  }
+
+  getnetworkAdvanced() {
+    this.loadBanlancerForm = this.fb.group({});
+    this.env1Form = this.fb.group({});
+    // for (let i = 0; i < 5; i++) {
+    //     this.lbControlArray.push({ index: i, show: i < 6 });
+    //     // this.loadBanlancerForm.addControl(`field${i}`, new FormControl());
+    // }
+    this.lbControlLabel = [
+      {
+        value: '监听端口'
+      },
+      {
+        value: '容器端口'
+      },
+      {
+        value: '协议'
+      },
+      {
+        value: '地址'
+      },
+      {
+        value: '证书'
+      },
+    ];
+    this.lbControlArray = [
+      {
+        type: 'input',
+        inputType: 'number',
+        placeholder: '1~65535',
+        name: 'listener_port',
+        defaultValue: 88
+      },
+      {
+        type: 'select',
+        name: 'container_port',
+        placeholder: '容器暴露端口',
+        options: [80],
+        selectedOption: undefined
+        // disabled:
+      },
+      {
+        type: 'select',
+        name: 'protocol',
+        placeholder: '协议',
+        options: ['tcp'],
+        selectedOption: undefined
+        // disabled:
+      },
+      {
+        type: 'input',
+        placeholder: '回车或空格确定',
+        name: 'input1',
+        disabled: true
+      },
+      {
+        type: 'select',
+        name: 'select1',
+        // placeholder: 'select1213',
+        options: [],
+        // selectedOption: undefined,
+        disabled: true
+        // disabled:
+      },
+    ];
+    this.env1 = [
+      {
+        value: '名称'
+      },
+      {
+        value: '值'
+      },
+    ];
+    this.env1Array = [
+      {
+        type: 'input',
+        // placeholder: '1~65535',
+        name: 'key'
+      },
+      {
+        type: 'input',
+        // placeholder: '1~65535',
+        name: 'value'
+      },
+    ];
+    this.testOptions = [
+      { value: 'jack', label: 'Jack' },
+      { value: 'lucy', label: 'Lucy' },
+      { value: 'disabled', label: 'Disabled', disabled: true }
+    ];
+    // this.testSelectedOption = undefined;
+    _.map(this.lbControlArray, (value1, key1) => {
+      this.loadBanlancerForm.addControl(value1['name'], new FormControl());
+      if (value1['type'] === 'select') {
+        value1['selectedOption'] = value1['options'][0];
+      }
+    });
+    _.map(this.env1Array, (value2, key2) => {
+      this.env1Form.addControl(value2['name'], new FormControl());
+    });
+
+    this.serviceAdvancedLabel = [
+      {
+        value: '文件路径'
+      }
+    ];
+  }
+
   async ngOnInit() {
+    this.getnetworkAdvanced();
     this.appId = this.routeInfo.snapshot.params['appId'];
     await this.getIpTag();
     // this.getServiceVersion();
@@ -1214,6 +1447,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         }
       }
     );
+    await this.getEnvFile();
+    this.envFormProject1.setConfig(this.envFormConfig);
     console.log('测试服务Init', this.imageTabs, this.images, this.services, this.serviceTabs);
   }
 

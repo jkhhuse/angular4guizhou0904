@@ -121,6 +121,224 @@
                 </div>
               </div>
             </div>
+
+            <div class="marginTop20">
+              <p class="borderBottom80">网络配置</p>
+              <div nz-row style="margin-bottom: 15px">
+                <div style="margin-bottom: 10px" nz-row>
+                  <div nz-col [nzSpan]="4" style="text-align: right">
+                    <span style="display: block;
+                                      font-size: 13px;
+                                      font-weight: 400;
+                                      letter-spacing: 0px;
+                                      margin-bottom: 10px;
+                                      color: rgba(0, 0, 0, 0.9);">网络模式</span>
+                  </div>
+                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                    <nz-radio-group [(ngModel)]="this.networkConfig">
+                      <label nz-radio [nzValue]="'FLANNEL'">
+                        <span>Flannel</span>
+                      </label>
+                    </nz-radio-group>
+                  </div>
+                </div>
+              </div>
+              <dynamic-form #formImgNetworkProject [config]="formImgNetwork"></dynamic-form>
+              <!-- todo next -->
+              <div nz-row>
+                <div style="margin-bottom: 10px" nz-row>
+                  <div nz-col [nzSpan]="4" style="text-align: right">
+                    <!-- <span style="display: block;
+                                      font-size: 13px;
+                                      font-weight: 400;
+                                      letter-spacing: 0px;
+                                      margin-bottom: 10px;
+                                      color: rgba(0, 0, 0, 0.9);">网络模式</span> -->
+                  </div>
+                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                    <div nz-row>
+                      <div nz-col [nzMd]="20">
+                        <div nz-row [nzGutter]="16">
+                          <div nz-col [nzSpan]="4" *ngFor="let label of lbControlLabel">
+                            <span>{{ label.value }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div nz-row>
+                <div style="margin-bottom: 10px" nz-row>
+                  <div nz-col [nzSpan]="4" style="text-align: right">
+                    <!-- <span style="display: block;
+                                      font-size: 13px;
+                                      font-weight: 400;
+                                      letter-spacing: 0px;
+                                      margin-bottom: 10px;
+                                      color: rgba(0, 0, 0, 0.9);">网络模式</span> -->
+                  </div>
+                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                    <div nz-row>
+                      <div nz-col [nzMd]="20">
+                        <form nz-form class="dynamic-form" [formGroup]="loadBanlancerForm">
+                          <div nz-row [nzGutter]="16">
+                            <div nz-col [nzSpan]="4" *ngFor="let control of lbControlArray" [class.d-none]="!control.show">
+                              <div nz-form-item nz-row>
+                                <!-- <div nz-form-label nz-col>
+                                  <label [attr.for]="'field' + control.index">Field {{control.index}}</label>
+                                </div> -->
+                                <div *ngIf="control.type === 'input'" nz-form-control nz-col>
+                                  <nz-input [ngModel]="control.defaultValue" [nzType]="control.inputType" [nzDisabled]="control.disabled" [nzSize]="'large'" [nzPlaceHolder]="control.placeholder" [formControlName]="control.name"></nz-input>
+                                </div>
+                                <div *ngIf="control.type === 'select'" nz-form-control nz-col [nzSm]="20">
+                                  <nz-select [(ngModel)]="control.selectedOption" [formControlName]="control.name" [nzPlaceHolder]="control.placeholder" nzAllowClear [nzDisabled]="control.disabled">
+                                    <nz-option *ngFor="let option of control.options" [nzValue]="option" [nzLabel]="option">
+                                    </nz-option>
+                                  </nz-select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="marginTop20">
+              <p class="borderBottom80">高级配置</p>
+              <div nz-row>
+                <div style="margin-bottom: 10px" nz-row>
+                  <div nz-col [nzSpan]="4" style="text-align: right">
+                    <span style="display: block;
+                                        font-size: 13px;
+                                        font-weight: 400;
+                                        letter-spacing: 0px;
+                                        margin-bottom: 10px;
+                                        color: rgba(0, 0, 0, 0.9);">服务类型</span>
+                  </div>
+                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                    <nz-radio-group [(ngModel)]="this.serviceType">
+                      <label nz-radio [nzValue]="'stateless'">
+                        <span>无状态服务</span>
+                      </label>
+                      <label nz-radio [nzValue]="'stateful'">
+                        <span>有状态服务</span>
+                      </label>
+                    </nz-radio-group>
+                  </div>
+                </div>
+              </div>
+              <div nz-row>
+                <div style="margin-bottom: 10px" nz-row>
+                  <div nz-col [nzSpan]="4" style="text-align: right">
+                    <!-- <span style="display: block;
+                                          font-size: 13px;
+                                          font-weight: 400;
+                                          letter-spacing: 0px;
+                                          margin-bottom: 10px;
+                                          color: rgba(0, 0, 0, 0.9);">日志文件</span> -->
+                  </div>
+                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                    <div nz-row>
+                      <div nz-col [nzMd]="20">
+                        <div nz-row [nzGutter]="16">
+                          <div nz-col [nzSpan]="4" *ngFor="let label of serviceAdvancedLabel">
+                            <span>{{ label.value }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <dynamic-form #logFormProject1 [config]="logFormConfig">
+              </dynamic-form>
+              <!-- todo next -->
+              <!-- <div nz-row>
+                <div style="margin-bottom: 10px" nz-row>
+                  <div nz-col [nzSpan]="4" style="text-align: right">
+                  </div>
+                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                    <div nz-row>
+                      <div nz-col [nzMd]="20">
+                        <div nz-row [nzGutter]="16">
+                          <div nz-col [nzSpan]="4">
+                            <span>名称</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+              <!-- todo next -->
+              <!-- todo next -->
+              <!-- <dynamic-form #envFormProject1 [config]="envFormConfig">
+              </dynamic-form> -->
+              <!-- todo next -->
+              <div nz-row>
+                  <div style="margin-bottom: 10px" nz-row>
+                    <div nz-col [nzSpan]="4" style="text-align: right">
+                      <!-- <span style="display: block;
+                                        font-size: 13px;
+                                        font-weight: 400;
+                                        letter-spacing: 0px;
+                                        margin-bottom: 10px;
+                                        color: rgba(0, 0, 0, 0.9);">网络模式</span> -->
+                    </div>
+                    <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                      <div nz-row>
+                        <div nz-col [nzMd]="20">
+                          <div nz-row [nzGutter]="16">
+                            <div nz-col [nzSpan]="10" *ngFor="let label of env1">
+                              <span>{{ label.value }}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <div nz-row>
+                  <div style="margin-bottom: 10px" nz-row>
+                    <div nz-col [nzSpan]="4" style="text-align: right">
+                      <span style="display: block;
+                                        font-size: 13px;
+                                        font-weight: 400;
+                                        letter-spacing: 0px;
+                                        margin-bottom: 10px;
+                                        color: rgba(0, 0, 0, 0.9);">环境变量</span>
+                    </div>
+                    <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                      <div nz-row>
+                        <div nz-col [nzMd]="20">
+                          <form nz-form class="dynamic-form" [formGroup]="env1Form">
+                            <div nz-row [nzGutter]="16">
+                              <div nz-col [nzSpan]="10" *ngFor="let control of env1Array">
+                                <div nz-form-item nz-row>
+                                  <!-- <div nz-form-label nz-col>
+                                    <label [attr.for]="'field' + control.index">Field {{control.index}}</label>
+                                  </div> -->
+                                  <div *ngIf="control.type === 'input'" nz-form-control nz-col>
+                                    <nz-input [nzSize]="'large'" [nzPlaceHolder]="control.placeholder" [formControlName]="control.name"></nz-input>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <!-- todo next -->
+            </div>
           </nz-content>
         </nz-layout>
       </div>
