@@ -146,7 +146,7 @@ export class ServiceDetailComponent implements OnInit {
         console.log('删除服务实例：' + serviceName + '  ' + serviceId);
         // 返回是string 不是json
         this.http.delete(this.servicesService.getCookie('groupID') + '/apiService' + '/groups/' +
-        environment.groupId + '/service-instances/' + serviceId).subscribe((data) => {
+            this.servicesService.getCookie('groupID') + '/service-instances/' + serviceId).subscribe((data) => {
             status = data['status'].toString();  // 返回状态204删除成功
             console.log('删除接口返回状态status：' + status);
         });

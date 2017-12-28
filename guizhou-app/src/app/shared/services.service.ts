@@ -23,7 +23,7 @@ export class ServicesService {
             console.log('getService service cookie: ' + this.getCookie('groupID'));
             //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());
             //isPubilc 传1，默认是共有的服务，现在没有私有服务
-            return this.http.get(environment.apiService + '/apiService' + '/groups/' + environment.groupId + '/services?isPublic=1').map(res => res.json());
+            return this.http.get(environment.apiService + '/apiService' + '/groups/' + this.getCookie('groupID') + '/services?isPublic=1').map(res => res.json());
         } else if (moduleName === 'app') {
             console.log('getService app cookie: ' + this.getCookie('groupID'));
             //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());

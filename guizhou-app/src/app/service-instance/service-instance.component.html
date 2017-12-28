@@ -89,9 +89,21 @@
             <td nz-td>{{data.memSize}} MB</td>
             <td nz-td>{{data.storageSize}} GB</td>
             <td nz-td>
-                <a [routerLink]="['/serviceInstanceDetail', data.id]">详情</a>
+                <button nz-button [nzType]="'primary'" nzSize="small" (click)="showModal(data.id, data.serviceDisplayName);">
+                    <span>删除</span>
+                </button>
             </td>
         </tr>
         </tbody>
     </nz-table>
 </nz-content>
+
+<nz-modal [nzVisible]="isVisible" [nzTitle]="'操作确认'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)"
+          (nzOnOk)="handleOk($event)">
+    <ng-template #modalContent>
+        <p>已选择服务实例：{{deleteName}}，是否确定删除？</p>
+        <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="text-align: center;">
+        </nz-spin>
+
+    </ng-template>
+</nz-modal>

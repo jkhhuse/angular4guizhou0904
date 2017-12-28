@@ -10,6 +10,7 @@ import * as _ from 'lodash';
 import { environment } from "../../environments/environment";
 import { FieldConfig } from '../dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
+import {ServicesService} from "../shared/services.service";
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
 @Component({
@@ -23,7 +24,7 @@ export class AppReleaseComponent implements OnInit {
   public contentControl: boolean = false;
   // 文件上传
   fileName: string;
-  public url: string = environment.api + '/api/' + environment.groupId + '/upload/app/fileName/';
+  public url: string = environment.api + '/api/' + this.servicesService.getCookie('groupID')  + '/upload/app/fileName/';
   // 这里的itemAlias是设置的name ="newname"，本来是name="file"，相当于form的name值
   // public uploader: FileUploader = new FileUploader({ url: this.url, itemAlias: 'newname' });
   public uploader: FileUploader = new FileUploader({
@@ -33,7 +34,7 @@ export class AppReleaseComponent implements OnInit {
   });
 
   public hasBaseDropZoneOver: boolean = false;
-  public urlIcon: string = environment.api + '/api/' + environment.groupId + '/upload/app/fileName/';
+  public urlIcon: string = environment.api + '/api/' + this.servicesService.getCookie('groupID')  + '/upload/app/fileName/';
   public uploaderIcon: FileUploader = new FileUploader({
     url: this.urlIcon,
     allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg'],
@@ -164,7 +165,7 @@ export class AppReleaseComponent implements OnInit {
   // }
 
   getImageOrigin() {
-    this.http.get(environment.api + '/api/' + environment.groupId + '/warehouse/registry').subscribe(data => {
+    this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID')  + '/warehouse/registry').subscribe(data => {
       const dataValue = data;
       this.imageOriginId = dataValue['id'];
       // this.imageOriginId = dataValue.id;
@@ -172,7 +173,7 @@ export class AppReleaseComponent implements OnInit {
   }
 
   getApplications() {
-    this.http.get(environment.apiApp + '/apiApp/groups/' + environment.groupId + '/applications').subscribe(data => {
+    this.http.get(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID')  + '/applications').subscribe(data => {
       this.applications$ = _.map(data, (value, key) => {
         return value['appName'];
       })
@@ -210,7 +211,7 @@ export class AppReleaseComponent implements OnInit {
         const httpArr = Observable.forkJoin(
           _.map(_.compact(fileArr), (value, key) => {
             value = value.replace(/\s/g, '');
-            return this.http.post(environment.api + '/api/' + environment.groupId + '/warehouse/repository?module=app', {
+            return this.http.post(environment.api + '/api/' + this.servicesService.getCookie('groupID')  + '/warehouse/repository?module=app', {
               "description": formValue.description,
               "fileName": value,
               "isApp": true,
@@ -380,7 +381,7 @@ export class AppReleaseComponent implements OnInit {
     })
     value.createUserId = 1;
     value.containerSrvId = 1;
-    this.http.post(environment.apiApp + '/apiApp/groups/' + environment.groupId + '/applications', value).subscribe(data => {
+    this.http.post(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID')+ '/applications', value).subscribe(data => {
       const thisParent = this;
       console.log('发布应用成功', data);
       // this.createNotification('success', '发布应用成功', '正在跳转到应用商城页面', {nzDuration: 0});
@@ -415,7 +416,7 @@ export class AppReleaseComponent implements OnInit {
   }
 
   constructor(private router: Router,
-    private confirmServ: NzModalService, private http: HttpClient, private _notification: NzNotificationService) {
+    private confirmServ: NzModalService, private http: HttpClient, private _notification: NzNotificationService, private servicesService: ServicesService) {
     // this.showConfirm();
     console.log('11', this.contentControl);
   }
@@ -439,7 +440,7 @@ export class AppReleaseComponent implements OnInit {
     // this.refreshData();
     // 获取services列表
     const params = new HttpParams().set('isPublic', '1');
-    this.http.get(environment.apiService + '/apiService/groups/' + environment.groupId + '/services', {
+    this.http.get(environment.apiService + '/apiService/groups/' + this.servicesService.getCookie('groupID')  + '/services', {
       params: new HttpParams().set('isPublic', '1')
     }).subscribe(data => {
       this.services$ = _.values(data);
