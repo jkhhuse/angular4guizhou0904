@@ -47,21 +47,14 @@ export class ServiceInstanceComponent implements OnInit {
     }
 
     handleOk = (e) => {
-        let status = '';
-        status = this.deleteServiceInstance(this.deleteID, this.deleteName);
-        console.log('status: ' + status);
-        if (status = '204') {
-            this._isSpinning = true;
-            setTimeout(() => {
-                this.isVisible = false;
-                console.log('删除成功，更新列表');
-                this.refreshData();
-                this._isSpinning = false;
-            }, 3000);
-        } else {
+        this.deleteServiceInstance(this.deleteID, this.deleteName);
+        this._isSpinning = true;
+        setTimeout(() => {
             this.isVisible = false;
-            this.createNotification('error', '删除失败', '删除失败');
-        }
+            console.log('删除成功，更新列表');
+            this.refreshData();
+            this._isSpinning = false;
+        }, 1000);
     }
 
     createNotification = (type, title, content) => {
@@ -73,16 +66,20 @@ export class ServiceInstanceComponent implements OnInit {
         console.log(e);
         this.isVisible = false;
     }
-    // 删除服务实例接口
-    deleteServiceInstance(instanceID, instanceName): string {
-        status = '';
-        this.http.delete(environment.apiService + '/apiService/' + '/groups/'  + this.servicesService.getCookie('groupID') + '/service-instances/' + instanceID).subscribe((data) => {
-            console.log('data: ' + data);
-            status = data.toString();
-            console.log('datatoString: ' + status);
-        });
-        return status;
+
+// 删除服务实例接口
+    deleteServiceInstance(instanceID, instanceName) {
+        this.http.delete(environment.apiService + '/apiService/' + '/groups/' + this.servicesService.getCookie('groupID') + '/service-instances/' + instanceID).subscribe((data) => {
+                console.log('data: ' + data);
+                status = data.toString();
+                console.log('datatoString: ' + status);
+            },
+            err => {
+                console.log(err._body);
+                this.createNotification('error', '删除服务实例失败', err._body);
+            });
     }
+
     groupidHandler(event: any) {
         console.log('change event: ' + event);
         console.log('change event this.groupid: ' + this.groupid);

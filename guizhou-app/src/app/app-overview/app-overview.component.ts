@@ -2,6 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {RandomUserService} from '../shared/random-user.service';
 import {FormControl} from "@angular/forms";
 import {ServicesService} from "../shared/services.service";
+import {environment} from "../../environments/environment";
+import {Http} from "@angular/http";
+import {NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
     selector: 'app-app-overview',
@@ -55,6 +58,49 @@ export class AppOverviewComponent implements OnInit {
     _sortValue = null;
     _dataSet = [];
     copyData = [...this._dataSet];
+    deleteID = '';
+    deleteName = '';
+    isVisible = false;
+    _isSpinning = false;
+
+    showModal = (id, name) => {
+        this.isVisible = true;
+        this.deleteID = id;
+        this.deleteName = name;
+    }
+
+    handleOk = (e) => {
+        this.deleteAppInstance(this.deleteID, this.deleteName);
+        this._isSpinning = true;
+        setTimeout(() => {
+            this.isVisible = false;
+            console.log('删除成功，更新列表');
+            this.refreshData();
+            this._isSpinning = false;
+        }, 1000);
+    }
+
+    createNotification = (type, title, content) => {
+        this._notification.create(type, title, content);
+    }
+
+
+    handleCancel = (e) => {
+        console.log(e);
+        this.isVisible = false;
+    }
+
+    // 删除应用实例接口
+    deleteAppInstance(instanceID, instanceName) {
+        this.http.delete(environment.apiApp + '/apiApp/' + '/groups/' + this.servicesService.getCookie('groupID') + '/application-instances/' + instanceID).subscribe((data) => {
+                status = data.toString();
+                console.log('datatoString: ' + status);
+            },
+            err => {
+                console.log(err._body);
+                this.createNotification('error', '删除应用实例失败', err._body);
+            });
+    }
 
     sort(sortName, value) {
         this._sortName = sortName;
@@ -143,7 +189,10 @@ export class AppOverviewComponent implements OnInit {
         });
     }
 
-    constructor(private _randomUser: RandomUserService, private servicesService: ServicesService) {
+    constructor(private http: Http,
+                private _randomUser: RandomUserService,
+                private servicesService: ServicesService,
+                private _notification: NzNotificationService) {
     }
 
     ngOnInit() {
