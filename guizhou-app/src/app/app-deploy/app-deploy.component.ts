@@ -80,7 +80,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       label: '实例名称',
       name: 'microserviceName',
       placeholder: '请输入实例名称',
-      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
+        validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
       styles: {
         'width': '400px'
       }
@@ -178,7 +178,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       label: '实例名称',
       name: 'instanceName',
       placeholder: '请输入实例名称',
-      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
+        validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
       styles: {
         'width': '400px'
       }
