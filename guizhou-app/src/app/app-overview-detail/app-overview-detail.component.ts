@@ -13,7 +13,7 @@ export class AppOverviewDetailComponent implements OnInit {
     public title: String = '应用详情';
     mirrorImgUrl = 'assets/service/mirror.png';
     private instanceId: String;
-    mirrorName: String = 'cmss'; // 初始生产域对应的标签名称 cluster_name
+    mirrorName: String = 'product'; // 初始生产域对应的标签名称 cluster_name
     tabName = 'microservices';
     private keyword: string;
     private appInstanceDetail: any;

@@ -41,8 +41,10 @@ export class RandomUserService {
     }
 
     getAppInstances(pageIndex = 1, pageSize = 10, sortField, sortOrder, tabName): Observable<any> {
+        console.log('tabName: ' + tabName);
         console.log('getAppInstances cookie: ' + this.servicesService.getCookie('groupID'));
         const params = new URLSearchParams();
+        params.set('clusterZone', `${tabName}`);
         params.set('page', `${pageIndex}`);
         params.set('results', `${pageSize}`);
         params.set('sortField', sortField);
