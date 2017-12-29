@@ -44,7 +44,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             {
                 storageSize: 0,
                 createUserId: 1,
-                groupId: 2,
+                groupId: this.servicesService.getCookie('groupID') ,
             }
         ]
     };
