@@ -37,11 +37,7 @@
            {{!appInstanceDetail.updateTime ? '暂无': appInstanceDetail.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}
         </span></div>
     </div>
-    <div nz-col [nzSpan]="12" class="detail-12col">
-      <div class="detail-line">
-        <span>项目组名</span>
-        <span class="detail-line-value">2</span></div>
-    </div>
+
     <div nz-col [nzSpan]="12" class="detail-12col">
       <div class="detail-line">
         <span>所属域名</span>
@@ -101,7 +97,12 @@
         <tbody nz-tbody>
         <tr nz-tbody-tr *ngFor="let data of nzTable.data  | appFilter: 'instanceName' : keyword">
           <td nz-td>
-            <a [routerLink]="['/appInstanceDetailDetail', instanceId, data.id]">
+            <a *ngIf="tabName === 'microservices'"
+               [routerLink]="['/appInstanceDetailDetail', instanceId, data.id]">
+              {{data.microserviceName ||data.instanceName}}
+            </a>
+            <a  *ngIf="tabName === 'serviceInstances'"
+                [routerLink]="['/serviceInstanceDetail', data.id]">
               {{data.microserviceName ||data.instanceName}}
             </a>
           </td>

@@ -42,7 +42,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   appId: string = '';
   formData: object = {
     createUserId: 1,
-    groupId: 2,
+    groupId: this.servicesService.getCookie('groupID') ,
     microservices: [
       {
         storageSize: 0,
@@ -191,7 +191,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       type: 'select',
       label: '负载均衡器',
       name: 'loadbanlancer',
-      options: ['haproxy-10-132-49-108 ( HAPROXY / 外网 / 10.132.49.108 )'] || this.loadBanlancer$,
+      options: ['haproxy-10-198-102-205 ( HAPROXY / 外网 / 10.198.102.205 )'] || this.loadBanlancer$,
       placeholder: '选择负载均衡器',
       // validation: [Validators.required],
       styles: {
@@ -820,7 +820,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 }
               ],
               load_balancer_id: "fd598eb5-83a1-4ee8-4235-586d32a2b2ba",
-              name: "haproxy-10-132-49-108",
+              name: "haproxy-10-198-102-205",
               type: "haproxy",
               uniqueId: "load_balancer_id2",
               version: 1
