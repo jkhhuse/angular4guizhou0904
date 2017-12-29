@@ -11,6 +11,7 @@ import {
 // import { enableProdMode } from '@angular/core';
 // enableProdMode();
 import {ActivatedRoute} from '@angular/router';
+import { Observable } from "rxjs/Observable";
 import {Subscription} from 'rxjs/Subscription';
 import {Validators} from '@angular/forms';
 import {Router, RouterModule} from '@angular/router';
@@ -33,7 +34,11 @@ import {ServicesService} from "../shared/services.service";
 })
 export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
     selectValueSub: Subscription;
-    private radioValue = "prodDomain";
+    networkRadioValue = '';
+    networkRadioValue2 = '';
+    testCluster;
+    prodCluster;
+    private radioValue = "product";
     private modelValue = 'replication';
     private radioTest = 'prodDomain1';
     private serviceId: string;
@@ -251,7 +256,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                         label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
                         name: value1['attribute_name'],
                         placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-                            value1['description']['zh'] : value1['attribute_name'],
+                        value1['description']['zh'] : value1['attribute_name'],
                         validation: [Validators.required, Validators.min(1)],
                         styles: {
                             'width': '400px'
@@ -265,8 +270,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                         label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
                         name: value1['attribute_name'],
                         options: options$,
-                        placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-                            value1['description']['zh'] : value1['attribute_name'],
+                        placeholder: '请先选择主机标签地址!',
                         validation: [Validators.required],
                         styles: {
                             'width': '400px'
@@ -280,8 +284,9 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
 
     getIpTag() {
         return new Promise((resolve, reject) => {
-            if (this.radioValue === 'prodDomain') {
-                this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/cmss/labels').subscribe(data => {
+            if (this.radioValue === 'product') {
+                this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/' + this.networkRadioValue + '/labels').
+                subscribe(data => {
                     console.log('这是主机标签', data);
                     this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
                         // if (value['labels'].length > 0) {
@@ -292,7 +297,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     resolve();
                 });
             } else {
-                this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/ebd/labels').subscribe(data => {
+                this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/' + this.networkRadioValue2 + '/labels').
+                subscribe(data => {
                     console.log('这是主机标签', data);
                     this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
                         // if (value['labels'].length > 0) {
@@ -350,6 +356,22 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         console.log('测试afterview');
         // // this.form.setValue('name', '');
     }
+
+    getCluster() {
+        return new Promise((resolve, reject) => {
+          const url$ = Observable.forkJoin(
+            this.http.get(environment.apiApp + '/apiApp/cluster-zones/test/clusters'),
+            this.http.get(environment.apiApp + '/apiApp/cluster-zones/product/clusters')
+          );
+          url$.subscribe(values => {
+            this.testCluster = values[0];
+            this.prodCluster = values[1];
+            this.networkRadioValue = values[1][0]['name'];
+            this.networkRadioValue2 = values[0][0]['name'];
+            resolve();
+          });
+        });
+      }
 
     getOperateMode() {
         return new Promise((resolve, reject) => {
@@ -686,7 +708,6 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         this.serviceId = this.routeInfo.snapshot.params['serviceId'];
         this.serviceName = this.routeInfo.snapshot.params['serviceName'];
         console.log('serviceName:' + this.serviceName);
-        await this.getIpTag();
         await this.getOperateMode();
         await this.getServiceBasic();
         // this.formThird3Project.setConfig(this.formThird3);
@@ -699,7 +720,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
                     name: value1['attribute_name'],
                     placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-                        value1['description']['zh'] : value1['attribute_name'],
+                    value1['description']['zh'] : value1['attribute_name'],
                     validation: [Validators.required, Validators.min(1)],
                     styles: {
                         'width': '400px'
@@ -714,8 +735,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
                     name: value1['attribute_name'],
                     options: options$,
-                    placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-                        value1['description']['zh'] : value1['attribute_name'],
+                    placeholder: '请先选择主机标签地址!',
                     validation: [Validators.required],
                     styles: {
                         'width': '400px'
@@ -763,6 +783,9 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 }
             }
         );
+        await this.getCluster();
+        await this.getIpTag();
+        await this.toggleButton();
         // this.toggleRadio();
         // await this.toggleRadio();
         // this.formConfig = this,http.get
@@ -839,7 +862,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             instancesCount: parseInt(this.formThird1Project.value['num_of_nodes']),
             cpuSize: this.instanceThird.value['cpuSize'] * this.formThird1Project.value['num_of_nodes'],
             memSize: this.instanceThird.value['memSize'] * this.formThird1Project.value['num_of_nodes'],
-            clusterName: this.radioValue === 'prodDomain' ? 'cmss' : 'ebd',
+            clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
             info: {
                 // todo: this.formThird2RadioEntity, this.formThird3Entity
                 basic_config: _.assign(this.formThird1Project.value, this.formThird1RadioEntity,

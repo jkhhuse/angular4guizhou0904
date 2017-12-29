@@ -3,20 +3,20 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
+// export const environment = {
+//     production: false,
+//     name: '公司测试环境',
+//     apiService: 'http://10.132.49.108:8032',
+//     apiApp: 'http://10.132.49.108:8031',
+//     apiConfig: 'http://10.132.49.137:32769',
+//     api: 'http://10.132.49.108:8180',
+//     apiAlauda: 'http://10.132.49.108:8039/apiJakiro/v1',
+//     apiOP: 'http://10.139.5.45:7080/bdoc/v2',
+//     groupId: '2',
+//     adminGroupId: '0',
+//     namespace: 'alauda'
+// };
 export const environment = {
-    production: false,
-    name: '公司测试环境',
-    apiService: 'http://10.132.49.108:8032',
-    apiApp: 'http://10.132.49.108:8031',
-    apiConfig: 'http://10.132.49.137:32769',
-    api: 'http://10.132.49.108:8180',
-    apiAlauda: 'http://10.132.49.108:8039/apiJakiro/v1',
-    apiOP: 'http://10.139.5.45:7080/bdoc/v2',
-    groupId: '2',
-    adminGroupId: '0',
-    namespace: 'alauda'
-};
-/*export const environment = {
     production: false,
     name: 'op联调提测环境',
     apiService: 'http://10.132.49.110:18032',
@@ -28,7 +28,7 @@ export const environment = {
     groupId: '2',
     adminGroupId: '0',
     namespace: 'alauda'
-};*/
+};
 /*export const environment = {
     production: false,
     name: '贵州v2线上环境',
