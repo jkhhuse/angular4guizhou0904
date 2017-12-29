@@ -35,7 +35,7 @@
           <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
             <!-- <nz-radio-group [(ngModel)]="this.radioValue" (click)="toggleButton()"> -->
             <nz-radio-group (click)="toggleButton()" [(ngModel)]="this.radioValue">
-              <label nz-radio [nzValue]="'prodDomain'" style="margin-right: 25px">
+              <label nz-radio [nzValue]="'product'" style="margin-right: 25px">
                 <span>生产域</span>
                 <!-- <nz-tooltip [nzPlacement]="'rightTop'">
                   <i nz-tooltip class="anticon anticon-question-circle-o" style="position: absolute; right: -10px;"></i>
@@ -51,8 +51,46 @@
                 </nz-tooltip> -->
                 <!-- <i class="anticon anticon-question-circle-o" style="position: absolute; right: -10px;"></i> -->
               </label>
-              <label nz-radio [nzValue]="'testDomain'">
+              <label nz-radio [nzValue]="'test'">
                 <span>测试域</span>
+              </label>
+            </nz-radio-group>
+          </div>
+        </div>
+        <div *ngIf="this.radioValue === 'product'" style="margin-bottom: 10px" nz-row>
+          <div nz-col [nzSpan]="4" style="text-align: right">
+            <span style="display: block;
+                    font-size: 13px;
+                    font-weight: 400;
+                    letter-spacing: 0px;
+                    margin-bottom: 10px;
+                    color: rgba(0, 0, 0, 0.9);">集群</span>
+          </div>
+          <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+            <!-- <nz-radio-group [(ngModel)]="this.radioValue" (click)="toggleButton()"> -->
+              <!-- 这里需要绑定click事件，触发toggleButton事件，现在的逻辑是在资源池选择上，会触发getIptags函数，因为每个资源池下只有一个集群，可以测试，但是当每个资源池下的
+              集群数量》1的时候，需要在这里绑定click事件，切换集群的时候，重新调用getIp函数，现在线上没有多集群，所以暂时不测试 -->
+            <nz-radio-group [(ngModel)]="this.networkRadioValue">
+              <label *ngFor="let cluster of prodCluster" nz-radio [nzValue]="cluster.name">
+                <span>{{ cluster.name }}</span>
+              </label>
+            </nz-radio-group>
+          </div>
+        </div>
+        <div *ngIf="this.radioValue === 'test'" style="margin-bottom: 10px" nz-row>
+          <div nz-col [nzSpan]="4" style="text-align: right">
+            <span style="display: block;
+                    font-size: 13px;
+                    font-weight: 400;
+                    letter-spacing: 0px;
+                    margin-bottom: 10px;
+                    color: rgba(0, 0, 0, 0.9);">集群</span>
+          </div>
+          <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+            <!-- <nz-radio-group [(ngModel)]="this.radioValue" (click)="toggleButton()"> -->
+            <nz-radio-group [(ngModel)]="this.networkRadioValue2">
+              <label *ngFor="let cluster of testCluster" nz-radio [nzValue]="cluster.name">
+                <span>{{ cluster.name }}</span>
               </label>
             </nz-radio-group>
           </div>
@@ -88,8 +126,8 @@
           <!-- todo next -->
           <!-- todo next -->
           <div nz-row>
-          <!-- todo next -->
-          <!-- <div nz-row> -->
+            <!-- todo next -->
+            <!-- <div nz-row> -->
             <div *ngIf="serviceName === 'redis'" class="marginBottom15" nz-row>
               <div nz-col [nzSpan]="4" style="text-align: right">
                 <span style="display: block;
@@ -107,14 +145,14 @@
                 </nz-radio-group>
               </div>
             </div>
-            <dynamic-form *ngIf="serviceName === 'redis'" #formThird3Project [config]="formThird3">
-            </dynamic-form>
             <dynamic-form *ngIf="serviceName === 'mysql'" #formThird4Project [config]="formThird4">
             </dynamic-form>
             <!-- <dynamic-form *ngIf="serviceName === 'redis'" #formThird4Project [config]="formThird4">
             </dynamic-form> -->
           </div>
           <dynamic-form #formThird1Project [config]="formThird1">
+          </dynamic-form>
+          <dynamic-form *ngIf="serviceName === 'redis'" #formThird3Project [config]="formThird3">
           </dynamic-form>
           <div nz-row>
             <div nz-col [nzSpan]="4" style="text-align: right">
@@ -134,7 +172,7 @@
       </div>
       <div>
         <p class="borderBottom80 marginTop20">高级配置</p>
-       <!-- <div style="text-align: center">
+        <!-- <div style="text-align: center">
           <nz-spin [nzTip]="'正在读取数据...'" *ngIf="formThird2.length === 0 && formThird2Radios.length === 0"></nz-spin>
         </div>-->
         <div *ngIf="formThird2.length > 0 || formThird2Radios.length > 0" nz-row>

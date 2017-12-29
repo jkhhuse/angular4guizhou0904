@@ -36,6 +36,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   AfterContentInit, AfterContentChecked,
   AfterViewInit, AfterViewChecked,
   OnDestroy {
+  testCluster;
+  prodCluster;
   selectValueSub: Subscription;
   appId: string = '';
   formData: object = {
@@ -63,13 +65,13 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       label: '应用名称',
       name: 'instanceName',
       placeholder: '请输入应用名称',
-        validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
       styles: {
         'width': '400px'
       }
     }
   ]
-  radioValue: string = 'prodDomain';
+  radioValue: string = 'product';
   private modelValue = 'replication';
   // 第二个表单
   @ViewChild('formSecondProject') formSecondProject: DynamicFormComponent;
@@ -80,7 +82,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       label: '实例名称',
       name: 'microserviceName',
       placeholder: '请输入实例名称',
-        validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
       styles: {
         'width': '400px'
       }
@@ -160,8 +162,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   // todo next
   // repositoryId: string[] = [];
   repositoryId: string = '';
-  networkRadioValue: string = 'portal';
-  networkRadioValue2: string = 'portal';
+  networkRadioValue: string = '';
+  networkRadioValue2: string = '';
   // 镜像配置里的网络配置
   networkConfig = 'FLANNEL';
   loadBanlancer$ = [];
@@ -178,11 +180,12 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       name: 'ports',
       inputType: 'number',
       placeholder: '回车或者空格确定',
-      validation: [Validators.required, Validators.min(1)],
+      // validation: [Validators.required, Validators.min(1)],
       styles: {
         'width': '400px'
       },
-      defaultValue: 80
+      defaultValue: 80,
+      notNecessary: true
     },
     {
       type: 'select',
@@ -190,10 +193,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       name: 'loadbanlancer',
       options: ['haproxy-10-198-102-205 ( HAPROXY / 外网 / 10.198.102.205 )'] || this.loadBanlancer$,
       placeholder: '选择负载均衡器',
-      validation: [Validators.required],
+      // validation: [Validators.required],
       styles: {
         'width': '400px'
       },
+      notNecessary: true
       // ifTags: 'true'
     },
   ];
@@ -208,10 +212,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     label: '日志文件',
     placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
     name: 'logPath',
-    validation: [Validators.required],
+    // validation: [Validators.required],
     styles: {
       'width': '400px'
-    }
+    },
+    notNecessary: true
   }];
   @ViewChild('envFormProject1') envFormProject1: DynamicFormComponent;
   envFormConfig: FieldConfig[] = [{
@@ -245,7 +250,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       label: '实例名称',
       name: 'instanceName',
       placeholder: '请输入实例名称',
-        validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
       styles: {
         'width': '400px'
       }
@@ -327,7 +332,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       label: 'Master 节点地址',
       name: 'master_node_addr',
       options: [],
-      placeholder: '设置主服务器的 ip 地址',
+      placeholder: '请先选择主机标签地址!',
       validation: [Validators.required],
       styles: {
         'width': '400px'
@@ -365,7 +370,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       }
       case 1: {
         return !this.formSecondProject.valid || !this.formImgNetworkProject.valid ||
-        !this.logFormProject1.valid;
+          !this.logFormProject1.valid;
         // todo next
         // !this.logFormProject1.valid || !this.envFormProject1.valid;
       }
@@ -391,8 +396,9 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
 
   getIpTag() {
     return new Promise((resolve, reject) => {
-      if (this.radioValue === 'prodDomain') {
-        this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/cmss/labels').subscribe(data => {
+      if (this.radioValue === 'product') {
+        this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/' + this.networkRadioValue + '/labels').
+        subscribe(data => {
           console.log('这是主机标签', data);
           this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
             // if (value['labels'].length > 0) {
@@ -403,7 +409,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           resolve();
         });
       } else {
-        this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/ebd/labels').subscribe(data => {
+        this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/' + this.networkRadioValue2 + '/labels').
+        subscribe(data => {
           console.log('这是主机标签', data);
           this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
             // if (value['labels'].length > 0) {
@@ -764,6 +771,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       case 0: {
         // console.log('0', this.formFirst);
         this.formData['instanceName'] = this.formFirstProject.value['instanceName'];
+        this.formData['clusterZone'] = this.radioValue;
         console.log('form222', this.formSecondProject);
         break;
         // if(this.formFirst.disabled) {
@@ -798,7 +806,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           repositoryId: this.repositoryId,
           instance_size: this.instanceSecond.value['instance_size'],
           // 这里由于线上可用的集群就两个：cmss和ebd，所以先暂时写死
-          clusterName: this.radioValue === 'prodDomain' ? 'cmss' : 'ebd',
+          clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
           network_mode: this.networkConfig,
           ports: [this.formImgNetworkProject.value['ports']],
           load_balancers: [
@@ -824,6 +832,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           //     name: this.envFormProject1.value['envconfig']
           //   }
           // ],
+          // todo next
           // todo next
           instance_envvars: this.env1Enty
           // clusterName: this.radioValue === 'prodDomain' ? this.networkRadioValue : 'testDomain'
@@ -955,7 +964,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         instancesCount: parseInt(this.formThird1Project.value['num_of_nodes']),
         cpuSize: this.instanceThird.value['cpuSize'] * this.formThird1Project.value['num_of_nodes'],
         memSize: this.instanceThird.value['memSize'] * this.formThird1Project.value['num_of_nodes'],
-        clusterName: this.radioValue === 'prodDomain' ? 'cmss' : 'ebd',
+        clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
         info: {
           basic_config: _.assign(this.formThird1Project.value, this.formThird1RadioEntity,
             this.choosedServiceName === 'redis' ? this.formThird2RadioEntity : {},
@@ -1058,8 +1067,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
             inputType: 'number',
             label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
             name: value1['attribute_name'],
-            placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-              value1['description']['zh'] : value1['attribute_name'],
+            placeholder: '请先选择主机标签地址!',
             validation: [Validators.required, Validators.min(1)],
             styles: {
               'width': '400px'
@@ -1179,8 +1187,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
             inputType: 'number',
             label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
             name: value1['attribute_name'],
-            placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-              value1['description']['zh'] : value1['attribute_name'],
+            placeholder: '请先选择主机标签地址!',
             validation: [Validators.required, Validators.min(1)],
             styles: {
               'width': '400px'
@@ -1224,6 +1231,22 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         // this.operateMode['cluster'] = data['cluster_config'];
         // todo next
         this.operateMode['replication'] = data['replication_config'];
+        resolve();
+      });
+    });
+  }
+
+  getCluster() {
+    return new Promise((resolve, reject) => {
+      const url$ = Observable.forkJoin(
+        this.http.get(environment.apiApp + '/apiApp/cluster-zones/test/clusters'),
+        this.http.get(environment.apiApp + '/apiApp/cluster-zones/product/clusters')
+      );
+      url$.subscribe(values => {
+        this.testCluster = values[0];
+        this.prodCluster = values[1];
+        this.networkRadioValue = values[1][0]['name'];
+        this.networkRadioValue2 = values[0][0]['name'];
         resolve();
       });
     });
@@ -1364,7 +1387,6 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   async ngOnInit() {
     this.getnetworkAdvanced();
     this.appId = this.routeInfo.snapshot.params['appId'];
-    await this.getIpTag();
     // this.getServiceVersion();
     // this.toggleButton();
     await this.getServiceInit();
@@ -1406,6 +1428,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     //   this.formThird3Project.setConfig(this.formThird3);
     // }
     // 这里要手动调用一下，渲染service的basic和advanced配置，不然到服务配置会出不来数据
+    await this.getCluster();
+    await this.getIpTag();
     await this.choosedImageFunc(this.imageTabs[0]);
     await this.choosedServiceFunc(this.serviceTabs[0]);
     this.selectValueSub = this.componentSer.componentValue$.subscribe(
@@ -1447,8 +1471,10 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         }
       }
     );
-    await this.getEnvFile();
-    this.envFormProject1.setConfig(this.envFormConfig);
+    // 这里后面新加的需要await的数据请求，需要加到后面，不然会报错cojntrols undefined
+    // todo next 环境变量文件
+    // await this.getEnvFile();
+    // this.envFormProject1.setConfig(this.envFormConfig);
     console.log('测试服务Init', this.imageTabs, this.images, this.services, this.serviceTabs);
   }
 
