@@ -30,6 +30,7 @@
     <td nz-td>{{data.instancesCount}} 个</td>
     <td nz-td>{{data.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
   </tr>
+  <!--服务目录中已订购实例的表格-->
   <tbody nz-tbody *ngIf="tableNum === 3">
   <tr nz-tbody-tr *ngFor="let data of nzTable.data">
     <td nz-td>
@@ -40,7 +41,12 @@
     </td>
     <td nz-td>{{data.clusterName}}</td>
     <td nz-td>///</td>
-    <td nz-td>{{data.status}}</td>
+    <td nz-td>
+      <p [style.background-color]="data.status==='Running' ? '#67c281' : '#ff9933'"
+         class="dataStatus">
+        {{data.status}}
+      </p>
+    </td>
     <td nz-td>{{data.instancesCount}} 个</td>
     <td nz-td>{{data.cpuSize}} 核 {{data.memSize}} M</td>
     <td nz-td>

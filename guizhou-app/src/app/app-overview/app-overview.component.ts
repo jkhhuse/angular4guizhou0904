@@ -50,6 +50,7 @@ export class AppOverviewComponent implements OnInit {
     sortMap = {
         instanceName: null,
         opContainerApp: null,
+        stauts: null,
         cpuSize: null,
         instancesCount: null,
         createTime: null

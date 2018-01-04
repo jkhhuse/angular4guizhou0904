@@ -23,87 +23,84 @@
     </div>-->
   <app-search [titleFilter]="titleFilter" [offset]="18"></app-search>
 
-    <nz-table #nzTable
-              [nzAjaxData]="_dataSet"
-              nzShowSizeChanger
-              [nzShowTotal]="true"
-              [nzLoading]="_loading"
-              [nzTotal]="_total"
-              [(nzPageIndex)]="_current"
-              (nzPageIndexChange)="refreshData()"
-              [(nzPageSize)]="_pageSize"
-              (nzPageSizeChange)="refreshData(true)">
-        <thead nz-thead>
-        <tr>
-            <th nz-th>
-                <span>实例名称</span>
-                <nz-table-sort [(nzValue)]="sortMap.instanceName"
-                               (nzValueChange)="sort('instanceName', $event)"></nz-table-sort>
-            </th>
-            <th nz-th>
-                <span>服务名称</span>
-                <nz-table-sort [(nzValue)]="sortMap.serviceDisplayName"
-                               (nzValueChange)="sort('serviceDisplayName', $event)"></nz-table-sort>
-            </th>
-            <th nz-th>
-                <span>创建时间</span>
-                <nz-table-sort [(nzValue)]="sortMap.createTime"
-                               (nzValueChange)="sort('createTime', $event)"></nz-table-sort>
-            </th>
-            <th nz-th>
-                <span>实例状态</span>
-                <nz-table-sort [(nzValue)]="sortMap.status" (nzValueChange)="sort('status', $event)"></nz-table-sort>
-            </th>
-            <th nz-th>
-                <span>CPU大小</span>
-                <nz-table-sort [(nzValue)]="sortMap.cpuSize" (nzValueChange)="sort('cpuSize', $event)"></nz-table-sort>
-            </th>
-            <th nz-th>
-                <span>内存大小</span>
-                <nz-table-sort [(nzValue)]="sortMap.memSize" (nzValueChange)="sort('memSize', $event)"></nz-table-sort>
-            </th>
-            <th nz-th>
-                <span>存储大小</span>
-                <nz-table-sort [(nzValue)]="sortMap.storageSize"
-                               (nzValueChange)="sort('storageSize', $event)"></nz-table-sort>
-            </th>
-            <th nz-th>
-                <span>操作</span>
-            </th>
-        </tr>
-        </thead>
-        <tbody nz-tbody>
-        <tr nz-tbody-tr *ngFor="let data of nzTable.data  | appFilter: 'instanceName' : keyword">
-            <td nz-td>
-                <a [routerLink]="['/serviceInstanceDetail', data.id]">{{data.instanceName}}</a>
-            </td>
-            <td nz-td>{{data.serviceDisplayName}}</td>
-            <td nz-td>{{data.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
-            <td nz-td>
-                <p [style.background-color]="data.status ? '#67c281' : '#ff9933'"
-                   class="dataStatus">
-                    {{data.status}}
-                </p>
-            </td>
-            <td nz-td>{{data.cpuSize}} 核</td>
-            <td nz-td>{{data.memSize}} MB</td>
-            <td nz-td>{{data.storageSize}} GB</td>
-            <td nz-td>
-                <button nz-button [nzType]="'default'" nzSize="small" (click)="showModal(data.id, data.instanceName);">
-                    <span>删除</span>
-                </button>
-            </td>
-        </tr>
-        </tbody>
-    </nz-table>
+  <nz-table #nzTable
+            [nzAjaxData]="_dataSet"
+            nzShowSizeChanger
+            [nzShowTotal]="true"
+            [nzLoading]="_loading"
+            [nzTotal]="_total"
+            [(nzPageIndex)]="_current"
+            (nzPageIndexChange)="refreshData()"
+            [(nzPageSize)]="_pageSize"
+            (nzPageSizeChange)="refreshData(true)">
+    <thead nz-thead>
+    <tr>
+      <th nz-th>
+        <span>实例名称</span>
+        <nz-table-sort [(nzValue)]="sortMap.instanceName"
+                       (nzValueChange)="sort('instanceName', $event)"></nz-table-sort>
+      </th>
+      <th nz-th>
+        <span>服务名称</span>
+        <nz-table-sort [(nzValue)]="sortMap.serviceDisplayName"
+                       (nzValueChange)="sort('serviceDisplayName', $event)"></nz-table-sort>
+      </th>
+      <th nz-th>
+        <span>创建时间</span>
+        <nz-table-sort [(nzValue)]="sortMap.createTime"
+                       (nzValueChange)="sort('createTime', $event)"></nz-table-sort>
+      </th>
+      <th nz-th>
+        <span>实例状态</span>
+        <nz-table-sort [(nzValue)]="sortMap.status" (nzValueChange)="sort('status', $event)"></nz-table-sort>
+      </th>
+      <th nz-th>
+        <span>容器数量</span>
+        <nz-table-sort [(nzValue)]="sortMap.instancesCount"
+                       (nzValueChange)="sort('instancesCount', $event)"></nz-table-sort>
+      </th>
+      <th nz-th>
+        <span>大小</span>
+        <nz-table-sort [(nzValue)]="sortMap.cpuSize" (nzValueChange)="sort('cpuSize', $event)"></nz-table-sort>
+      </th>
+      <th nz-th>
+
+        <span>操作</span>
+      </th>
+    </tr>
+    </thead>
+    <tbody nz-tbody>
+    <tr nz-tbody-tr *ngFor="let data of nzTable.data  | appFilter: 'instanceName' : keyword">
+      <td nz-td>
+        <a [routerLink]="['/serviceInstanceDetail', data.id]">{{data.instanceName}}</a>
+      </td>
+      <td nz-td>{{data.serviceDisplayName}}</td>
+      <td nz-td>{{data.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+      <td nz-td>
+        <p [style.background-color]="data.status==='Running' ? '#67c281' : '#ff9933'"
+           class="dataStatus">
+          {{data.status}}
+        </p>
+      </td>
+      <td nz-td>{{data.instancesCount}} 个</td>
+      <td nz-td>{{data.cpuSize}} 核 {{data.memSize}} MB</td>
+
+      <td nz-td>
+        <button nz-button [nzType]="'primary'" nzSize="small" (click)="showModal(data.id, data.instanceName);">
+          <span>删除</span>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </nz-table>
 </nz-content>
 
 <nz-modal [nzVisible]="isVisible" [nzTitle]="'操作确认'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)"
           (nzOnOk)="handleOk($event)">
-    <ng-template #modalContent>
-        <p>已选择服务实例：{{deleteName}}，是否确定删除？</p>
-        <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="text-align: center;">
-        </nz-spin>
+  <ng-template #modalContent>
+    <p>已选择服务实例：{{deleteName}}，是否确定删除？</p>
+    <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="text-align: center;">
+    </nz-spin>
 
-    </ng-template>
+  </ng-template>
 </nz-modal>
