@@ -101,15 +101,32 @@
         </div>
     </div>
     <h4 class="detail-h3">版本管理</h4>
-    <div nz-row class="detail-develop-wrapper">
+    <!--zookeeper版本管理-->
+    <div nz-row class="detail-develop-wrapper" *ngIf="serviceName === 'zookeeper'">
         <nz-timeline>
-            <nz-timeline-item [nzColor]="'green'">上架 V1.0 准备 2017-06-27</nz-timeline-item>
-            <nz-timeline-item [nzColor]="'green'">上架 V1.0 前测试 2017-08-05</nz-timeline-item>
-            <nz-timeline-item [nzColor]="'green'">上架 V1.0 2017-08-27</nz-timeline-item>
-            <nz-timeline-item [nzColor]="'red'">更新 V1.1.1 2017-09-07</nz-timeline-item>
-            <nz-timeline-item>更新V1.1.2 2017-09-27</nz-timeline-item>
+            <nz-timeline-item [nzColor]="'green'">上架 V3.4.6 准备 2017-06-27</nz-timeline-item>
+            <nz-timeline-item [nzColor]="'green'">上架 V3.4.9 2017-08-27</nz-timeline-item>
+            <nz-timeline-item [nzColor]="'red'">更新 V3.5.0 2017-09-07</nz-timeline-item>
         </nz-timeline>
     </div>
+  <!--redis版本管理-->
+  <div nz-row class="detail-develop-wrapper" *ngIf="serviceName === 'redis'">
+    <nz-timeline>
+      <nz-timeline-item [nzColor]="'green'">上架 V3.0.1 准备 2017-06-27</nz-timeline-item>
+      <nz-timeline-item [nzColor]="'green'">上架 V3.0.5 前测试 2017-08-05</nz-timeline-item>
+      <nz-timeline-item [nzColor]="'green'">上架 V3.2.9 2017-08-27</nz-timeline-item>
+      <nz-timeline-item [nzColor]="'red'">更新 3.2.10 2017-09-07</nz-timeline-item>
+    </nz-timeline>
+  </div>
+  <!--mysql版本管理-->
+  <div nz-row class="detail-develop-wrapper" *ngIf="serviceName === 'mysql'">
+    <nz-timeline>
+      <nz-timeline-item [nzColor]="'green'">上架 V3.0.1 准备 2017-06-27</nz-timeline-item>
+      <nz-timeline-item [nzColor]="'green'">上架 V3.0.5 前测试 2017-08-05</nz-timeline-item>
+      <nz-timeline-item [nzColor]="'green'">上架 V3.2.9 2017-08-27</nz-timeline-item>
+      <nz-timeline-item [nzColor]="'red'">更新 3.2.10 2017-09-07</nz-timeline-item>
+    </nz-timeline>
+  </div>
    <!-- <h4 class="detail-h3">已订购实例</h4>
     <div nz-row class="detail-instance-wrapper">
         <div *ngIf="serviceInstances">

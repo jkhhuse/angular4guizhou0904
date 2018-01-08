@@ -41,7 +41,7 @@ export class RepositoryDetailComponent implements OnInit {
     },
     {
       index: 2,
-      name: '镜像大小',
+      name: '镜像版本',
     },
     {
       index: 3,

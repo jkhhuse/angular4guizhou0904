@@ -11,10 +11,11 @@
     </th>
   </tr>
   </thead>
+  <!--镜像列表-->
   <tbody nz-tbody *ngIf="tableNum === 1 && nzTable.data.repositories">
   <tr nz-tbody-tr *ngFor="let data of nzTable.data.repositories">
     <td nz-td>{{data.repositoryName}}</td>
-    <td nz-td>{{data.size}}MB</td>
+    <td nz-td>{{data.version}}</td>
     <td nz-td>{{data.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
   </tr>
   </tbody>
