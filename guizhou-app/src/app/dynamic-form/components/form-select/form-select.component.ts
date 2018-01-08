@@ -13,6 +13,7 @@ import { ComponentServiceService } from "../../services/component-service.servic
 export class FormSelectComponent implements Field {
   config: FieldConfig
   group: FormGroup;
+  selectName$;
 
   get validation() {
     return this.group.get(this.config.name);
@@ -23,8 +24,11 @@ export class FormSelectComponent implements Field {
 
   valueArrEntity() {
     const value$ = this.group.get(this.config.name).value;
+    console.log('这是select config name', this.config.name);
+    this.selectName$ = this.config.name;
     if (this.config.valueUpdate === true) {
-      this.component.updateValue(value$);
+      // this.component.updateValue(value$);
+      this.component.updateValue(value$, this.config.name);
     }
     console.log(value$);
     // this.valueArr.emit(value$);

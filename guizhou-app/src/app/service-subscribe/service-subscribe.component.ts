@@ -744,6 +744,11 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             }
         });
         await this.getServiceAdvanced();
+        // next todo
+        // componentValue$ => output
+        this.componentSer.componentName$.subscribe(value1 => {
+            console.log('componentName', value1);
+        });
         this.selectValueSub = this.componentSer.componentValue$.subscribe(
             value => {
                 // const selectConfig = {
@@ -760,7 +765,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 //   },
                 // };
                 // const formConfig3 = [];
-                if (value !== undefined) {
+                if (value !== undefined && _.indexOf(this.ipTag$, value) >= 0) {
                     _.map(this.formThird3, (value3, key3) => {
                         console.log(value3);
                         // formConfig3[key3] = value3;

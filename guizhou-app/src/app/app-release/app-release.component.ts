@@ -161,7 +161,7 @@ export class AppReleaseComponent implements OnInit {
       label: '应用描述',
       name: 'description',
       placeholder: '请输入应用描述',
-      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
+        validation: [Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
       notNecessary: true,
       inputType: 'textarea',
       styles: {
@@ -179,8 +179,8 @@ export class AppReleaseComponent implements OnInit {
       styles: {
         'width': '400px'
       },
-      ifTags: 'true'
-    }/*,
+      // ifTags: 'true'
+    },
     {
       label: '发布',
       name: 'submit',
