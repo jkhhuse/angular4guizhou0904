@@ -42,7 +42,7 @@ nz-content {
             font-size: 100px;
             right: 0;
             top: 0;
-            opacity: 0; 
+            opacity: 0;
         }
         &:hover {
             cursor: pointer;
@@ -102,3 +102,124 @@ tbody {
         }
     }
 }
+.steps-content {
+  // margin-top: 16px;
+  // border: 1px dashed #e9e9e9;
+  // border-radius: 6px;
+  // background-color: #fafafa;
+  // min-height: 200px;
+  // text-align: center;
+  // padding-top: 80px;
+}
+
+.steps-action {
+  border-top: 1px solid #ddd;
+  width: 80%;
+  padding-top: 20px;
+  // margin-top: 24px;
+}
+
+nz-header, nz-content, nz-footer {
+  background: #fff
+}
+
+nz-content {
+  padding: 0px;
+}
+p {
+  font-size: 16px;
+}
+.service-tips {
+  p {
+    font-weight: bold;
+  }
+}
+
+.borderTop80 {
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+  width: 80%
+}
+
+.borderBottom80 {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+  width: 80%
+}
+
+.marginTop20 {
+  margin-bottom: 20px;
+}
+
+.marginBottom15 {
+  margin-bottom: 15px;
+}
+.mirror-store-wrapper {
+  margin-left: 28px;
+  margin-right: 60px;
+}
+
+.mirrorTab {
+  margin-top: 30px;
+}
+
+.mirror-btns-wrapper {
+  margin: 20px 0;
+  height: 22px;
+}
+
+.radio-select-wrapper {
+  float: left;
+  width: 128px;
+  height: 415px;
+  border: 1px solid #e4e4e4;
+  padding: 20px;
+  margin-bottom: 300px;
+}
+
+.catalog-option {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e4e4e4;
+  margin-bottom: 5px;
+}
+
+.radio-select-wrapper label {
+  line-height: 30px;
+  height: 30px;
+}
+#mirror-list-wrapper .ant-card{
+  margin-left: 15px;
+  margin-bottom: 15px;
+  height: 200px;
+}
+.card-bottom{
+  padding: 5px 0;
+}
+.card-content{
+  height: 100px;
+}
+.card-bottom{
+
+}
+.card-cate{
+  float: left;
+  color: rgb(204, 204, 204);
+  font-size: 13px;
+  font-weight: 400;
+}
+.card-action{
+  float: right;
+  margin-right: 12px;
+}
+.anticon{
+  width: 18px;
+  height: 18px;
+}
+:host ::ng-deep .ant-card-head{
+  padding: 0 10px;
+}
+
+:host ::ng-deep  .ant-card-body{
+  padding: 10px;
+}
+

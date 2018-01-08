@@ -1,7 +1,4 @@
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
+
 /*export const environment = {
     production: false,
     name: '公司测试环境',
@@ -15,7 +12,7 @@
     adminGroupId: '0',
     namespace: 'alauda'
 };*/
-export const environment = {
+/*export const environment = {
     production: false,
     name: '贵州v3.0线上环境',
     apiService: 'http://10.198.102.81:18032',
@@ -27,8 +24,8 @@ export const environment = {
     groupId: '2',
     adminGroupId: '0',
     namespace: 'alauda'
-};
-/*export const environment = {
+};*/
+export const environment = {
     production: false,
     name: 'op联调提测环境',
     apiService: 'http://10.132.49.110:18032',

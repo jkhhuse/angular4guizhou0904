@@ -1,16 +1,17 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Validators, FormControl } from '@angular/forms';
-import { NzModalService, NzNotificationService } from 'ng-zorro-antd';
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
-import { Observable } from "rxjs/Observable";
-import { HttpClient, HttpParams, HttpErrorResponse } from "@angular/common/http";
-import { Router, RouterModule } from '@angular/router';
+import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import {Validators, FormControl} from '@angular/forms';
+import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
+import {FileUploader, FileSelectDirective} from 'ng2-file-upload';
+import {Observable} from "rxjs/Observable";
+import {HttpClient, HttpParams, HttpErrorResponse} from "@angular/common/http";
+import {Router, RouterModule} from '@angular/router';
 import * as _ from 'lodash';
 
-import { environment } from "../../environments/environment";
-import { FieldConfig } from '../dynamic-form/models/field-config.interface';
-import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
+import {environment} from "../../environments/environment";
+import {FieldConfig} from '../dynamic-form/models/field-config.interface';
+import {DynamicFormComponent} from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
 import {ServicesService} from "../shared/services.service";
+
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
 @Component({
@@ -19,12 +20,14 @@ import {ServicesService} from "../shared/services.service";
   styleUrls: ['./app-release.component.scss']
 })
 export class AppReleaseComponent implements OnInit {
+  current = 0;
+
   testValue: string = '111';
   // 控制layout是否可见
   public contentControl: boolean = false;
   // 文件上传
   fileName: string;
-  public url: string = environment.api + '/api/' + this.servicesService.getCookie('groupID')  + '/upload/app/fileName/';
+  public url: string = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/upload/app/fileName/';
   // 这里的itemAlias是设置的name ="newname"，本来是name="file"，相当于form的name值
   // public uploader: FileUploader = new FileUploader({ url: this.url, itemAlias: 'newname' });
   public uploader: FileUploader = new FileUploader({
@@ -34,7 +37,7 @@ export class AppReleaseComponent implements OnInit {
   });
 
   public hasBaseDropZoneOver: boolean = false;
-  public urlIcon: string = environment.api + '/api/' + this.servicesService.getCookie('groupID')  + '/upload/app/fileName/';
+  public urlIcon: string = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/upload/app/fileName/';
   public uploaderIcon: FileUploader = new FileUploader({
     url: this.urlIcon,
     allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg'],
@@ -51,6 +54,86 @@ export class AppReleaseComponent implements OnInit {
   imageOriginId: string;
   repositories: string[] = [];
   radioValue: string = 'newApp';
+  // @ViewChild('formProject') formThird2Project: DynamicFormComponent;
+  /* 选择镜像相关 开始*/
+  mirrorRadioValue = 7;
+  tabName: String = 'private';
+  appRepoList: any;
+  repoVersionRadioValue = [];
+  repoTypeArray = [];
+  private tabs = [
+    {
+      index: 1,
+      name: '我的镜像',
+      tabName: 'private'
+    },
+    {
+      index: 2,
+      name: '公有镜像',
+      tabName: 'public'
+    }
+  ];
+  changeTabName(tabName): void {
+    console.log(tabName);
+    this.tabName = tabName;
+    this.getAppRepoList();
+  }
+  mirror_tabs = [
+    {
+      index: 'all',
+      name: '全部',
+      disabled: true
+    },
+    {
+      index: 0,
+      name: '其他',
+      disabled: true
+
+    },
+    {
+      index: 1,
+      name: '操作系统',
+      disabled: true
+
+    },
+    {
+      index: 2,
+      name: '运行环境',
+      disabled: true
+
+    },
+    {
+      index: 3,
+      name: '中间件',
+      disabled: true
+
+    },
+    {
+      index: 4,
+      name: '数据库',
+      disabled: true
+
+    },
+    {
+      index: 5,
+      name: '微服务框架',
+      disabled: true
+
+    },
+    {
+      index: 6,
+      name: '大数据',
+      disabled: true
+
+    },
+    {
+      index: 7,
+      name: '应用',
+      disabled: false
+
+    }
+  ];
+  /* 选择镜像相关 结束*/
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
   formConfig: FieldConfig[] = [
     {
@@ -58,7 +141,7 @@ export class AppReleaseComponent implements OnInit {
       label: '应用名称',
       name: 'appName',
       placeholder: '请输入应用名称',
-        validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
       styles: {
         'width': '400px'
       }
@@ -68,7 +151,7 @@ export class AppReleaseComponent implements OnInit {
       label: '应用版本',
       name: 'version',
       placeholder: '请输入应用版本',
-        validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(6)],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(6)],
       styles: {
         'width': '400px'
       }
@@ -78,7 +161,7 @@ export class AppReleaseComponent implements OnInit {
       label: '应用描述',
       name: 'description',
       placeholder: '请输入应用描述',
-        validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
       notNecessary: true,
       inputType: 'textarea',
       styles: {
@@ -97,7 +180,7 @@ export class AppReleaseComponent implements OnInit {
         'width': '400px'
       },
       ifTags: 'true'
-    },
+    }/*,
     {
       label: '发布',
       name: 'submit',
@@ -112,7 +195,7 @@ export class AppReleaseComponent implements OnInit {
         'padding-top': '20px'
       },
       // buttonDis: this.buttonDisabled()
-    },
+    },*/
   ]
 
   public fileOverBase(e: any): void {
@@ -123,64 +206,59 @@ export class AppReleaseComponent implements OnInit {
     }
   }
 
-  FileSelected(uploaderType: any) {
-    if (uploaderType === 'image') {
-      console.log('文件上传完了', this.uploader);
-      this.uploader.onBeforeUploadItem = (item) => {
-        item.file.name = item.file.name.replace(/\s/g, '');
-        item.withCredentials = false;
-        item.url = this.url + item.file.name;
-      }
-    } else {
-      console.log('Icon文件上传完了', this.uploaderIcon);
-      console.log('这里打印form', this.form);
-      this.uploaderIcon.onBeforeUploadItem = (item) => {
-        item.file.name = item.file.name.replace(/\s/g, '');
-        item.withCredentials = false;
-        item.url = this.urlIcon + this.form.value['appName'] + '.png';
-      }
-    }
-  }
-
-  // 模态框
-  showConfirm = () => {
-    const thisParent = this;
-    this.confirmServ.confirm({
-      maskClosable: false,
-      title: '是否选择通过开发测试平台发布？',
-      // content: '点确认 1 秒后关闭',
-      onOk() {
-        window.location.href = window.location.origin + '/#/appStore';
-      },
-      onCancel() {
-        thisParent.contentControl = true;
-        console.log('form11', thisParent.form);
-      }
-    });
-  }
-
-  // refreshData() {
-  //   this._dataSet = this.uploader.queue;
-  //   console.log('data', this._dataSet);
+  // FileSelected(uploaderType: any) {
+  //   if (uploaderType === 'image') {
+  //     console.log('文件上传完了', this.uploader);
+  //     this.uploader.onBeforeUploadItem = (item) => {
+  //       item.file.name = item.file.name.replace(/\s/g, '');
+  //       item.withCredentials = false;
+  //       item.url = this.url + item.file.name;
+  //     }
+  //   } else {
+  //     console.log('Icon文件上传完了', this.uploaderIcon);
+  //     console.log('这里打印form', this.form);
+  //     this.uploaderIcon.onBeforeUploadItem = (item) => {
+  //       item.file.name = item.file.name.replace(/\s/g, '');
+  //       item.withCredentials = false;
+  //       item.url = this.urlIcon + this.form.value['appName'] + '.png';
+  //     }
+  //   }
   // }
 
-  getImageOrigin() {
-    this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID')  + '/warehouse/registry').subscribe(data => {
-      const dataValue = data;
-      this.imageOriginId = dataValue['id'];
-      // this.imageOriginId = dataValue.id;
-    })
-  }
+  // // 模态框
+  // showConfirm = () => {
+  //   const thisParent = this;
+  //   this.confirmServ.confirm({
+  //     maskClosable: false,
+  //     title: '是否选择通过开发测试平台发布？',
+  //     // content: '点确认 1 秒后关闭',
+  //     onOk() {
+  //       window.location.href = window.location.origin + '/#/appStore';
+  //     },
+  //     onCancel() {
+  //       thisParent.contentControl = true;
+  //       console.log('form11', thisParent.form);
+  //     }
+  //   });
+  // }
+
+  // getImageOrigin() {
+  //   this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/registry').subscribe(data => {
+  //     const dataValue = data;
+  //     this.imageOriginId = dataValue['id'];
+  //     // this.imageOriginId = dataValue.id;
+  //   })
+  // }
 
   getApplications() {
-    this.http.get(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID')  + '/applications').subscribe(data => {
+    this.http.get(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') + '/applications').subscribe(data => {
       this.applications$ = _.map(data, (value, key) => {
         return value['appName'];
       })
     })
   }
 
-  async loadImage(formValue) {
+  async loadImage2(formValue) {
     const fileArr = _.map(this._dataSet, (value, key) => {
       if (value['isSuccess'] === true) {
         return value['file']['name'];
@@ -190,15 +268,8 @@ export class AppReleaseComponent implements OnInit {
       return value;
     });
     console.log('formValue', formValue);
-    // return new Promise((resolve, reject) => {
-    //   setTimeout( () => {
-    //     this.repositories = ['111', '222'];
-    //     console.log('打印rep', this.repositories);
-    //     console.log('内部函数');
-    //     resolve();
-    //   }, 1000);
-    // });
-    if (fileArrErr.length === 0) {
+
+    /*if (fileArrErr.length === 0) {
       this.createNotification('error', '服务器错误', '请上传镜像文件!');
     } else {
       return new Promise((resolve, reject) => {
@@ -211,19 +282,13 @@ export class AppReleaseComponent implements OnInit {
         const httpArr = Observable.forkJoin(
           _.map(_.compact(fileArr), (value, key) => {
             value = value.replace(/\s/g, '');
-            return this.http.post(environment.api + '/api/' + this.servicesService.getCookie('groupID')  + '/warehouse/repository?module=app', {
+            return this.http.post(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository?module=app', {
               "description": formValue.description,
               "fileName": value,
               "isApp": true,
               "registryId": this.imageOriginId,
               "repositoryName": formValue.appName + '-' + value.replace(reg, ''),
               "version": formValue.version
-              // }).toPromise().then((response) => {
-              //   console.log('这是response', response);
-              //   this.imageIdArr[key] = response;
-              //   this.repositories[key] = this.imageIdArr[key]['id'];
-              //   resolve();
-              // });
             });
           })
         );
@@ -239,49 +304,8 @@ export class AppReleaseComponent implements OnInit {
             throw new Error('error');
           }
         });
-        // }).subscribe(response => {
-        //   console.log('这是response', response);
-        //   this.imageIdArr[key] = response;
-        //   this.repositories[key] = this.imageIdArr[key]['id'];
-        //   resolve();
-        // });
-        // });
-        // resolve();
-        // }, 0);
       });
-    }
-    // _.map(_.compact(fileArr), (value, key) => {
-    //   this.http.post(environment.api + '/api/2/warehouse/repository?module=app', {
-    //     "description": formValue.description,
-    //     "fileName": value,
-    //     "isApp": true,
-    //     "registryId": this.imageOriginId,
-    //     "repositoryName": formValue.appName + '-' + _.replace(value, '.', ''),
-    //     "version": formValue.version
-    //   }).subscribe(data => {
-    //     // 这里会导致imageIdArr里面的值始终只有一个，需要map遍历到里面才正确
-    //     this.imageIdArr[key] = data;
-    //     this.repositories[key] = this.imageIdArr[key]['id'];
-    //     console.log('这是data', data);
-    //     console.log('这是imageId', this.imageIdArr);
-    //     console.log('这是repos', this.repositories);
-    //   })
-    // })
-    // Observable.forkJoin(this.imageIdArr)
-    //   .subscribe(results => {
-    //     this.repositories = _.values(results['id']);
-    //     console.log('这是reposi', this.repositories);
-    //   })
-    // this.http.post('http://10.132.49.117:8180/api/1/warehouse/repository', {
-    //   "description": "string",
-    //   "fileName": "string",
-    //   "isApp": true,
-    //   "registryId": this.imageOriginId,
-    //   "repositoryName": "string",
-    //   "version": "string"
-    // }).subscribe(data => {
-
-    // })
+    }*/
   }
 
   ngAfterViewInit() {
@@ -348,59 +372,122 @@ export class AppReleaseComponent implements OnInit {
   };
 
   buttonDisabled() {
-    let fileArr = _.map(this._dataSet, (value, key) => {
-      if (value['isSuccess'] === true) {
-        return value['file']['name'];
+    switch (this.current) {
+      case 0: {
+        return false;
       }
-    });
-    fileArr = _.map(_.compact(fileArr), (value, key) => {
-      return value;
-    });
-    return !this.form.valid || fileArr.length === 0;
+      case 1: {
+        let fileArr = _.map(this._dataSet, (value, key) => {
+          if (value['isSuccess'] === true) {
+            return value['file']['name'];
+          }
+        });
+        fileArr = _.map(_.compact(fileArr), (value, key) => {
+          return value;
+        });
+        // return !this.form.valid || fileArr.length === 0;
+        return !this.form.valid;
+      }
+
+    }
+  };
+  async next() {
+    switch (this.current) {
+      case 0: {
+        console.log(this.repoVersionRadioValue);
+        // 处理清空镜像id数组中的empty空值 和 undefined值，只保留有用的镜像id值
+        this.repoVersionRadioValue = this.cleanRepoVersionRadioList(this.repoVersionRadioValue);
+        console.log(this.repoVersionRadioValue);
+        break;
+      }
+    }
+    this.current += 1;
+    this.changeContent();
+  }
+
+  cleanRepoVersionRadioList(repoVersionRadioValue){
+    for(var i = 0 ;i<repoVersionRadioValue.length;i++)
+    {
+      if(repoVersionRadioValue[i] == "" || typeof(repoVersionRadioValue[i]) == "undefined")
+      {
+        repoVersionRadioValue.splice(i,1);
+        i= i-1;
+      }
+    }
+    console.log('clean: ' + repoVersionRadioValue);
+    return repoVersionRadioValue;
   }
 
   pre() {
-
+    this.current -= 1;
+    if (this.current === -1) {
+      // window.location.href = window.location.origin + '/#/appStore';
+      this.router.navigate(['appStore']);
+    }
+    this.changeContent();
   }
 
-  async submit(value: { [name: string]: any }) {
+  changeContent() {
+    switch (this.current) {
+      case 0: {
+        this.current = 0;
+        break;
+      }
+      case 1: {
+        this.current = 1;
+        break;
+      }
+      case 2: {
+        this.current = 2;
+        break;
+      }
+      default: {
+        this.current = 3;
+      }
+    }
+  }
+
+  async done() {
     // console.log('看下load', this.loadImage(value));
-    await this.loadImage(value);
-    value.repositories = this.repositories;
+    // await this.loadImage(value);
+    this.form.value['repositories'] = this.repoVersionRadioValue;
+    console.log('repositories', this.repositories);
+    console.log('this.form.value', this.form.value);
+
     console.log('dataSet', this._dataSet);
-    console.log('之前打印value', value);
+    console.log('之前打印value', this.form.value);
     // console.log(this.servicesNameId$);
     // 两次点击submit，id这里会有问题
     // if (condition) {
 
     // }
-    const servicesId = this.extractIdByName(value, this.servicesNameId$);
+    const servicesId = this.extractIdByName(this.form.value, this.servicesNameId$);
     console.log('这是id', servicesId);
-    value.services = _.map(servicesId, (value, key) => {
+    this.form.value.services = _.map(servicesId, (value, key) => {
       return servicesId[key];
     })
-    value.createUserId = 1;
-    value.containerSrvId = 1;
-    this.http.post(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID')+ '/applications', value).subscribe(data => {
-      const thisParent = this;
-      console.log('发布应用成功', data);
-      // this.createNotification('success', '发布应用成功', '正在跳转到应用商城页面', {nzDuration: 0});
-      this.confirmServ.success({
-        maskClosable: false,
-        title: '应用发布成功!',
-        content: '点确认按钮跳转到应用商城',
-        okText: '确定',
-        onOk() {
-          // .contentControl = true;
-          // console.log('form11', thisParent.form);
-          // const redirect = window.location.host + '/#/appStore';
-          // window.location.href = window.location.origin + '/#/appStore';
-          thisParent.router.navigate(['appStore']);
-        },
-        onCancel() {
-        }
-      });
-    },
+    this.form.value.createUserId = 1;
+    this.form.value.containerSrvId = 1;
+    this.http.post(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') + '/applications', this.form.value).subscribe(data => {
+        const thisParent = this;
+        console.log('发布应用成功', data);
+        // this.createNotification('success', '发布应用成功', '正在跳转到应用商城页面', {nzDuration: 0});
+        this.confirmServ.success({
+          maskClosable: false,
+          title: '应用发布成功!',
+          content: '点确认按钮跳转到应用商城',
+          okText: '确定',
+          onOk() {
+            // .contentControl = true;
+            // console.log('form11', thisParent.form);
+            // const redirect = window.location.host + '/#/appStore';
+            // window.location.href = window.location.origin + '/#/appStore';
+            thisParent.router.navigate(['appStore']);
+          },
+          onCancel() {
+          }
+        });
+      },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
           // A client-side or network error occurred. Handle it accordingly.
@@ -412,11 +499,70 @@ export class AppReleaseComponent implements OnInit {
         }
       }
     );
-    console.log('打印value', value);
+    console.log('打印value', this.form.value);
+  }
+  // 获取镜像详情的流
+  getServiceDetail(name) {
+     this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + name + '?region=' + this.tabName).subscribe((data) => {
+       console.log('data: ' + data);
+       return data;
+     });
+  }
+  // 反选，取消选择的镜像
+  removeSelect(selectId) {
+    console.log('selectId: ' + selectId);
+    for(let i=0;i<this.repoVersionRadioValue.length;i++) {
+      if(i === selectId) {
+        this.repoVersionRadioValue[i] = '';
+      }
+    }
+  }
+// 获取应用类别的镜像列表
+  getAppRepoList(){
+    if(this.tabName === 'private') {
+      this.servicesService.getCateServices(this.tabName, 'repository', this.mirrorRadioValue).subscribe((data) => {
+        this.appRepoList = data;
+        console.log('apprepolist: ' + this.appRepoList);
+        setTimeout(() => {
+          console.log("appRepoList length: " + this.appRepoList.length);
+          if(this.appRepoList.length > 0 ){
+            for(let i=0;i<this.appRepoList.length;i++) {
+              console.log('i:' + i);
+              console.log('this.appRepoList.repositoryName:' + this.appRepoList[i].repositoryName);
+              this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + this.appRepoList[i].repositoryName + '?region=' + this.tabName).subscribe((data) => {
+                console.log('data: ' + data);
+                // 判断镜像仓库的images内部是否为空null，如果不判断，for循环会空值 跳过
+                if(data['images'] === null || data['images'] === ''){
+                  data['images'] = {};
+                }
+                this.repoTypeArray.push(data['images']);
+                console.log('repoTypeArray: ' + this.repoTypeArray);
+              });
+            }
+            console.log('repoTypeArray: ' + this.repoTypeArray);
+            console.log('repoVersionRadioValue: ' + this.repoVersionRadioValue);
+          }
+        });
+
+      });
+
+      /*// 订阅流 repositoryName
+      this.getServiceDetail().subscribe((data) => {
+        if(data.images == '' || data.images == null) {
+
+        } else{
+          this.mirrorVersions = data.images.opRepository;
+          this.firstVersionId = data.images.opRepository[0].id;
+          this.firstVersionVersion = data.images.opRepository[0].version;
+        }
+      });*/
+    } else {
+      this.appRepoList = this.servicesService.getServices(this.tabName, 'repository');
+    }
   }
 
   constructor(private router: Router,
-    private confirmServ: NzModalService, private http: HttpClient, private _notification: NzNotificationService, private servicesService: ServicesService) {
+              private confirmServ: NzModalService, private http: HttpClient, private _notification: NzNotificationService, private servicesService: ServicesService) {
     // this.showConfirm();
     console.log('11', this.contentControl);
   }
@@ -432,15 +578,15 @@ export class AppReleaseComponent implements OnInit {
   ngOnInit() {
     // console.log('hhh', this.form);
     // 解决文件上传的跨域问题
-    this.uploader.onBeforeUploadItem = (item) => {
-      item.withCredentials = false;
-    }
-    this.getImageOrigin();
+    // this.uploader.onBeforeUploadItem = (item) => {
+    //   item.withCredentials = false;
+    // }
+    // this.getImageOrigin();
     this.getApplications();
     // this.refreshData();
     // 获取services列表
     const params = new HttpParams().set('isPublic', '1');
-    this.http.get(environment.apiService + '/apiService/groups/' + this.servicesService.getCookie('groupID')  + '/services', {
+    this.http.get(environment.apiService + '/apiService/groups/' + this.servicesService.getCookie('groupID') + '/services', {
       params: new HttpParams().set('isPublic', '1')
     }).subscribe(data => {
       this.services$ = _.values(data);
@@ -453,6 +599,10 @@ export class AppReleaseComponent implements OnInit {
       })
       console.log(this.servicesNameId$);
     });
+
+    // 获取应用类别的镜像列表
+    this.getAppRepoList();
+
   }
 
   ngAfterContentChecked() {
