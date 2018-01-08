@@ -150,7 +150,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
 
   toggleRadio() {
     if (this.radioValue === 'prodDomain') {
-      this.config3 = [
+      const config11 = [
         {
           type: 'input',
           label: 'Last name2',
@@ -162,8 +162,9 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
           }
         },
       ];
+      // @ViewChild('form3') form11: DynamicFormComponent;
     } else {
-      this.config3 = [
+      const config12 = [
         {
           type: 'input',
           label: 'Last name3',

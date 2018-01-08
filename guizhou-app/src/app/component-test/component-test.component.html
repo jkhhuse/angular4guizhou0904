@@ -43,7 +43,8 @@
       </label>
     </nz-radio-group>
   </div>
-  <dynamic-form #form3 [config]="config3">
+  <!-- <dynamic-form #form3 [config]="config3" *ngFor="let config of formConfigArr"> -->
+      <dynamic-form #form3 [config]="config3">
   </dynamic-form>
   <!-- {{ form.valid }} {{ form.value | json }} -->
 </div>
