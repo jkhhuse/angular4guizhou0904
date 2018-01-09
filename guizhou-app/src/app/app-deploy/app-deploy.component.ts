@@ -36,6 +36,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   AfterContentInit, AfterContentChecked,
   AfterViewInit, AfterViewChecked,
   OnDestroy {
+  configFileRadio = 'config';
   testCluster;
   prodCluster;
   selectValueSub: Subscription;
@@ -234,6 +235,50 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   env1Form: FormGroup;
   env1Enty = {};
   env1Array = [];
+  // 镜像配置里的配置文件设置
+  @ViewChild('configFileForm') configFileForm: DynamicFormComponent;
+  configFileArr;
+  configFileArr1;
+  configFileSub: Subscription;
+  configKeyValueArr;
+  configFile: FieldConfig[] = [
+    {
+      type: 'input',
+      label: '文件路径',
+      placeholder: '',
+      name: 'path',
+      // validation: [Validators.required],
+      styles: {
+        'width': '400px'
+      },
+      notNecessary: true
+    },
+    {
+      type: 'select',
+      label: '配置',
+      placeholder: '请选择配置文件',
+      options: [],
+      name: 'name',
+      // validation: [Validators.required],
+      styles: {
+        'width': '400px'
+      },
+      notNecessary: true,
+      valueUpdate: true
+    },
+    {
+      type: 'select',
+      label: '键',
+      placeholder: '请选择键值',
+      options: [],
+      name: 'key',
+      // validation: [Validators.required],
+      styles: {
+        'width': '400px'
+      },
+      notNecessary: true
+    }
+  ];
   // 第三个表单
   @ViewChild('formThirdProject') formThirdProject: DynamicFormComponent;
   @ViewChild('instanceThird') instanceThird: ContainerInstanceComponent;
@@ -398,28 +443,28 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     return new Promise((resolve, reject) => {
       if (this.radioValue === 'product') {
         this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/' + this.networkRadioValue + '/labels').
-        subscribe(data => {
-          console.log('这是主机标签', data);
-          this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
-            // if (value['labels'].length > 0) {
-            // if (value['node_tag']) {
-            return value['value'];
-            // }
-          }));
-          resolve();
-        });
+          subscribe(data => {
+            console.log('这是主机标签', data);
+            this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
+              // if (value['labels'].length > 0) {
+              // if (value['node_tag']) {
+              return value['value'];
+              // }
+            }));
+            resolve();
+          });
       } else {
         this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/' + this.networkRadioValue2 + '/labels').
-        subscribe(data => {
-          console.log('这是主机标签', data);
-          this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
-            // if (value['labels'].length > 0) {
-            // if (value['node_tag']) {
-            return value['value'];
-            // }
-          }));
-          resolve();
-        });
+          subscribe(data => {
+            console.log('这是主机标签', data);
+            this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
+              // if (value['labels'].length > 0) {
+              // if (value['node_tag']) {
+              return value['value'];
+              // }
+            }));
+            resolve();
+          });
       }
     });
   }
@@ -770,6 +815,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     switch (this.current) {
       case 0: {
         // console.log('0', this.formFirst);
+        console.log(this.networkRadioValue);
         this.formData['instanceName'] = this.formFirstProject.value['instanceName'];
         this.formData['clusterZone'] = this.radioValue;
         console.log('form222', this.formSecondProject);
@@ -781,7 +827,18 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       case 1: {
         console.log(this.formImgNetworkProject, this.envFormProject1, this.logFormProject1, this.env1Form);
         this.env1Enty[this.env1Form.value['key']] = this.env1Form.value['value'];
+        // todo next
+        // 这里logPath好像接口上没注明，需要立果确认
+        // 还有配置文件，传参和灵雀云不太一样，看下飞信聊天以及实例接口文档
         this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] = this.logFormProject1.value['logPath'];
+        // 下面是对object假值的处理：https://stackoverflow.com/questions/30812765/how-to-remove-undefined-and-null-values-from-an-object-using-lodash
+        this.env1Enty = _.pickBy(this.env1Enty, _.identity);
+        let configKeyValue1;
+        _.map(this.configKeyValueArr, (value, key) => {
+          if (value['key'] === this.configFileForm.value['key']) {
+            configKeyValue1 = value['id'];
+          }
+        });
         // console.log('form333', this.formThirdProject);
         // todo next
         // _.map(this.repositoryId, (value1, key1) => {
@@ -809,7 +866,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
           network_mode: this.networkConfig,
           ports: [this.formImgNetworkProject.value['ports']],
-          load_balancers: [
+          load_balancers: this.formImgNetworkProject.value['loadbanlancer'] === undefined ? undefined : [
             {
               listeners: [
                 {
@@ -834,7 +891,13 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           // ],
           // todo next
           // todo next
-          instance_envvars: this.env1Enty
+          // 对object {} 空对象的比较：http://www.zuojj.com/archives/775.html
+          instance_envvars: _.isEqual(this.env1Enty, {}) ? undefined : this.env1Enty,
+          microserviceConfigs: [{
+            type: 'config',
+            path: this.configFileForm.value['path'],
+            value: configKeyValue1
+          }]
           // clusterName: this.radioValue === 'prodDomain' ? this.networkRadioValue : 'testDomain'
         }
         if (this.serviceId) {
@@ -1236,6 +1299,10 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     });
   }
 
+  getConfigFile() {
+
+  }
+
   getCluster() {
     return new Promise((resolve, reject) => {
       const url$ = Observable.forkJoin(
@@ -1384,8 +1451,37 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     ];
   }
 
+  getImgAdvanced() {
+    return new Promise((resolve, reject) => {
+      this.http.get(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') + '/configs').subscribe(data => {
+        console.log('配置文件', data);
+        this.configFileArr1 = data;
+        this.configFileArr = _.map(data, (value, key) => {
+          return value['configName'];
+        });
+        const config = {
+          type: 'select',
+          label: '配置',
+          placeholder: '请选择配置文件',
+          options: this.configFileArr,
+          name: 'name',
+          // validation: [Validators.required],
+          styles: {
+            'width': '400px'
+          },
+          notNecessary: true,
+          valueUpdate: true
+        };
+        this.configFileForm.setValue('name', config);
+        resolve();
+        console.log(this.configFileArr);
+      });
+    });
+  }
+
   async ngOnInit() {
     this.getnetworkAdvanced();
+    await this.getImgAdvanced();
     this.appId = this.routeInfo.snapshot.params['appId'];
     // this.getServiceVersion();
     // this.toggleButton();
@@ -1428,7 +1524,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     //   this.formThird3Project.setConfig(this.formThird3);
     // }
     // 这里要手动调用一下，渲染service的basic和advanced配置，不然到服务配置会出不来数据
-    await this.getCluster();
+    await this.getCluster(); await this.getCluster();
     await this.getIpTag();
     await this.choosedImageFunc(this.imageTabs[0]);
     await this.choosedServiceFunc(this.serviceTabs[0]);
@@ -1448,7 +1544,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         //   },
         // };
         // const formConfig3 = [];
-        if (value !== undefined) {
+        if (value !== undefined && _.indexOf(this.ipTag$, value) >= 0) {
           _.map(this.formThird3, (value3, key3) => {
             console.log(value3);
             // formConfig3[key3] = value3;
@@ -1471,7 +1567,52 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         }
       }
     );
-    // 这里后面新加的需要await的数据请求，需要加到后面，不然会报错cojntrols undefined
+    this.configFileSub = this.componentSer.componentValue$.subscribe(
+      value => {
+        console.log(this.configFileArr1);
+        if (value !== undefined && _.indexOf(this.configFileArr, value) >= 0) {
+          _.map(this.configFileArr1, (value1, key1) => {
+            if (value1['configName'] === value) {
+              value = value1['id'];
+            }
+          });
+          let configKeyValue;
+          // promise async await 不用生命函数，可以直接new Promise，然后promise.then链式调用，
+          // 解决异步调用的问题
+          const asyncHttp = new Promise((resolve, reject) => {
+            // 这里报错 todo next
+            this.http.get(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') +
+              '/configs/' + value).subscribe(data1 => {
+                console.log('配置键', data1);
+                configKeyValue = data1;
+                resolve(configKeyValue);
+              });
+            // resolve('56b98ee1-0aed-45c7-bc3c-1838ed5138b1');
+          });
+          asyncHttp.then((Httpvalue) => {
+            this.configKeyValueArr = Httpvalue;
+            console.log('httpValue', Httpvalue);
+            configKeyValue = _.map(Httpvalue, (value2, key2) => {
+              return value2['key'];
+            });
+            const configKey = {
+              type: 'select',
+              label: '键',
+              placeholder: '请选择键值',
+              options: configKeyValue,
+              name: 'key',
+              // validation: [Validators.required],
+              styles: {
+                'width': '400px'
+              },
+              notNecessary: true
+            };
+            this.configFileForm.setValue('key', configKey);
+          });
+        }
+      }
+    );
+    // 这里后面新加的需要await的数据请求，需要加到后面，不然会报错controls undefined
     // todo next 环境变量文件
     // await this.getEnvFile();
     // this.envFormProject1.setConfig(this.envFormConfig);

@@ -1,16 +1,16 @@
-import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
-import {Validators, FormControl} from '@angular/forms';
-import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
-import {FileUploader, FileSelectDirective} from 'ng2-file-upload';
-import {Observable} from "rxjs/Observable";
-import {HttpClient, HttpParams, HttpErrorResponse} from "@angular/common/http";
-import {Router, RouterModule} from '@angular/router';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Validators, FormControl } from '@angular/forms';
+import { NzModalService, NzNotificationService } from 'ng-zorro-antd';
+import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
+import { Observable } from "rxjs/Observable";
+import { HttpClient, HttpParams, HttpErrorResponse } from "@angular/common/http";
+import { Router, RouterModule } from '@angular/router';
 import * as _ from 'lodash';
 
-import {environment} from "../../environments/environment";
-import {FieldConfig} from '../dynamic-form/models/field-config.interface';
-import {DynamicFormComponent} from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
-import {ServicesService} from "../shared/services.service";
+import { environment } from "../../environments/environment";
+import { FieldConfig } from '../dynamic-form/models/field-config.interface';
+import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
+import { ServicesService } from "../shared/services.service";
 
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
@@ -156,7 +156,7 @@ export class AppReleaseComponent implements OnInit {
       label: '应用描述',
       name: 'description',
       placeholder: '请输入应用描述',
-      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
+      validation: [Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
       notNecessary: true,
       inputType: 'textarea',
       styles: {
@@ -174,8 +174,8 @@ export class AppReleaseComponent implements OnInit {
       styles: {
         'width': '400px'
       },
-      ifTags: 'true'
-    }/*,
+      // ifTags: 'true'
+    },
     {
       label: '发布',
       name: 'submit',
@@ -190,9 +190,15 @@ export class AppReleaseComponent implements OnInit {
         'padding-top': '20px'
       },
       // buttonDis: this.buttonDisabled()
-    },*/
-  ]
+    },
+  ];
 
+  changeTabName(tabName): void {
+    console.log(tabName);
+    this.tabName = tabName;
+    this.getAppRepoList();
+  }
+  
   public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
     this.uploaderIcon.onBeforeUploadItem = (item) => {
@@ -403,7 +409,7 @@ export class AppReleaseComponent implements OnInit {
 
   cleanRepoVersionRadioList(repoVersionRadioValue) {
     for (var i = 0; i < repoVersionRadioValue.length; i++) {
-      if (repoVersionRadioValue[i] == "" || typeof(repoVersionRadioValue[i]) == "undefined") {
+      if (repoVersionRadioValue[i] == "" || typeof (repoVersionRadioValue[i]) == "undefined") {
         repoVersionRadioValue.splice(i, 1);
         i = i - 1;
       }
@@ -469,25 +475,25 @@ export class AppReleaseComponent implements OnInit {
     this.form.value.createUserId = 1;
     this.form.value.containerSrvId = 1;
     this.http.post(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') + '/applications', this.form.value).subscribe(data => {
-        const thisParent = this;
-        console.log('发布应用成功', data);
-        // this.createNotification('success', '发布应用成功', '正在跳转到应用商城页面', {nzDuration: 0});
-        this.confirmServ.success({
-          maskClosable: false,
-          title: '应用发布成功!',
-          content: '点确认按钮跳转到应用商城',
-          okText: '确定',
-          onOk() {
-            // .contentControl = true;
-            // console.log('form11', thisParent.form);
-            // const redirect = window.location.host + '/#/appStore';
-            // window.location.href = window.location.origin + '/#/appStore';
-            thisParent.router.navigate(['appStore']);
-          },
-          onCancel() {
-          }
-        });
-      },
+      const thisParent = this;
+      console.log('发布应用成功', data);
+      // this.createNotification('success', '发布应用成功', '正在跳转到应用商城页面', {nzDuration: 0});
+      this.confirmServ.success({
+        maskClosable: false,
+        title: '应用发布成功!',
+        content: '点确认按钮跳转到应用商城',
+        okText: '确定',
+        onOk() {
+          // .contentControl = true;
+          // console.log('form11', thisParent.form);
+          // const redirect = window.location.host + '/#/appStore';
+          // window.location.href = window.location.origin + '/#/appStore';
+          thisParent.router.navigate(['appStore']);
+        },
+        onCancel() {
+        }
+      });
+    },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
           // A client-side or network error occurred. Handle it accordingly.
@@ -519,8 +525,7 @@ export class AppReleaseComponent implements OnInit {
       }
     }
   }
-
-// 获取应用类别的镜像列表
+s  // 获取应用类别的镜像列表
   getAppRepoList() {
     if (this.tabName === 'private') {
       this.servicesService.getCateServices(this.tabName, 'repository', this.mirrorRadioValue).subscribe((data) => {
@@ -565,7 +570,7 @@ export class AppReleaseComponent implements OnInit {
   }
 
   constructor(private router: Router,
-              private confirmServ: NzModalService, private http: HttpClient, private _notification: NzNotificationService, private servicesService: ServicesService) {
+    private confirmServ: NzModalService, private http: HttpClient, private _notification: NzNotificationService, private servicesService: ServicesService) {
     // this.showConfirm();
     console.log('11', this.contentControl);
   }

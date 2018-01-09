@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Validators } from '@angular/forms';
 
 import { FieldConfig } from '../dynamic-form/models/field-config.interface';
@@ -29,7 +31,6 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   @ViewChild(ContainerInstanceComponent) ContainerInstance: ContainerInstanceComponent;
   instanceConfig = [
     {
-     
       instance_size: 'XXS',
       cpuSize: '0.125核',
       memSize: '256MB',
@@ -66,7 +67,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
       }
     },
   ]
-  
+
   _dataSet = [];
 
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
@@ -149,7 +150,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
 
   toggleRadio() {
     if (this.radioValue === 'prodDomain') {
-      this.config3 = [
+      const config11 = [
         {
           type: 'input',
           label: 'Last name2',
@@ -161,8 +162,9 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
           }
         },
       ];
+      // @ViewChild('form3') form11: DynamicFormComponent;
     } else {
-      this.config3 = [
+      const config12 = [
         {
           type: 'input',
           label: 'Last name3',
@@ -207,9 +209,38 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     translateService.addLangs(["zh", "en"]);
     translateService.setDefaultLang("zh");
     const browserLang = this.translateService.getBrowserLang();
+
     translateService.use(browserLang.match(/zh|en/) ? browserLang : 'zh');
   }
 
+  testObservable() {
+    const timeA = Observable.interval(1000);
+    const timeB = timeA.filter(num => {
+      return num === 2;
+    });
+    // console.log('timeA', timeA.subscribe((value) => {
+    //   return value;
+    // }));
+    timeA.subscribe((value) => {
+      console.log('timeA value', value);
+    });
+    timeB.subscribe((value) => {
+      console.log('timeB value', value);
+    });
+
+    const 九阴真经 = '天之道，损有余而补不足';
+
+    const 黄蓉$ = new ReplaySubject(Number.MAX_VALUE);
+    const 郭靖$ = new ReplaySubject(3);
+
+    const 读书$ = Observable.from(九阴真经.split(''));
+
+    读书$.subscribe(黄蓉$);
+    读书$.subscribe(郭靖$);
+    // Observable.interval(1000).subscribe((value) => {
+    //   console.log('rxjs Observable test', value);
+    // });
+  }
   ngOnInit() {
     // for (let i = 0; i < 46; i++) {
     //   this._dataSet.push({
@@ -222,24 +253,25 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     // --- set i18n begin ---
 
     // --- set i18n end ---
-    this.valueSub = this.component.componentValue$.subscribe(
-      value => {
-        const config2 = {
-          // selectedOption: undefined,
-          // ifTags: 'true',
-          type: 'select',
-          label: 'Favourite2 Food',
-          name: 'food2',
-          options: value,
-          placeholder: 'Select an option',
-          validation: [Validators.required],
-          styles: {
-            'width': '400px',
-          },
-        };
-        this.form2.setValue('food2', config2);
-      }
-    );
+    this.testObservable();
+    // this.valueSub = this.component.componentValue$.subscribe(
+    //   value => {
+    //     const config2 = {
+    //       // selectedOption: undefined,
+    //       // ifTags: 'true',
+    //       type: 'select',
+    //       label: 'Favourite2 Food',
+    //       name: 'food2',
+    //       options: value,
+    //       placeholder: 'Select an option',
+    //       validation: [Validators.required],
+    //       styles: {
+    //         'width': '400px',
+    //       },
+    //     };
+    //     this.form2.setValue('food2', config2);
+    //   }
+    // );
     this._dataSet = [
       {
         key: 0,
