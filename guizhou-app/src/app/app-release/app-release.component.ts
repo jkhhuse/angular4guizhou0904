@@ -73,11 +73,6 @@ export class AppReleaseComponent implements OnInit {
       tabName: 'public'
     }
   ];
-  changeTabName(tabName): void {
-    console.log(tabName);
-    this.tabName = tabName;
-    this.getAppRepoList();
-  }
   mirror_tabs = [
     {
       index: 'all',
@@ -391,6 +386,7 @@ export class AppReleaseComponent implements OnInit {
 
     }
   };
+
   async next() {
     switch (this.current) {
       case 0: {
@@ -405,13 +401,11 @@ export class AppReleaseComponent implements OnInit {
     this.changeContent();
   }
 
-  cleanRepoVersionRadioList(repoVersionRadioValue){
-    for(var i = 0 ;i<repoVersionRadioValue.length;i++)
-    {
-      if(repoVersionRadioValue[i] == "" || typeof(repoVersionRadioValue[i]) == "undefined")
-      {
-        repoVersionRadioValue.splice(i,1);
-        i= i-1;
+  cleanRepoVersionRadioList(repoVersionRadioValue) {
+    for (var i = 0; i < repoVersionRadioValue.length; i++) {
+      if (repoVersionRadioValue[i] == "" || typeof(repoVersionRadioValue[i]) == "undefined") {
+        repoVersionRadioValue.splice(i, 1);
+        i = i - 1;
       }
     }
     console.log('clean: ' + repoVersionRadioValue);
@@ -445,6 +439,12 @@ export class AppReleaseComponent implements OnInit {
         this.current = 3;
       }
     }
+  }
+
+  changeTabName(tabName): void {
+    console.log(tabName);
+    this.tabName = tabName;
+    this.getAppRepoList();
   }
 
   async done() {
@@ -501,38 +501,41 @@ export class AppReleaseComponent implements OnInit {
     );
     console.log('打印value', this.form.value);
   }
+
   // 获取镜像详情的流
   getServiceDetail(name) {
-     this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + name + '?region=' + this.tabName).subscribe((data) => {
-       console.log('data: ' + data);
-       return data;
-     });
+    this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + name + '?region=' + this.tabName).subscribe((data) => {
+      console.log('data: ' + data);
+      return data;
+    });
   }
+
   // 反选，取消选择的镜像
   removeSelect(selectId) {
     console.log('selectId: ' + selectId);
-    for(let i=0;i<this.repoVersionRadioValue.length;i++) {
-      if(i === selectId) {
+    for (let i = 0; i < this.repoVersionRadioValue.length; i++) {
+      if (i === selectId) {
         this.repoVersionRadioValue[i] = '';
       }
     }
   }
+
 // 获取应用类别的镜像列表
-  getAppRepoList(){
-    if(this.tabName === 'private') {
+  getAppRepoList() {
+    if (this.tabName === 'private') {
       this.servicesService.getCateServices(this.tabName, 'repository', this.mirrorRadioValue).subscribe((data) => {
         this.appRepoList = data;
         console.log('apprepolist: ' + this.appRepoList);
         setTimeout(() => {
           console.log("appRepoList length: " + this.appRepoList.length);
-          if(this.appRepoList.length > 0 ){
-            for(let i=0;i<this.appRepoList.length;i++) {
+          if (this.appRepoList.length > 0) {
+            for (let i = 0; i < this.appRepoList.length; i++) {
               console.log('i:' + i);
               console.log('this.appRepoList.repositoryName:' + this.appRepoList[i].repositoryName);
               this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + this.appRepoList[i].repositoryName + '?region=' + this.tabName).subscribe((data) => {
                 console.log('data: ' + data);
                 // 判断镜像仓库的images内部是否为空null，如果不判断，for循环会空值 跳过
-                if(data['images'] === null || data['images'] === ''){
+                if (data['images'] === null || data['images'] === '') {
                   data['images'] = {};
                 }
                 this.repoTypeArray.push(data['images']);
