@@ -193,12 +193,6 @@ export class AppReleaseComponent implements OnInit {
     },
   ];
 
-  changeTabName(tabName): void {
-    console.log(tabName);
-    this.tabName = tabName;
-    this.getAppRepoList();
-  }
-  
   public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
     this.uploaderIcon.onBeforeUploadItem = (item) => {
@@ -409,7 +403,7 @@ export class AppReleaseComponent implements OnInit {
 
   cleanRepoVersionRadioList(repoVersionRadioValue) {
     for (var i = 0; i < repoVersionRadioValue.length; i++) {
-      if (repoVersionRadioValue[i] == "" || typeof (repoVersionRadioValue[i]) == "undefined") {
+      if (repoVersionRadioValue[i] == "" || typeof(repoVersionRadioValue[i]) == "undefined") {
         repoVersionRadioValue.splice(i, 1);
         i = i - 1;
       }
@@ -525,7 +519,7 @@ export class AppReleaseComponent implements OnInit {
       }
     }
   }
-s  // 获取应用类别的镜像列表
+// 获取应用类别的镜像列表
   getAppRepoList() {
     if (this.tabName === 'private') {
       this.servicesService.getCateServices(this.tabName, 'repository', this.mirrorRadioValue).subscribe((data) => {
