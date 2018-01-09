@@ -392,6 +392,7 @@ export class AppReleaseComponent implements OnInit {
 
     }
   };
+
   async next() {
     switch (this.current) {
       case 0: {
@@ -444,6 +445,12 @@ export class AppReleaseComponent implements OnInit {
         this.current = 3;
       }
     }
+  }
+
+  changeTabName(tabName): void {
+    console.log(tabName);
+    this.tabName = tabName;
+    this.getAppRepoList();
   }
 
   async done() {
@@ -500,6 +507,7 @@ export class AppReleaseComponent implements OnInit {
     );
     console.log('打印value', this.form.value);
   }
+
   // 获取镜像详情的流
   getServiceDetail(name) {
     this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + name + '?region=' + this.tabName).subscribe((data) => {
@@ -507,6 +515,7 @@ export class AppReleaseComponent implements OnInit {
       return data;
     });
   }
+
   // 反选，取消选择的镜像
   removeSelect(selectId) {
     console.log('selectId: ' + selectId);
@@ -516,7 +525,7 @@ export class AppReleaseComponent implements OnInit {
       }
     }
   }
-  // 获取应用类别的镜像列表
+s  // 获取应用类别的镜像列表
   getAppRepoList() {
     if (this.tabName === 'private') {
       this.servicesService.getCateServices(this.tabName, 'repository', this.mirrorRadioValue).subscribe((data) => {
