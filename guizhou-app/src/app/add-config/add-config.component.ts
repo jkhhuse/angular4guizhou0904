@@ -27,7 +27,7 @@ export class AddConfigComponent implements OnInit {
       label: '键',
       name: 'configKey',
       placeholder: '请输入配置键',
-      validation: [Validators.required, Validators.pattern(/^[a-z0-9][a-z0-9\-\_]*[a-z0-9]$/i)],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
       styles: {
         'width': '400px'
       }
@@ -37,7 +37,7 @@ export class AddConfigComponent implements OnInit {
       label: '值',
       name: 'configValue',
       placeholder: '请输入配置值',
-      // validation: [Validators.required],
+      validation: [Validators.maxLength(20)],
       notNecessary: true,
       inputType: 'textarea',
       styles: {

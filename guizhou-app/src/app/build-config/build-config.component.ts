@@ -32,7 +32,7 @@ export class BuildConfigComponent implements OnInit {
       label: '描述',
       name: 'description',
       placeholder: '请输入描述信息',
-        validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
+      validation: [Validators.maxLength(20)],
       notNecessary: true,
       inputType: 'textarea',
       styles: {

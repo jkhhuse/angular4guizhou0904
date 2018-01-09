@@ -53,7 +53,7 @@ export class BuildImageComponent implements OnInit {
       label: '镜像版本',
       name: 'version',
       placeholder: '请输入镜像版本',
-      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(6)],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z0-9]([.a-zA-Z0-9]*[a-zA-Z0-9])?$/i), Validators.maxLength(6)],
       styles: {
         'width': '400px'
       }

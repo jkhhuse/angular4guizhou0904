@@ -68,7 +68,7 @@ export class BuildImageCategoryComponent implements OnInit {
       label: '镜像名称',
       name: 'imageName',
       placeholder: '请输入镜像名称',
-      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/i), Validators.maxLength(20)],
       styles: {
         'width': '400px'
       }

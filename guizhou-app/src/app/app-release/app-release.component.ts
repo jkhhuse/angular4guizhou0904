@@ -146,7 +146,7 @@ export class AppReleaseComponent implements OnInit {
       label: '应用版本',
       name: 'version',
       placeholder: '请输入应用版本',
-      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(6)],
+      validation: [Validators.required, Validators.pattern(/^[a-zA-Z0-9]([.a-zA-Z0-9]*[a-zA-Z0-9])?$/i), Validators.maxLength(6)],
       styles: {
         'width': '400px'
       }
@@ -175,22 +175,23 @@ export class AppReleaseComponent implements OnInit {
         'width': '400px'
       },
       // ifTags: 'true'
-    },
-    {
-      label: '发布',
-      name: 'submit',
-      type: 'button',
-      buttonType: 'primary',
-      styles: {
-        'margin-left': '20%'
-      },
-      divStyles: {
-        'width': '80%',
-        'border-top': '1px solid #ddd',
-        'padding-top': '20px'
-      },
-      // buttonDis: this.buttonDisabled()
-    },
+    }
+    // ,
+    // {
+    //   label: '发布',
+    //   name: 'submit',
+    //   type: 'button',
+    //   buttonType: 'primary',
+    //   styles: {
+    //     'margin-left': '20%'
+    //   },
+    //   divStyles: {
+    //     'width': '80%',
+    //     'border-top': '1px solid #ddd',
+    //     'padding-top': '20px'
+    //   },
+    //   // buttonDis: this.buttonDisabled()
+    // },
   ];
 
   changeTabName(tabName): void {
@@ -198,7 +199,7 @@ export class AppReleaseComponent implements OnInit {
     this.tabName = tabName;
     this.getAppRepoList();
   }
-  
+
   public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
     this.uploaderIcon.onBeforeUploadItem = (item) => {
@@ -375,7 +376,11 @@ export class AppReleaseComponent implements OnInit {
   buttonDisabled() {
     switch (this.current) {
       case 0: {
-        return false;
+        if(this.repoVersionRadioValue.length === 0) {
+          return true;
+        } else{
+          return false;
+        }
       }
       case 1: {
         let fileArr = _.map(this._dataSet, (value, key) => {
@@ -397,9 +402,7 @@ export class AppReleaseComponent implements OnInit {
     switch (this.current) {
       case 0: {
         console.log(this.repoVersionRadioValue);
-        // 处理清空镜像id数组中的empty空值 和 undefined值，只保留有用的镜像id值
-        this.repoVersionRadioValue = this.cleanRepoVersionRadioList(this.repoVersionRadioValue);
-        console.log(this.repoVersionRadioValue);
+
         break;
       }
     }
@@ -408,6 +411,7 @@ export class AppReleaseComponent implements OnInit {
   }
 
   cleanRepoVersionRadioList(repoVersionRadioValue) {
+    let finalRepoList;
     for (var i = 0; i < repoVersionRadioValue.length; i++) {
       if (repoVersionRadioValue[i] == "" || typeof (repoVersionRadioValue[i]) == "undefined") {
         repoVersionRadioValue.splice(i, 1);
@@ -425,6 +429,7 @@ export class AppReleaseComponent implements OnInit {
       this.router.navigate(['appStore']);
     }
     this.changeContent();
+    console.log(this.repoVersionRadioValue);
   }
 
   changeContent() {
@@ -447,13 +452,11 @@ export class AppReleaseComponent implements OnInit {
     }
   }
 
-  changeTabName(tabName): void {
-    console.log(tabName);
-    this.tabName = tabName;
-    this.getAppRepoList();
-  }
-
   async done() {
+    // 处理清空镜像id数组中的empty空值 和 undefined值，只保留有用的镜像id值
+    this.repoVersionRadioValue = this.cleanRepoVersionRadioList(this.repoVersionRadioValue);
+    console.log(this.repoVersionRadioValue);
+
     // console.log('看下load', this.loadImage(value));
     // await this.loadImage(value);
     this.form.value['repositories'] = this.repoVersionRadioValue;
