@@ -94,7 +94,7 @@
               集群数量》1的时候，需要在这里绑定click事件，切换集群的时候，重新调用getIp函数，现在线上没有多集群，所以暂时不测试 -->
                     <nz-radio-group [(ngModel)]="this.networkRadioValue">
                       <label *ngFor="let cluster of prodCluster" nz-radio [nzValue]="cluster.name">
-                        <span>{{ cluster.name }}</span>
+                        <span>{{ cluster.displayName }}</span>
                       </label>
                     </nz-radio-group>
                   </div>
@@ -116,7 +116,7 @@
                     </nz-radio-group>
                   </div>
                 </div>
-                <dynamic-form #formSecondProject [config]="formSecond">
+                <dynamic-form #formSecondProject [config]="formSecond">getValue('tabname')
                 </dynamic-form>
                 <div nz-row>
                   <div nz-col [nzSpan]="4" style="text-align: right">

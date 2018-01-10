@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, Directive, QueryList, ViewChildren, Input, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -13,6 +13,11 @@ import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 import { userNameAsyncValidator } from '../util/reg-pattern/reg-name.directive';
 import { nicknameValidator } from '../util/reg-pattern/reg-name.directive';
 import { ComponentServiceService } from "../dynamic-form/services/component-service.service";
+
+// @Directive({ selector: 'pane' })
+// export class Pane {
+//   @Input() id: string;
+// }
 
 @Component({
   selector: 'app-component-test',
@@ -117,7 +122,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     }
   ];
 
-  @ViewChild('form2') form2: DynamicFormComponent;
+  @ViewChild(DynamicFormComponent) form2: DynamicFormComponent;
   config2: FieldConfig[] = [
     {
       // selectedOption: undefined,
@@ -147,29 +152,45 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
       }
     },
   ];
+  name: string = 'Semlinker';
+  @ViewChild('greet') greetDiv: ElementRef;
+
+  @ViewChildren(DynamicFormComponent) formArr: QueryList<DynamicFormComponent>;
+  configArr = [];
+  //  测试viewChildren：https://angular.io/api/core/ViewChildren
+  // @ViewChildren(Pane) panes: QueryList<Pane>;
+  // serializedPanes: string = '';
+  // shouldShow = false;
+  // show() { this.shouldShow = true; }
 
   toggleRadio() {
     if (this.radioValue === 'prodDomain') {
       const config11 = [
         {
           type: 'input',
-          label: 'Last name2',
-          name: 'Lname2',
-          placeholder: 'Enter your Lname2',
+          label: 'Last name11',
+          name: 'Lname11',
+          placeholder: 'Enter your Lname11',
           validation: [Validators.required, Validators.minLength(4)],
           styles: {
             'width': '400px',
           }
         },
       ];
-      // @ViewChild('form3') form11: DynamicFormComponent;
+      let i1;
+      console.log('这是11', this.formArr.map((item, key) => {
+        // console.log('11arr', arr);
+        i1 = item;
+      }));
+      this.formArr.toArray().push(i1);
+      console.log('formarr1', this.formArr);
     } else {
       const config12 = [
         {
           type: 'input',
-          label: 'Last name3',
-          name: 'Lname3',
-          placeholder: 'Enter your Lname3',
+          label: 'Last name12',
+          name: 'Lname12',
+          placeholder: 'Enter your Lname12',
           validation: [Validators.required, Validators.minLength(4)],
           styles: {
             'width': '400px',
@@ -187,6 +208,11 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   onVoted(agreed: boolean) {
     agreed ? this.agreed++ : this.disagreed++;
   }
+
+  // calculateSerializedPanes() {
+  //   setTimeout(() => { this.serializedPanes = this.panes.map(p => p.id).join(', '); }, 0);
+  // }
+
   ngAfterViewInit() {
     let previousValid = this.form.valid;
     this.form.changes.subscribe(() => {
@@ -197,6 +223,14 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     });
 
     this.form.setDisabled('submit', true);
+    // this.calculateSerializedPanes();
+    // this.panes.changes.subscribe((r) => {
+    //   this.calculateSerializedPanes();
+    // });
+    console.dir(this.greetDiv);
+    console.log('form', this.form);
+    console.log('form2', this.form2);
+    console.dir(this.formArr);
     // this.form.setValue({})
     // this.form.setValue('name', '');
   }
@@ -253,7 +287,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     // --- set i18n begin ---
 
     // --- set i18n end ---
-    this.testObservable();
+    // this.testObservable();
     // this.valueSub = this.component.componentValue$.subscribe(
     //   value => {
     //     const config2 = {

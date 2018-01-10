@@ -174,7 +174,7 @@ export class AppReleaseComponent implements OnInit {
       styles: {
         'width': '400px'
       },
-      // ifTags: 'true'
+      ifTags: 'true'
     }
     // ,
     // {

@@ -36,7 +36,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   AfterContentInit, AfterContentChecked,
   AfterViewInit, AfterViewChecked,
   OnDestroy {
-  configFileRadio = 'config';
+  configFileRadio = '';
   testCluster;
   prodCluster;
   selectValueSub: Subscription;
@@ -166,7 +166,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   networkRadioValue: string = '';
   networkRadioValue2: string = '';
   // 镜像配置里的网络配置
-  networkConfig = 'FLANNEL';
+  networkConfig = '';
   loadBanlancer$ = [];
   loadBanlancerForm: FormGroup;
   lbControlLabel = [];
@@ -203,7 +203,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     },
   ];
   // 镜像配置里的高级配置
-  serviceType = 'stateless';
+  serviceType = '';
   serviceAdvancedLabel = [];
   logForm: FormGroup;
   env$ = [];
@@ -893,8 +893,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           // todo next
           // 对object {} 空对象的比较：http://www.zuojj.com/archives/775.html
           instance_envvars: _.isEqual(this.env1Enty, {}) ? undefined : this.env1Enty,
-          microserviceConfigs: [{
-            type: 'config',
+          microserviceConfigs: this.configFileForm.value['path'] === undefined ? undefined : [{
+            type: this.configFileRadio,
             path: this.configFileForm.value['path'],
             value: configKeyValue1
           }]
