@@ -89,7 +89,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             label: '集群内部通信密码',
             name: 'sst_password',
             placeholder: '请输入集群内部通信密码',
-            validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(8)],
+            validation: [Validators.required, Validators.pattern(/(?![0-9A-Z]+$)(?![0-9a-z]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,20}$/)],
             styles: {
                 'width': '400px'
             }

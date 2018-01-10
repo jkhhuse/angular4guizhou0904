@@ -20,6 +20,7 @@
             <div nz-form-explain *ngIf="getFormControl().hasError('min')">低于最小值 {{ getFormControl()?.errors?.min?.min }}</div>
             <div nz-form-explain *ngIf="getFormControl().hasError('max')">超出最大值 {{ getFormControl()?.errors?.max?.max }}</div>
             <div nz-form-explain *ngIf="getFormControl().hasError('maxlength')">长度限制为{{getFormControl()?.errors?.maxlength?.requiredLength}}个字符</div>
+            <div nz-form-explain *ngIf="getFormControl().hasError('minlength')">长度不少于{{getFormControl()?.errors?.minlength?.requiredLength}}个字符</div>
             <!-- <div nz-form-explain *ngIf="!getFormControl().hasError('required') && getFormControl().hasError('nameReg')">格式错误</div> -->
             <!-- <div nz-form-explain *ngIf="getFormControl().dirty&&getFormControl().hasError('duplicated')">The username is redundant!</div> -->
             <div nz-form-explain *ngIf="getFormControl().pending">校验中...</div>

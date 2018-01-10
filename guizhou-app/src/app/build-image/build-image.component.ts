@@ -186,7 +186,10 @@ export class BuildImageComponent implements OnInit {
       this.createNotification('error', '服务器错误', '请上传镜像文件!');
     } else {
       return new Promise((resolve, reject) => {
-        // 这里箭头函数，解决闭包之后This指向windows的问题
+        // 开始上传时，disable掉构建按钮
+          this.form.setDisabled('submit', true);
+
+          // 这里箭头函数，解决闭包之后This指向windows的问题
         // setTimeout(() => {
         console.log('测试promise', this);
         _.map(_.compact(fileArr), (value, key) => {
