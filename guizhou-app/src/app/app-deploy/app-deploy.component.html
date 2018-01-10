@@ -402,15 +402,15 @@
             <div class="marginTop20">
               <p>服务配置</p>
               <div class="borderTop80">
-                <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+                <!-- <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
                   <nz-tab (nzSelect)="choosedServiceFunc(tab)" *ngFor="let tab of serviceTabs">
                     <ng-template #nzTabHeading>
                       {{tab}}
                     </ng-template>
-                    <!-- <span>Content of Tab Pane {{tab.index}}</span> -->
                   </nz-tab>
-                </nz-tabset>
-                <nz-alert class="service-tips" [nzType]="'info'">
+                </nz-tabset> -->
+                <dynamic-form #formThird5Project [config]="formThird5"></dynamic-form>
+                <!-- <nz-alert class="service-tips" [nzType]="'info'">
                   <span alert-body nz-row>
                     <div style="text-align: center; font-size: 20px; color:#10a5ef" nz-col [nzSpan]="1">
                       <i class="anticon anticon-exclamation-circle-o"></i>
@@ -420,16 +420,12 @@
                         <p>基本信息</p>
                         <span>该模板用于在IT-PaaS 上部署 {{ choosedServiceName }}</span>
                       </div>
-                      <!-- <div>
-                        <p>配置指南</p>
-                        <span>Kafka 依赖于 zookeeper， 请确保选择的 region 下已经有通过应用市场部署的 zookeeper， 否则 kafka 将不能正常使用如果需要的话，可以修改下面的默认参数</span>
-                      </div> -->
                     </div>
                   </span>
-                </nz-alert>
+                </nz-alert> -->
               </div>
             </div>
-            <div class="marginTop20">
+            <div class="marginTop20" *ngIf="true === false">
               <p class="borderBottom80">基本配置</p>
               <div nz-row style="margin-bottom: 15px">
                 <div style="margin-bottom: 10px" *ngIf="this.radioValue === 'product'" nz-row>
@@ -444,7 +440,7 @@
                   <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
                     <nz-radio-group [(ngModel)]="this.networkRadioValue">
                       <label *ngFor="let cluster of prodCluster" nz-radio [nzValue]="cluster.name">
-                        <span>{{ cluster.name }}</span>
+                        <span>{{ cluster.displayName }}</span>
                       </label>
                     </nz-radio-group>
                   </div>
@@ -461,7 +457,7 @@
                   <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
                     <nz-radio-group [(ngModel)]="this.networkRadioValue2">
                       <label *ngFor="let cluster of testCluster" nz-radio [nzValue]="cluster.name">
-                        <span>{{ cluster.name }}</span>
+                        <span>{{ cluster.displayName }}</span>
                       </label>
                     </nz-radio-group>
                   </div>
@@ -508,7 +504,7 @@
                 </div>
               </div>
             </div>
-            <div class="marginTop20">
+            <div class="marginTop20" *ngIf="true === false">
               <p class="borderBottom80">高级配置</p>
               <div nz-row style="margin-bottom: 15px">
                 <dynamic-form #formThird2Project [config]="formThird2"></dynamic-form>

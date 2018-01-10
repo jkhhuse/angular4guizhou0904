@@ -646,6 +646,9 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                         }
                         case 'radio_group_tab': {
                             // const radioAttriName = value['attribute_name']
+                            if (value['attribute_name'] === 'mount_volume') {
+                                value['option'] = ['false'];
+                            }
                             this.formThird2Radios[key] = {
                                 label: value['display_name']['zh'],
                                 name: value['attribute_name'],
@@ -746,9 +749,9 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         await this.getServiceAdvanced();
         // next todo
         // componentValue$ => output
-        this.componentSer.componentName$.subscribe(value1 => {
-            console.log('componentName', value1);
-        });
+        // this.componentSer.componentName$.subscribe(value1 => {
+        //     console.log('componentName', value1);
+        // });
         this.selectValueSub = this.componentSer.componentValue$.subscribe(
             value => {
                 // const selectConfig = {
@@ -765,7 +768,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 //   },
                 // };
                 // const formConfig3 = [];
-                if (value !== undefined && _.indexOf(this.ipTag$, value) >= 0) {
+                if (value !== undefined && _.indexOf(this.ipTag$, value[0]) >= 0) {
                     _.map(this.formThird3, (value3, key3) => {
                         console.log(value3);
                         // formConfig3[key3] = value3;
