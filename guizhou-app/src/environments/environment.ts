@@ -12,20 +12,20 @@
     adminGroupId: '0',
     namespace: 'alauda'
 };*/
-/*export const environment = {
+export const environment = {
     production: false,
     name: '贵州v3.0线上环境',
-    apiService: 'http://10.198.102.81:18032',
-    apiApp: 'http://10.198.102.81:18031',
-    apiConfig: 'http://10.198.102.81:18037',
-    api: 'http://10.198.102.81:18180',
-    apiAlauda: 'http://10.198.102.81:18039/apiJakiro/v1',
-    apiOP: 'http://10.198.102.180:7080/bdoc/v2',
+    apiService: 'http://10.198.102.81:17020',
+    apiApp: 'http://10.198.102.81:17010',
+    apiConfig: 'http://10.198.102.81:17070',
+    api: 'http://10.198.102.81:17080',
+    apiAlauda: 'http://10.198.102.81:17090/apiJakiro/v1',
+    apiOP: 'http://10.198.102.81:27080/bdoc/v2',
     groupId: '2',
     adminGroupId: '0',
     namespace: 'alauda'
-};*/
-export const environment = {
+};
+/*export const environment = {
     production: false,
     name: 'op联调提测环境',
     apiService: 'http://10.132.49.110:18032',
@@ -37,7 +37,7 @@ export const environment = {
     groupId: '2',
     adminGroupId: '0',
     namespace: 'alauda'
-};
+};*/
 /*export const environment = {
     production: false,
     name: '贵州v2线上环境',
