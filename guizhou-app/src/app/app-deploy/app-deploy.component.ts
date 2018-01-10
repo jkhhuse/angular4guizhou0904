@@ -43,7 +43,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   appId: string = '';
   formData: object = {
     createUserId: 1,
-    groupId: this.servicesService.getCookie('groupID') ,
+    groupId: this.servicesService.getCookie('groupID'),
     microservices: [
       {
         storageSize: 0,
@@ -391,6 +391,52 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   formThird4: object[] = [];
   formThird4Entity: object = {};
 
+  // 服务配置下拉列表
+  @ViewChild('formThird5Project') formThird5Project: DynamicFormComponent;
+  mysqlOption = [];
+  redisOption = [];
+  zookeeperOption = [];
+  formThird5Map;
+  formThird5Data: object = {};
+  formThird5: object[] = [
+    {
+      type: 'select',
+      label: 'mysql服务',
+      name: 'service_mysql',
+      options: [],
+      placeholder: '请选择依赖的mysql服务!',
+      // validation: [Validators.required],
+      notNecessary: true,
+      styles: {
+        'width': '400px'
+      },
+    },
+    {
+      type: 'select',
+      label: 'redis服务',
+      name: 'service_redis',
+      options: [],
+      placeholder: '请选择依赖的redis服务!',
+      // validation: [Validators.required],
+      notNecessary: true,
+      styles: {
+        'width': '400px'
+      },
+    },
+    {
+      type: 'select',
+      label: 'zookeeper服务',
+      name: 'service_zookeeper',
+      options: [],
+      placeholder: '请选择依赖的zookeeper服务!',
+      // validation: [Validators.required],
+      notNecessary: true,
+      styles: {
+        'width': '400px'
+      },
+    }
+  ];
+
   // async toggleButton() {
   //   await this.getIpTag();
   //   this.formThird[3] = {
@@ -423,16 +469,17 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         if (this.serviceTabs.length === 0) {
           return false;
         } else {
-          let ThirdValid;
-          if (this.choosedServiceName === 'redis' && this.formThird3Project !== undefined) {
-            if (this.formThird3Project.config.length > 0 && this.formThird3Project['config'][0]['label'] === '发布') {
-              ThirdValid = false;
-            } else {
-              ThirdValid = !this.formThird3Project.valid;
-            }
-          }
-          return !this.formThirdProject.valid || !this.formThird2Project.valid ||
-            !this.formThird1Project.valid || ThirdValid;
+          return !this.formThird5Project.valid;
+          // let ThirdValid;
+          // if (this.choosedServiceName === 'redis' && this.formThird3Project !== undefined) {
+          //   if (this.formThird3Project.config.length > 0 && this.formThird3Project['config'][0]['label'] === '发布') {
+          //     ThirdValid = false;
+          //   } else {
+          //     ThirdValid = !this.formThird3Project.valid;
+          //   }
+          // }
+          // return !this.formThirdProject.valid || !this.formThird2Project.valid ||
+          //   !this.formThird1Project.valid || ThirdValid;
         }
         // return  !this.formThird2Project.valid || !this.formThird1Project.valid;
       }
@@ -916,11 +963,13 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           //   // ifTags: 'true'
           // };
           // this.formThirdProject.setValue('version', this.formThird[2]);
-          await this.getIpTag();
-          await this.getServiceBasic();
-          this.formThird1Project.setConfig(this.formThird1);
-          await this.getServiceAdvanced();
-          this.formThird2Project.setConfig(this.formThird2);
+          // todo 这里把服务配置给清除掉
+          // await this.getIpTag();
+          // await this.getServiceBasic();
+          // this.formThird1Project.setConfig(this.formThird1);
+          // await this.getServiceAdvanced();
+          // this.formThird2Project.setConfig(this.formThird2);
+          // todo 这里把服务配置给清除掉
           // if (this.choosedServiceName === 'redis') {
           //   await this.getOperateMode();
           //   _.map(this.operateMode['replication'], (value1, key1) => {
@@ -958,9 +1007,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           //   // this.formThird3Project.setConfig(this.formThird3);
           // }
           // this.formThird3Project.setConfig(this.formThird3);
-          if (this.choosedServiceName === 'zookeeper') {
-            this.formThird4Project.setConfig(this.formThird4);
-          }
+          // todo 这里把服务配置给清除掉
+          // if (this.choosedServiceName === 'zookeeper') {
+          //   this.formThird4Project.setConfig(this.formThird4);
+          // }
+          // todo 这里把服务配置给清除掉
         }
         console.log('formData', this.formData);
         // this.formData['microserviceName'] = this.formSecondProject.value['microserviceName'];
@@ -986,56 +1037,94 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   done() {
     // 这里，需要复习一下object[变量]和object['常量']的区别
     if (this.serviceTabs.length > 0) {
-      if (this.choosedServiceName === 'zookeeper') {
-        if (this.formThird2Radios) {
-          _.map(this.formThird2Radios, (value, key) => {
-            // console.log('打印radio', value);
-            const valueName$ = value.name;
-            this.formThird2RadioEntity[valueName$] = value.defaultValue;
-            // this.formThird2RadioEntity[key] = {
-            //   [valueName$]: value.defaultValue
-            // }
-          });
+      // todo 这里把服务配置给清除掉
+      // if (this.choosedServiceName === 'zookeeper') {
+      //   if (this.formThird2Radios) {
+      //     _.map(this.formThird2Radios, (value, key) => {
+      //       // console.log('打印radio', value);
+      //       const valueName$ = value.name;
+      //       this.formThird2RadioEntity[valueName$] = value.defaultValue;
+      //       // this.formThird2RadioEntity[key] = {
+      //       //   [valueName$]: value.defaultValue
+      //       // }
+      //     });
+      //   }
+      // } else {
+      //   this.formThird2RadioEntity['mode'] = 'replication';
+      // }
+      // if (this.formThird3Project) {
+      //   _.mapKeys(this.formThird3Project['value'], (value, key) => {
+      //     this.formThird3Entity[key] = value;
+      //   });
+      // } else {
+      //   this.formThird3Entity = {};
+      // }
+      // if (this.formThird4Project) {
+      //   if (this.formThird4Project['config'].length !== 0) {
+      //     _.mapKeys(this.formThird4Project['value'], (value, key) => {
+      //       this.formThird4Entity[key] = value;
+      //     });
+      //   } else {
+      //     this.formThird4Entity = {};
+      //   }
+      // }
+      // this.formThird1RadioEntity[this.instanceThird.value['name']] = this.instanceThird.value['instance_size']
+      // if (this.choosedServiceName === 'zookeeper') {
+      //   this.formThird1Project.value['num_of_nodes'] = parseInt(this.formThird1Project.value['num_of_nodes']);
+      // }
+      // this.formData['serviceInstances'][0] = {
+      //   storageSize: 0,
+      //   serviceId: this.serviceId,
+      //   instanceName: this.formThirdProject.value['instanceName'],
+      //   instancesCount: parseInt(this.formThird1Project.value['num_of_nodes']),
+      //   cpuSize: this.instanceThird.value['cpuSize'] * this.formThird1Project.value['num_of_nodes'],
+      //   memSize: this.instanceThird.value['memSize'] * this.formThird1Project.value['num_of_nodes'],
+      //   clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
+      //   info: {
+      //     basic_config: _.assign(this.formThird1Project.value, this.formThird1RadioEntity,
+      //       this.choosedServiceName === 'redis' ? this.formThird2RadioEntity : {},
+      //       this.formThird3Entity),
+      //     advanced_config: _.assign(this.formThird2Project.value, this.choosedServiceName === 'zookeeper' ?
+      //       this.formThird2RadioEntity : {}, this.formThird4Entity)
+      //   }
+      // }
+      // todo 这里把服务配置给清除掉
+      const serviceIdData = [];
+      console.log('打印formThird5', this.formThird5Project);
+      // if (this.formThird5Project.value['service_mysql'] !== undefined) {
+      _.map(this.formThird5Map, (value, key) => {
+        if (value['instanceName'] === this.formThird5Project.value['service_mysql']) {
+          serviceIdData[key] = value['id'];
+        } else if (value['instanceName'] === this.formThird5Project.value['service_redis']) {
+          serviceIdData[key] = value['id'];
+        } else if (value['instanceName'] === this.formThird5Project.value['service_zookeeper']) {
+          serviceIdData[key] = value['id'];
         }
-      } else {
-        this.formThird2RadioEntity['mode'] = 'replication';
-      }
-      if (this.formThird3Project) {
-        _.mapKeys(this.formThird3Project['value'], (value, key) => {
-          this.formThird3Entity[key] = value;
+      });
+      console.log('这是serviceIdData', serviceIdData);
+      // }
+      // _.map(this.formThird5Project.value, ())
+      // const serviceInstanceData;
+      this.formData['serviceInstances'] = _.compact(serviceIdData);
+      this.http.post(environment.apiApp + '/apiApp/applications/' + this.appId + '/instances', this.formData).subscribe(data => {
+        const thisParent = this;
+        console.log('应用部署成功', data);
+        this.confirmServ.success({
+          maskClosable: false,
+          title: '应用部署成功!',
+          content: '点确认按钮跳转到应用商城',
+          okText: '确定',
+          onOk() {
+            // .contentControl = true;
+            // console.log('form11', thisParent.form);
+            // const redirect = window.location.host + '/#/appStore';
+            // window.location.href = window.location.origin + '/#/appStore';
+            thisParent.router.navigate(['appStore']);
+          },
+          onCancel() {
+          }
         });
-      } else {
-        this.formThird3Entity = {};
-      }
-      if (this.formThird4Project) {
-        if (this.formThird4Project['config'].length !== 0) {
-          _.mapKeys(this.formThird4Project['value'], (value, key) => {
-            this.formThird4Entity[key] = value;
-          });
-        } else {
-          this.formThird4Entity = {};
-        }
-      }
-      this.formThird1RadioEntity[this.instanceThird.value['name']] = this.instanceThird.value['instance_size']
-      if (this.choosedServiceName === 'zookeeper') {
-        this.formThird1Project.value['num_of_nodes'] = parseInt(this.formThird1Project.value['num_of_nodes']);
-      }
-      this.formData['serviceInstances'][0] = {
-        storageSize: 0,
-        serviceId: this.serviceId,
-        instanceName: this.formThirdProject.value['instanceName'],
-        instancesCount: parseInt(this.formThird1Project.value['num_of_nodes']),
-        cpuSize: this.instanceThird.value['cpuSize'] * this.formThird1Project.value['num_of_nodes'],
-        memSize: this.instanceThird.value['memSize'] * this.formThird1Project.value['num_of_nodes'],
-        clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
-        info: {
-          basic_config: _.assign(this.formThird1Project.value, this.formThird1RadioEntity,
-            this.choosedServiceName === 'redis' ? this.formThird2RadioEntity : {},
-            this.formThird3Entity),
-          advanced_config: _.assign(this.formThird2Project.value, this.choosedServiceName === 'zookeeper' ?
-            this.formThird2RadioEntity : {}, this.formThird4Entity)
-        }
-      }
+      })
     }
     // if (this.formThird1Radios) {
     //   _.map(this.formThird1Radios, (value, key) => {
@@ -1052,26 +1141,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     // console.log('formThird2', this.formThird2Project);
     // console.log('instance', this.instanceThird);
     // this._message.success('done');
-    this.http.post(environment.apiApp + '/apiApp/applications/' + this.appId + '/instances', this.formData).subscribe(data => {
-      const thisParent = this;
-      console.log('应用部署成功', data);
-      this.confirmServ.success({
-        maskClosable: false,
-        title: '应用部署成功!',
-        content: '点确认按钮跳转到应用商城',
-        okText: '确定',
-        onOk() {
-          // .contentControl = true;
-          // console.log('form11', thisParent.form);
-          // const redirect = window.location.host + '/#/appStore';
-          // window.location.href = window.location.origin + '/#/appStore';
-          thisParent.router.navigate(['appStore']);
-        },
-        onCancel() {
-        }
-      });
-    })
-    console.log('formData', this.formData);
+    // console.log('formData', this.formData);
   }
   // todo 这里两个choosed函数可以优化
   choosedImageFunc(tab) {
@@ -1110,52 +1180,54 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     //   // ifTags: 'true'
     // };
     // this.formThirdProject.setValue('version', this.formThird[2]);
-    await this.getIpTag();
-    await this.getServiceBasic();
-    // this.formThird1Project.setFormValue('image_tag', undefined);
-    // 这里获取服务的advanced_config
-    await this.getServiceAdvanced();
-    console.log('这是formThird2', this.formThird2);
-    this.formThird1Project.setConfig(this.formThird1);
-    this.formThird2Project.setConfig(this.formThird2);
-    if (this.choosedServiceName === 'zookeeper') {
-      this.formThird4Project.setConfig(this.formThird4);
-    }
-    if (this.choosedServiceName === 'redis') {
-      await this.getOperateMode();
-      _.map(this.operateMode['replication'], (value1, key1) => {
-        if (value1['type'] === 'int') {
-          this.formThird3[key1] = {
-            type: 'input',
-            inputType: 'number',
-            label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
-            name: value1['attribute_name'],
-            placeholder: '请先选择主机标签地址!',
-            validation: [Validators.required, Validators.min(1)],
-            styles: {
-              'width': '400px'
-            }
-          };
-        } else if (value1['type'] === 'single_ip_tag') {
-          // const options$ = this.formThird1Project.value['ip_tag'] || [];
-          const options$ = [];
-          // const options$ = ['11', '22'];
-          this.formThird3[key1] = {
-            type: 'select',
-            label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
-            name: value1['attribute_name'],
-            options: options$,
-            placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-              value1['description']['zh'] : value1['attribute_name'],
-            validation: [Validators.required],
-            styles: {
-              'width': '400px'
-            },
-          };
-        }
-      });
-      this.formThird3Project.setConfig(this.formThird3);
-    }
+    // todo 这里把服务配置给清除掉
+    // await this.getIpTag();
+    // await this.getServiceBasic();
+    // // this.formThird1Project.setFormValue('image_tag', undefined);
+    // // 这里获取服务的advanced_config
+    // await this.getServiceAdvanced();
+    // console.log('这是formThird2', this.formThird2);
+    // this.formThird1Project.setConfig(this.formThird1);
+    // this.formThird2Project.setConfig(this.formThird2);
+    // if (this.choosedServiceName === 'zookeeper') {
+    //   this.formThird4Project.setConfig(this.formThird4);
+    // }
+    // if (this.choosedServiceName === 'redis') {
+    //   await this.getOperateMode();
+    //   _.map(this.operateMode['replication'], (value1, key1) => {
+    //     if (value1['type'] === 'int') {
+    //       this.formThird3[key1] = {
+    //         type: 'input',
+    //         inputType: 'number',
+    //         label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
+    //         name: value1['attribute_name'],
+    //         placeholder: '请先选择主机标签地址!',
+    //         validation: [Validators.required, Validators.min(1)],
+    //         styles: {
+    //           'width': '400px'
+    //         }
+    //       };
+    //     } else if (value1['type'] === 'single_ip_tag') {
+    //       // const options$ = this.formThird1Project.value['ip_tag'] || [];
+    //       const options$ = [];
+    //       // const options$ = ['11', '22'];
+    //       this.formThird3[key1] = {
+    //         type: 'select',
+    //         label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
+    //         name: value1['attribute_name'],
+    //         options: options$,
+    //         placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
+    //           value1['description']['zh'] : value1['attribute_name'],
+    //         validation: [Validators.required],
+    //         styles: {
+    //           'width': '400px'
+    //         },
+    //       };
+    //     }
+    //   });
+    //   this.formThird3Project.setConfig(this.formThird3);
+    // }
+    // todo 这里把服务配置给清除掉
     this.buttonDisabled();
     console.log('service-id', this.serviceId);
   }
@@ -1479,6 +1551,61 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     });
   }
 
+  getServiceDepend() {
+    return new Promise((resolve, reject) => {
+      const url$ = Observable.forkJoin(
+        // _.map(_.sortBy(this.serviceTabs), (value, key) => {
+        //   return this.http.get(environment.apiService + '/apiService/groups/' + this.servicesService.getCookie('groupID') + '/services/'
+        //    + value + '/instances')
+        // })
+        this.http.get(environment.apiService + '/apiService/groups/' + this.servicesService.getCookie('groupID') + '/service-instances')
+      );
+      url$.subscribe(values => {
+        console.log('一次数据的values', values[0]);
+        this.formThird5Map = values[0];
+        _.map(values[0], (value, key) => {
+          if (value['serviceName'] === 'mysql') {
+            this.mysqlOption[key] = value['instanceName'];
+            // console.log(this.mysqlOption);
+          } else if (value['serviceName'] === 'redis') {
+            this.redisOption[key] = value['instanceName'];
+            // console.log(this.redisOption);
+          } else {
+            this.zookeeperOption[key] = value['instanceName'];
+            // console.log(this.zookeeperOption);
+          }
+        });
+        // this.mysqlOption = _.compact(this.mysqlOption);
+        // this.redisOption = _.compact(this.redisOption);
+        // this.zookeeperOption = _.compact(this.zookeeperOption);
+        this.formThird5[0]['options'] = _.compact(this.mysqlOption);
+        this.formThird5[1]['options'] = _.compact(this.redisOption);
+        this.formThird5[2]['options'] = _.compact(this.zookeeperOption);
+        if (this.formThird5[0]['options'].length === 0) {
+          this.formThird5[0]['divStyles'] = {
+            'display': 'none'
+          };
+          this.formThird5[0]['validation'] = [];
+        }
+        if (this.formThird5[1]['options'].length === 0) {
+          this.formThird5[1]['divStyles'] = {
+            'display': 'none'
+          };
+          this.formThird5[0]['validation'] = [];
+        }
+        if (this.formThird5[2]['options'].length === 0) {
+          this.formThird5[2]['divStyles'] = {
+            'display': 'none'
+          };
+          this.formThird5[0]['validation'] = [];
+        }
+        this.formThird5Project.setConfig(this.formThird5);
+        resolve();
+        console.log('formThird5', this.formThird5);
+      });
+    });
+  }
+
   async ngOnInit() {
     this.getnetworkAdvanced();
     await this.getImgAdvanced();
@@ -1486,6 +1613,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     // this.getServiceVersion();
     // this.toggleButton();
     await this.getServiceInit();
+    await this.getServiceDepend();
+    console.log('依赖的服务', this.serviceTabs);
     // await this.getOperateMode();
     // if (this.choosedServiceName === 'redis') {
     //   await this.getOperateMode();
@@ -1524,7 +1653,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     //   this.formThird3Project.setConfig(this.formThird3);
     // }
     // 这里要手动调用一下，渲染service的basic和advanced配置，不然到服务配置会出不来数据
-    await this.getCluster(); await this.getCluster();
+    await this.getCluster();
     await this.getIpTag();
     await this.choosedImageFunc(this.imageTabs[0]);
     await this.choosedServiceFunc(this.serviceTabs[0]);
