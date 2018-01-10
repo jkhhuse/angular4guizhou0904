@@ -44,7 +44,7 @@
     </nz-radio-group>
   </div>
   <!-- <dynamic-form #form3 [config]="config3" *ngFor="let config of formConfigArr"> -->
-      <dynamic-form #form3 [config]="config3">
+  <dynamic-form #form3 [config]="config3">
   </dynamic-form>
   <!-- {{ form.valid }} {{ form.value | json }} -->
 </div>
@@ -90,6 +90,21 @@
 
 <div>{{ component.getValue }}</div>
 
+<!-- 测试viewChildren：https://angular.io/api/core/ViewChildren -->
+<!-- <pane id="1"></pane>
+<pane id="2"></pane>
+<pane id="3" *ngIf="shouldShow"></pane>
+
+<button (click)="show()">Show 3</button>
+
+<div>panes: {{serializedPanes}}</div> -->
+
 <!-- <app-container-instance *ngFor="let voter of voters" [name]="voter" (onVoted)="onVoted($event)">
 
 </app-container-instance> -->
+
+<h1>Welcome to Angular World</h1>
+<p #greet>Hello {{ name }}</p>
+
+<!-- <dynamic-form #form3 [config]="config3" *ngFor="let data of configArr">
+  </dynamic-form> -->
