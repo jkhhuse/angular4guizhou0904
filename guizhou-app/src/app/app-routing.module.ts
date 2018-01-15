@@ -27,6 +27,10 @@ import {ConfigDetailComponent} from "./config-detail/config-detail.component";
 import {EditConfigComponent} from "./edit-config/edit-config.component";
 import {AddConfigComponent} from "./add-config/add-config.component";
 import {AppInstanceDetailDetailComponent} from "./app-instance-detail-detail/app-instance-detail-detail.component";
+import {OperaOverviewComponent} from "./opera-overview/opera-overview.component";
+import {OperaLogComponent} from "./opera-log/opera-log.component";
+import {OperaEventComponent} from "./opera-event/opera-event.component";
+import {OperaMonitorComponent} from "./opera-monitor/opera-monitor.component";
 
 var BuildImageCateGoryComponent;
 const routes: Routes = [
@@ -65,6 +69,11 @@ const routes: Routes = [
   {path: 'addConfig/:configID', component: AddConfigComponent},
   {path: 'editConfig/:configID/:configKey', component: EditConfigComponent},
   {path: 'envDoc', component: DocFileComponent},
+
+  {path: 'operaOverview', component: OperaOverviewComponent},
+  {path: 'operaMonitor', component: OperaMonitorComponent},
+  {path: 'operaEvent', component: OperaEventComponent},
+  {path: 'operaLog', component: OperaLogComponent},
 
 
   {path: '**', component: Code404Component}

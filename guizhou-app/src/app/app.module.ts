@@ -63,6 +63,10 @@ import { ConfigDetailComponent } from './config-detail/config-detail.component';
 import { AddConfigComponent } from './add-config/add-config.component';
 import { EditConfigComponent } from './edit-config/edit-config.component';
 import { AppInstanceDetailDetailComponent } from './app-instance-detail-detail/app-instance-detail-detail.component';
+import { OperaOverviewComponent } from './opera-overview/opera-overview.component';
+import { OperaMonitorComponent } from './opera-monitor/opera-monitor.component';
+import { OperaEventComponent } from './opera-event/opera-event.component';
+import { OperaLogComponent } from './opera-log/opera-log.component';
 
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -112,6 +116,10 @@ export function createTranslateHttpLoader(http: HttpClient) {
         AddConfigComponent,
         EditConfigComponent,
         AppInstanceDetailDetailComponent,
+        OperaOverviewComponent,
+        OperaMonitorComponent,
+        OperaEventComponent,
+        OperaLogComponent,
     ],
     imports: [
         BrowserModule,
