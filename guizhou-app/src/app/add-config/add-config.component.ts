@@ -37,7 +37,6 @@ export class AddConfigComponent implements OnInit {
       label: '值',
       name: 'configValue',
       placeholder: '请输入配置值',
-      validation: [Validators.maxLength(20)],
       notNecessary: true,
       inputType: 'textarea',
       styles: {

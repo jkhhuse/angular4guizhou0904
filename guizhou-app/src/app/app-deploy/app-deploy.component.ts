@@ -192,7 +192,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       type: 'select',
       label: '负载均衡器',
       name: 'loadbanlancer',
-      options: ['haproxy-10-198-102-205 ( HAPROXY / 外网 / 10.198.102.205 )'] || this.loadBanlancer$,
+      options: ['haproxy-10-198-102-207 ( HAPROXY / 外网 / 10.198.102.207 )'] || this.loadBanlancer$,
       placeholder: '选择负载均衡器',
       // validation: [Validators.required],
       styles: {
@@ -923,10 +923,10 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                   rules: []
                 }
               ],
-              load_balancer_id: "fd598eb5-83a1-4ee8-4235-586d32a2b2ba",
-              name: "haproxy-10-198-102-205",
+              load_balancer_id: "1f9afbd2-4538-4089-63cb-8feab689d436",
+              name: "haproxy-10-198-102-207",
               type: "haproxy",
-              uniqueId: "load_balancer_id2",
+              uniqueId: "load_balancer_id1",
               version: 1
             }
           ],
