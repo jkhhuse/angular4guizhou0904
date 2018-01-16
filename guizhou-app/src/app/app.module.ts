@@ -67,6 +67,7 @@ import { OperaOverviewComponent } from './opera-overview/opera-overview.componen
 import { OperaMonitorComponent } from './opera-monitor/opera-monitor.component';
 import { OperaEventComponent } from './opera-event/opera-event.component';
 import { OperaLogComponent } from './opera-log/opera-log.component';
+import { EchartsDirective } from './shared/directive/echarts/echarts.directive';
 
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -75,6 +76,7 @@ export function createTranslateHttpLoader(http: HttpClient) {
 @NgModule({
     declarations: [
         AppComponent,
+        EchartsDirective,
         NavbarComponent,
         HeaderComponent,
         SearchComponent,
