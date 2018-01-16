@@ -1,0 +1,37 @@
+.dashboard-resulet{
+  font-family: Monaco, "DejaVu Sans Mono", "Liberation Mono", monospace;
+  color: rgb(225, 230, 230);
+  font-size: 12px;
+  background-color: rgb(38, 50, 56);
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  overflow: auto;
+}
+.dashboard-li{
+  padding: 4px 8px 4px 32px;
+  background-color: #263238;
+  line-height: 20px;
+}
+.dashboard-li span{
+  margin-right: 4px;
+}
+.log-message{
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.log-path{
+  color: #efc241;
+}
+.log-instance{
+  color: #efc241;
+}
+.log-node{
+  color: #2dcbf6;
+}
+.log-cluster{
+  color: #72f08c;
+}
+.log-service{
+  color:#ff7c57;
+}

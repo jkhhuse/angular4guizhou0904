@@ -28,7 +28,7 @@ export class ServiceCatalogComponent implements OnInit {
             index: 3,
             name: '微服务框架',
             tabName: 'Microservice',
-            disabled: true
+            disabled: false
         }
     ];
   // 服务分类
