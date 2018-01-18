@@ -23,13 +23,14 @@ import {AppOverviewDetailDetailComponent} from "./app-overview-detail-detail/app
 import {ConfigControlComponent} from "./configs/config-control/config-control.component";
 import {BuildConfigComponent} from "./configs/build-config/build-config.component";
 import {ConfigDetailComponent} from "./configs/config-detail/config-detail.component";
-import {EditConfigComponent} from "./edit-config/edit-config.component";
+import {EditConfigComponent} from "./configs/edit-config/edit-config.component";
 import {AddConfigComponent} from "./configs/add-config/add-config.component";
 import {AppInstanceDetailDetailComponent} from "./app-instance-detail-detail/app-instance-detail-detail.component";
 import {OperaOverviewComponent} from "./opera-center/opera-overview/opera-overview.component";
 import {OperaLogComponent} from "./opera-center/opera-log/opera-log.component";
 import {OperaEventComponent} from "./opera-center/opera-event/opera-event.component";
 import {OperaMonitorComponent} from "./opera-center/opera-monitor/opera-monitor.component";
+import {ServiceApproveComponent} from "./service-approve/service-approve.component";
 
 var BuildImageCateGoryComponent;
 const routes: Routes = [
@@ -48,6 +49,7 @@ const routes: Routes = [
 
   {path: 'appDeploy/:appId', component: AppDeployComponent},
   {path: 'serviceSubscribe/:serviceName/:serviceId', component: ServiceSubscribeComponent},
+  {path: 'serviceApprove/:serviceName/:serviceId', component: ServiceApproveComponent},
 
   {path: 'serviceCatalog', component: ServiceCatalogComponent},
   {path: 'serviceDetail/:module/:serviceId/:tabName', component: ServiceDetailComponent},

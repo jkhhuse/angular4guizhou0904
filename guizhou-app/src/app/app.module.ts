@@ -17,7 +17,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { HeaderComponent } from './header/header.component';
 import { SearchComponent } from './search/search.component';
 import { TabComponent } from './tab/tab.component';
-import { ApplistComponent } from './applist/applist.component';
+import { ApplistComponent } from './app-list/applist.component';
 import { ApplicationService } from './shared/application.service';
 import { AppDetailComponent } from './app-detail/app-detail.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -60,7 +60,7 @@ import { ConfigControlComponent } from './configs/config-control/config-control.
 import { BuildConfigComponent } from './configs/build-config/build-config.component';
 import { ConfigDetailComponent } from './configs/config-detail/config-detail.component';
 import { AddConfigComponent } from './configs/add-config/add-config.component';
-import { EditConfigComponent } from './edit-config/edit-config.component';
+import { EditConfigComponent } from './configs/edit-config/edit-config.component';
 import { AppInstanceDetailDetailComponent } from './app-instance-detail-detail/app-instance-detail-detail.component';
 import { OperaOverviewComponent } from './opera-center/opera-overview/opera-overview.component';
 import { OperaMonitorComponent } from './opera-center/opera-monitor/opera-monitor.component';

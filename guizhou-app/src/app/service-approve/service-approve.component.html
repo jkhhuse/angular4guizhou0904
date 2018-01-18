@@ -1,0 +1,24 @@
+<div>
+    <nz-layout>
+        <nz-header style="line-height:32px">
+            <a style="font-size: 16px" href="#/serviceCatalog">
+                <返回
+            </a>
+            <p style="font-size: 16px">服务订阅</p>
+        </nz-header>
+        <nz-content>
+            <div nz-row>
+                <nz-datepicker [(ngModel)]="_date" [nzPlaceHolder]="'Select date'"
+                               [nzDisabledDate]="_disabledDate"></nz-datepicker>
+                <nz-timepicker [(ngModel)]="_time"></nz-timepicker>
+            </div>
+            <div nz-row>
+                <dynamic-form [config]="formConfig" (submit)="submit($event)">
+                </dynamic-form>
+            </div>
+        </nz-content>
+        <nz-footer>
+
+        </nz-footer>
+    </nz-layout>
+</div>
