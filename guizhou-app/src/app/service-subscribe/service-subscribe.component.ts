@@ -375,7 +375,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
 
     getOperateMode() {
         return new Promise((resolve, reject) => {
-            this.http.get(environment.apiService + '/apiService/services/' + this.serviceId).subscribe(data => {
+            this.http.get(environment.apiService + '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + this.serviceId).subscribe(data => {
                 // this.operateMode['standalone'] = data['standalone_config'];
                 // todo next
                 // this.operateMode['replication'] = data['replication_config'];
@@ -389,7 +389,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
 
     getServiceBasic() {
         return new Promise((resolve, reject) => {
-            this.http.get(environment.apiService + '/apiService/services/' + this.serviceId).subscribe(data => {
+            this.http.get(environment.apiService + '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + this.serviceId).subscribe(data => {
                 // 这里每次都需要清除一次数据，不然数据会重复
                 this.formThird1 = [];
                 this.formThird1Radios = [];
@@ -602,7 +602,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
 
     getServiceAdvanced() {
         return new Promise((resolve, reject) => {
-            this.http.get(environment.apiService + '/apiService/services/' + this.serviceId).subscribe(data => {
+            this.http.get(environment.apiService + '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + this.serviceId).subscribe(data => {
                 // 这里每次都需要清除一次数据，不然数据会重复
                 this.formThird2 = [];
                 this.formThird2Radios = [];
