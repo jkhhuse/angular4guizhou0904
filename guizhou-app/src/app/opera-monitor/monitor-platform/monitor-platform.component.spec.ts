@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OperaMonitorComponent } from './opera-monitor.component';
+import { MonitorPlatformComponent } from './monitor-platform.component';
 
-describe('OperaMonitorComponent', () => {
-  let component: OperaMonitorComponent;
-  let fixture: ComponentFixture<OperaMonitorComponent>;
+describe('MonitorPlatformComponent', () => {
+  let component: MonitorPlatformComponent;
+  let fixture: ComponentFixture<MonitorPlatformComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OperaMonitorComponent ]
+      declarations: [ MonitorPlatformComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OperaMonitorComponent);
+    fixture = TestBed.createComponent(MonitorPlatformComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

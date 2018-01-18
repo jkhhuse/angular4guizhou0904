@@ -1,0 +1,23 @@
+.panel-chart {
+    height: 274px;
+    border: 1px solid #e4e4e4;
+    margin-bottom: 16px;
+}
+
+.panel-header {
+    height: 34px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid #e4e4e4;
+    padding: 4px 8px;
+}
+
+.panel-header>div {
+    font-size: 14px;
+}
+
+.chart-style {
+    width: 96%;
+    height: 230px;
+}

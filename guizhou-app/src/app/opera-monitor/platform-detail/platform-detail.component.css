@@ -1,0 +1,16 @@
+.d-header {
+    height: 45px;
+    display: flex;
+    flex-direction: row;
+}
+
+.d-header>.header-title {
+    margin-left: 40px;
+    line-height: 2.5;
+}
+
+.d-header>.header-panel {}
+
+.d-header>.header-input {
+    margin-left: 20px;
+}
