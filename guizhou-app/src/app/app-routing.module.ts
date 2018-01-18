@@ -20,17 +20,16 @@ import {ServiceSubscribeComponent} from "./service-subscribe/service-subscribe.c
 import {BuildImageComponent} from "./build-image/build-image.component";
 import {BuildImageCategoryComponent} from "./build-image-category/build-image-category.component";
 import {AppOverviewDetailDetailComponent} from "./app-overview-detail-detail/app-overview-detail-detail.component";
-import {DocFileComponent} from "./doc-file/doc-file.component";
-import {ConfigControlComponent} from "./config-control/config-control.component";
-import {BuildConfigComponent} from "./build-config/build-config.component";
-import {ConfigDetailComponent} from "./config-detail/config-detail.component";
+import {ConfigControlComponent} from "./configs/config-control/config-control.component";
+import {BuildConfigComponent} from "./configs/build-config/build-config.component";
+import {ConfigDetailComponent} from "./configs/config-detail/config-detail.component";
 import {EditConfigComponent} from "./edit-config/edit-config.component";
-import {AddConfigComponent} from "./add-config/add-config.component";
+import {AddConfigComponent} from "./configs/add-config/add-config.component";
 import {AppInstanceDetailDetailComponent} from "./app-instance-detail-detail/app-instance-detail-detail.component";
-import {OperaOverviewComponent} from "./opera-overview/opera-overview.component";
-import {OperaLogComponent} from "./opera-log/opera-log.component";
-import {OperaEventComponent} from "./opera-event/opera-event.component";
-import {OperaMonitorComponent} from "./opera-monitor/opera-monitor.component";
+import {OperaOverviewComponent} from "./opera-center/opera-overview/opera-overview.component";
+import {OperaLogComponent} from "./opera-center/opera-log/opera-log.component";
+import {OperaEventComponent} from "./opera-center/opera-event/opera-event.component";
+import {OperaMonitorComponent} from "./opera-center/opera-monitor/opera-monitor.component";
 
 var BuildImageCateGoryComponent;
 const routes: Routes = [
@@ -68,7 +67,6 @@ const routes: Routes = [
   {path: 'buildConfig', component: BuildConfigComponent},
   {path: 'addConfig/:configID', component: AddConfigComponent},
   {path: 'editConfig/:configID/:configKey', component: EditConfigComponent},
-  {path: 'envDoc', component: DocFileComponent},
 
   {path: 'operaOverview', component: OperaOverviewComponent},
   {path: 'operaMonitor', component: OperaMonitorComponent},

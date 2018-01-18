@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {environment} from "../../environments/environment";
+import {environment} from "../../../environments/environment";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
-import {ServicesService} from "../shared/services.service";
+import {ServicesService} from "../../shared/services.service";
 import {NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
