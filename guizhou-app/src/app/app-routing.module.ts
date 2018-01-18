@@ -26,11 +26,12 @@ import {ConfigDetailComponent} from "./configs/config-detail/config-detail.compo
 import {EditConfigComponent} from "./configs/edit-config/edit-config.component";
 import {AddConfigComponent} from "./configs/add-config/add-config.component";
 import {AppInstanceDetailDetailComponent} from "./app-instance-detail-detail/app-instance-detail-detail.component";
-import {OperaOverviewComponent} from "./opera-center/opera-overview/opera-overview.component";
-import {OperaLogComponent} from "./opera-center/opera-log/opera-log.component";
-import {OperaEventComponent} from "./opera-center/opera-event/opera-event.component";
-import {OperaMonitorComponent} from "./opera-center/opera-monitor/opera-monitor.component";
+
+import {OperaOverviewComponent} from "./opera-overview/opera-overview.component";
+import {OperaLogComponent} from "./opera-log/opera-log.component";
+import {OperaEventComponent} from "./opera-event/opera-event.component";
 import {ServiceApproveComponent} from "./service-approve/service-approve.component";
+
 
 var BuildImageCateGoryComponent;
 const routes: Routes = [
@@ -71,10 +72,9 @@ const routes: Routes = [
   {path: 'editConfig/:configID/:configKey', component: EditConfigComponent},
 
   {path: 'operaOverview', component: OperaOverviewComponent},
-  {path: 'operaMonitor', component: OperaMonitorComponent},
+  {path: 'operaMonitor', loadChildren: './opera-monitor/opera-monitor.module#OperaMonitorModule'},
   {path: 'operaEvent', component: OperaEventComponent},
   {path: 'operaLog', component: OperaLogComponent},
-
 
   {path: '**', component: Code404Component}
 ];

@@ -1,0 +1,51 @@
+<div class="p-header">
+    <div class="header-panel">
+        <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="openCreatePanel()">
+          <span>创建监控面板</span>
+      </button>
+    </div>
+    <div class="header-input">
+        <nz-input [nzType]="'search'" [nzPlaceHolder]="'按表名称、描述、标签搜索'" [(ngModel)]="_value" [nzSize]="'large'" style="width: 260px;"></nz-input>
+    </div>
+</div>
+<div class="p-content">
+    <div nz-row [nzGutter]="40">
+        <div nz-col class="gutter-row" [nzLg]="8" [nzSm]="12" *ngFor="let resource of panels?.data">
+            <div class="monitor-panel">
+                <img src="../../assets/monitor/thumbnail.png" class="panel-thumb">
+                <div class="panel-content">
+                    <div class="content-box">
+                        <div>{{ resource.display_name }}</div>
+                        <div>创建者: {{ resource.created_by }}</div>
+                        <div>创建时间: {{ resource.created_at | date: "yyyy-MM-dd mm:ss" }}</div>
+                    </div>
+                    <div class="option-box">
+                        <div class="option-box-info">
+                            <div class="panel-option">
+                                <span (click)="openMonitorPanel()">监控图表:  </span>
+                            </div>
+                            <div class="panel-option">
+                                <i class="anticon anticon-edit"></i>
+                                <i class="anticon anticon-delete"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<nz-modal [nzVisible]="isCreatePanelVisible" [nzTitle]="'创建监控面板'" [nzContent]="createPanel" (nzOnCancel)="cancelCreatePanel($event)" (nzOnOk)="agreeCreatePanel($event)">
+    <ng-template #createPanel>
+        <p>已选择服务实例</p>
+        <!-- <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="text-align: center;"> -->
+        <!-- </nz-spin> -->
+    </ng-template>
+</nz-modal>
+<nz-modal [nzVisible]="isDeletePanelVisible" [nzTitle]="'删除监控面板'" [nzContent]="deletePanel" (nzOnCancel)="cancelDeletePanel($event)" (nzOnOk)="agreeDeletePanel($event)">
+    <ng-template #deletePanel>
+        <p>已选择监控面板实例：{{deleteName}}，是否确定删除？</p>
+        <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中...'" style="text-align: center;">
+        </nz-spin>
+    </ng-template>
+</nz-modal>

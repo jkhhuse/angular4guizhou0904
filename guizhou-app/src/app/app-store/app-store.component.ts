@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AppOutput} from '../header/header.component';
+import {AppOutput} from '../shared/header/header.component';
 import {FormControl} from '@angular/forms';
 import {Http} from '@angular/http';
 import {ServicesService} from '../shared/services.service';
