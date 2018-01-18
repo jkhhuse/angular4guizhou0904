@@ -17,7 +17,7 @@ import { DynamicFormModule } from './dynamic-form/dynamic-form.module';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SearchComponent } from './search/search.component';
 import { TabComponent } from './tab/tab.component';
-import { ApplistComponent } from './applist/applist.component';
+import { ApplistComponent } from './app-list/applist.component';
 import { ApplicationService } from './shared/application.service';
 import { AppDetailComponent } from './app-detail/app-detail.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -56,17 +56,19 @@ import { AppOverviewDetailDetailComponent } from './app-overview-detail-detail/a
 import { MirrorStoreListComponent } from './mirror-store-list/mirror-store-list.component';
 import { BuildImageCategoryComponent } from './build-image-category/build-image-category.component';
 import { ServicePipePipe } from './pipe/service-pipe.pipe';
-import { ConfigControlComponent } from './config-control/config-control.component';
-import { DocFileComponent } from './doc-file/doc-file.component';
-import { BuildConfigComponent } from './build-config/build-config.component';
-import { ConfigDetailComponent } from './config-detail/config-detail.component';
-import { AddConfigComponent } from './add-config/add-config.component';
-import { EditConfigComponent } from './edit-config/edit-config.component';
+import { ConfigControlComponent } from './configs/config-control/config-control.component';
+import { BuildConfigComponent } from './configs/build-config/build-config.component';
+import { ConfigDetailComponent } from './configs/config-detail/config-detail.component';
+import { AddConfigComponent } from './configs/add-config/add-config.component';
+import { EditConfigComponent } from './configs/edit-config/edit-config.component';
 import { AppInstanceDetailDetailComponent } from './app-instance-detail-detail/app-instance-detail-detail.component';
 import { OperaOverviewComponent } from './opera-overview/opera-overview.component';
-import { OperaMonitorModule } from './opera-monitor/opera-monitor.module';
 import { OperaEventComponent } from './opera-event/opera-event.component';
 import { OperaLogComponent } from './opera-log/opera-log.component';
+import { EchartsDirective } from './shared/directive/echarts/echarts.directive';
+import { ServiceApproveComponent } from './service-approve/service-approve.component';
+import {OperaMonitorModule} from './opera-monitor/opera-monitor.module';
+
 
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -109,7 +111,6 @@ export function createTranslateHttpLoader(http: HttpClient) {
         BuildImageCategoryComponent,
         ServicePipePipe,
         ConfigControlComponent,
-        DocFileComponent,
         BuildConfigComponent,
         ConfigDetailComponent,
         AddConfigComponent,
@@ -117,7 +118,8 @@ export function createTranslateHttpLoader(http: HttpClient) {
         AppInstanceDetailDetailComponent,
         OperaOverviewComponent,
         OperaEventComponent,
-        OperaLogComponent
+        OperaLogComponent,
+        ServiceApproveComponent
     ],
     imports: [
         BrowserModule,

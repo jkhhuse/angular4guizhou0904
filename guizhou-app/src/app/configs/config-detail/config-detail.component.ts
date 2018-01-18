@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {ActivatedRoute} from '@angular/router';
 import {Http} from "@angular/http";
-import {environment} from "../../environments/environment";
-import {ServicesService} from "../shared/services.service";
+import {environment} from "../../../environments/environment";
+import {ServicesService} from "../../shared/services.service";
 import {NzNotificationService} from 'ng-zorro-antd';
 import set = Reflect.set;
 

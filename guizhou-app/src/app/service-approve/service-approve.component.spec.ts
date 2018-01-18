@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OperaMonitorComponent } from './opera-monitor.component';
+import { ServiceApproveComponent } from './service-approve.component';
 
-describe('OperaMonitorComponent', () => {
-  let component: OperaMonitorComponent;
-  let fixture: ComponentFixture<OperaMonitorComponent>;
+describe('ServiceApproveComponent', () => {
+  let component: ServiceApproveComponent;
+  let fixture: ComponentFixture<ServiceApproveComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OperaMonitorComponent ]
+      declarations: [ ServiceApproveComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OperaMonitorComponent);
+    fixture = TestBed.createComponent(ServiceApproveComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

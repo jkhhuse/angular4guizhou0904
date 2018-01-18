@@ -19,6 +19,7 @@ export class ServiceDetailComponent implements OnInit {
     private serviceName: string;
     private serviceId: string;
     private tabName: string;
+    private subscribeID: string; // 服务订阅审批状态ID
   //表格3thead
   table3Title = [
     {
@@ -170,6 +171,9 @@ export class ServiceDetailComponent implements OnInit {
         // 订阅流
         this.getServiceDetail(this.serviceId).subscribe((data) => {
             this.serviceDetail = data;
+            this.subscribeID = data.subscribeProgress;
+            console.log('subscribeProgress: ' + this.subscribeID);
+
         });
         // 订阅服务详情下的实例 的流
         // this.serviceInstances = this.getServiceInstances(this.serviceName);

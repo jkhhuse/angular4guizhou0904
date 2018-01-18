@@ -16,9 +16,17 @@
         </div>
         <div nz-col [nzSpan]="6" [nzOffset]="12">
             <div *ngIf="serviceDetail" class="detail-btn-group">
-                <button *ngIf="serviceDetail" [routerLink]="['/serviceSubscribe', serviceDetail.serviceName, serviceId]" nz-button [nzType]="'primary'"
+                <button *ngIf="serviceDetail && subscribeID === 0" [routerLink]="['/serviceApprove', serviceDetail.serviceName, serviceId]" nz-button [nzType]="'primary'"
                         [nzSize]="'large'">
                     <span>订阅</span>
+                </button>
+                <button *ngIf="serviceDetail && subscribeID === 1" disabled nz-button [nzType]="'default'"
+                        [nzSize]="'large'">
+                    <span>审批中</span>
+                </button>
+                <button *ngIf="serviceDetail && subscribeID === 2" [routerLink]="['/serviceSubscribe', serviceDetail.serviceName, serviceId]" nz-button [nzType]="'primary'"
+                        [nzSize]="'large'">
+                    <span>启动</span>
                 </button>
                 <button disabled="disabled" nz-button [nzType]="'default'" [nzSize]="'large'" class="detail-noraml-btn">
                     <span>更新</span>

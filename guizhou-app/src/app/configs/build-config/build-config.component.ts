@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {DynamicFormComponent} from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
+import {DynamicFormComponent} from '../../dynamic-form/containers/dynamic-form/dynamic-form.component';
 import {Validators} from '@angular/forms';
-import {FieldConfig} from '../dynamic-form/models/field-config.interface';
+import {FieldConfig} from '../../dynamic-form/models/field-config.interface';
 import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 import {Router, RouterModule} from '@angular/router';
 import {ActivatedRoute} from '@angular/router';
-import {ServicesService} from "../shared/services.service";
+import {ServicesService} from "../../shared/services.service";
 import {HttpClient} from "@angular/common/http";
-import {environment} from "../../environments/environment";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-build-config',
@@ -57,7 +57,7 @@ export class BuildConfigComponent implements OnInit {
 
   createNotification = (type, title, content) => {
     this._notification.create(type, title, content);
-  };
+  }
   ngAfterViewInit() {
     // setTimeout(() => {
     console.log('form11', this.form.controls);
