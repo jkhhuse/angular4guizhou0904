@@ -117,7 +117,7 @@ export function createTranslateHttpLoader(http: HttpClient) {
         AppInstanceDetailDetailComponent,
         OperaOverviewComponent,
         OperaEventComponent,
-        OperaLogComponent,
+        OperaLogComponent
     ],
     imports: [
         BrowserModule,

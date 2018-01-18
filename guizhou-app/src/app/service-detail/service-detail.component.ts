@@ -134,7 +134,7 @@ export class ServiceDetailComponent implements OnInit {
     }
 
     getServiceDetail(serviceId): Observable<any> {
-        return this.http.get(environment.apiService + '/apiService' + '/services/' + serviceId);
+        return this.http.get(environment.apiService + '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + serviceId);
     }
     getServiceInstances(serviceName): Observable<any> {
         return this.http.get(environment.apiService + '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' +
