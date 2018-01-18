@@ -30,7 +30,6 @@ import {AppInstanceDetailDetailComponent} from "./app-instance-detail-detail/app
 import {OperaOverviewComponent} from "./opera-overview/opera-overview.component";
 import {OperaLogComponent} from "./opera-log/opera-log.component";
 import {OperaEventComponent} from "./opera-event/opera-event.component";
-import {OperaMonitorComponent} from "./opera-monitor/opera-monitor.component";
 
 var BuildImageCateGoryComponent;
 const routes: Routes = [
@@ -71,10 +70,9 @@ const routes: Routes = [
   {path: 'envDoc', component: DocFileComponent},
 
   {path: 'operaOverview', component: OperaOverviewComponent},
-  {path: 'operaMonitor', component: OperaMonitorComponent},
+  {path: 'operaMonitor', loadChildren: './opera-monitor/opera-monitor.module#OperaMonitorModule'},
   {path: 'operaEvent', component: OperaEventComponent},
   {path: 'operaLog', component: OperaLogComponent},
-
 
   {path: '**', component: Code404Component}
 ];

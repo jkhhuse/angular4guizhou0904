@@ -1,0 +1,53 @@
+.p-header {
+    height: 45px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.p-content {
+    margin-bottom: 25px;
+}
+
+.content-search {
+    width: 220px;
+}
+
+.monitor-panel {
+    border: #e7e7e7 1px solid;
+    box-shadow: 0px 0px 12px 1px #e7e7e7;
+    border-radius: 1px;
+    padding: 20px;
+    height: 172px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.monitor-panel>.panel-thumb {
+    flex-basis: 35%;
+    width: 35%;
+    height: 100%;
+    object-fit: scale-down;
+}
+
+.monitor-panel>.panel-content {
+    flex-basis: 65%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin-left: 15px;
+}
+
+.panel-option i {
+    margin-right: 6px;
+}
+
+.panel-content>.content-box {
+    flex: 1;
+}
+
+.option-box-info {
+    display: flex;
+    justify-content: space-between;
+}

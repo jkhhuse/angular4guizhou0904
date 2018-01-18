@@ -11,10 +11,10 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 // import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { SharedModule } from './shared/shared.module';
 import { AppComponent } from './app.component';
 import { DynamicFormModule } from './dynamic-form/dynamic-form.module';
 import { NavbarComponent } from './navbar/navbar.component';
-import { HeaderComponent } from './header/header.component';
 import { SearchComponent } from './search/search.component';
 import { TabComponent } from './tab/tab.component';
 import { ApplistComponent } from './applist/applist.component';
@@ -64,10 +64,9 @@ import { AddConfigComponent } from './add-config/add-config.component';
 import { EditConfigComponent } from './edit-config/edit-config.component';
 import { AppInstanceDetailDetailComponent } from './app-instance-detail-detail/app-instance-detail-detail.component';
 import { OperaOverviewComponent } from './opera-overview/opera-overview.component';
-import { OperaMonitorComponent } from './opera-monitor/opera-monitor.component';
+import { OperaMonitorModule } from './opera-monitor/opera-monitor.module';
 import { OperaEventComponent } from './opera-event/opera-event.component';
 import { OperaLogComponent } from './opera-log/opera-log.component';
-import { EchartsDirective } from './shared/directive/echarts/echarts.directive';
 
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -76,9 +75,7 @@ export function createTranslateHttpLoader(http: HttpClient) {
 @NgModule({
     declarations: [
         AppComponent,
-        EchartsDirective,
         NavbarComponent,
-        HeaderComponent,
         SearchComponent,
         TabComponent,
         ApplistComponent,
@@ -119,7 +116,6 @@ export function createTranslateHttpLoader(http: HttpClient) {
         EditConfigComponent,
         AppInstanceDetailDetailComponent,
         OperaOverviewComponent,
-        OperaMonitorComponent,
         OperaEventComponent,
         OperaLogComponent,
     ],
@@ -134,6 +130,7 @@ export function createTranslateHttpLoader(http: HttpClient) {
         HttpClientModule,
         DynamicFormModule,
         FileUploadModule,
+        SharedModule,
         // 国际化翻译配置
         TranslateModule.forRoot({
             loader: {
@@ -141,7 +138,8 @@ export function createTranslateHttpLoader(http: HttpClient) {
                 useFactory: (createTranslateHttpLoader),
                 deps: [HttpClient]
             }
-        })
+        }),
+        OperaMonitorModule
         // InMemoryWebApiModule.forRoot(InMemoryDataService)
     ],
     providers: [

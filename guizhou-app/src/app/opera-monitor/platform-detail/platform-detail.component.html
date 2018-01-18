@@ -1,0 +1,23 @@
+<div class="d-header">
+    <div class="header-panel">
+        <button nz-button [nzType]="'primary'" [nzSize]="'large'">
+          <span>添加监控图表</span>
+      </button>
+    </div>
+    <div class="header-title">
+        <span>时间选择</span>
+    </div>
+    <div class="header-input">
+        <nz-select style="width: 120px;" [(ngModel)]="selectedOption" [nzSize]="'large'" [nzPlaceHolder]="'choose option'" nzAllowClear>
+            <nz-option *ngFor="let option of options" [nzLabel]="option.label" [nzValue]="option" [nzDisabled]="option.disabled">
+            </nz-option>
+        </nz-select>
+    </div>
+</div>
+<div class="d-content">
+    <div nz-row [nzGutter]="24">
+        <!-- <div nz-col class="gutter-row" [nzXl]="8" [nzMd]="12" [nzXs]="24" *ngFor="let chart of charts">
+            <app-panel-chart [chartStyle]="chart." [chartData]="chartData"></app-panel-chart>
+        </div> -->
+    </div>
+</div>

@@ -1,3 +1,16 @@
-<p>
-  opera-monitor works!
-</p>
+<app-header [title]="title"></app-header>
+<nz-content class="mirror-store-wrapper">
+    <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" class="mirrorTab">
+        <nz-tab (nzClick)="changeToService()">
+            <ng-template #nzTabHeading>
+                平台监控
+            </ng-template>
+        </nz-tab>
+        <nz-tab (nzClick)="changeToPlatform()">
+            <ng-template #nzTabHeading>
+                服务监控
+            </ng-template>
+        </nz-tab>
+    </nz-tabset>
+    <router-outlet></router-outlet>
+</nz-content>
