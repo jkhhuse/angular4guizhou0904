@@ -155,8 +155,8 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   name: string = 'Semlinker';
   @ViewChild('greet') greetDiv: ElementRef;
 
-  @ViewChildren(DynamicFormComponent) formArr: QueryList<DynamicFormComponent>;
-  configArr = [];
+  // @ViewChildren(DynamicFormComponent) formArr: QueryList<DynamicFormComponent>;
+  // configArr = [];
   //  测试viewChildren：https://angular.io/api/core/ViewChildren
   // @ViewChildren(Pane) panes: QueryList<Pane>;
   // serializedPanes: string = '';
@@ -165,38 +165,33 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
 
   toggleRadio() {
     if (this.radioValue === 'prodDomain') {
-      const config11 = [
+      this.config3 = [
         {
           type: 'input',
-          label: 'Last name11',
-          name: 'Lname11',
-          placeholder: 'Enter your Lname11',
+          label: 'Last name2',
+          name: 'Lname2',
+          placeholder: 'Enter your Lname2',
           validation: [Validators.required, Validators.minLength(4)],
           styles: {
             'width': '400px',
           }
         },
       ];
-      let i1;
-      console.log('这是11', this.formArr.map((item, key) => {
-        // console.log('11arr', arr);
-        i1 = item;
-      }));
-      this.formArr.toArray().push(i1);
-      console.log('formarr1', this.formArr);
+      // this.form3.setConfig(this.config3);
     } else {
-      const config12 = [
+      this.config3 = [
         {
           type: 'input',
-          label: 'Last name12',
-          name: 'Lname12',
-          placeholder: 'Enter your Lname12',
+          label: 'Last name3',
+          name: 'Lname3',
+          placeholder: 'Enter your Lname3',
           validation: [Validators.required, Validators.minLength(4)],
           styles: {
             'width': '400px',
           }
         },
       ];
+      // this.form3.setConfig(this.config3);
     }
     this.form3.setConfig(this.config3);
   }
@@ -230,7 +225,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     console.dir(this.greetDiv);
     console.log('form', this.form);
     console.log('form2', this.form2);
-    console.dir(this.formArr);
+    // console.dir(this.formArr);
     // this.form.setValue({})
     // this.form.setValue('name', '');
   }

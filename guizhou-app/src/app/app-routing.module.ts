@@ -44,6 +44,7 @@ const routes: Routes = [
 
   {path: 'appStore', component: AppStoreComponent},
   {path: 'appDetail/:module/:name/:tabName', component: AppDetailComponent},
+  
   {path: 'appOverviewDetail/:instanceId', component: AppOverviewDetailComponent},
   {path: 'appInstanceDetailDetail/:instanceId/:instanceDetailID', component: AppInstanceDetailDetailComponent},
   {path: 'appOverviewDetailDetail/:instanceId/:moduleName', component: AppOverviewDetailDetailComponent},

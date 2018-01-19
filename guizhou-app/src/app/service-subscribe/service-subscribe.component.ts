@@ -248,36 +248,68 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             //   }
             // });
         } else if (this.serviceName === 'redis') {
-            _.map(this.operateMode['replication'], (value1, key1) => {
-                if (value1['type'] === 'int') {
-                    this.formThird3[key1] = {
-                        type: 'input',
-                        inputType: 'number',
-                        label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
-                        name: value1['attribute_name'],
-                        placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-                        value1['description']['zh'] : value1['attribute_name'],
-                        validation: [Validators.required, Validators.min(1)],
-                        styles: {
-                            'width': '400px'
-                        }
-                    };
-                } else if (value1['type'] === 'single_ip_tag') {
-                    // const options$ = this.formThird1Project.value['ip_tag'] || [];
-                    const options$ = [];
-                    this.formThird3[key1] = {
-                        type: 'select',
-                        label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
-                        name: value1['attribute_name'],
-                        options: options$,
-                        placeholder: '请先选择主机标签地址!',
-                        validation: [Validators.required],
-                        styles: {
-                            'width': '400px'
-                        },
-                    };
-                }
-            });
+            if (this.modelValue === 'replication') {
+                this.formThird3 = [];
+                _.map(this.operateMode['replication'], (value1, key1) => {
+                    if (value1['type'] === 'int') {
+                        this.formThird3[key1] = {
+                            type: 'input',
+                            inputType: 'number',
+                            label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
+                            name: value1['attribute_name'],
+                            placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
+                            value1['description']['zh'] : value1['attribute_name'],
+                            validation: [Validators.required, Validators.min(1)],
+                            styles: {
+                                'width': '400px'
+                            }
+                        };
+                    } else if (value1['type'] === 'single_ip_tag') {
+                        const options$ = this.formThird1Project.value['ip_tag'] || [];
+                        // const options$ = [];
+                        this.formThird3[key1] = {
+                            type: 'select',
+                            label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
+                            name: value1['attribute_name'],
+                            options: options$,
+                            placeholder: '请先选择主机标签地址!',
+                            validation: [Validators.required],
+                            styles: {
+                                'width': '400px'
+                            },
+                        };
+                    }
+                });
+            } else if (this.modelValue === 'cluster') {
+                // 这里每次要清除一次数据，不然console会报错
+                this.formThird3 = [];
+                _.map(this.operateMode['cluster'], (value1, key1) => {
+                    if (value1['type'] === 'int') {
+                        this.formThird3[key1] = {
+                            type: 'input',
+                            inputType: 'number',
+                            label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
+                            name: value1['attribute_name'],
+                            placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
+                            value1['description']['zh'] : value1['attribute_name'],
+                            validation: [Validators.required, Validators.min(1)],
+                            styles: {
+                                'width': '400px'
+                            }
+                        };
+                    }
+                });
+            }
+            // this.formThird3 = [{
+            //     type: 'input',
+            //     label: '实例名称',
+            //     name: 'instanceName',
+            //     placeholder: '请输入实例名称',
+            //     validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
+            //     styles: {
+            //         'width': '400px'
+            //     }
+            // }];
             this.formThird3Project.setConfig(this.formThird3);
         }
     }
@@ -366,8 +398,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
           url$.subscribe(values => {
             this.testCluster = values[0];
             this.prodCluster = values[1];
-            this.networkRadioValue = values[1][0]['name'];
-            this.networkRadioValue2 = values[0][0]['name'];
+            this.networkRadioValue = values[1]['length'] > 0 ? values[1][0]['name'] : undefined;
+            this.networkRadioValue2 = values[0]['length'] > 0 ? values[0][0]['name'] : undefined;
             resolve();
           });
         });
@@ -375,11 +407,12 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
 
     getOperateMode() {
         return new Promise((resolve, reject) => {
-            this.http.get(environment.apiService + '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + this.serviceId).subscribe(data => {
+            this.http.get(environment.apiService + '/apiService' + '/groups/' +
+            this.servicesService.getCookie('groupID') + '/services/' + this.serviceId).subscribe(data => {
                 // this.operateMode['standalone'] = data['standalone_config'];
                 // todo next
                 // this.operateMode['replication'] = data['replication_config'];
-                // this.operateMode['cluster'] = data['cluster_config'];
+                this.operateMode['cluster'] = data['cluster_config'];
                 // todo next
                 this.operateMode['replication'] = data['replication_config'];
                 resolve();
@@ -389,7 +422,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
 
     getServiceBasic() {
         return new Promise((resolve, reject) => {
-            this.http.get(environment.apiService + '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + this.serviceId).subscribe(data => {
+            this.http.get(environment.apiService + 
+                '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + this.serviceId).subscribe(data => {
                 // 这里每次都需要清除一次数据，不然数据会重复
                 this.formThird1 = [];
                 this.formThird1Radios = [];
@@ -602,7 +636,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
 
     getServiceAdvanced() {
         return new Promise((resolve, reject) => {
-            this.http.get(environment.apiService + '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + this.serviceId).subscribe(data => {
+            this.http.get(environment.apiService + 
+                '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + this.serviceId).subscribe(data => {
                 // 这里每次都需要清除一次数据，不然数据会重复
                 this.formThird2 = [];
                 this.formThird2Radios = [];
@@ -833,14 +868,18 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     this.formThird4Entity[key] = value;
                 })
             }
-        } else {
-            this.formThird2RadioEntity['mode'] = 'replication';
+        } else if (this.serviceName === 'redis') {
+            this.formThird2RadioEntity['mode'] = this.modelValue;
         }
         // todo next
         if (this.formThird3Project) {
+            this.formThird3Entity = [];
             _.mapKeys(this.formThird3Project['value'], (value, key) => {
+                if (this.modelValue === 'cluster') {
+                    value = parseInt(value);
+                }
                 this.formThird3Entity[key] = value;
-            })
+            });
         } else {
             this.formThird3Entity = {};
         }
@@ -873,11 +912,12 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
             info: {
                 // todo: this.formThird2RadioEntity, this.formThird3Entity
-                basic_config: _.assign(this.formThird1Project.value, this.formThird1RadioEntity,
+                // _.assign方法，会从后往前覆盖Object，所以在开头加上一个{}，确保后面的对象不被覆盖
+                basic_config: _.assign({}, this.formThird1Project.value, this.formThird1RadioEntity,
                     this.serviceName === 'redis' ? this.formThird2RadioEntity : {},
                     this.serviceName === 'mysql' ? this.formThird4Entity : {},
                     this.formThird3Entity),
-                advanced_config: _.assign(this.formThird2Project.value, this.serviceName === 'zookeeper' ?
+                advanced_config: _.assign({}, this.formThird2Project.value, this.serviceName === 'zookeeper' ?
                     this.formThird2RadioEntity : {})
             }
         }

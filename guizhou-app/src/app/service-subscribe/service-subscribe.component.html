@@ -35,7 +35,7 @@
           <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
             <!-- <nz-radio-group [(ngModel)]="this.radioValue" (click)="toggleButton()"> -->
             <nz-radio-group (click)="toggleButton()" [(ngModel)]="this.radioValue">
-              <label nz-radio [nzValue]="'product'" style="margin-right: 25px">
+              <label *ngIf="this.networkRadioValue !== undefined" nz-radio [nzValue]="'product'" style="margin-right: 25px">
                 <span>生产域</span>
                 <!-- <nz-tooltip [nzPlacement]="'rightTop'">
                   <i nz-tooltip class="anticon anticon-question-circle-o" style="position: absolute; right: -10px;"></i>
@@ -51,7 +51,8 @@
                 </nz-tooltip> -->
                 <!-- <i class="anticon anticon-question-circle-o" style="position: absolute; right: -10px;"></i> -->
               </label>
-              <label nz-radio [nzValue]="'test'">
+              <!-- <div>{{ this.networkRadioValue }}</div> -->
+              <label *ngIf="this.networkRadioValue2 !== undefined" nz-radio [nzValue]="'test'">
                 <span>测试域</span>
               </label>
             </nz-radio-group>
@@ -72,7 +73,7 @@
               集群数量》1的时候，需要在这里绑定click事件，切换集群的时候，重新调用getIp函数，现在线上没有多集群，所以暂时不测试 -->
             <nz-radio-group [(ngModel)]="this.networkRadioValue">
               <label *ngFor="let cluster of prodCluster" nz-radio [nzValue]="cluster.name">
-                <span>{{ cluster.name }}</span>
+                <span>{{ cluster.displayName }}</span>
               </label>
             </nz-radio-group>
           </div>
@@ -140,7 +141,10 @@
               <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
                 <nz-radio-group (click)="toggleRadio()" [(ngModel)]="this.modelValue">
                   <label nz-radio [nzValue]="'replication'">
-                    <span>replication</span>
+                    <span>主从</span>
+                  </label>
+                  <label nz-radio [nzValue]="'cluster'">
+                    <span>集群</span>
                   </label>
                 </nz-radio-group>
               </div>
