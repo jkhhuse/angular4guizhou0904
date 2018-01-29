@@ -40,7 +40,7 @@ import { ServiceReleaseComponent } from './service-release/service-release.compo
 import { ServiceInstanceDetailComponent } from "./service-instance-detail/service-instance-detail.component";
 import { ComponentTestComponent } from './component-test/component-test.component';
 import { AppReleaseComponent } from './app-release/app-release.component';
-import { HashLocationStrategy, LocationStrategy } from "@angular/common";
+import {DatePipe, HashLocationStrategy, LocationStrategy} from "@angular/common";
 import { AppDeployComponent } from './app-deploy/app-deploy.component';
 import { ContainerInstanceComponent } from './container-instance/container-instance.component';
 import { ServiceSubscribeComponent } from './service-subscribe/service-subscribe.component';
@@ -150,6 +150,7 @@ export function createTranslateHttpLoader(http: HttpClient) {
         ServicesService,
         CookieService,
         ServiceTestService,
+        DatePipe,
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         // 全局异常捕捉
         {

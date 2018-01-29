@@ -1,6 +1,10 @@
 .opera-log-wrapper{
   margin: 30px 50px;
 }
+.dashboard-resulet-wrapper{
+  max-height: 480px;
+  min-height: 450px;
+}
 .dashboard-resulet{
   font-family: Monaco, "DejaVu Sans Mono", "Liberation Mono", monospace;
   color: rgb(225, 230, 230);
@@ -8,6 +12,7 @@
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   flex-direction: column;
+  overflow: auto;
 }
 .dashboard-li{
   padding: 8px 8px 8px 32px;

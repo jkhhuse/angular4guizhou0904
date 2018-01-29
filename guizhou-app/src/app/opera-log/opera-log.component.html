@@ -1,10 +1,16 @@
 <div class="opera-log-wrapper">
   <div class="opera-log-selects">
+<!--
     <app-group-select (groupidHandler)="groupidHandler($event)"></app-group-select>
+-->
     <br/>
     <button nz-button class="group-name"><span>时间</span> </button>
 
-    <nz-select class="time-select" [(ngModel)]="selectedOption" [nzPlaceHolder]="'choose option'" nzAllowClear>
+    <nz-select class="time-select"
+               [(ngModel)]="selectedOption"
+               [nzPlaceHolder]="'choose option'"
+               (nzOpenChange)="getChartData(selectedOption.value);getConsoleData();"
+    >
       <nz-option
               *ngFor="let option of options"
               [nzLabel]="option.label"
@@ -12,6 +18,8 @@
               [nzDisabled]="option.disabled">
       </nz-option>
     </nz-select>
+    TODO : REMOVE {{selectedOption.value}}
+
   </div>
   <div class="HolyGrail">
     <div class="echarts-wrapper">
@@ -21,58 +29,19 @@
       <div class="dashboard-resulet">
         <p class="dashboard-header">平台日志信息</p>
         <ul>
-          <li class="dashboard-li">
-            <span>2018-01-15 15:28:27.994</span>
-            <span class="log-service">mysql.mysql</span>
-            <span class="log-cluster">ebd</span>
-            <span class="log-node">10.132.49.106</span>
-            <span class="log-instance">bb3a0e81</span>
-            <span class="log-path">stdout</span>
-            <span class="log-message">2018-01-15 07:28:27 143 [Warning] IP address '10.132.49.106' has been resolved to the host name '10.132.49.106', which resembles IPv4-address itself.</span>
-          </li>
-
-          <li class="dashboard-li">
-            <span>2018-01-15 15:28:27.994</span>
-            <span class="log-service">mysql.mysql</span>
-            <span class="log-cluster">ebd</span>
-            <span class="log-node">10.132.49.106</span>
-            <span class="log-instance">bb3a0e81</span>
-            <span class="log-path">stdout</span>
-            <span class="log-message">2018-01-15 07:28:27 143 [Warning] IP address '10.132.49.106' has been resolved to the host name '10.132.49.106', which resembles IPv4-address itself.</span>
-          </li>
-
-          <li class="dashboard-li">
-            <span>2018-01-15 15:28:27.994</span>
-            <span class="log-service">mysql.mysql</span>
-            <span class="log-cluster">ebd</span>
-            <span class="log-node">10.132.49.106</span>
-            <span class="log-instance">bb3a0e81</span>
-            <span class="log-path">stdout</span>
-            <span class="log-message">2018-01-15 07:28:27 143 [Warning] IP address '10.132.49.106' has been resolved to the host name '10.132.49.106', which resembles IPv4-address itself.</span>
-          </li>
-
-          <li class="dashboard-li">
-            <span>2018-01-15 15:28:27.994</span>
-            <span class="log-service">mysql.mysql</span>
-            <span class="log-cluster">ebd</span>
-            <span class="log-node">10.132.49.106</span>
-            <span class="log-instance">bb3a0e81</span>
-            <span class="log-path">stdout</span>
-            <span class="log-message">2018-01-15 07:28:27 143 [Warning] IP address '10.132.49.106' has been resolved to the host name '10.132.49.106', which resembles IPv4-address itself.</span>
-          </li>
-
-          <li class="dashboard-li">
-            <span>2018-01-15 15:28:27.994</span>
-            <span class="log-service">mysql.mysql</span>
-            <span class="log-cluster">ebd</span>
-            <span class="log-node">10.132.49.106</span>
-            <span class="log-instance">bb3a0e81</span>
-            <span class="log-path">stdout</span>
-            <span class="log-message">2018-01-15 07:28:27 143 [Warning] IP address '10.132.49.106' has been resolved to the host name '10.132.49.106', which resembles IPv4-address itself.</span>
+          <li class="dashboard-li" *ngFor="let consoleData of consoleDatas">
+            <span>{{consoleData.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+            <span class="log-service">{{consoleData.service_name}}</span>
+            <span class="log-cluster">{{consoleData.cluster_name}}</span>
+            <span class="log-node">{{consoleData.nodes}}</span>
+            <span class="log-instance">{{consoleData.instance_id}}</span>
+            <span class="log-path">{{consoleData.paths}}</span>
+            <span class="log-message">{{consoleData.message}}</span>
           </li>
         </ul>
       </div>
     </div>
+    <nz-pagination [(nzPageIndex)]="nzPageIndex" [nzTotal]="consolePageNum" (click)="getPageIndex()"></nz-pagination>
   </div>
 
 </div>
