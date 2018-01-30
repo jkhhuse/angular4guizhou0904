@@ -1,0 +1,27 @@
+<div class="opera-log-wrapper">
+  <div class="opera-log-selects">
+    <br/>
+    <button nz-button class="group-name"><span>时间</span> </button>
+
+    <nz-select class="time-select"
+               [(ngModel)]="selectedOption"
+               [nzPlaceHolder]="'choose option'"
+               (nzOpenChange)="getChartData();"
+    >
+      <nz-option
+        *ngFor="let option of options"
+        [nzLabel]="option.label"
+        [nzValue]="option"
+        [nzDisabled]="option.disabled">
+      </nz-option>
+    </nz-select>
+
+  </div>
+<!--
+    <div *ngIf="appId" echarts [options]="logOptions" [loading]="showloading" class="chart-style" (chartInit)="chartInit($event);"></div>
+-->
+    <div *ngIf="appId" echarts [options]="logOptions" [loading]="showloading" class="chart-style"></div>
+
+</div>
+
+

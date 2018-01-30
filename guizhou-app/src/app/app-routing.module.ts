@@ -31,6 +31,7 @@ import {OperaOverviewComponent} from "./opera-overview/opera-overview.component"
 import {OperaLogComponent} from "./opera-log/opera-log.component";
 import {OperaEventComponent} from "./opera-event/opera-event.component";
 import {ServiceApproveComponent} from "./service-approve/service-approve.component";
+import {AppMonitorComponent} from "./app-monitor/app-monitor.component";
 
 
 var BuildImageCateGoryComponent;
@@ -49,6 +50,7 @@ const routes: Routes = [
   {path: 'appOverviewDetailDetail/:instanceId/:moduleName', component: AppOverviewDetailDetailComponent},
 
   {path: 'appDeploy/:appId', component: AppDeployComponent},
+  {path: 'appMonitor', component: AppMonitorComponent},
   {path: 'serviceSubscribe/:serviceName/:serviceId', component: ServiceSubscribeComponent},
   {path: 'serviceApprove/:serviceName/:serviceId', component: ServiceApproveComponent},
 

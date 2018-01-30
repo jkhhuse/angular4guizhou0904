@@ -55,6 +55,7 @@
   border-bottom: solid 1px #ddd;
 }
 .detail-tab-div{
-  height: 160px;
+  height: 100%;
+  width: 100%;
   margin-top: 10px;
 }

@@ -13,6 +13,9 @@ import {HttpErrorResponse} from "@angular/common/http";
   styleUrls: ['./app-instance-detail-detail.component.css']
 })
 export class AppInstanceDetailDetailComponent implements OnInit {
+  private monitor_q = ['cpu.utilization','mem.utilization','net.bytes_sent.total','net.bytes_rcvd.total'];
+  private monitorName = ['CPU利用率','内存利用率','发送字节','接收字节'];
+
 // 标签名
   public title: String = '应用实例详情';
   private instanceId: String;
@@ -21,7 +24,7 @@ export class AppInstanceDetailDetailComponent implements OnInit {
   tabs = [
     {
       index: 1,
-      name: '服务地址'
+      name: '监控'
     },
     {
       index: 2,
@@ -29,7 +32,7 @@ export class AppInstanceDetailDetailComponent implements OnInit {
     },
     {
       index: 3,
-      name: '监控'
+      name: '服务地址'
     },
     {
       index: 4,

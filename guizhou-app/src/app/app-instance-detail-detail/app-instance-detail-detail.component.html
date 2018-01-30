@@ -86,10 +86,27 @@
           {{tab.name}}
         </ng-template>
         <div class="detail-tab-div" *ngIf="tab.index === 1">
-          <div class="detail-instance-wrapper" *ngIf="instanceDetail">
-            <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="8"
-                             [tableTitle]="table8Title"></app-app-nztable>
-          </div>
+          <app-app-monitor  *ngIf="instanceDetailID"
+                            [appId]="instanceDetailID"
+                            [monitor_q]="monitor_q[0]"
+                            [monitorName]="monitorName[0]"
+          ></app-app-monitor>
+          <app-app-monitor  *ngIf="instanceDetailID"
+                            [appId]="instanceDetailID"
+                            [monitor_q]="monitor_q[1]"
+                            [monitorName]="monitorName[1]"
+          ></app-app-monitor>
+          <app-app-monitor  *ngIf="instanceDetailID"
+                            [appId]="instanceDetailID"
+                            [monitor_q]="monitor_q[2]"
+                            [monitorName]="monitorName[2]"
+          ></app-app-monitor>
+          <app-app-monitor  *ngIf="instanceDetailID"
+                            [appId]="instanceDetailID"
+                            [monitor_q]="monitor_q[3]"
+                            [monitorName]="monitorName[3]"
+          ></app-app-monitor>
+
         </div>
         <div class="detail-tab-div" *ngIf="tab.index === 2">
           <div class="detail-instance-wrapper" *ngIf="instanceDetail">
@@ -97,7 +114,12 @@
                              [tableTitle]="table9Title"></app-app-nztable>
           </div>
         </div>
-        <div class="detail-tab-div" *ngIf="tab.index === 3"></div>
+        <div class="detail-tab-div" *ngIf="tab.index === 3">
+          <div class="detail-instance-wrapper" *ngIf="instanceDetail">
+            <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="8"
+                             [tableTitle]="table8Title"></app-app-nztable>
+          </div>
+        </div>
         <div class="detail-tab-div" *ngIf="tab.index === 4"></div>
         <div class="detail-tab-div" *ngIf="tab.index === 5"></div>
         <div class="detail-tab-div" *ngIf="tab.index === 6">

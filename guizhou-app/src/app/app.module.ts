@@ -68,6 +68,7 @@ import { OperaLogComponent } from './opera-log/opera-log.component';
 import { EchartsDirective } from './shared/directive/echarts/echarts.directive';
 import { ServiceApproveComponent } from './service-approve/service-approve.component';
 import {OperaMonitorModule} from './opera-monitor/opera-monitor.module';
+import { AppMonitorComponent } from './app-monitor/app-monitor.component';
 
 
 export function createTranslateHttpLoader(http: HttpClient) {
@@ -119,7 +120,8 @@ export function createTranslateHttpLoader(http: HttpClient) {
         OperaOverviewComponent,
         OperaEventComponent,
         OperaLogComponent,
-        ServiceApproveComponent
+        ServiceApproveComponent,
+        AppMonitorComponent
     ],
     imports: [
         BrowserModule,
