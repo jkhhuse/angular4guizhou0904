@@ -28,7 +28,6 @@ export class OperaLogComponent implements OnInit {
   // 时间戳相关
   private end_time = new Date().getTime(); // 结束时间是当前时间
   // get日志接口参数
-  private pageno = '1';
   private paths = 'stdout,spring.log,oracle.log';
   private read_log_source_name = 'default';
   private size = '50';
@@ -111,8 +110,8 @@ export class OperaLogComponent implements OnInit {
     };
   }
 
-  getChartData(nowValue) {
-    console.log('nowValue: ' + nowValue);
+  getChartData(nzPageIndex) {
+    console.log("getChartData nzPageIndex: " + nzPageIndex);
     console.log('selectedOption: ' + this.selectedOption.value);
     this.http.get(environment.apiAlauda + '/logs/' + environment.namespace + '/aggregations',
       {
@@ -121,7 +120,7 @@ export class OperaLogComponent implements OnInit {
           // 开始时间是当前时间往前推 选中的间隔时间
           'start_time': (this.end_time - this.selectedOption.value)/1000,
           'namespace': environment.namespace,
-          'pageno': this.pageno,
+          'pageno': nzPageIndex,
           'paths': this.paths,
           'read_log_source_name': this.read_log_source_name,
           'size': this.size,
@@ -136,9 +135,8 @@ export class OperaLogComponent implements OnInit {
         }
     })
   }
-  getConsoleData() {
-    //http://10.132.49.101:28090/ajax/v1/logs/alauda/search
-    // ?end_time=1517224465.471&namespace=alauda&pageno=1&paths=stdout,spring.log,oracle.log&read_log_source_name=default&size=50&start_time=1517222665.471
+  getConsoleData(nzPageIndex) {
+    console.log("getConsoleData nzPageIndex: " + nzPageIndex);
     this.http.get(environment.apiAlauda + '/logs/' + environment.namespace + '/search',
       {
         'params': {
@@ -146,7 +144,7 @@ export class OperaLogComponent implements OnInit {
           // 开始时间是当前时间往前推 选中的间隔时间
           'start_time': (this.end_time - this.selectedOption.value)/1000,
           'namespace': environment.namespace,
-          'pageno': this.pageno,
+          'pageno': nzPageIndex,
           'paths': this.paths,
           'read_log_source_name': this.read_log_source_name,
           'size': this.size,
@@ -156,7 +154,7 @@ export class OperaLogComponent implements OnInit {
         // 处理控制台数据
         this.consoleDatas = response.json().logs;
         this.consolePageNum = response.json().total_page;
-        console.log(this.consoleDatas);
+        // console.log(this.consoleDatas);
       }
     })
   }
@@ -178,8 +176,8 @@ export class OperaLogComponent implements OnInit {
       this.selectedOption = this.options[0];
       // 延迟加载获取顶部表格数据
       setTimeout(_ => {
-        this.getChartData(this.selectedOption.value);
-        this.getConsoleData();
+        this.getChartData(this.nzPageIndex);
+        this.getConsoleData(this.nzPageIndex);
       },0);
 
 

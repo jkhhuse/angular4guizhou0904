@@ -9,7 +9,7 @@
     <nz-select class="time-select"
                [(ngModel)]="selectedOption"
                [nzPlaceHolder]="'choose option'"
-               (nzOpenChange)="getChartData(selectedOption.value);getConsoleData();"
+               (nzOpenChange)="getChartData(nzPageIndex);getConsoleData(nzPageIndex);"
     >
       <nz-option
               *ngFor="let option of options"
@@ -18,7 +18,6 @@
               [nzDisabled]="option.disabled">
       </nz-option>
     </nz-select>
-    TODO : REMOVE {{selectedOption.value}}
 
   </div>
   <div class="HolyGrail">
@@ -39,9 +38,12 @@
             <span class="log-message">{{consoleData.message}}</span>
           </li>
         </ul>
+
       </div>
     </div>
-    <nz-pagination [(nzPageIndex)]="nzPageIndex" [nzTotal]="consolePageNum" (click)="getPageIndex()"></nz-pagination>
+    <div class="log_page_wrapper">
+      <nz-pagination class="log_page" [(nzPageIndex)]="nzPageIndex" [nzTotal]="consolePageNum" (click)="getChartData(nzPageIndex);getConsoleData(nzPageIndex);"></nz-pagination>
+    </div>
   </div>
 
 </div>

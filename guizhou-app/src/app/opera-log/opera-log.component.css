@@ -78,3 +78,9 @@
   background-color: rgb(38, 50, 56);
   overflow: auto;
 }
+.log_page_wrapper{
+  margin-top:20px;
+}
+.log_page{
+  float:right;
+}
