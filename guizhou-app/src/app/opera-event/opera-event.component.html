@@ -137,12 +137,17 @@
         <tbody nz-tbody>
             <tr nz-tbody-tr *ngFor="let data of nzTable.data">
                 <td nz-td>{{ data.userName }}</td>
-                <td nz-td>{{ data.operateType }}</td>
+                <td nz-td>{{ data.operateType | convertTagPipe }}</td>
                 <td nz-td>{{ data.opObj }}</td>
-                <td nz-td>{{ data.operateResult }}</td>
-                <td nz-td>{{ data.operateRemark }}</td>
+                <td nz-td *ngIf="data.operateResult==='successed'">
+                    <nz-tag [nzColor]="'#88D068'">{{ data.operateResult | convertTagPipe }}</nz-tag>
+                </td>
+                <td nz-td *ngIf="data.operateResult==='failed'">
+                    <nz-tag [nzColor]="'#F04134'">{{ data.operateResult | convertTagPipe }}</nz-tag>
+                </td>
                 <td nz-td>{{ data.clientIp }}</td>
                 <td nz-td>{{ data.serverAddress }}</td>
+                <td nz-td>{{ data.operateRemark }}</td>
                 <td nz-td>{{ data.operateTime | date:"y-MM-dd HH:mm:ss" }}</td>
                 <td nz-td class="log-option" (click)="showLogModal(data.id)">查看</td>
             </tr>
