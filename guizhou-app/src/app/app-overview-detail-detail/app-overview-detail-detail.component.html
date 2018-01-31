@@ -108,15 +108,45 @@
         <ng-template #nzTabHeading>
           {{tab.name}}
         </ng-template>
-        <div class="detail-tab-div" *ngIf="tab.index === 1"></div>
+        <div class="detail-tab-div" *ngIf="tab.index === 1">
+          <app-app-monitor  *ngIf="instanceId"
+                            [appId]="instanceId"
+                            [monitor_q]="monitor_q[0]"
+                            [monitorName]="monitorName[0]"
+                            [mouduleName]="moduleName"
+          ></app-app-monitor>
+          <app-app-monitor  *ngIf="instanceId"
+                            [appId]="instanceId"
+                            [monitor_q]="monitor_q[1]"
+                            [monitorName]="monitorName[1]"
+                            [mouduleName]="moduleName"
+          ></app-app-monitor>
+          <app-app-monitor  *ngIf="instanceId"
+                            [appId]="instanceId"
+                            [monitor_q]="monitor_q[2]"
+                            [monitorName]="monitorName[2]"
+                            [mouduleName]="moduleName"
+          ></app-app-monitor>
+          <app-app-monitor  *ngIf="instanceId"
+                            [appId]="instanceId"
+                            [monitor_q]="monitor_q[3]"
+                            [monitorName]="monitorName[3]"
+                            [mouduleName]="moduleName"
+          ></app-app-monitor>
+        </div>
         <div class="detail-tab-div" *ngIf="tab.index === 2">
+          <app-app-logs *ngIf="instanceId"
+                        [appId]="instanceId"
+                        [moduleName]="moduleName"
+          ></app-app-logs>
+        </div>
+        <div class="detail-tab-div" *ngIf="tab.index === 3"></div>
+        <div class="detail-tab-div" *ngIf="tab.index === 4">
           <div class="detail-instance-wrapper" *ngIf="instanceDetail">
             <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="5"
                              [tableTitle]="table5Title"></app-app-nztable>
           </div>
         </div>
-        <div class="detail-tab-div" *ngIf="tab.index === 3"></div>
-        <div class="detail-tab-div" *ngIf="tab.index === 4"></div>
         <div class="detail-tab-div" *ngIf="tab.index === 5"></div>
         <div class="detail-tab-div" *ngIf="tab.index === 6"></div>
         <div class="detail-tab-div" *ngIf="tab.index === 7"></div>

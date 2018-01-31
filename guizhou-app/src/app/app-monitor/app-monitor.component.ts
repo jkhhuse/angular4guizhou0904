@@ -28,6 +28,9 @@ export class AppMonitorComponent implements OnInit {
   // get监控图表名
   @Input()
   monitorName: string;
+  // 区分模块名--apiApp apiService
+  @Input()
+  mouduleName: string;
 
   // 下拉选择框
   options = [];
@@ -116,23 +119,45 @@ export class AppMonitorComponent implements OnInit {
 
   getChartData() {
     console.log('selectedOption: ' + this.selectedOption.value);
-    this.http.get(environment.apiApp + '/apiApp'  + '/application-instance-microservices/' + this.appId + '/monitors',
-      {
-        'params': {
-          'end': (this.end/1000).toFixed(),
-          // 开始时间是当前时间往前推 选中的间隔时间
-          'start': ((this.end - this.selectedOption.value)/1000).toFixed(),
-          'q': this.monitor_q
-        },
-      }).subscribe(response => {
-      console.log('这是response', response.json());
-      if(response.json().length > 0) {
-         console.log('这是dps', response.json()[0].dps);
-        this.chartData = response.json()[0].dps;
-        // 处理日志数据，分离time和count
-        this.getMonitorData(this.chartData);
-      }
-    })
+    // 如果没有moudule名称，是应用详情监控
+    if(this.mouduleName === 'apiApp') {
+      this.http.get(environment.apiApp + '/apiApp'  + '/application-instance-microservices/' + this.appId + '/monitors',
+        {
+          'params': {
+            'end': (this.end/1000).toFixed(),
+            // 开始时间是当前时间往前推 选中的间隔时间
+            'start': ((this.end - this.selectedOption.value)/1000).toFixed(),
+            'q': this.monitor_q
+          },
+        }).subscribe(response => {
+        console.log('这是response', response.json());
+        if(response.json().length > 0) {
+          console.log('这是dps', response.json()[0].dps);
+          this.chartData = response.json()[0].dps;
+          // 处理日志数据，分离time和count
+          this.getMonitorData(this.chartData);
+        }
+      })
+    } else {
+      // 如果有moudule名称，是实例详情监控
+      this.http.get(environment.apiService + '/apiService'  + '/service-instances/' + this.appId + '/modules/' + this.mouduleName + '/monitors',
+        {
+          'params': {
+            'end': (this.end/1000).toFixed(),
+            // 开始时间是当前时间往前推 选中的间隔时间
+            'start': ((this.end - this.selectedOption.value)/1000).toFixed(),
+            'q': this.monitor_q
+          },
+        }).subscribe(response => {
+        console.log('这是response', response.json());
+        if(response.json().length > 0) {
+          console.log('这是dps', response.json()[0].dps);
+          this.chartData = response.json()[0].dps;
+          // 处理日志数据，分离time和count
+          this.getMonitorData(this.chartData);
+        }
+      })
+    }
   }
 
   chartInit(ec) {

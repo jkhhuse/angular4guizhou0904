@@ -24,6 +24,9 @@ export class AppLogsComponent implements OnInit {
   // get应用ID
   @Input()
   appId: string;
+  // get实例名称
+  @Input()
+  moduleName: string;
   // 时间戳相关
   private end_time = new Date().getTime(); // 结束时间是当前时间
   // 控制台数据
@@ -31,22 +34,44 @@ export class AppLogsComponent implements OnInit {
   // 每页显示个数
   limit = 500;
   getConsoleData() {
-    this.consoleDatas = [];
-    this.http.get(environment.apiApp + '/apiApp'  + '/application-instance-microservices/' + '83129b4b-a859-4527-9d82-655857b873c4' + '/logs',
-      {
-        'params': {
-          'end_time': this.end_time/1000,
-          // 开始时间是当前时间往前推 60480000(7天)
-          'start_time': (this.end_time - 604800000)/1000,
-          'limit': this.limit,
-        },
-      }).subscribe(response => {
-      if(response.json() && response.json()) {
-        // 处理控制台数据
-        this.consoleDatas = response.json();
-        console.log(this.consoleDatas);
-      }
-    })
+    // 没有实例名称，是应用详情的日志/apiApp
+    if(this.moduleName === 'apiApp') {
+      this.consoleDatas = [];
+      this.http.get(environment.apiApp + '/apiApp'  + '/application-instance-microservices/' + this.appId + '/logs',
+        {
+          'params': {
+            'end_time': this.end_time/1000,
+            // 开始时间是当前时间往前推 60480000(7天)
+            'start_time': (this.end_time - 604800000)/1000,
+            'limit': this.limit,
+          },
+        }).subscribe(response => {
+        if(response.json() && response.json()) {
+          // 处理控制台数据
+          this.consoleDatas = response.json();
+          console.log(this.consoleDatas);
+        }
+      })
+      // 有实例名称，是实例详情的日志/apiService
+    } else {
+      this.consoleDatas = [];
+      this.http.get(environment.apiService + '/apiService'  + '/service-instances/' + this.appId + '/modules/' + this.moduleName +  '/logs',
+        {
+          'params': {
+            'end_time': this.end_time/1000,
+            // 开始时间是当前时间往前推 60480000(7天)
+            'start_time': (this.end_time - 604800000)/1000,
+            'limit': this.limit,
+          },
+        }).subscribe(response => {
+        if(response.json() && response.json()) {
+          // 处理控制台数据
+          this.consoleDatas = response.json();
+          console.log(this.consoleDatas);
+        }
+      })
+    }
+
   }
 
   constructor(private http: Http, private datePipe: DatePipe) {
