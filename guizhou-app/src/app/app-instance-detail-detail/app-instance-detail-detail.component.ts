@@ -28,7 +28,7 @@ export class AppInstanceDetailDetailComponent implements OnInit {
     },
     {
       index: 2,
-      name: '容器实例'
+      name: '日志'
     },
     {
       index: 3,
@@ -36,7 +36,7 @@ export class AppInstanceDetailDetailComponent implements OnInit {
     },
     {
       index: 4,
-      name: '日志'
+      name: '容器实例'
     },
     {
       index: 5,

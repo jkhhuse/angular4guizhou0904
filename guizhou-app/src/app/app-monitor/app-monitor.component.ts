@@ -155,12 +155,11 @@ export class AppMonitorComponent implements OnInit {
     ];
     // 默认值为最近三十分钟
     this.selectedOption = this.options[0];
-    this.getChartData();
 
     // 延迟加载获取顶部表格数据
     setTimeout(_ => {
       this.getChartData();
-    },1000);
+    },0);
   }
 }
 
