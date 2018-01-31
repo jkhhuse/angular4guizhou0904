@@ -1,5 +1,18 @@
 <div class="event-chart-wrapper">
     <div nz-row [nzGutter]="8" class="event-chart">
+        <div class="event-chart-selector">
+            <div>平台事件数</div>
+            <div>
+                <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()" [nzIndeterminate]="indeterminate">
+                  <span>全选</span>
+                </label>
+                <nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="updateSingleChecked()"></nz-checkbox-group>
+                <nz-select style="width: 60px;" [(ngModel)]="selectedTime" (nzOpenChange)="refreshEventChart()" [nzPlaceHolder]="'choose option'" nzAllowClear>
+                    <nz-option *ngFor="let option of timeOptions" [nzLabel]="option.label" [nzValue]="option" [nzDisabled]="option.disabled">
+                    </nz-option>
+                </nz-select>
+            </div>
+        </div>
         <div nz-col class="gutter-row" [nzSpan]="24">
             <div class="gutter-box">
                 <div echarts [options]="eventOptions" [loading]="showloading" class="chart-style"></div>
@@ -17,60 +30,36 @@
     <div class="selector-content" *ngIf="conditionToggle">
         <div class="selector-group">
             <span>操作类型:</span>
-            <nz-radio-group class="selector-element" [(ngModel)]="radioGroup.type" [nzSize]="'large'">
-                <label nz-radio-button [nzValue]="'all'"> 
-                  <span>全部</span> 
-                </label>
-                <label nz-radio-button [nzValue]="'login'"> 
-                  <span>登录</span> 
-                </label>
-                <label nz-radio-button [nzValue]="'logout'"> 
-                  <span>登出</span> 
-                </label>
-                <label nz-radio-button [nzValue]="'create'"> 
-                  <span>创建</span> 
-                </label>
-                <label nz-radio-button [nzValue]="'update'"> 
-                  <span>更新</span> 
-                </label>
-            </nz-radio-group>
+            <div class="btn-group btn-group-toggle selector-element" data-toggle="buttons">
+                <label class="btn btn-nz" (click)="checkTypeAll()" [ngClass]="{'active':checkTypeMaster===true}">
+                全部
+              </label>
+                <label class="btn btn-nz" *ngFor="let option of typeOption" [ngClass]="{'active':option.checked===true}" (click)="isTypeAllChecked(option)">
+                {{ option.label }}
+              </label>
+            </div>
         </div>
         <div class="selector-group">
             <span>操作对象:</span>
-            <nz-radio-group class="selector-element" [(ngModel)]="radioGroup.object" [nzSize]="'large'">
-                <label nz-radio-button [nzValue]="'all'"> 
-                  <span>全部</span> 
+            <div class="btn-group btn-group-toggle selector-element" data-toggle="buttons">
+                <label class="btn btn-nz" (click)="checkObjAll()" [ngClass]="{'active':checkObjMaster===true}">
+                  全部
                 </label>
-                <label nz-radio-button [nzValue]="'project'"> 
-                  <span>项目</span> 
+                <label class="btn btn-nz" *ngFor="let option of objOption" [ngClass]="{'active':option.checked===true}" (click)="isObjAllChecked(option)">
+                  {{ option.label }}
                 </label>
-                <label nz-radio-button [nzValue]="'user'"> 
-                  <span>用户</span> 
-                </label>
-                <label nz-radio-button [nzValue]="'resource'"> 
-                  <span>资源</span> 
-                </label>
-                <label nz-radio-button [nzValue]="'image'"> 
-                  <span>镜像</span> 
-                </label>
-                <label nz-radio-button [nzValue]="'service'"> 
-                  <span>服务</span> 
-                </label>
-                <label nz-radio-button [nzValue]="'application'"> 
-                  <span>应用</span> 
-                </label>
-            </nz-radio-group>
+            </div>
         </div>
         <div class="selector-group">
             <span>操作结果:</span>
             <nz-radio-group class="selector-element" [(ngModel)]="radioGroup.result" [nzSize]="'large'">
-                <label nz-radio-button [nzValue]="'all'"> 
+                <label nz-radio-button [nzValue]="'ALL'"> 
                   <span>全部</span> 
                 </label>
-                <label nz-radio-button [nzValue]="'success'"> 
+                <label nz-radio-button [nzValue]="'SUCCESSED'"> 
                   <span>成功</span> 
                 </label>
-                <label nz-radio-button [nzValue]="'failed'"> 
+                <label nz-radio-button [nzValue]="'FAILED'"> 
                   <span>失败</span> 
                 </label>
             </nz-radio-group>
@@ -78,17 +67,14 @@
         <div class="selector-group">
             <span>操作时间:</span>
             <nz-radio-group class="selector-element" [(ngModel)]="radioGroup.time" [nzSize]="'large'">
-                <label nz-radio-button [nzValue]="'all'"> 
+                <label nz-radio-button [nzValue]="'ALL'"> 
                   <span>全部</span> 
                 </label>
-                <label nz-radio-button [nzValue]="'sevenDay'"> 
+                <label nz-radio-button [nzValue]="'recseven'"> 
                   <span>七天内</span> 
                 </label>
                 <label nz-radio-button [nzValue]="'today'"> 
                   <span>今天</span> 
-                </label>
-                <label nz-radio-button [nzValue]="'range'"> 
-                  <span>选择时间范围</span> 
                 </label>
             </nz-radio-group>
         </div>
@@ -116,26 +102,32 @@
             <tr>
                 <th nz-th>
                     <span>用户名</span>
-                    <nz-table-sort [(nzValue)]="sortMap.user" (nzValueChange)="sort('user', $event)"></nz-table-sort>
+                    <!-- <nz-table-sort [(nzValue)]="sortMap.user" (nzValueChange)="sort('user', $event)"></nz-table-sort> -->
                 </th>
                 <th nz-th>
                     <span>操作类型</span>
-                    <nz-table-sort [(nzValue)]="sortMap.type" (nzValueChange)="sort('type', $event)"></nz-table-sort>
+                    <!-- <nz-table-sort [(nzValue)]="sortMap.type" (nzValueChange)="sort('type', $event)"></nz-table-sort> -->
                 </th>
                 <th nz-th>
                     <span>操作对象</span>
-                    <nz-table-sort [(nzValue)]="sortMap.object" (nzValueChange)="sort('object', $event)"></nz-table-sort>
+                    <!-- <nz-table-sort [(nzValue)]="sortMap.object" (nzValueChange)="sort('object', $event)"></nz-table-sort> -->
                 </th>
                 <th nz-th>
                     <span>操作结果</span>
-                    <nz-table-sort [(nzValue)]="sortMap.result" (nzValueChange)="sort('result', $event)"></nz-table-sort>
+                    <!-- <nz-table-sort [(nzValue)]="sortMap.result" (nzValueChange)="sort('result', $event)"></nz-table-sort> -->
+                </th>
+                <th nz-th>
+                    <span>客户端IP</span>
+                </th>
+                <th nz-th>
+                    <span>服务端IP</span>
                 </th>
                 <th nz-th>
                     <span>操作备注</span>
                 </th>
                 <th nz-th>
                     <span>操作时间</span>
-                    <nz-table-sort [(nzValue)]="sortMap.time" (nzValueChange)="sort('time', $event)"></nz-table-sort>
+                    <!-- <nz-table-sort [(nzValue)]="sortMap.time" (nzValueChange)="sort('time', $event)"></nz-table-sort> -->
                 </th>
                 <th nz-th>
                     <span>查看日志</span>
@@ -144,14 +136,26 @@
         </thead>
         <tbody nz-tbody>
             <tr nz-tbody-tr *ngFor="let data of nzTable.data">
-                <td nz-td>{{data.user}}</td>
-                <td nz-td>{{data.type}}</td>
-                <td nz-td>{{data.object}}</td>
-                <td nz-td>{{data.result}}</td>
-                <td nz-td>{{data.note}}</td>
-                <td nz-td>{{data.time}}</td>
-                <td nz-td>查看</td>
+                <td nz-td>{{ data.userName }}</td>
+                <td nz-td>{{ data.operateType | convertTagPipe }}</td>
+                <td nz-td>{{ data.opObj }}</td>
+                <td nz-td *ngIf="data.operateResult==='successed'">
+                    <nz-tag [nzColor]="'#88D068'">{{ data.operateResult | convertTagPipe }}</nz-tag>
+                </td>
+                <td nz-td *ngIf="data.operateResult==='failed'">
+                    <nz-tag [nzColor]="'#F04134'">{{ data.operateResult | convertTagPipe }}</nz-tag>
+                </td>
+                <td nz-td>{{ data.clientIp }}</td>
+                <td nz-td>{{ data.serverAddress }}</td>
+                <td nz-td>{{ data.operateRemark }}</td>
+                <td nz-td>{{ data.operateTime | date:"y-MM-dd HH:mm:ss" }}</td>
+                <td nz-td class="log-option" (click)="showLogModal(data.id)">查看</td>
             </tr>
         </tbody>
     </nz-table>
 </div>
+<nz-modal [nzVisible]="isLogVisible" [nzTitle]="'查看日志'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
+    <ng-template #modalContent>
+        {{ logData }}
+    </ng-template>
+</nz-modal>
