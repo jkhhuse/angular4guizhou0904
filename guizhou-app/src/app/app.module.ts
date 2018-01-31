@@ -122,7 +122,7 @@ export function createTranslateHttpLoader(http: HttpClient) {
         OperaEventComponent,
         OperaLogComponent,
         ServiceApproveComponent,
-        ConvertTagPipe
+        ConvertTagPipe,
         AppMonitorComponent,
         AppLogsComponent
     ],
