@@ -9,6 +9,63 @@
     <div class="img-block">
       <p class="detail-title" *ngIf="appInstanceDetail">{{appInstanceDetail.instanceName}}</p>
     </div>
+    <div class="long-block"></div>
+    <div class="action-block">
+      <!--<nz-select  style="width: 120px;"
+                  [(ngModel)]="selectedOption"
+                  [nzPlaceHolder]="'更新'"
+                  (ngModelChange)="alertModel($event);"
+      >
+        <nz-option
+          *ngFor="let option of options"
+          [nzLabel]="option.label"
+          [nzValue]="option"
+          [nzDisabled]="option.disabled"
+        ></nz-option>
+      </nz-select>-->
+      <button nz-button [nzType]="'primary'" (click)="showModal()">
+        <span>更新</span>
+      </button>
+      <nz-modal [nzVisible]="isVisible" [nzTitle]="'版本升级'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
+        <ng-template #modalContent>
+          <div>
+            <div class="modal-div">
+              <div class="modal-tem"></div>
+              <span class="modal-label">应用名称</span>
+              <span class="modal-cont" *ngIf="instanceVersions && appInstanceDetail.app">{{appInstanceDetail.app.appName}}</span>
+              <div class="modal-tem"></div>
+            </div>
+            <div class="modal-div">
+              <div class="modal-tem"></div>
+              <span class="modal-label">当前版本</span>
+              <span class="modal-cont"*ngIf="instanceVersions && appInstanceDetail.app">{{appInstanceDetail.app.version}}</span>
+              <div class="modal-tem"></div>
+            </div>
+            <div class="modal-div">
+              <div class="modal-tem"></div>
+              <span class="modal-label">升级版本</span>
+
+              <nz-select  class="modal-cont"
+                          style="width: 120px;"
+                          [(ngModel)]="selectedVersion"
+                          (ngModelChange)="alertModel($event);"
+              >
+                <nz-option
+                  *ngFor="let option of versionOptions"
+                  [nzLabel]="option"
+                  [nzValue]="option"
+                ></nz-option>
+              </nz-select>
+              <div class="modal-tem"></div>
+
+            </div>
+          </div>
+          <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'更新中'" style="text-align: center;">
+          </nz-spin>
+        </ng-template>
+
+      </nz-modal>
+    </div>
   </div>
   <div nz-row class="detail-desc-wrapper">
     <div nz-col [nzSpan]="12" class="detail-12col first-line">
