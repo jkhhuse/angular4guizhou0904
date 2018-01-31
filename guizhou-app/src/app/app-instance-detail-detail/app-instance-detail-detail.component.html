@@ -6,10 +6,79 @@
       返回</a>
   </div>
   <div nz-row class="detail-img-wrapper">
-    <div nz-col [nzSpan]="6">
       <div class="img-block" *ngIf="instanceDetail">
         <p class="detail-title">{{instanceDetail.microserviceName}}</p>
       </div>
+    <div class="long-block"></div>
+
+    <div class="action-block">
+      <button nz-button [nzType]="'primary'" (click)="showModal()">
+        <span>更新策略</span>
+      </button>
+      <nz-modal [nzVisible]="isVisible" [nzTitle]="'更新策略'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
+        <ng-template #modalContent>
+          <div class="">
+            <div class="modal-div">
+              <div class="modal-tem"></div>
+              <span class="modal-label">调节模式</span>
+              <div class="modal-cont">
+                <nz-radio-group [(ngModel)]="radioValue">
+                  <label nz-radio-button [nzValue]="'manual'">
+                    <span>手动</span>
+                  </label>
+                  <label nz-radio-button [nzValue]="'auto'">
+                    <span>自动</span>
+                  </label>
+                </nz-radio-group>
+              </div>
+              <div class="modal-tem"></div>
+            </div>
+            <div class="modal-div" *ngIf="radioValue === 'manual'">
+              <div class="modal-tem"></div>
+              <span class="modal-label">容器实例数量</span>
+              <span class="modal-cont">
+                    <nz-input [(ngModel)]="manualInput_1" [nzPlaceHolder]="'请输入容器实例数量..'" (ngModelChange)="_console($event)"></nz-input>
+              </span>
+              <div class="modal-tem"></div>
+            </div>
+            <div class="modal-div" *ngIf="radioValue === 'auto'">
+              <div class="modal-tem"></div>
+              <span class="modal-label">实例数量最小值</span>
+              <span class="modal-cont">
+                <nz-input [(ngModel)]="autoInput_1" [nzPlaceHolder]="'请输入实例数量最小值..'"></nz-input>
+              </span>
+              <div class="modal-tem"></div>
+            </div>
+            <div class="modal-div" *ngIf="radioValue === 'auto'">
+              <div class="modal-tem"></div>
+              <span class="modal-label">实例数量最大值</span>
+              <span class="modal-cont">
+                  <nz-input [(ngModel)]="autoInput_2" [nzPlaceHolder]="'请输入实例数量最大值..'"></nz-input>
+              </span>
+              <div class="modal-tem"></div>
+            </div>
+            <div class="modal-div" *ngIf="radioValue === 'auto'">
+              <div class="modal-tem"></div>
+              <span class="modal-label">减少量</span>
+              <span class="modal-cont">
+                  <nz-input [(ngModel)]="autoInput_3" [nzPlaceHolder]="'请输入减少量..'"></nz-input>
+              </span>
+              <div class="modal-tem"></div>
+            </div>
+            <div class="modal-div" *ngIf="radioValue === 'auto'">
+              <div class="modal-tem"></div>
+              <span class="modal-label">增加量</span>
+              <span class="modal-cont">
+                  <nz-input [(ngModel)]="autoInput_4" [nzPlaceHolder]="'请输入增加量..'"></nz-input>
+              </span>
+              <div class="modal-tem"></div>
+            </div>
+          </div>
+          <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'更新中'" style="text-align: center;">
+          </nz-spin>
+        </ng-template>
+
+      </nz-modal>
     </div>
   </div>
 
@@ -86,19 +155,52 @@
           {{tab.name}}
         </ng-template>
         <div class="detail-tab-div" *ngIf="tab.index === 1">
+          <app-app-monitor  *ngIf="instanceDetailID"
+                            [appId]="instanceDetailID"
+                            [monitor_q]="monitor_q[0]"
+                            [monitorName]="monitorName[0]"
+                            [mouduleName]="'apiApp'"
+          ></app-app-monitor>
+          <app-app-monitor  *ngIf="instanceDetailID"
+                            [appId]="instanceDetailID"
+                            [monitor_q]="monitor_q[1]"
+                            [monitorName]="monitorName[1]"
+                            [mouduleName]="'apiApp'"
+          ></app-app-monitor>
+          <app-app-monitor  *ngIf="instanceDetailID"
+                            [appId]="instanceDetailID"
+                            [monitor_q]="monitor_q[2]"
+                            [monitorName]="monitorName[2]"
+                            [mouduleName]="'apiApp'"
+          ></app-app-monitor>
+          <app-app-monitor  *ngIf="instanceDetailID"
+                            [appId]="instanceDetailID"
+                            [monitor_q]="monitor_q[3]"
+                            [monitorName]="monitorName[3]"
+                            [mouduleName]="'apiApp'"
+          ></app-app-monitor>
+
+        </div>
+        <div class="detail-tab-div" *ngIf="tab.index === 2">
+          <div class="detail-instance-wrapper" *ngIf="instanceDetail">
+            <app-app-logs *ngIf="instanceDetailID"
+                          [appId]="instanceDetailID"
+                          [moduleName]="'apiApp'"
+            ></app-app-logs>
+          </div>
+        </div>
+        <div class="detail-tab-div" *ngIf="tab.index === 3">
           <div class="detail-instance-wrapper" *ngIf="instanceDetail">
             <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="8"
                              [tableTitle]="table8Title"></app-app-nztable>
           </div>
         </div>
-        <div class="detail-tab-div" *ngIf="tab.index === 2">
+        <div class="detail-tab-div" *ngIf="tab.index === 4">
           <div class="detail-instance-wrapper" *ngIf="instanceDetail">
             <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="9"
                              [tableTitle]="table9Title"></app-app-nztable>
           </div>
         </div>
-        <div class="detail-tab-div" *ngIf="tab.index === 3"></div>
-        <div class="detail-tab-div" *ngIf="tab.index === 4"></div>
         <div class="detail-tab-div" *ngIf="tab.index === 5"></div>
         <div class="detail-tab-div" *ngIf="tab.index === 6">
           <div class="detail-instance-wrapper" *ngIf="instanceDetail">

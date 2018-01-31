@@ -13,27 +13,41 @@ import {HttpErrorResponse} from "@angular/common/http";
   styleUrls: ['./app-instance-detail-detail.component.css']
 })
 export class AppInstanceDetailDetailComponent implements OnInit {
-// 标签名
+  private monitor_q = ['cpu.utilization','mem.utilization','net.bytes_sent.total','net.bytes_rcvd.total'];
+  private monitorName = ['CPU利用率','内存利用率','发送字节','接收字节'];
+  _isSpinning = false;
+
+  // 标签名
   public title: String = '应用实例详情';
   private instanceId: String;
   private instanceDetailID: String;
   private instanceDetail: any;
+  // 默认更新策略调节模式为手动
+  private radioValue = 'manual';
+  // 手动调节模式 输入值
+  manualInput_1 = 1;
+  // 自动调节模式 输入值
+  autoInput_1 = 1;
+  autoInput_2 = 20;
+  autoInput_3 = 1;
+  autoInput_4 = 1;
+
   tabs = [
     {
       index: 1,
-      name: '服务地址'
-    },
-    {
-      index: 2,
-      name: '容器实例'
-    },
-    {
-      index: 3,
       name: '监控'
     },
     {
-      index: 4,
+      index: 2,
       name: '日志'
+    },
+    {
+      index: 3,
+      name: '服务地址'
+    },
+    {
+      index: 4,
+      name: '容器实例'
     },
     {
       index: 5,
@@ -124,6 +138,36 @@ export class AppInstanceDetailDetailComponent implements OnInit {
       name: '关联服务路径',
     }
   ];
+
+  isVisible = false;
+
+  showModal = () => {
+    this.isVisible = true;
+
+  }
+
+  handleOk = (e) => {
+    console.log('点击了确定');
+    this._isSpinning = true;
+    // 发送请求更新版本
+    // this.putNewVersion();
+    setTimeout(() => {
+      // 更新实例的数据体
+      console.log('更新成功，更新列表');
+     // this.getInitData();
+      this._isSpinning = false;
+      this.isVisible = false;
+    }, 3000);
+  };
+
+  _console(value) {
+    console.log(value);
+  }
+  handleCancel = (e) => {
+    console.log(e);
+    this.isVisible = false;
+  }
+
   createNotification = (type, title, content) => {
     this._notification.create(type, title, content);
   };

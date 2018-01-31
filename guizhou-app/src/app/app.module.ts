@@ -69,6 +69,8 @@ import { EchartsDirective } from './shared/directive/echarts/echarts.directive';
 import { ServiceApproveComponent } from './service-approve/service-approve.component';
 import { OperaMonitorModule } from './opera-monitor/opera-monitor.module';
 import { ConvertTagPipe } from './shared/pipe/ConvertTagPipe.pipe';
+import { AppMonitorComponent } from './app-monitor/app-monitor.component';
+import { AppLogsComponent } from './app-logs/app-logs.component';
 
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -121,6 +123,8 @@ export function createTranslateHttpLoader(http: HttpClient) {
         OperaLogComponent,
         ServiceApproveComponent,
         ConvertTagPipe
+        AppMonitorComponent,
+        AppLogsComponent
     ],
     imports: [
         BrowserModule,

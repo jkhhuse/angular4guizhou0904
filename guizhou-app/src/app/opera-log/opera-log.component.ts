@@ -11,8 +11,8 @@ import {environment} from "../../environments/environment";
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {Http} from '@angular/http';
-import { DatePipe } from '@angular/common';
-import { ConsoleData } from './opera-log.model';
+import {DatePipe} from '@angular/common';
+import {ConsoleData} from './opera-log.model';
 
 declare var echarts: any;
 
@@ -62,7 +62,6 @@ export class OperaLogComponent implements OnInit {
   getLogData(logData) {
     this.xAxisData = [];
     this.yAxisData = [];
-
     for (let i = 0; i < logData.length; i++) {
       // 使用DatePipe格式化时间戳，需要*1000解决时间戳都是从1970年开始的问题
       let tempDate = new Date(logData[i].time * 1000);
@@ -78,10 +77,10 @@ export class OperaLogComponent implements OnInit {
       this.showloading = false;
     }
   }
+
   getLogOption() {
     this.logOptions = {
       color: ['#5294CA'],
-
       /* legend: {
            data: ['bar'],
            align: 'left'
@@ -135,6 +134,7 @@ export class OperaLogComponent implements OnInit {
         }
     })
   }
+
   getConsoleData(nzPageIndex) {
     console.log("getConsoleData nzPageIndex: " + nzPageIndex);
     this.http.get(environment.apiAlauda + '/logs/' + environment.namespace + '/search',
@@ -158,9 +158,7 @@ export class OperaLogComponent implements OnInit {
       }
     })
   }
-  getPageIndex() {
-    console.log(this.nzPageIndex);
-  }
+
   ngOnInit() {
       // 加载选择器的内容
       this.options = [
@@ -179,14 +177,5 @@ export class OperaLogComponent implements OnInit {
         this.getChartData(this.nzPageIndex);
         this.getConsoleData(this.nzPageIndex);
       },0);
-
-
-   /* setTimeout(_ => {
-      console.log('this.chartData.length: ' + this.chartData.length);
-      if(this.chartData.length > 0) {
-        this.getLogOption();
-      }
-      this.showloading = false;
-    }, 0);*/
   }
 }

@@ -1,0 +1,22 @@
+<button nz-button [nzType]="'primary'" style="margin-bottom: 15px;" (click)="getConsoleData();">
+  <i class="anticon anticon-retweet"></i><span>刷新</span>
+</button>
+<div class="HolyGrail">
+  <div class="dashboard-resulet-wrapper" style="position: relative">
+    <div class="dashboard-resulet">
+      <p class="dashboard-header">日志信息</p>
+      <ul>
+        <li class="dashboard-li" *ngFor="let consoleData of consoleDatas">
+          <span>{{consoleData.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+          <span class="log-service">{{consoleData.service_name}}</span>
+          <span class="log-cluster">{{consoleData.cluster_name}}</span>
+          <span class="log-node">{{consoleData.nodes}}</span>
+          <span class="log-instance">{{consoleData.instance_id}}</span>
+          <span class="log-path">{{consoleData.paths}}</span>
+          <span class="log-message">{{consoleData.message}}</span>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>

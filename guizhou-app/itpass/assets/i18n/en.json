@@ -1,0 +1,6 @@
+{
+    "hello": "the word is hello",
+    "catalog_invalid_config ": "Your configuration is invalid",
+    "catalog_invalid_node_ip_tag": "The node num and node tag of the configuration is mismatched",
+    "redis_cluster_invalid_node_num": "Redis cluster mode, the number of nodes must be greater than 5"
+}
