@@ -13,9 +13,8 @@
   margin-left: 25px;
   font-size: 20px;
 }
-.detail-img-wrapper .img-block{
-  display: table-cell;
-  vertical-align: middle;
+.detail-img-wrapper{
+  display: flex;
 }
 .detail-desc-wrapper{
   margin: 20px 0;
@@ -58,4 +57,30 @@
   height: 100%;
   width: 100%;
   margin-top: 10px;
+}
+#modalContent{
+  display: flex;
+}
+.modal-div{
+  display: flex;
+  height: 40px;
+  padding: 5px;
+}
+.modal-tem{
+  flex: 0 0 5%;
+}
+.modal-label{
+  flex: 0 0 25%;
+}
+.modal-cont{
+  flex: 1;
+}
+.img-block{
+  flex: 0 0 20%;
+}
+.long-block{
+  flex: 1;
+}
+.action-block{
+  flex: 0 0 3%;
 }

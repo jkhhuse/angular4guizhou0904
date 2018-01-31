@@ -31,16 +31,16 @@ export class AppNztableComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    console.log("mirrorDetail: " + this.mirrorDetail);
-    console.log("tableNum: " + this.tableNum);
-    console.log("tableTitle: " + this.tableTitle);
+    // console.log("mirrorDetail: " + this.mirrorDetail);
+    // console.log("tableNum: " + this.tableNum);
+    // console.log("tableTitle: " + this.tableTitle);
   }
 
 
   refreshData(reset = false) {
     this._loading = true;
     this._dataSet = this.mirrorDetail;
-    console.log(this._dataSet);
+    // console.log(this._dataSet);
     this._loading = false;
   }
 

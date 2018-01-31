@@ -49,7 +49,7 @@ export class AppLogsComponent implements OnInit {
         if(response.json() && response.json()) {
           // 处理控制台数据
           this.consoleDatas = response.json();
-          console.log(this.consoleDatas);
+          // console.log(this.consoleDatas);
         }
       })
       // 有实例名称，是实例详情的日志/apiService

@@ -139,6 +139,7 @@ export class AppOverviewDetailComponent implements OnInit {
 
   putNewVersion () {
     console.log('选择升级的版本为：' + this.selectedVersion);
+    // TO DO: 获取userID后续需要修改为当前userID
     this.http.put(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/application-instances/' + this.instanceId, {
       'applicationVersion': this.selectedVersion,
       'updateUserId': '0'

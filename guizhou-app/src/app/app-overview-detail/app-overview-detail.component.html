@@ -11,18 +11,6 @@
     </div>
     <div class="long-block"></div>
     <div class="action-block">
-      <!--<nz-select  style="width: 120px;"
-                  [(ngModel)]="selectedOption"
-                  [nzPlaceHolder]="'更新'"
-                  (ngModelChange)="alertModel($event);"
-      >
-        <nz-option
-          *ngFor="let option of options"
-          [nzLabel]="option.label"
-          [nzValue]="option"
-          [nzDisabled]="option.disabled"
-        ></nz-option>
-      </nz-select>-->
       <button nz-button [nzType]="'primary'" (click)="showModal()">
         <span>更新</span>
       </button>

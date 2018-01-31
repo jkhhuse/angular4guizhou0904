@@ -67,15 +67,15 @@ export class AppMonitorComponent implements OnInit {
   getMonitorData(monitorData) {
     this.xAxisData = [];
     this.yAxisData = [];
-    console.log('this.monitorData: ' + monitorData);
+    //console.log('this.monitorData: ' + monitorData);
 
     for(let key in monitorData) {
       // 使用DatePipe格式化时间戳，需要*1000解决时间戳都是从1970年开始的问题
       this.xAxisData.push(this.datePipe.transform(parseInt(key) * 1000,'yyyy-MM-dd HH:mm:ss'));
       this.yAxisData.push(monitorData[key]);
     }
-     console.log('this.xAxisData: ' + this.xAxisData);
-     console.log('this.yAxisData: ' + this.yAxisData);
+    // console.log('this.xAxisData: ' + this.xAxisData);
+    // console.log('this.yAxisData: ' + this.yAxisData);
     // 处理好数据后，加载chart，取消loading模式
     if(this.xAxisData.length > 0) {
       this.getMonitorOption();
@@ -118,7 +118,7 @@ export class AppMonitorComponent implements OnInit {
   }
 
   getChartData() {
-    console.log('selectedOption: ' + this.selectedOption.value);
+   // console.log('selectedOption: ' + this.selectedOption.value);
     // 如果没有moudule名称，是应用详情监控
     if(this.mouduleName === 'apiApp') {
       this.http.get(environment.apiApp + '/apiApp'  + '/application-instance-microservices/' + this.appId + '/monitors',
@@ -130,9 +130,9 @@ export class AppMonitorComponent implements OnInit {
             'q': this.monitor_q
           },
         }).subscribe(response => {
-        console.log('这是response', response.json());
+       // console.log('这是response', response.json());
         if(response.json().length > 0) {
-          console.log('这是dps', response.json()[0].dps);
+        //  console.log('这是dps', response.json()[0].dps);
           this.chartData = response.json()[0].dps;
           // 处理日志数据，分离time和count
           this.getMonitorData(this.chartData);
@@ -149,9 +149,9 @@ export class AppMonitorComponent implements OnInit {
             'q': this.monitor_q
           },
         }).subscribe(response => {
-        console.log('这是response', response.json());
+        //console.log('这是response', response.json());
         if(response.json().length > 0) {
-          console.log('这是dps', response.json()[0].dps);
+         // console.log('这是dps', response.json()[0].dps);
           this.chartData = response.json()[0].dps;
           // 处理日志数据，分离time和count
           this.getMonitorData(this.chartData);
@@ -161,7 +161,7 @@ export class AppMonitorComponent implements OnInit {
   }
 
   chartInit(ec) {
-    console.log("ec: " + ec);
+    // console.log("ec: " + ec);
     ec.setOption(this.logOptions);
   }
   ngOnInit() {
