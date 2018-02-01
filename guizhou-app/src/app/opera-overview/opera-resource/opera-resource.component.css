@@ -1,0 +1,168 @@
+.opera-resource {
+    border: 1px solid #e6e5e2;
+    padding: 22px 15px 10px 15px;
+    background-color: #fff;
+}
+
+.opera-resource>.resource-header {
+    border-left: 2px solid #9a9791;
+    padding-left: 15px;
+    font-size: 14px;
+}
+
+.container-box {
+    background-color: #f9f9f8;
+    padding: 16px 6px 16px 4px;
+    margin-top: 20px;
+}
+
+.container-box>.container-header {
+    font-size: 12px;
+}
+
+.container-box-view {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 52px;
+    margin-left: 5px;
+}
+
+.container-box-view>.view-title {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #0b9cfa;
+    width: 14%;
+}
+
+.container-box-view>.view-title>span:first-child {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background: #0b9cfa;
+    border-radius: 4px;
+    vertical-align: 2px;
+}
+
+.container-box-view>.view-split {
+    margin-top: 12px;
+    padding: 1px 0px;
+    border-left: 2px solid #9a9791;
+    height: 25px;
+    width: 4%;
+}
+
+.container-box-view>.container-box-metric {
+    font-size: 12px;
+    width: 55%;
+}
+
+.container-box-metric div {
+    height: 20px;
+}
+
+.container-box-count {
+    width: 26%;
+    height: 40px;
+    background-color: #eaeff0;
+    padding: 2px 5px;
+    font-size: 12px;
+    flex: 1 1 auto;
+}
+
+.container-box-count.container-box-placeholder {
+    background-color: #f9f9f8;
+}
+
+.container-box-count>div {
+    text-align: center;
+}
+
+.container-box-count>div:first-child {
+    color: #5294CA;
+}
+
+.subfield-metric-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.subfield-wrapper {
+    padding: 8px 0px 8px 0px;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    font-size: 12px;
+}
+
+.subfield-wrapper>.subfield-box:first-child {
+    margin-right: 10px;
+}
+
+.subfield-wrapper>.subfield-box {
+    flex: 1 1 auto;
+    background-color: #f9f9f8;
+    padding: 10px 2px;
+}
+
+.subfield-header {
+    font-size: 12px;
+}
+
+.subfield-box-view {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: 6px;
+}
+
+.subfield-box-view>.view-title {
+    margin-top: 12px;
+    color: #0b9cfa;
+}
+
+.subfield-box-view>.view-title>span:first-child {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background: #0b9cfa;
+    border-radius: 4px;
+    vertical-align: 2px;
+}
+
+.subfield-box-view>.view-split {
+    margin-top: 12px;
+    border-left: 2px solid #9a9791;
+    height: 25px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.subfield-metric {
+    width: 85%;
+    margin: 15px auto;
+    background-color: #eaeff0;
+    padding: 5px 8px;
+}
+
+.subfield-metric>.subfield-metric-title {
+    color: #5294CA;
+    text-align: center;
+}
+
+.subfield-metric>.subfield-metric-desc {
+    text-align: center;
+}
+
+.health-content {
+    margin-top: 10px;
+}
+
+.health-content>div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 25px;
+}

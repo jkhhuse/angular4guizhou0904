@@ -1,0 +1,56 @@
+<div class="alert-info-wrapper">
+    <div class="alert-info-header">
+        告警信息
+    </div>
+    <div class="alert-info-chart">
+        <div echarts [options]="logOption" [loading]="showloading" class="chart-style"></div>
+    </div>
+    <div class="alert-info-bar">
+        <div class="info-bar-title">
+            告警总数: {{ this.alertState?.alertingState + this.alertState?.nodataState + this.alertState?.okState }}
+        </div>
+        <div class="info-bar-contrast">
+            <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+            <rect [attr.x]="alertLength" y="0" rx="0" ry="0" [attr.width]="alertWidth" height="14" fill="#F20007"></rect>    
+            <rect [attr.x]="noDataLength" y="0" rx="0" ry="0" [attr.width]="noDataWidth" height="14" fill="#F9A246"></rect>   
+            <rect [attr.x]="okLength" y="0" rx="0" ry="0" [attr.width]="okWidth" height="14" fill="#08D4CA"></rect>   
+          </svg>
+        </div>
+        <div class="info-bar-tag">
+            <div class="bar-tag-warn">
+                <div class="tag-mark"></div>
+                警告: {{ this.alertState?.alertingState }}
+            </div>
+            <div class="bar-tag-minor">
+                <div class="tag-mark "></div>
+                无数据: {{ this.alertState?.nodataState }}
+            </div>
+            <div class="bar-tag-critical">
+                <div class="tag-mark"></div>
+                正常: {{ this.alertState?.okState }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="alert-log-wrapper">
+    <div class="alert-log-header">
+        日志信息
+    </div>
+    <div class="alert-log">
+        <div class="steps" *ngFor="let logEvent of logEvents">
+            <div class="steps-step">
+            </div>
+            <div class="step-text">
+                <div class="step-text-time">
+                    {{ logEvent?.operateTime | date:'yyyy-MM-dd HH:mm:ss' }}
+                </div>
+                <div class="step-text-desc">
+                    {{ logEvent?.userName }} {{ logEvent.operateRemark }}
+                </div>
+            </div>
+            <div class="steps-tail">
+                <i></i>
+            </div>
+        </div>
+    </div>
+</div>

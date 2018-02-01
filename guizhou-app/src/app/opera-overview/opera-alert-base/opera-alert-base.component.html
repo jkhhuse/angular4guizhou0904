@@ -1,0 +1,29 @@
+<div class="alert-base-wrapper">
+    <div class="alert-base-header">
+        告警情况
+    </div>
+    <div class="alert-base-chart">
+        <div class="chart-title">
+            应用
+        </div>
+        <div echarts [options]="appOption" [loading]="showloading" class="chart-style"></div>
+    </div>
+    <div class="alert-base-chart">
+        <div class="chart-title">
+            服务
+        </div>
+        <div echarts [options]="serviceOption" [loading]="showloading" class="chart-style"></div>
+    </div>
+    <div class="alert-base-chart">
+        <div class="chart-title">
+            集群
+        </div>
+        <div echarts [options]="clusterOption" [loading]="showloading" class="chart-style"></div>
+    </div>
+    <div class="alert-base-chart">
+        <div class="chart-title">
+            主机
+        </div>
+        <div echarts [options]="hostOption" [loading]="showloading" class="chart-style"></div>
+    </div>
+</div>
