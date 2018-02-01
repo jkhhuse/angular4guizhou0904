@@ -26,12 +26,12 @@ export class AppInstanceDetailDetailComponent implements OnInit {
   // 默认更新策略调节模式为手动
   private scaling_mode = 'MANUAL';
   // 手动调节模式 输入值
-  manualInput_1 = 0;
+  manualInput_1 = 1;
   // 自动调节模式 输入值
-  autoInput_1 = 0;
-  autoInput_2 = 0;
-  autoInput_3 = 0;
-  autoInput_4 = 0;
+  autoInput_1 = 1;
+  autoInput_2 = 1;
+  autoInput_3 = 1;
+  autoInput_4 = 1;
   tabs = [
     {
       index: 1,
@@ -172,6 +172,11 @@ export class AppInstanceDetailDetailComponent implements OnInit {
   }
   handleCancel = (e) => {
     console.log(e);
+    console.log('this.autoInput_1: ' + this.autoInput_1);
+    console.log('this.autoInput_2: ' + this.autoInput_2);
+    console.log('this.autoInput_3: ' + this.autoInput_3);
+    console.log('this.autoInput_4: ' + this.autoInput_4);
+
     this.isVisible = false;
   }
 
@@ -224,10 +229,13 @@ export class AppInstanceDetailDetailComponent implements OnInit {
             this.manualInput_1 = this.instanceDetail.podsCount;
           } else {
             // 自动调节模式 输入值
-            this.autoInput_1 = 1;
-            this.autoInput_2 = 20;
-            this.autoInput_3 = 1;
-            this.autoInput_4 = 1;
+            let autoscaling_config = this.instanceDetail.info.autoscaling_config;
+            autoscaling_config = eval ("(" + autoscaling_config + ")");
+            console.log(autoscaling_config);
+            this.autoInput_1 = autoscaling_config.decrease_delta;
+            this.autoInput_2 = autoscaling_config.increase_delta;
+            this.autoInput_3 = autoscaling_config.maximum_num_instances;
+            this.autoInput_4 = autoscaling_config.minimum_num_instances;
           }
         }
       },
