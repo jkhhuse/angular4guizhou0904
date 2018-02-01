@@ -11,6 +11,7 @@ export class GroupSelectComponent implements OnInit {
     firstGroupName: string;
     firstGroupID: number;
     groupList: any;
+    selectGroup: any;
     // groupId: string;
     // groupName: string;
     changeGroup(data) {
@@ -24,8 +25,10 @@ export class GroupSelectComponent implements OnInit {
             if (this.servicesService.getCookie('groupID') === temp[1]) {
                 // 如果传入的新groupid和cookie里面已经保存的一样，不需要刷新页面
             } else {
-                this.servicesService.setCookie('groupID', temp[1]);
-                console.log('SETcookie: ' + this.servicesService.getCookie('groupID'));
+              // 更新groupID 和 groupName
+              this.servicesService.setCookie('groupID', temp[1]);
+              this.servicesService.setCookie('groupName', data);
+              console.log('changeGroup SETcookie: ' + this.servicesService.getCookie('groupID'));
                 // 如果更新groupid，向父组件传送一个子组件的string对象
                 this.groupidHandler.emit(temp[1]);
             }
@@ -58,20 +61,28 @@ export class GroupSelectComponent implements OnInit {
             // this.groupList  = [ 'aaa_1', 'testd_2', 'BDOC-TEST-11_5', 'GGGGGGG_10', 'GROUP2_9', 'test111_8', 'asd_7'];
             console.log('groupList: ' + this.groupList);
             console.log('groupList[0]: ' + this.groupList[0]);
-            // 加载项目选择框的时候，默认把第一个group作为默认项目组
-            const temp = this.groupList[0].split('_');
-            this.firstGroupName = this.groupList[0];
-            this.firstGroupID = temp[1];
-            console.log(this.firstGroupName);
-            console.log(this.firstGroupID);
-            // 向外传出默认的第一个groupid
-            this.groupidHandler.emit(temp[1]);
-
-            // 往cookie中传入第一个id值
-            this.servicesService.setCookie('groupID', this.firstGroupID);
+           // 加载项目选择框的时候，默认把第一个group作为默认项目组
+           const temp = this.groupList[0].split('_');
+           this.firstGroupName = this.groupList[0];
+           this.firstGroupID = temp[1];
+           // console.log(this.firstGroupName);
+           // console.log(this.firstGroupID);
+           // alert(this.servicesService.getCookie('groupID'));
+            if((this.servicesService.getCookie('groupID') === '' ) || (typeof(this.servicesService.getCookie('groupID'))=="undefined")) {
+              // 如果cookie的值是空的，往cookie中传入第一个id值
+              this.servicesService.setCookie('groupID', this.firstGroupID);
+              this.servicesService.setCookie('groupName', this.firstGroupName);
+              this.selectGroup = this.firstGroupName;
+              // 向外传出默认的第一个groupid
+              this.groupidHandler.emit(temp[1]);
+            } else {
+              // 如果cookie的值不是空的，从已有的cookie中选择出旧的groupID
+              // 向外传出默认的groupid
+              this.groupidHandler.emit(this.servicesService.getCookie('groupID'));
+              // 如果已经有存在的group，从cookie中取得选中的groupName
+              this.selectGroup = this.servicesService.getCookie('groupName');
+            }
          });
-        console.log('group-select init cookie: ' + this.servicesService.getCookie('groupID'));
-
     }
 }
 /*

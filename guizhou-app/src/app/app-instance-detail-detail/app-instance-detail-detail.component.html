@@ -22,54 +22,54 @@
               <div class="modal-tem"></div>
               <span class="modal-label">调节模式</span>
               <div class="modal-cont">
-                <nz-radio-group [(ngModel)]="radioValue">
-                  <label nz-radio-button [nzValue]="'manual'">
+                <nz-radio-group [(ngModel)]="scaling_mode">
+                  <label nz-radio-button [nzValue]="'MANUAL'">
                     <span>手动</span>
                   </label>
-                  <label nz-radio-button [nzValue]="'auto'">
+                  <label nz-radio-button [nzValue]="'AUTO'">
                     <span>自动</span>
                   </label>
                 </nz-radio-group>
               </div>
               <div class="modal-tem"></div>
             </div>
-            <div class="modal-div" *ngIf="radioValue === 'manual'">
+            <div class="modal-div" *ngIf="scaling_mode === 'MANUAL'">
               <div class="modal-tem"></div>
               <span class="modal-label">容器实例数量</span>
               <span class="modal-cont">
-                    <nz-input [(ngModel)]="manualInput_1" [nzPlaceHolder]="'请输入容器实例数量..'" (ngModelChange)="_console($event)"></nz-input>
+                    <nz-input-number style="width: 100%" [(ngModel)]="manualInput_1" [nzMin]="1" [nzMax]="100" [nzStep]="1"[nzPlaceHolder]="'请输入容器实例数量..'"></nz-input-number>
               </span>
               <div class="modal-tem"></div>
             </div>
-            <div class="modal-div" *ngIf="radioValue === 'auto'">
+            <div class="modal-div" *ngIf="scaling_mode === 'AUTO'">
               <div class="modal-tem"></div>
               <span class="modal-label">实例数量最小值</span>
               <span class="modal-cont">
-                <nz-input [(ngModel)]="autoInput_1" [nzPlaceHolder]="'请输入实例数量最小值..'"></nz-input>
+                <nz-input-number style="width: 100%" [(ngModel)]="autoInput_4" [nzMin]="1" [nzMax]="10" [nzStep]="1" [nzPlaceHolder]="'请输入实例数量最小值..'" ></nz-input-number>
               </span>
               <div class="modal-tem"></div>
             </div>
-            <div class="modal-div" *ngIf="radioValue === 'auto'">
+            <div class="modal-div" *ngIf="scaling_mode === 'AUTO'">
               <div class="modal-tem"></div>
               <span class="modal-label">实例数量最大值</span>
               <span class="modal-cont">
-                  <nz-input [(ngModel)]="autoInput_2" [nzPlaceHolder]="'请输入实例数量最大值..'"></nz-input>
+                  <nz-input-number style="width: 100%" [(ngModel)]="autoInput_3" [nzMin]="10" [nzMax]="100" [nzStep]="1" [nzPlaceHolder]="'请输入实例数量最大值..'" ></nz-input-number>
               </span>
               <div class="modal-tem"></div>
             </div>
-            <div class="modal-div" *ngIf="radioValue === 'auto'">
+            <div class="modal-div" *ngIf="scaling_mode === 'AUTO'">
               <div class="modal-tem"></div>
               <span class="modal-label">减少量</span>
               <span class="modal-cont">
-                  <nz-input [(ngModel)]="autoInput_3" [nzPlaceHolder]="'请输入减少量..'"></nz-input>
+                  <nz-input-number style="width: 100%" [(ngModel)]="autoInput_1" [nzMin]="1" [nzMax]="10" [nzStep]="1" [nzPlaceHolder]="'请输入减少量..'" ></nz-input-number>
               </span>
               <div class="modal-tem"></div>
             </div>
-            <div class="modal-div" *ngIf="radioValue === 'auto'">
+            <div class="modal-div" *ngIf="scaling_mode === 'AUTO'">
               <div class="modal-tem"></div>
               <span class="modal-label">增加量</span>
               <span class="modal-cont">
-                  <nz-input [(ngModel)]="autoInput_4" [nzPlaceHolder]="'请输入增加量..'"></nz-input>
+                  <nz-input-number style="width: 100%" [(ngModel)]="autoInput_2" [nzMin]="1" [nzMax]="10" [nzStep]="1" [nzPlaceHolder]="'请输入增加量..'" ></nz-input-number>
               </span>
               <div class="modal-tem"></div>
             </div>

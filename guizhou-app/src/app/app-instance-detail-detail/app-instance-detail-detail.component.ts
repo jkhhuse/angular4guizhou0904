@@ -5,6 +5,7 @@ import {Http} from "@angular/http";
 import {environment} from "../../environments/environment";
 import {NzNotificationService} from 'ng-zorro-antd';
 import {HttpErrorResponse} from "@angular/common/http";
+import {ServicesService} from "../shared/services.service";
 
 
 @Component({
@@ -23,15 +24,14 @@ export class AppInstanceDetailDetailComponent implements OnInit {
   private instanceDetailID: String;
   private instanceDetail: any;
   // 默认更新策略调节模式为手动
-  private radioValue = 'manual';
+  private scaling_mode = 'MANUAL';
   // 手动调节模式 输入值
   manualInput_1 = 1;
   // 自动调节模式 输入值
   autoInput_1 = 1;
-  autoInput_2 = 20;
+  autoInput_2 = 1;
   autoInput_3 = 1;
   autoInput_4 = 1;
-
   tabs = [
     {
       index: 1,
@@ -148,15 +148,22 @@ export class AppInstanceDetailDetailComponent implements OnInit {
 
   handleOk = (e) => {
     console.log('点击了确定');
+    console.log('this.scaling_mode: ' + this.scaling_mode);
+    console.log('this.manualInput_1: ' + this.manualInput_1);
+    console.log('this.autoInput_1: ' + this.autoInput_1);
+    console.log('this.autoInput_2: ' + this.autoInput_2);
+    console.log('this.autoInput_3: ' + this.autoInput_3);
+    console.log('this.autoInput_4: ' + this.autoInput_4);
+
     this._isSpinning = true;
     // 发送请求更新版本
-    // this.putNewVersion();
+    this.putNewMode();
     setTimeout(() => {
       // 更新实例的数据体
-      console.log('更新成功，更新列表');
-     // this.getInitData();
+      this.getInitData();
       this._isSpinning = false;
       this.isVisible = false;
+      console.log('更新成功，更新列表');
     }, 3000);
   };
 
@@ -165,8 +172,80 @@ export class AppInstanceDetailDetailComponent implements OnInit {
   }
   handleCancel = (e) => {
     console.log(e);
+    console.log('this.autoInput_1: ' + this.autoInput_1);
+    console.log('this.autoInput_2: ' + this.autoInput_2);
+    console.log('this.autoInput_3: ' + this.autoInput_3);
+    console.log('this.autoInput_4: ' + this.autoInput_4);
+
     this.isVisible = false;
   }
+
+  putNewMode () {
+    // TO DO : USERID userId userID 需要更新为获取，不是写死。
+    console.log('选择更新的模式为：' + this.scaling_mode);
+    if(this.scaling_mode === 'MANUAL') {
+      this.http.put(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/application-instance-microservices/' + this.instanceDetailID, {
+        'updateUserId': '1',
+        'scaling_mode': this.scaling_mode,
+        'podsCount': this.manualInput_1
+      }).subscribe(response => {
+        console.log('这是response1', response);
+      },
+        err => {
+          console.log(err._body);
+          this.createNotification('error', '更新模式失败', err._body);
+        });
+    } else {
+      this.http.put(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/application-instance-microservices/' + this.instanceDetailID, {
+        'updateUserId': '1',
+        'scaling_mode': this.scaling_mode,
+        'autoscaling_config': {
+          'decrease_delta': this.autoInput_1,
+          'increase_delta': this.autoInput_2,
+          'maximum_num_instances': this.autoInput_3,
+          'minimum_num_instances': this.autoInput_4
+        }
+      }).subscribe(response => {
+        console.log('这是response2', response);
+      },
+        err => {
+          console.log(err._body);
+          this.createNotification('error', '更新模式失败', err._body);
+        });
+    }
+  }
+
+  getInitData() {
+    // 订阅流
+    this.getServiceInstanceDetail(this.instanceDetailID).subscribe((data) => {
+        this.instanceDetail = data;
+        if(this.instanceDetail.info) {
+          // 获取调节模式，手动或者自动
+          this.scaling_mode = this.instanceDetail.info.scaling_mode;
+          console.log('this.scaling_mode:' + this.scaling_mode);
+          // 如果调节模式为手动
+          if(this.scaling_mode === 'MANUAL') {
+            // 手动调节模式 输入值
+            this.manualInput_1 = this.instanceDetail.podsCount;
+          } else {
+            // 自动调节模式 输入值
+            let autoscaling_config = this.instanceDetail.info.autoscaling_config;
+            autoscaling_config = eval ("(" + autoscaling_config + ")");
+            console.log(autoscaling_config);
+            this.autoInput_1 = autoscaling_config.decrease_delta;
+            this.autoInput_2 = autoscaling_config.increase_delta;
+            this.autoInput_3 = autoscaling_config.maximum_num_instances;
+            this.autoInput_4 = autoscaling_config.minimum_num_instances;
+          }
+        }
+      },
+      err => {
+        console.log(err._body);
+        this.createNotification('error', '获取实例详情失败', err._body);
+      }
+    );
+  }
+
 
   createNotification = (type, title, content) => {
     this._notification.create(type, title, content);
@@ -176,7 +255,7 @@ export class AppInstanceDetailDetailComponent implements OnInit {
     return this.http.get(environment.apiApp + '/apiApp' + '/application-instance-microservices/' + instanceDetailID).map(res => res.json());
   }
 
-  constructor(private _notification: NzNotificationService, private routeInfo: ActivatedRoute, private http: Http) {
+  constructor(private servicesService: ServicesService, private _notification: NzNotificationService, private routeInfo: ActivatedRoute, private http: Http) {
   }
 
   ngOnInit() {
@@ -184,14 +263,6 @@ export class AppInstanceDetailDetailComponent implements OnInit {
     this.instanceDetailID = this.routeInfo.snapshot.params['instanceDetailID'];
     console.log("instanceID: " + this.instanceId);
     console.log("instanceDetailID: " + this.instanceDetailID);
-    // 订阅流
-    this.getServiceInstanceDetail(this.instanceDetailID).subscribe((data) => {
-       this.instanceDetail = data;
-      },
-      err => {
-        console.log(err._body);
-        this.createNotification('error', '获取实例详情失败', err._body);
-      }
-    );
+    this.getInitData();
   }
 }
