@@ -13,6 +13,8 @@ import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 import { userNameAsyncValidator } from '../util/reg-pattern/reg-name.directive';
 import { nicknameValidator } from '../util/reg-pattern/reg-name.directive';
 import { ComponentServiceService } from "../dynamic-form/services/component-service.service";
+import { config } from '../../../protractor.conf';
+import * as _ from 'lodash';
 
 // @Directive({ selector: 'pane' })
 // export class Pane {
@@ -32,6 +34,28 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   agreed = 0;
   disagreed = 0;
   voters = ['Mr. IQ', 'Ms. Universe', 'Bombasto'];
+  arrTest = [
+    [
+      {
+        a: '1',
+        b: '11'
+      },
+      {
+        a: '2',
+        b: '22'
+      }
+    ],
+    [
+      {
+        a: '11',
+        b: '111'
+      },
+      {
+        a: '22',
+        b: '222'
+      }
+    ]
+  ];
 
   @ViewChild(ContainerInstanceComponent) ContainerInstance: ContainerInstanceComponent;
   instanceConfig = [
@@ -99,38 +123,29 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
       }
     },
     {
-      // selectedOption: undefined,
+      selectedOption: undefined,
       ifTags: 'true',
       type: 'select',
       label: 'Favourite Food',
       name: 'food',
       options: ['Pizza', 'Hot Dogs', 'Knakworstje', 'Coffee'],
-      placeholder: 'Select an option',
+      placeholder: 'Select an option111',
       validation: [Validators.required],
       styles: {
         'width': '400px',
       },
       valueUpdate: true
     },
-    {
-      label: 'Submit',
-      name: 'submit',
-      type: 'button',
-      styles: {
-
-      }
-    }
   ];
 
   @ViewChild(DynamicFormComponent) form2: DynamicFormComponent;
   config2: FieldConfig[] = [
     {
-      // selectedOption: undefined,
-      // ifTags: 'true',
+      selectedOption: undefined,
       type: 'select',
       label: 'Favourite2 Food',
       name: 'food2',
-      options: [],
+      options: ['Pizza', 'Hot Dogs', 'Knakworstje', 'Coffee'],
       placeholder: 'Select an option',
       validation: [Validators.required],
       styles: {
@@ -190,6 +205,16 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
             'width': '400px',
           }
         },
+        {
+          type: 'input',
+          label: 'Last name33',
+          name: 'Lname33',
+          placeholder: 'Enter your Lname33',
+          validation: [Validators.required, Validators.minLength(4)],
+          styles: {
+            'width': '400px',
+          }
+        },
       ];
       // this.form3.setConfig(this.config3);
     }
@@ -202,6 +227,123 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
 
   onVoted(agreed: boolean) {
     agreed ? this.agreed++ : this.disagreed++;
+  }
+
+  addClick() {
+    console.log('111');
+    console.log(this.config);
+    // this.config[0] = {
+    //   type: 'input',
+    //   label: 'Last name333',
+    //   name: 'Lname333',
+    //   placeholder: 'Enter your Lname33',
+    //   validation: [Validators.required, Validators.minLength(4)],
+    //   styles: {
+    //     'width': '400px',
+    //   }
+    // };
+    this.config = [
+      {
+        type: 'input',
+        label: 'Last name333',
+        name: 'Lname333',
+        placeholder: 'Enter your Lname33',
+        validation: [Validators.required, Validators.minLength(4)],
+        styles: {
+          'width': '400px',
+        }
+      },
+      {
+        type: 'input',
+        label: 'Last name',
+        name: 'Lname',
+        placeholder: 'Enter your Lname',
+        validation: [Validators.required, Validators.minLength(4)],
+        styles: {
+          'width': '400px',
+        }
+      },
+      {
+        // selectedOption: undefined,
+        ifTags: 'true',
+        type: 'select',
+        label: 'Favourite Food',
+        name: 'food',
+        options: ['Pizza', 'Hot Dogs', 'Knakworstje', 'Coffee'],
+        placeholder: 'Select an option',
+        validation: [Validators.required],
+        styles: {
+          'width': '400px',
+        },
+        valueUpdate: true
+      },
+    ];
+    const ar = [
+      {
+        type: 'input',
+        label: 'Last name555',
+        name: 'Lname555',
+        placeholder: 'Enter your Lname555',
+        validation: [Validators.required, Validators.minLength(4)],
+        styles: {
+          'width': '400px',
+        }
+      },
+    ];
+    this.config = _.concat(this.config, ar);
+    // this.config = [
+    //   {
+    //     type: 'input',
+    //     label: 'Last name3322',
+    //     name: 'Lname3322',
+    //     placeholder: 'Enter your Lname3223',
+    //     validation: [Validators.required, Validators.minLength(4)],
+    //     styles: {
+    //       'width': '400px',
+    //     }
+    //   },
+    //   {
+    //     type: 'input',
+    //     label: 'Last name3311',
+    //     name: 'Lname3113',
+    //     placeholder: 'Enter your Lname3113',
+    //     validation: [Validators.required, Validators.minLength(4)],
+    //     styles: {
+    //       'width': '400px',
+    //     }
+    //   },
+    // ];
+    // this.config = this.config;
+    // _.map(this.config, (value, key) => {
+    //   value['label'] = 'test111';
+    // });
+    // const a = this.config.push(
+    //   {
+    //     type: 'input',
+    //     label: 'Last name333',
+    //     name: 'Lname333',
+    //     placeholder: 'Enter your Lname33',
+    //     validation: [Validators.required, Validators.minLength(4)],
+    //     styles: {
+    //       'width': '400px',
+    //     }
+    //   }
+    // );
+    // console.log('aa', a);
+    console.log('111', this.config);
+    // this.config = [
+    //   {
+    //     type: 'input',
+    //     label: 'Last name333',
+    //     name: 'Lname333',
+    //     placeholder: 'Enter your Lname33',
+    //     validation: [Validators.required, Validators.minLength(4)],
+    //     styles: {
+    //       'width': '400px',
+    //     }
+    //   }
+    // ];
+    this.form.setConfig(this.config);
   }
 
   // calculateSerializedPanes() {

@@ -7,6 +7,7 @@
   <!-- <dynamic-form [config]="config" form="dynamicForm" (submit)="submit($event)"> -->
   <dynamic-form #form [config]="config" (submit)="submit($event)">
   </dynamic-form>
+  <button (click)="addClick()">addClick</button>
 
   <dynamic-form #form2 [config]="config2">
   </dynamic-form>
@@ -108,3 +109,10 @@
 
 <!-- <dynamic-form #form3 [config]="config3" *ngFor="let data of configArr">
   </dynamic-form> -->
+  <div>分界线</div>
+  <div *ngFor="let arr of arrTest">
+    {{ arr || json }}
+    <div *ngFor="let arr1 of arr">
+      {{ arr1.a || json }}
+    </div>
+  </div>

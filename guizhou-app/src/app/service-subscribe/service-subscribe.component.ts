@@ -10,20 +10,20 @@ import {
 } from '@angular/core';
 // import { enableProdMode } from '@angular/core';
 // enableProdMode();
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from "rxjs/Observable";
-import {Subscription} from 'rxjs/Subscription';
-import {Validators} from '@angular/forms';
-import {Router, RouterModule} from '@angular/router';
-import {NzModalService, NzNotificationService, NzMessageService} from 'ng-zorro-antd';
-import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
-import {environment} from "../../environments/environment";
-import {FieldConfig} from '../dynamic-form/models/field-config.interface';
-import {DynamicFormComponent} from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
-import {ContainerInstanceComponent} from '../container-instance/container-instance.component';
+import { Subscription } from 'rxjs/Subscription';
+import { Validators } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { NzModalService, NzNotificationService, NzMessageService } from 'ng-zorro-antd';
+import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
+import { environment } from "../../environments/environment";
+import { FieldConfig } from '../dynamic-form/models/field-config.interface';
+import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
+import { ContainerInstanceComponent } from '../container-instance/container-instance.component';
 import * as _ from 'lodash';
-import {ComponentServiceService} from "../dynamic-form/services/component-service.service";
-import {ServicesService} from "../shared/services.service";
+import { ComponentServiceService } from "../dynamic-form/services/component-service.service";
+import { ServicesService } from "../shared/services.service";
 
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
@@ -49,7 +49,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             {
                 storageSize: 0,
                 createUserId: 1,
-                groupId: this.servicesService.getCookie('groupID') ,
+                groupId: this.servicesService.getCookie('groupID'),
             }
         ]
     };
@@ -137,7 +137,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
     formThird3Entity: object = {};
 
     constructor(private router: Router, private confirmServ: NzModalService, private routeInfo: ActivatedRoute, private http: HttpClient,
-                private componentSer: ComponentServiceService, private servicesService: ServicesService) {
+        private componentSer: ComponentServiceService, private servicesService: ServicesService) {
     }
 
     toggleRadio() {
@@ -258,7 +258,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                             label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
                             name: value1['attribute_name'],
                             placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-                            value1['description']['zh'] : value1['attribute_name'],
+                                value1['description']['zh'] : value1['attribute_name'],
                             validation: [Validators.required, Validators.min(1)],
                             styles: {
                                 'width': '400px'
@@ -291,7 +291,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                             label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
                             name: value1['attribute_name'],
                             placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-                            value1['description']['zh'] : value1['attribute_name'],
+                                value1['description']['zh'] : value1['attribute_name'],
                             validation: [Validators.required, Validators.min(1)],
                             styles: {
                                 'width': '400px'
@@ -318,28 +318,28 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         return new Promise((resolve, reject) => {
             if (this.radioValue === 'product') {
                 this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/' + this.networkRadioValue + '/labels').
-                subscribe(data => {
-                    console.log('这是主机标签', data);
-                    this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
-                        // if (value['labels'].length > 0) {
-                        // if (value['node_tag']) {
-                        return value['value'];
-                        // }
-                    }));
-                    resolve();
-                });
+                    subscribe(data => {
+                        console.log('这是主机标签', data);
+                        this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
+                            // if (value['labels'].length > 0) {
+                            // if (value['node_tag']) {
+                            return value['value'];
+                            // }
+                        }));
+                        resolve();
+                    });
             } else {
                 this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/' + this.networkRadioValue2 + '/labels').
-                subscribe(data => {
-                    console.log('这是主机标签', data);
-                    this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
-                        // if (value['labels'].length > 0) {
-                        // if (value['node_tag']) {
-                        return value['value'];
-                        // }
-                    }));
-                    resolve();
-                });
+                    subscribe(data => {
+                        console.log('这是主机标签', data);
+                        this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
+                            // if (value['labels'].length > 0) {
+                            // if (value['node_tag']) {
+                            return value['value'];
+                            // }
+                        }));
+                        resolve();
+                    });
             }
         });
     }
@@ -382,197 +382,403 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         return !this.formThirdProject.valid || !this.formThird2Project.valid || !this.formThird1Project.valid || mode$;
     }
 
-    ngAfterViewInit() {
+    async ngAfterViewInit() {
         // setTimeout(() => {
         // this.toggleRadio();
         console.log('测试afterview');
+        console.log(this.formThird1Project);
+        // await this.toggleButton();
         // // this.form.setValue('name', '');
     }
 
     getCluster() {
         return new Promise((resolve, reject) => {
-          const url$ = Observable.forkJoin(
-            this.http.get(environment.apiApp + '/apiApp/cluster-zones/test/clusters'),
-            this.http.get(environment.apiApp + '/apiApp/cluster-zones/product/clusters')
-          );
-          url$.subscribe(values => {
-            this.testCluster = values[0];
-            this.prodCluster = values[1];
-            this.networkRadioValue = values[1]['length'] > 0 ? values[1][0]['name'] : undefined;
-            this.networkRadioValue2 = values[0]['length'] > 0 ? values[0][0]['name'] : undefined;
-            resolve();
-          });
-        });
-      }
-
-    getOperateMode() {
-        return new Promise((resolve, reject) => {
-            this.http.get(environment.apiService + '/apiService' + '/groups/' +
-            this.servicesService.getCookie('groupID') + '/services/' + this.serviceId).subscribe(data => {
-                // this.operateMode['standalone'] = data['standalone_config'];
-                // todo next
-                // this.operateMode['replication'] = data['replication_config'];
-                this.operateMode['cluster'] = data['cluster_config'];
-                // todo next
-                this.operateMode['replication'] = data['replication_config'];
+            const url$ = Observable.forkJoin(
+                this.http.get(environment.apiApp + '/apiApp/cluster-zones/test/clusters'),
+                this.http.get(environment.apiApp + '/apiApp/cluster-zones/product/clusters')
+            );
+            url$.subscribe(values => {
+                this.testCluster = values[0];
+                this.prodCluster = values[1];
+                this.networkRadioValue = values[1]['length'] > 0 ? values[1][0]['name'] : undefined;
+                this.networkRadioValue2 = values[0]['length'] > 0 ? values[0][0]['name'] : undefined;
                 resolve();
             });
         });
     }
 
+    getOperateMode() {
+        return new Promise((resolve, reject) => {
+            this.http.get(environment.apiService + '/apiService' + '/groups/' +
+                this.servicesService.getCookie('groupID') + '/services/' + this.serviceId).subscribe(data => {
+                    // this.operateMode['standalone'] = data['standalone_config'];
+                    // todo next
+                    // this.operateMode['replication'] = data['replication_config'];
+                    this.operateMode['cluster'] = data['cluster_config'];
+                    // todo next
+                    this.operateMode['replication'] = data['replication_config'];
+                    resolve();
+                });
+        });
+    }
+
     getServiceBasic() {
         return new Promise((resolve, reject) => {
-            this.http.get(environment.apiService + 
+            this.http.get(environment.apiService +
                 '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + this.serviceId).subscribe(data => {
-                // 这里每次都需要清除一次数据，不然数据会重复
-                this.formThird1 = [];
-                this.formThird1Radios = [];
-                // this.formThird2Radios = [];
-                _.map(data['basic_config'], (value, key) => {
-                    switch (value['type']) {
-                        case 'string': {
-                            // this.formThird1
-                            // const pattern = new RegExp(value.pattern);
-                            this.formThird1[key] = {
-                                type: 'input',
-                                defaultValue: value['default_value'],
-                                label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
-                                name: value['attribute_name'],
-                                placeholder: (value['description'] && value['description']['zh'] !== '') ?
-                                    value['description']['zh'] : value['attribute_name'],
-                                // todo eval()
-                                validation: [Validators.required, Validators.pattern(eval(value.pattern))],
-                                // notNecessary: true,
-                                styles: {
-                                    'width': '400px'
-                                }
-                            }
-                            break;
-                        }
-                        case 'int': {
-                            this.formThird1[key] = {
-                                type: 'input',
-                                defaultValue: value['default_value'],
-                                inputType: 'number',
-                                label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
-                                name: value['attribute_name'],
-                                placeholder: (value['description'] && value['description']['zh'] !== '') ?
-                                    value['description']['zh'] : value['attribute_name'],
-                                validation: [Validators.required, Validators.min(1)],
-                                // notNecessary: true,
-                                styles: {
-                                    'width': '400px'
-                                }
-                            }
-                            break;
-                        }
-                        case 'radio_group_tab': {
-                            // todo next
-                            // value['option'] = ["replication", "cluster"];
-                            // todo next
-                            // todo next
-                            // if (this.serviceName === 'redis') {
-                            //   value['option'] = ["replication"];
-                            // }
-                            // // const radioAttriName = value['attribute_name']
-                            // this.formThird2Radios[key] = {
-                            //   label: value['display_name']['zh'],
-                            //   name: value['attribute_name'],
-                            //   labelContent: value['option'],
-                            //   defaultValue: value['option'][0]
-                            // }
-                            // todo next
-                            break;
-                        }
-                        case 'option': {
-                            const options$ = _.map(value['option'], (value1, key1) => {
-                                if (_.isObject(value1)) {
-                                    const optionType = [];
-                                    _.forIn(value1, (value2, key2) => {
-                                        optionType[key1] = key2;
-                                    });
-                                    return value1[optionType[key1]];
-                                } else {
-                                    return value1;
-                                }
-                            });
-                            if (value['attribute_name'] === 'cluster_size') {
-                                const cluserOption = [];
-                                _.map(options$, (valueOp, keyOp) => {
-                                    switch (valueOp) {
-                                        case 'XXS': {
-                                            cluserOption[keyOp] = {
-                                                name: value['attribute_name'],
-                                                insSize: valueOp,
-                                                cpuSize: 0.125,
-                                                memSize: 256,
-                                                choosed: true
-                                            }
-                                            break;
-                                        }
-                                        case 'XS': {
-                                            cluserOption[keyOp] = {
-                                                name: value['attribute_name'],
-                                                insSize: valueOp,
-                                                cpuSize: 0.25,
-                                                memSize: 512
-                                            }
-                                            break;
-                                        }
-                                        case 'S': {
-                                            cluserOption[keyOp] = {
-                                                name: value['attribute_name'],
-                                                insSize: valueOp,
-                                                cpuSize: 0.5,
-                                                memSize: 1
-                                            }
-                                            break;
-                                        }
-                                        case 'M': {
-                                            cluserOption[keyOp] = {
-                                                name: value['attribute_name'],
-                                                insSize: valueOp,
-                                                cpuSize: 1,
-                                                memSize: 2
-                                            }
-                                            break;
-                                        }
-                                        case 'L': {
-                                            cluserOption[keyOp] = {
-                                                name: value['attribute_name'],
-                                                insSize: valueOp,
-                                                cpuSize: 2,
-                                                memSize: 4
-                                            }
-                                            break;
-                                        }
-                                        case 'XL': {
-                                            cluserOption[keyOp] = {
-                                                name: value['attribute_name'],
-                                                insSize: valueOp,
-                                                cpuSize: 4,
-                                                memSize: 8
-                                            }
-                                            break;
-                                        }
-                                        default:
-                                            break;
+                    // 这里每次都需要清除一次数据，不然数据会重复
+                    this.formThird1 = [];
+                    this.formThird1Radios = [];
+                    // this.formThird2Radios = [];
+                    let mysqlMinValue;
+                    let redisMinValue;
+                    let zookeeperMinValue;
+                    _.map(data['basic_config'], (value, key) => {
+                        switch (value['type']) {
+                            case 'string': {
+                                // this.formThird1
+                                // const pattern = new RegExp(value.pattern);
+                                this.formThird1[key] = {
+                                    type: 'input',
+                                    defaultValue: value['default_value'],
+                                    label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
+                                    name: value['attribute_name'],
+                                    placeholder: (value['description'] && value['description']['zh'] !== '') ?
+                                        value['description']['zh'] : value['attribute_name'],
+                                    // todo eval()
+                                    validation: [Validators.required, Validators.pattern(eval(value.pattern))],
+                                    // notNecessary: true,
+                                    styles: {
+                                        'width': '400px'
                                     }
-                                })
-                                _.map(cluserOption, (valueIns, keyIns) => {
-                                    this.formThird1Radios[keyIns] = {
-                                        name: valueIns.name,
-                                        instance_size: valueIns.insSize,
-                                        cpuSize: valueIns.cpuSize,
-                                        memSize: valueIns.memSize,
-                                        focused: valueIns.choosed ? true : false,
-                                        currentClass: {
-                                            'focused': valueIns.choosed ? true : false
-                                        }
+                                }
+                                break;
+                            }
+                            case 'int': {
+                                this.formThird1[key] = {
+                                    type: 'input',
+                                    defaultValue: value['default_value'],
+                                    inputType: 'number',
+                                    label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
+                                    name: value['attribute_name'],
+                                    placeholder: (value['description'] && value['description']['zh'] !== '') ?
+                                        value['description']['zh'] : value['attribute_name'],
+                                    validation: [Validators.required, Validators.min(1)],
+                                    // notNecessary: true,
+                                    styles: {
+                                        'width': '400px'
+                                    }
+                                }
+                                break;
+                            }
+                            case 'radio_group_tab': {
+                                // todo next
+                                // value['option'] = ["replication", "cluster"];
+                                // todo next
+                                // todo next
+                                // if (this.serviceName === 'redis') {
+                                //   value['option'] = ["replication"];
+                                // }
+                                // // const radioAttriName = value['attribute_name']
+                                // this.formThird2Radios[key] = {
+                                //   label: value['display_name']['zh'],
+                                //   name: value['attribute_name'],
+                                //   labelContent: value['option'],
+                                //   defaultValue: value['option'][0]
+                                // }
+                                // todo next
+                                break;
+                            }
+                            case 'cluster_size': {
+                                zookeeperMinValue = value['min_value']['cpu'];
+                                break;
+                            }
+                            case 'option': {
+                                const options$ = _.map(value['option'], (value1, key1) => {
+                                    if (_.isObject(value1)) {
+                                        const optionType = [];
+                                        _.forIn(value1, (value2, key2) => {
+                                            optionType[key1] = key2;
+                                        });
+                                        return value1[optionType[key1]];
+                                    } else {
+                                        return value1;
                                     }
                                 });
-                            } else {
+                                if (value['attribute_name'] === 'cluster_size') {
+                                    if (this.serviceName === 'redis') {
+                                        redisMinValue = value['min_value']['cpu'];
+                                    } else {
+                                        mysqlMinValue = value['min_value']['cpu'];
+                                    }
+                                    const cluserOption = [];
+                                    _.map(options$, (valueOp, keyOp) => {
+                                        switch (valueOp) {
+                                            case 'XXS': {
+                                                cluserOption[keyOp] = {
+                                                    name: value['attribute_name'],
+                                                    insSize: valueOp,
+                                                    cpuSize: 0.125,
+                                                    memSize: 256,
+                                                    choosed: true
+                                                }
+                                                break;
+                                            }
+                                            case 'XS': {
+                                                cluserOption[keyOp] = {
+                                                    name: value['attribute_name'],
+                                                    insSize: valueOp,
+                                                    cpuSize: 0.25,
+                                                    memSize: 512
+                                                }
+                                                break;
+                                            }
+                                            case 'S': {
+                                                cluserOption[keyOp] = {
+                                                    name: value['attribute_name'],
+                                                    insSize: valueOp,
+                                                    cpuSize: 0.5,
+                                                    memSize: 1
+                                                }
+                                                break;
+                                            }
+                                            case 'M': {
+                                                cluserOption[keyOp] = {
+                                                    name: value['attribute_name'],
+                                                    insSize: valueOp,
+                                                    cpuSize: 1,
+                                                    memSize: 2
+                                                }
+                                                break;
+                                            }
+                                            case 'L': {
+                                                cluserOption[keyOp] = {
+                                                    name: value['attribute_name'],
+                                                    insSize: valueOp,
+                                                    cpuSize: 2,
+                                                    memSize: 4
+                                                }
+                                                break;
+                                            }
+                                            case 'XL': {
+                                                cluserOption[keyOp] = {
+                                                    name: value['attribute_name'],
+                                                    insSize: valueOp,
+                                                    cpuSize: 4,
+                                                    memSize: 8
+                                                }
+                                                break;
+                                            }
+                                            default:
+                                                break;
+                                        }
+                                    })
+                                    _.map(cluserOption, (valueIns, keyIns) => {
+                                        this.formThird1Radios[keyIns] = {
+                                            name: valueIns.name,
+                                            instance_size: valueIns.insSize,
+                                            cpuSize: valueIns.cpuSize,
+                                            memSize: valueIns.memSize,
+                                            focused: valueIns.choosed ? true : false,
+                                            currentClass: {
+                                                'focused': valueIns.choosed ? true : false
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    this.formThird1[key] = {
+                                        type: 'select',
+                                        label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
+                                        name: value['attribute_name'],
+                                        options: options$,
+                                        placeholder: (value['description'] && value['description']['zh'] !== '') ?
+                                            value['description']['zh'] : value['attribute_name'],
+                                        validation: [Validators.required],
+                                        styles: {
+                                            'width': '400px'
+                                        },
+                                    }
+                                }
+                                break;
+                            }
+                            case 'multi_option': {
+                                let options$;
+                                if (value['option'].length !== 0 && value['option'].length !== undefined) {
+                                    options$ = _.map(value['option'], (value1, key1) => {
+                                        if (_.isObject(value1)) {
+                                            const optionType = [];
+                                            _.forIn(value1, (value2, key2) => {
+                                                optionType[key1] = key2;
+                                            });
+                                            return value1[optionType[key1]];
+                                        } else {
+                                            return value1;
+                                        }
+                                    });
+                                } else {
+                                    options$ = this.ipTag$;
+                                }
                                 this.formThird1[key] = {
+                                    ifTags: value['attribute_name'] === 'ip_tag' ? 'true' : 'false',
+                                    type: 'select',
+                                    label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
+                                    name: value['attribute_name'],
+                                    options: options$,
+                                    placeholder: (value['description'] && value['description']['zh'] !== '') ?
+                                        value['description']['zh'] : value['attribute_name'],
+                                    validation: [Validators.required],
+                                    styles: {
+                                        'width': '400px'
+                                    },
+                                    valueUpdate: true
+                                }
+                                break;
+                            }
+                            default:
+                                break;
+                        }
+                    });
+                    this.formThird1 = _.uniqWith(_.compact(this.formThird1), _.isEqual);
+                    this.formThird1Radios = _.uniqWith(_.compact(this.formThird1Radios), _.isEqual);
+                    this.formThird1Radios = [
+                        // {
+                        //   instance_size: 'XXS',
+                        //   cpuSize: 0.125,
+                        //   memSize: 256,
+                        //   focused: true,
+                        //   currentClass: {
+                        //     'focused': true
+                        //   }
+                        // },
+                        {
+                            instance_size: 'XS',
+                            cpuSize: 0.25,
+                            memSize: 512,
+                            focused: true,
+                            currentClass: {
+                                'focused': true
+                            }
+                        },
+                        {
+                            instance_size: 'S',
+                            cpuSize: 0.5,
+                            memSize: 1,
+                            focused: false,
+                            currentClass: {
+                                'focused': false
+                            }
+                        },
+                        {
+                            instance_size: 'M',
+                            cpuSize: 1,
+                            memSize: 2,
+                            focused: false,
+                            currentClass: {
+                                'focused': false
+                            }
+                        },
+                        {
+                            instance_size: 'L',
+                            cpuSize: 2,
+                            memSize: 4,
+                            focused: false,
+                            currentClass: {
+                                'focused': false
+                            }
+                        },
+                        {
+                            instance_size: 'XL',
+                            cpuSize: 4,
+                            memSize: 8,
+                            focused: false,
+                            currentClass: {
+                                'focused': false
+                            }
+                        },
+                    ];
+                    //   这里需要点时间，暂时先不处理
+                    //   _.map(this.formThird1Radios, (value, key) => {
+                    //       if (this.serviceName === 'redis') {
+                    //       }
+                    //     // value.cpuSize = 1;
+                    //   });
+                    // todo next
+                    // this.formThird2Radios = _.uniqWith(_.compact(this.formThird2Radios), _.isEqual);
+                    // todo next
+                    resolve();
+                });
+        });
+    }
+
+    getServiceAdvanced() {
+        return new Promise((resolve, reject) => {
+            this.http.get(environment.apiService +
+                '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + this.serviceId).subscribe(data => {
+                    // 这里每次都需要清除一次数据，不然数据会重复
+                    this.formThird2 = [];
+                    this.formThird2Radios = [];
+                    console.log('这是服务详情advanced', data['advanced_config']);
+                    // this.formThird2 = data['advanced_config'];
+                    _.map(data['advanced_config'], (value, key) => {
+                        switch (value['type']) {
+                            case 'string': {
+                                // this.formThird2
+                                this.formThird2[key] = {
+                                    type: 'input',
+                                    defaultValue: value['default_value'],
+                                    label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
+                                    name: value['attribute_name'],
+                                    placeholder: (value['description'] && value['description']['zh'] !== '') ?
+                                        value['description']['zh'] : value['attribute_name'],
+                                    validation: [Validators.required],
+                                    // notNecessary: true,
+                                    styles: {
+                                        'width': '400px'
+                                    }
+                                }
+                                break;
+                            }
+                            case 'int': {
+                                this.formThird2[key] = {
+                                    type: 'input',
+                                    defaultValue: value['default_value'],
+                                    inputType: 'number',
+                                    label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
+                                    name: value['attribute_name'],
+                                    placeholder: (value['description'] && value['description']['zh'] !== '') ?
+                                        value['description']['zh'] : value['attribute_name'],
+                                    validation: [Validators.required, Validators.min(1)],
+                                    // notNecessary: true,
+                                    styles: {
+                                        'width': '400px'
+                                    }
+                                }
+                                break;
+                            }
+                            case 'radio_group_tab': {
+                                // const radioAttriName = value['attribute_name']
+                                if (value['attribute_name'] === 'mount_volume') {
+                                    value['option'] = ['false'];
+                                }
+                                this.formThird2Radios[key] = {
+                                    label: value['display_name']['zh'],
+                                    name: value['attribute_name'],
+                                    labelContent: value['option'],
+                                    defaultValue: value['option'][0]
+                                }
+                                break;
+                            }
+                            case 'option': {
+                                const options$ = _.map(value['option'], (value1, key1) => {
+                                    console.log('value1: ' + value1);
+                                    console.log('key: ' + key);
+                                    if (value1['type']) {
+                                        return value1['type'];
+                                    } else {
+                                        return value1;
+                                    }
+                                })
+                                this.formThird2[key] = {
                                     type: 'select',
                                     label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
                                     name: value['attribute_name'],
@@ -584,161 +790,31 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                         'width': '400px'
                                     },
                                 }
+                                break;
                             }
-                            break;
+                            default:
+                                break;
                         }
-                        case 'multi_option': {
-                            let options$;
-                            if (value['option'].length !== 0 && value['option'].length !== undefined) {
-                                options$ = _.map(value['option'], (value1, key1) => {
-                                    if (_.isObject(value1)) {
-                                        const optionType = [];
-                                        _.forIn(value1, (value2, key2) => {
-                                            optionType[key1] = key2;
-                                        });
-                                        return value1[optionType[key1]];
-                                    } else {
-                                        return value1;
-                                    }
-                                });
-                            } else {
-                                options$ = this.ipTag$;
-                            }
-                            this.formThird1[key] = {
-                                ifTags: value['attribute_name'] === 'ip_tag' ? 'true' : 'false',
-                                type: 'select',
-                                label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
-                                name: value['attribute_name'],
-                                options: options$,
-                                placeholder: (value['description'] && value['description']['zh'] !== '') ?
-                                    value['description']['zh'] : value['attribute_name'],
-                                validation: [Validators.required],
-                                styles: {
-                                    'width': '400px'
-                                },
-                                valueUpdate: true
-                            }
-                            break;
+                    });
+                    this.formThird2 = _.uniqWith(_.compact(this.formThird2), _.isEqual);
+                    if (this.serviceName === 'kafka') {
+                        const config$ = {
+                            ifTags: 'true',
+                            type: 'select',
+                            label: '已经部署的zookeeper集群',
+                            name: 'ip_tag_zoo',
+                            options: this.ipTag$,
+                            placeholder: '请选择',
+                            validation: [Validators.required],
+                            styles: {
+                                'width': '400px'
+                            },
                         }
-                        default:
-                            break;
+                        this.formThird2 = _.concat(config$, this.formThird2);
                     }
+                    this.formThird2Radios = _.uniqWith(_.compact(this.formThird2Radios), _.isEqual);
+                    resolve();
                 });
-                this.formThird1 = _.uniqWith(_.compact(this.formThird1), _.isEqual);
-                this.formThird1Radios = _.uniqWith(_.compact(this.formThird1Radios), _.isEqual);
-                // todo next
-                // this.formThird2Radios = _.uniqWith(_.compact(this.formThird2Radios), _.isEqual);
-                // todo next
-                resolve();
-            });
-        });
-    }
-
-    getServiceAdvanced() {
-        return new Promise((resolve, reject) => {
-            this.http.get(environment.apiService + 
-                '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + this.serviceId).subscribe(data => {
-                // 这里每次都需要清除一次数据，不然数据会重复
-                this.formThird2 = [];
-                this.formThird2Radios = [];
-                console.log('这是服务详情advanced', data['advanced_config']);
-                // this.formThird2 = data['advanced_config'];
-                _.map(data['advanced_config'], (value, key) => {
-                    switch (value['type']) {
-                        case 'string': {
-                            // this.formThird2
-                            this.formThird2[key] = {
-                                type: 'input',
-                                defaultValue: value['default_value'],
-                                label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
-                                name: value['attribute_name'],
-                                placeholder: (value['description'] && value['description']['zh'] !== '') ?
-                                    value['description']['zh'] : value['attribute_name'],
-                                validation: [Validators.required],
-                                // notNecessary: true,
-                                styles: {
-                                    'width': '400px'
-                                }
-                            }
-                            break;
-                        }
-                        case 'int': {
-                            this.formThird2[key] = {
-                                type: 'input',
-                                defaultValue: value['default_value'],
-                                inputType: 'number',
-                                label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
-                                name: value['attribute_name'],
-                                placeholder: (value['description'] && value['description']['zh'] !== '') ?
-                                    value['description']['zh'] : value['attribute_name'],
-                                validation: [Validators.required, Validators.min(1)],
-                                // notNecessary: true,
-                                styles: {
-                                    'width': '400px'
-                                }
-                            }
-                            break;
-                        }
-                        case 'radio_group_tab': {
-                            // const radioAttriName = value['attribute_name']
-                            if (value['attribute_name'] === 'mount_volume') {
-                                value['option'] = ['false'];
-                            }
-                            this.formThird2Radios[key] = {
-                                label: value['display_name']['zh'],
-                                name: value['attribute_name'],
-                                labelContent: value['option'],
-                                defaultValue: value['option'][0]
-                            }
-                            break;
-                        }
-                        case 'option': {
-                            const options$ = _.map(value['option'], (value1, key1) => {
-                                console.log('value1: ' + value1);
-                                console.log('key: ' + key);
-                                if (value1['type']) {
-                                    return value1['type'];
-                                } else {
-                                    return value1;
-                                }
-                            })
-                            this.formThird2[key] = {
-                                type: 'select',
-                                label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
-                                name: value['attribute_name'],
-                                options: options$,
-                                placeholder: (value['description'] && value['description']['zh'] !== '') ?
-                                    value['description']['zh'] : value['attribute_name'],
-                                validation: [Validators.required],
-                                styles: {
-                                    'width': '400px'
-                                },
-                            }
-                            break;
-                        }
-                        default:
-                            break;
-                    }
-                });
-                this.formThird2 = _.uniqWith(_.compact(this.formThird2), _.isEqual);
-                if (this.serviceName === 'kafka') {
-                    const config$ = {
-                        ifTags: 'true',
-                        type: 'select',
-                        label: '已经部署的zookeeper集群',
-                        name: 'ip_tag_zoo',
-                        options: this.ipTag$,
-                        placeholder: '请选择',
-                        validation: [Validators.required],
-                        styles: {
-                            'width': '400px'
-                        },
-                    }
-                    this.formThird2 = _.concat(config$, this.formThird2);
-                }
-                this.formThird2Radios = _.uniqWith(_.compact(this.formThird2Radios), _.isEqual);
-                resolve();
-            });
         });
     }
 
@@ -746,6 +822,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         this.serviceId = this.routeInfo.snapshot.params['serviceId'];
         this.serviceName = this.routeInfo.snapshot.params['serviceName'];
         console.log('serviceName:' + this.serviceName);
+        await this.getCluster();
+        await this.getIpTag();
         await this.getOperateMode();
         await this.getServiceBasic();
         // this.formThird3Project.setConfig(this.formThird3);
@@ -758,7 +836,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
                     name: value1['attribute_name'],
                     placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-                    value1['description']['zh'] : value1['attribute_name'],
+                        value1['description']['zh'] : value1['attribute_name'],
                     validation: [Validators.required, Validators.min(1)],
                     styles: {
                         'width': '400px'
@@ -826,9 +904,9 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 }
             }
         );
-        await this.getCluster();
-        await this.getIpTag();
-        await this.toggleButton();
+        this.formThird1Project.setConfig(this.formThird1);
+        console.log(this.formThird1Project);
+        // await this.toggleButton();
         // this.toggleRadio();
         // await this.toggleRadio();
         // this.formConfig = this,http.get
@@ -863,8 +941,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             if (this.formThird4Project) {
                 console.log('打印value.na', this.formThird4Project.value);
                 _.map(this.formThird4Project.value, (value, key) => {
-                     console.log('打印value', value);
-                     console.log('key', key);
+                    console.log('打印value', value);
+                    console.log('key', key);
                     this.formThird4Entity[key] = value;
                 })
             }
@@ -889,7 +967,25 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         //     this.formThird1RadioEntity[valueName$] = value.instance_size;
         //   })
         // }
-        this.formThird1RadioEntity[this.instanceThird.value['name']] = this.instanceThird.value['instance_size'];
+        if (this.serviceName === 'redis') {
+            this.formThird1RadioEntity['cluster_size'] = {
+                'size': this.instanceThird.value['instance_size'],
+                'cpu': this.instanceThird.value['cpuSize'],
+                'mem': this.instanceThird.value['memSize']
+            };
+        } else if (this.serviceName === 'zookeeper') {
+            this.formThird1RadioEntity['zookeeper_size'] = {
+                'size': this.instanceThird.value['instance_size'],
+                'cpu': this.instanceThird.value['cpuSize'],
+                'mem': this.instanceThird.value['memSize']
+            };
+        } else if (this.serviceName === 'mysql') {
+            this.formThird1RadioEntity['cluster_size'] = {
+                'size': this.instanceThird.value['instance_size'],
+                'cpu': this.instanceThird.value['cpuSize'],
+                'mem': this.instanceThird.value['memSize']
+            };
+        }
         // todo next
         if (this.serviceName === 'zookeeper') {
             this.formThird1Project.value['num_of_nodes'] = parseInt(this.formThird1Project.value['num_of_nodes']);

@@ -72,9 +72,14 @@ import { OperaLogComponent } from './opera-log/opera-log.component';
 import { EchartsDirective } from './shared/directive/echarts/echarts.directive';
 import { ServiceApproveComponent } from './service-approve/service-approve.component';
 import { OperaMonitorModule } from './opera-monitor/opera-monitor.module';
+<<<<<<< Updated upstream
 import { ConvertTagPipe } from './shared/pipe/ConvertTagPipe.pipe';
 import { AppMonitorComponent } from './app-monitor/app-monitor.component';
 import { AppLogsComponent } from './app-logs/app-logs.component';
+=======
+import { ConfigFileComponent } from './config-file/config-file.component';
+
+>>>>>>> Stashed changes
 
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -130,9 +135,13 @@ export function createTranslateHttpLoader(http: HttpClient) {
         OperaEventComponent,
         OperaLogComponent,
         ServiceApproveComponent,
+<<<<<<< Updated upstream
         ConvertTagPipe,
         AppMonitorComponent,
         AppLogsComponent
+=======
+        ConfigFileComponent
+>>>>>>> Stashed changes
     ],
     imports: [
         BrowserModule,
@@ -173,6 +182,7 @@ export function createTranslateHttpLoader(http: HttpClient) {
             // deps: [Http]
         }
     ],
+    entryComponents: [ConfigFileComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {
