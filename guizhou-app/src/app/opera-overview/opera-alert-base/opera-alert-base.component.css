@@ -1,0 +1,27 @@
+.alert-base-wrapper {
+    border: 1px solid #e6e5e2;
+    padding: 22px 15px;
+    background-color: #fff;
+}
+
+.alert-base-wrapper>.alert-base-header {
+    border-left: 2px solid #9a9791;
+    padding-left: 15px;
+    font-size: 14px;
+}
+
+.alert-base-wrapper>.alert-base-chart {
+    width: 100%;
+    background-color: #f9f9f8;
+    margin-top: 12px;
+}
+
+.alert-base-chart>.chart-title {
+    font-size: 12px;
+    padding: 6px 5px 0px 7px;
+}
+
+.chart-style {
+    width: 100%;
+    height: 174px;
+}

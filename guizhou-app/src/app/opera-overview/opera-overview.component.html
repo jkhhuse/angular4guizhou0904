@@ -1,24 +1,22 @@
-<div class="opera-overview-wrapper">
-  <div class="total-num-wrapper">
-    <div class="total-num-divs">
-      <div class="total-list">
-        <img class="total-list-img" src="assets/opera/img-docker.png" alt="">
-        <span class="total-list-title">容器个数</span>
-        <span class="total-list-num" style="color: rgb(50, 175, 130);">112</span>
-      </div>
-
-      <div class="total-list">
-        <img class="total-list-img" src="assets/opera/img-docker.png" alt="">
-        <span class="total-list-title">镜像总数</span>
-        <span class="total-list-num" style="color: rgb(68, 186, 225);">349</span>
-      </div>
-
-      <div class="total-list">
-        <img class="total-list-img" src="assets/opera/img-docker.png" alt="">
-        <span class="total-list-title">服务数</span>
-        <span class="total-list-num" style="color: rgb(223, 180, 101);">176</span>
-      </div>
+<div class="opera-wrapper">
+    <div class="opera-view">
+        <app-opera-view [viewCount]="viewCount" [viewCountBark]="viewCountBark"></app-opera-view>
     </div>
-    <div class="total-resource-div"></div>
-  </div>
+    <div class="opera-dashboard" nz-row [nzGutter]="16">
+        <div nz-col [nzMd]="9" [nzXs]="24">
+            <div class="opera-resource">
+                <app-opera-resource [container]="container" [image]="image" [oracleResource]="oracleResource" [extraResource]="extraResource"></app-opera-resource>
+            </div>
+        </div>
+        <div nz-col [nzMd]="6" [nzXs]="24">
+            <div class="opera-alert-base">
+                <app-opera-alert-base [serviceAndAppChart]="serviceAndAppChart" [clusterAndHostChart]="clusterAndHostChart"></app-opera-alert-base>
+            </div>
+        </div>
+        <div nz-col [nzMd]="9" [nzXs]="24">
+            <div class="opera-alert-info">
+                <app-opera-alert-info [dps]="dps" [logEvents]="dataSet" [alertState]="alertState"></app-opera-alert-info>
+            </div>
+        </div>
+    </div>
 </div>
