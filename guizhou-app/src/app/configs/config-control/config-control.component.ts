@@ -44,7 +44,8 @@ export class ConfigControlComponent implements OnInit {
   ];
 
   groupidHandler(event: any) {
-    console.log('change event this.groupid: ' + this.groupid);
+    console.log('2222change event this.groupid: ' + this.groupid);
+    console.log('2222event: ' + event);
     this.groupid = event;
     this.getConfigs();
   }
@@ -55,7 +56,7 @@ export class ConfigControlComponent implements OnInit {
   getConfigs():any {
     // 订阅流
     this.getConfigsObservable().subscribe((data) => {
-      console.log('config-control get data: ' + data);
+      // console.log('config-control get data: ' + data);
       this.configs = data;
     });
   }
