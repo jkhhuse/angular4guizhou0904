@@ -67,7 +67,7 @@
               <p>镜像配置</p>
               <div class="borderTop80">
                 <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
-                  <nz-tab (nzSelect)="choosedImageFunc(tab)" *ngFor="let tab of imageTabs">
+                  <nz-tab (nzDeselect)="choosedImageFunc(tab)" *ngFor="let tab of imageTabs">
                     <ng-template #nzTabHeading>
                       {{tab}}
                     </ng-template>
