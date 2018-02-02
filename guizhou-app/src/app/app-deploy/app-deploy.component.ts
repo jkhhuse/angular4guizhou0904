@@ -25,6 +25,7 @@ import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dy
 import { ContainerInstanceComponent } from '../container-instance/container-instance.component';
 import { ComponentServiceService } from "../dynamic-form/services/component-service.service";
 import { ServicesService } from "../shared/services.service";
+import { ConfigFileComponent } from '../config-file/config-file.component';
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
 @Component({
@@ -36,7 +37,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   AfterContentInit, AfterContentChecked,
   AfterViewInit, AfterViewChecked,
   OnDestroy {
-  configFileRadio = '';
+  configFileRadio;
   testCluster;
   prodCluster;
   selectValueSub: Subscription;
@@ -171,6 +172,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   loadBanlancerForm: FormGroup;
   lbControlLabel = [];
   lbControlArray = [];
+  networkOptions = [];
   testOptions = [];
   testSelectedOption;
   @ViewChild('formImgNetworkProject') formImgNetworkProject: DynamicFormComponent;
@@ -185,21 +187,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       styles: {
         'width': '400px'
       },
-      defaultValue: 80,
+      // defaultValue: 80,
       notNecessary: true
-    },
-    {
-      type: 'select',
-      label: '负载均衡器',
-      name: 'loadbanlancer',
-      options: ['haproxy-10-198-102-207 ( HAPROXY / 外网 / 10.198.102.207 )'] || this.loadBanlancer$,
-      placeholder: '选择负载均衡器',
-      // validation: [Validators.required],
-      styles: {
-        'width': '400px'
-      },
-      notNecessary: true
-      // ifTags: 'true'
     },
   ];
   // 镜像配置里的高级配置
@@ -208,17 +197,19 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   logForm: FormGroup;
   env$ = [];
   @ViewChild('logFormProject1') logFormProject1: DynamicFormComponent;
-  logFormConfig: FieldConfig[] = [{
-    type: 'input',
-    label: '日志文件',
-    placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
-    name: 'logPath',
-    // validation: [Validators.required],
-    styles: {
-      'width': '400px'
+  logFormConfig: FieldConfig[] = [
+    {
+      type: 'input',
+      label: '日志文件',
+      placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
+      name: 'logPath',
+      // validation: [Validators.required],
+      styles: {
+        'width': '400px'
+      },
+      notNecessary: true
     },
-    notNecessary: true
-  }];
+  ];
   @ViewChild('envFormProject1') envFormProject1: DynamicFormComponent;
   envFormConfig: FieldConfig[] = [{
     type: 'select',
@@ -237,10 +228,29 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   env1Array = [];
   // 镜像配置里的配置文件设置
   @ViewChild('configFileForm') configFileForm: DynamicFormComponent;
+  isVisible = false;
   configFileArr;
   configFileArr1;
   configFileSub: Subscription;
   configKeyValueArr;
+  configFileData = [];
+  configKeyValue1;
+  configKeyValue2;
+  // configFileData = [
+  //   {
+  //     key    : '1',
+  //     name   : 'John Brown',
+  //     age    : 32,
+  //   }, {
+  //     key    : '2',
+  //     name   : 'Jim Green',
+  //     age    : 42,
+  //   }, {
+  //     key    : '3',
+  //     name   : 'Joe Black',
+  //     age    : 32,
+  //   }
+  // ];
   configFile: FieldConfig[] = [
     {
       type: 'input',
@@ -460,8 +470,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         return !this.formFirstProject.valid;
       }
       case 1: {
-        return !this.formSecondProject.valid || !this.formImgNetworkProject.valid ||
-          !this.logFormProject1.valid;
+        return !this.formSecondProject.valid;
         // todo next
         // !this.logFormProject1.valid || !this.envFormProject1.valid;
       }
@@ -872,18 +881,51 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         // }
       }
       case 1: {
-        console.log(this.formImgNetworkProject, this.envFormProject1, this.logFormProject1, this.env1Form);
-        this.env1Enty[this.env1Form.value['key']] = this.env1Form.value['value'];
+        console.log('日志文件表单', this.logFormProject1);
+        console.log('环境变量文件表单', this.env1Form);
+        console.log('配置文件表单', this.configFileData);
+        console.log('负载均衡表单', this.loadBanlancerForm);
+        const keyList = ['', 1, 11, 111, 1111];
+        const lbArr = [];
+        const lbPorts = [];
+        _.map(keyList, (value, key) => {
+          if (this.env1Form.value['value' + value] !== undefined) {
+            this.env1Enty[this.env1Form.value['key'] + value] = this.env1Form.value['value' + value];
+          }
+          if (this.logFormProject1.value['logPath' + value] !== undefined) {
+            if (key === 0) {
+              this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] = this.logFormProject1.value['logPath' + value];
+            } else {
+              this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] = this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] + ',' +
+                this.logFormProject1.value['logPath' + value];
+            }
+          }
+          // container_port undefined?
+          // https://stackoverflow.com/questions/7479520/javascript-cannot-set-property-of-undefined
+          if (this.loadBanlancerForm.value['container_port' + value] !== undefined) {
+            lbArr[key] = {
+              container_port: this.loadBanlancerForm.value['container_port' + value],
+              listener_port: this.loadBanlancerForm.value['listener_port' + value],
+              protocol: this.loadBanlancerForm.value['protocol' + value]
+            };
+            lbPorts[key] = parseInt(this.loadBanlancerForm.value['container_port' + value]);
+          }
+          // lbArr[key]['container_port'] = this.loadBanlancerForm.value['container_port' + value];
+        });
+        this.configFileData = _.map(this.configFileData, (value, key) => {
+          delete value.valueKey;
+          return value;
+        });
+        // this.env1Enty[this.env1Form.value['key']] = this.env1Form.value['value'];
         // todo next
         // 这里logPath好像接口上没注明，需要立果确认
         // 还有配置文件，传参和灵雀云不太一样，看下飞信聊天以及实例接口文档
-        this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] = this.logFormProject1.value['logPath'];
+        // this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] = this.logFormProject1.value['logPath'] + ',' + this.logFormProject1.value['logPath1'];
         // 下面是对object假值的处理：https://stackoverflow.com/questions/30812765/how-to-remove-undefined-and-null-values-from-an-object-using-lodash
         this.env1Enty = _.pickBy(this.env1Enty, _.identity);
-        let configKeyValue1;
         _.map(this.configKeyValueArr, (value, key) => {
           if (value['key'] === this.configFileForm.value['key']) {
-            configKeyValue1 = value['id'];
+            this.configKeyValue1 = value['id'];
           }
         });
         // console.log('form333', this.formThirdProject);
@@ -912,24 +954,30 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           // 这里由于线上可用的集群就两个：cmss和ebd，所以先暂时写死
           clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
           network_mode: this.networkConfig,
-          ports: [this.formImgNetworkProject.value['ports']],
-          load_balancers: this.formImgNetworkProject.value['loadbanlancer'] === undefined ? undefined : [
-            {
-              listeners: [
-                {
-                  listener_port: parseInt(this.loadBanlancerForm.value['listener_port']),
-                  container_port: this.loadBanlancerForm.value['container_port'],
-                  protocol: this.loadBanlancerForm.value['protocol'],
-                  rules: []
-                }
-              ],
-              load_balancer_id: "1f9afbd2-4538-4089-63cb-8feab689d436",
-              name: "haproxy-10-198-102-207",
-              type: "haproxy",
-              uniqueId: "load_balancer_id1",
-              version: 1
-            }
-          ],
+          ports: lbPorts.length > 0 ? lbPorts : undefined,
+          load_balancers: lbArr.length > 0 ? [{
+            listeners: lbArr
+          }] : undefined,
+          // ports这里先不弄
+          // ports: [this.formImgNetworkProject.value['ports']],
+          // load_balancers: this.formImgNetworkProject.value['loadbanlancer'] === undefined ? undefined : [
+          //   {
+          //     listeners: [
+          //       {
+          //         listener_port: parseInt(this.loadBanlancerForm.value['listener_port']),
+          //         container_port: this.loadBanlancerForm.value['container_port'],
+          //         protocol: this.loadBanlancerForm.value['protocol'],
+          //         rules: []
+          //       }
+          //     ],
+          //     load_balancer_id: "1f9afbd2-4538-4089-63cb-8feab689d436",
+          //     name: "haproxy-10-198-102-207",
+          //     type: "haproxy",
+          //     uniqueId: "load_balancer_id1",
+          //     version: 1
+          //   }
+          // ],
+          // ports这里先不弄
           // todo next
           // envfiles: [
           //   {
@@ -940,11 +988,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           // todo next
           // 对object {} 空对象的比较：http://www.zuojj.com/archives/775.html
           instance_envvars: _.isEqual(this.env1Enty, {}) ? undefined : this.env1Enty,
-          microserviceConfigs: this.configFileForm.value['path'] === undefined ? undefined : [{
-            type: this.configFileRadio,
-            path: this.configFileForm.value['path'],
-            value: configKeyValue1
-          }]
+          microserviceConfigs: this.configFileData.length > 0 ? this.configFileData : undefined
           // clusterName: this.radioValue === 'prodDomain' ? this.networkRadioValue : 'testDomain'
         }
         if (this.serviceId) {
@@ -1371,10 +1415,6 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     });
   }
 
-  getConfigFile() {
-
-  }
-
   getCluster() {
     return new Promise((resolve, reject) => {
       const url$ = Observable.forkJoin(
@@ -1384,11 +1424,142 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       url$.subscribe(values => {
         this.testCluster = values[0];
         this.prodCluster = values[1];
-        this.networkRadioValue = values[1][0]['name'];
-        this.networkRadioValue2 = values[0][0]['name'];
+        this.networkRadioValue = values[1]['length'] > 0 ? values[1][0]['name'] : undefined;
+        this.networkRadioValue2 = values[0]['length'] > 0 ? values[0][0]['name'] : undefined;
         resolve();
       });
     });
+  }
+
+  addLogFile() {
+    console.log('addclick', this.logFormConfig);
+    const logInput = [{
+      type: 'input',
+      label: '日志文件',
+      placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
+      name: this.logFormConfig[this.logFormConfig.length - 1]['name'] + 1,
+      styles: {
+        'width': '400px'
+      },
+      notNecessary: true
+    }];
+    this.logFormConfig = _.concat(this.logFormConfig, logInput);
+    this.logFormProject1.setConfig(this.logFormConfig);
+  }
+
+  addEnv() {
+    console.log('addclick', this.env1Array);
+    const envInput = [[
+      {
+        type: 'input',
+        name: this.env1Array[this.env1Array.length - 1][0]['name'] + 1
+      },
+      {
+        type: 'input',
+        name: this.env1Array[this.env1Array.length - 1][1]['name'] + 1
+      },
+    ]];
+    this.env1Array = _.concat(this.env1Array, envInput);
+    _.map(this.env1Array, (value2, key2) => {
+      _.map(value2, (value3, key3) => {
+        this.env1Form.addControl(value3['name'], new FormControl());
+      });
+    });
+    console.log('env1', envInput);
+  }
+
+  addLb() {
+    // 这里存在换行的问题
+    const lbControlInput = [[
+      {
+        type: 'select',
+        name: this.lbControlArray[this.lbControlArray.length - 1][0]['name'] + 1,
+        placeholder: '1~65535',
+        options: this.networkOptions,
+      },
+      {
+        type: 'input',
+        inputType: 'number',
+        name: this.lbControlArray[this.lbControlArray.length - 1][1]['name'] + 1,
+        placeholder: '容器暴露端口',
+      },
+      {
+        type: 'select',
+        name: this.lbControlArray[this.lbControlArray.length - 1][2]['name'] + 1,
+        placeholder: '协议',
+        options: ['tcp'],
+      },
+      {
+        type: 'input',
+        placeholder: '回车或空格确定',
+        name: 'input1',
+        disabled: true
+      },
+      {
+        type: 'select',
+        name: 'select1',
+        // placeholder: 'select1213',
+        options: [],
+        // selectedOption: undefined,
+        disabled: true
+        // disabled:
+      },
+    ]];
+    this.lbControlArray = _.concat(this.lbControlArray, lbControlInput);
+    _.map(this.lbControlArray, (value1, key1) => {
+      _.map(value1, (value2, key2) => {
+        this.loadBanlancerForm.addControl(value2['name'], new FormControl());
+        if (value2['type'] === 'select') {
+          value2['selectedOption'] = value2['options'][0];
+        }
+      });
+    });
+  }
+
+  addConfigFile() {
+    console.log('addClick3');
+    this.isVisible = true;
+    // 弹出框component方式
+    // const subscription = this.confirmServ.open({
+    //   title          : '添加配置文件',
+    //   content        : ConfigFileComponent,
+    //   onOk() {
+    //   },
+    //   onCancel() {
+    //     console.log('Click cancel');
+    //   },
+    //   footer         : false,
+    //   componentParams: {
+    //     name: '测试渲染Component'
+    //   }
+    // });
+    // subscription.subscribe(result => {
+    //   console.log(result);
+    // });
+  }
+
+  handleOkConfig = (e) => {
+    // 这里缺少同名校验、错误校验、按钮disabled
+    console.log('点击了确定');
+    this.isVisible = false;
+    _.map(this.configKeyValueArr, (value, key) => {
+      if (value['key'] === this.configFileForm.value['key']) {
+        this.configKeyValue1 = value['id'];
+        this.configKeyValue2 = value['key'];
+      }
+    });
+    this.configFileData[this.configFileData.length] = {
+      type: this.configFileRadio,
+      path: this.configFileForm.value['path'],
+      value: this.configKeyValue1,
+      valueKey: this.configKeyValue2
+    };
+    console.log(this.configFileData);
+  }
+
+  handleCancelConfig = (e) => {
+    console.log(e);
+    this.isVisible = false;
   }
 
   getEnvFile() {
@@ -1417,110 +1588,116 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   }
 
   getnetworkAdvanced() {
-    this.loadBanlancerForm = this.fb.group({});
-    this.env1Form = this.fb.group({});
-    // for (let i = 0; i < 5; i++) {
-    //     this.lbControlArray.push({ index: i, show: i < 6 });
-    //     // this.loadBanlancerForm.addControl(`field${i}`, new FormControl());
-    // }
-    this.lbControlLabel = [
-      {
-        value: '监听端口'
-      },
-      {
-        value: '容器端口'
-      },
-      {
-        value: '协议'
-      },
-      {
-        value: '地址'
-      },
-      {
-        value: '证书'
-      },
-    ];
-    this.lbControlArray = [
-      {
-        type: 'input',
-        inputType: 'number',
-        placeholder: '1~65535',
-        name: 'listener_port',
-        defaultValue: 88
-      },
-      {
-        type: 'select',
-        name: 'container_port',
-        placeholder: '容器暴露端口',
-        options: [80],
-        selectedOption: undefined
-        // disabled:
-      },
-      {
-        type: 'select',
-        name: 'protocol',
-        placeholder: '协议',
-        options: ['tcp'],
-        selectedOption: undefined
-        // disabled:
-      },
-      {
-        type: 'input',
-        placeholder: '回车或空格确定',
-        name: 'input1',
-        disabled: true
-      },
-      {
-        type: 'select',
-        name: 'select1',
-        // placeholder: 'select1213',
-        options: [],
-        // selectedOption: undefined,
-        disabled: true
-        // disabled:
-      },
-    ];
-    this.env1 = [
-      {
-        value: '名称'
-      },
-      {
-        value: '值'
-      },
-    ];
-    this.env1Array = [
-      {
-        type: 'input',
-        // placeholder: '1~65535',
-        name: 'key'
-      },
-      {
-        type: 'input',
-        // placeholder: '1~65535',
-        name: 'value'
-      },
-    ];
-    this.testOptions = [
-      { value: 'jack', label: 'Jack' },
-      { value: 'lucy', label: 'Lucy' },
-      { value: 'disabled', label: 'Disabled', disabled: true }
-    ];
-    // this.testSelectedOption = undefined;
-    _.map(this.lbControlArray, (value1, key1) => {
-      this.loadBanlancerForm.addControl(value1['name'], new FormControl());
-      if (value1['type'] === 'select') {
-        value1['selectedOption'] = value1['options'][0];
-      }
-    });
-    _.map(this.env1Array, (value2, key2) => {
-      this.env1Form.addControl(value2['name'], new FormControl());
-    });
+    return new Promise((resolve, reject) => {
+      this.loadBanlancerForm = this.fb.group({});
+      this.env1Form = this.fb.group({});
+      // for (let i = 0; i < 5; i++) {
+      //     this.lbControlArray.push({ index: i, show: i < 6 });
+      //     // this.loadBanlancerForm.addControl(`field${i}`, new FormControl());
+      // }
+      this.lbControlLabel = [
+        {
+          value: '监听端口'
+        },
+        {
+          value: '容器端口'
+        },
+        {
+          value: '协议'
+        },
+        {
+          value: '地址'
+        },
+        {
+          value: '证书'
+        },
+      ];
 
-    this.serviceAdvancedLabel = [
-      {
-        value: '文件路径'
-      }
-    ];
+      this.lbControlArray = [
+        // 这里需要替换成真实数据
+        [
+          {
+            type: 'select',
+            name: 'listener_port',
+            placeholder: '1~65535',
+            options: this.networkOptions,
+          },
+          {
+            type: 'input',
+            inputType: 'number',
+            name: 'container_port',
+            placeholder: '容器暴露端口',
+          },
+          {
+            type: 'select',
+            name: 'protocol',
+            placeholder: '协议',
+            options: ['tcp'],
+          },
+          {
+            type: 'input',
+            placeholder: '回车或空格确定',
+            name: 'input1',
+            disabled: true
+          },
+          {
+            type: 'select',
+            name: 'select1',
+            // placeholder: 'select1213',
+            options: [],
+            // selectedOption: undefined,
+            disabled: true
+            // disabled:
+          },
+        ]
+      ];
+      this.env1 = [
+        {
+          value: '名称'
+        },
+        {
+          value: '值'
+        },
+      ];
+      this.env1Array = [
+        [
+          {
+            type: 'input',
+            name: 'key'
+          },
+          {
+            type: 'input',
+            name: 'value'
+          },
+        ]
+      ];
+      this.testOptions = [
+        { value: 'jack', label: 'Jack' },
+        { value: 'lucy', label: 'Lucy' },
+        { value: 'disabled', label: 'Disabled', disabled: true }
+      ];
+      // this.testSelectedOption = undefined;
+      _.map(this.lbControlArray, (value1, key1) => {
+        _.map(value1, (value2, key2) => {
+          this.loadBanlancerForm.addControl(value2['name'], new FormControl());
+          if (value2['type'] === 'select') {
+            value2['selectedOption'] = value2['options'][0];
+          }
+        });
+      });
+      _.map(this.env1Array, (value2, key2) => {
+        _.map(value2, (value3, key3) => {
+          this.env1Form.addControl(value3['name'], new FormControl());
+        });
+      });
+
+      this.serviceAdvancedLabel = [
+        {
+          value: '文件路径'
+        }
+      ];
+      resolve();
+    });
   }
 
   getImgAdvanced() {
@@ -1558,20 +1735,36 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         //   return this.http.get(environment.apiService + '/apiService/groups/' + this.servicesService.getCookie('groupID') + '/services/'
         //    + value + '/instances')
         // })
+        this.http.get(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + this.appId),
         this.http.get(environment.apiService + '/apiService/groups/' + this.servicesService.getCookie('groupID') + '/service-instances')
       );
       url$.subscribe(values => {
         console.log('一次数据的values', values[0]);
-        this.formThird5Map = values[0];
-        _.map(values[0], (value, key) => {
+        this.formThird5Map = values[1];
+        _.map(values[0]['services'], (value, key) => {
           if (value['serviceName'] === 'mysql') {
-            this.mysqlOption[key] = value['instanceName'];
+            _.map(values[1], (value1, key1) => {
+              if (value1['serviceName'] === 'mysql') {
+                this.mysqlOption[key1] = value1['instanceName'];
+              }
+            });
+            // this.mysqlOption[key] = value['instanceName'];
             // console.log(this.mysqlOption);
           } else if (value['serviceName'] === 'redis') {
-            this.redisOption[key] = value['instanceName'];
+            _.map(values[1], (value1, key1) => {
+              if (value1['serviceName'] === 'redis') {
+                this.redisOption[key1] = value1['instanceName'];
+              }
+            });
+            // this.redisOption[key] = value['instanceName'];
             // console.log(this.redisOption);
-          } else {
-            this.zookeeperOption[key] = value['instanceName'];
+          } else if (value['serviceName'] === 'zookeeper') {
+            _.map(values[1], (value1, key1) => {
+              if (value1['serviceName'] === 'zookeeper') {
+                this.zookeeperOption[key1] = value1['instanceName'];
+              }
+            });
+            // this.zookeeperOption[key] = value['instanceName'];
             // console.log(this.zookeeperOption);
           }
         });
@@ -1606,8 +1799,25 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     });
   }
 
+  getNetworkOptions() {
+    return new Promise((resolve, reject) => {
+      this.http.get(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') +
+        '/lb-ports/ebd').subscribe(data => {
+          console.log('options', data);
+          _.map(data, (value, key) => {
+            this.networkOptions[key] = value['port'];
+          });
+          resolve();
+        });
+    });
+  }
+
   async ngOnInit() {
-    this.getnetworkAdvanced();
+    // 这里this.getnetworkAdvanced();需要在networkOptions前后调用两次，不然会报错，可以优化
+    // await this.getServiceBasic();
+    await this.getnetworkAdvanced();
+    await this.getNetworkOptions();
+    await this.getnetworkAdvanced();
     await this.getImgAdvanced();
     this.appId = this.routeInfo.snapshot.params['appId'];
     // this.getServiceVersion();
