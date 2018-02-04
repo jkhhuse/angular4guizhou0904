@@ -5,8 +5,18 @@
 <!-- 动态表单测试 -->
 <div class="app">
   <!-- <dynamic-form [config]="config" form="dynamicForm" (submit)="submit($event)"> -->
+  <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+    <nz-tab (nzSelect)="choosedImageFunc(tab)" *ngFor="let tab of imageTabs">
+      <ng-template #nzTabHeading>
+        {{tab}}
+      </ng-template>
+      <!-- <span>Content of Tab Pane {{tab.index}}</span> -->
+    </nz-tab>
+  </nz-tabset>
   <dynamic-form #form [config]="config" (submit)="submit($event)">
   </dynamic-form>
+  <!-- <dynamic-form *ngIf="choosedImageName === 'name2'" #form11 [config]="config" (submit)="submit($event)">
+    </dynamic-form> -->
   <button (click)="addClick()">addClick</button>
 
   <dynamic-form #form2 [config]="config2">
@@ -109,10 +119,10 @@
 
 <!-- <dynamic-form #form3 [config]="config3" *ngFor="let data of configArr">
   </dynamic-form> -->
-  <div>分界线</div>
-  <div *ngFor="let arr of arrTest">
-    {{ arr || json }}
-    <div *ngFor="let arr1 of arr">
-      {{ arr1.a || json }}
-    </div>
+<div>分界线</div>
+<div *ngFor="let arr of arrTest">
+  {{ arr || json }}
+  <div *ngFor="let arr1 of arr">
+    {{ arr1.a || json }}
   </div>
+</div>

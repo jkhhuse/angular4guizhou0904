@@ -161,6 +161,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   images: string[] = [];
   imageTabs: string[] = [];
   choosedImageName: string = '';
+  imageData = [];
+  activeImage;
   // todo next
   // repositoryId: string[] = [];
   repositoryId: string = '';
@@ -224,7 +226,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   }];
   env1 = [];
   env1Form: FormGroup;
-  env1Enty = {};
+  env1Enty = [];
   env1Array = [];
   // 镜像配置里的配置文件设置
   @ViewChild('configFileForm') configFileForm: DynamicFormComponent;
@@ -885,49 +887,60 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         console.log('环境变量文件表单', this.env1Form);
         console.log('配置文件表单', this.configFileData);
         console.log('负载均衡表单', this.loadBanlancerForm);
-        const keyList = ['', 1, 11, 111, 1111];
-        const lbArr = [];
-        const lbPorts = [];
-        _.map(keyList, (value, key) => {
-          if (this.env1Form.value['value' + value] !== undefined) {
-            this.env1Enty[this.env1Form.value['key'] + value] = this.env1Form.value['value' + value];
-          }
-          if (this.logFormProject1.value['logPath' + value] !== undefined) {
-            if (key === 0) {
-              this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] = this.logFormProject1.value['logPath' + value];
-            } else {
-              this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] = this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] + ',' +
-                this.logFormProject1.value['logPath' + value];
-            }
-          }
-          // container_port undefined?
-          // https://stackoverflow.com/questions/7479520/javascript-cannot-set-property-of-undefined
-          if (this.loadBanlancerForm.value['container_port' + value] !== undefined) {
-            lbArr[key] = {
-              container_port: this.loadBanlancerForm.value['container_port' + value],
-              listener_port: this.loadBanlancerForm.value['listener_port' + value],
-              protocol: this.loadBanlancerForm.value['protocol' + value]
-            };
-            lbPorts[key] = parseInt(this.loadBanlancerForm.value['container_port' + value]);
-          }
-          // lbArr[key]['container_port'] = this.loadBanlancerForm.value['container_port' + value];
-        });
-        this.configFileData = _.map(this.configFileData, (value, key) => {
-          delete value.valueKey;
-          return value;
-        });
-        // this.env1Enty[this.env1Form.value['key']] = this.env1Form.value['value'];
         // todo next
-        // 这里logPath好像接口上没注明，需要立果确认
-        // 还有配置文件，传参和灵雀云不太一样，看下飞信聊天以及实例接口文档
-        // this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] = this.logFormProject1.value['logPath'] + ',' + this.logFormProject1.value['logPath1'];
-        // 下面是对object假值的处理：https://stackoverflow.com/questions/30812765/how-to-remove-undefined-and-null-values-from-an-object-using-lodash
-        this.env1Enty = _.pickBy(this.env1Enty, _.identity);
-        _.map(this.configKeyValueArr, (value, key) => {
-          if (value['key'] === this.configFileForm.value['key']) {
-            this.configKeyValue1 = value['id'];
+        // 这里的choosedImageName需要切换一下，应该是当前激活的image
+        console.log(this.activeImage);
+        let lastImage;
+        _.map(this.images, (value, key) => {
+          if (this.activeImage === key) {
+            lastImage = value['repositoryName'];
           }
         });
+        await this.choosedImageFunc(lastImage);
+        console.log(this.imageData);
+        // const keyList = ['', 1, 11, 111, 1111];
+        // const lbArr = [];
+        // const lbPorts = [];
+        // _.map(keyList, (value, key) => {
+        //   if (this.env1Form.value['value' + value] !== undefined) {
+        //     this.env1Enty[this.env1Form.value['key'] + value] = this.env1Form.value['value' + value];
+        //   }
+        //   if (this.logFormProject1.value['logPath' + value] !== undefined) {
+        //     if (key === 0) {
+        //       this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] = this.logFormProject1.value['logPath' + value];
+        //     } else {
+        //       this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] = this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] + ',' +
+        //         this.logFormProject1.value['logPath' + value];
+        //     }
+        //   }
+        //   // container_port undefined?
+        //   // https://stackoverflow.com/questions/7479520/javascript-cannot-set-property-of-undefined
+        //   if (this.loadBanlancerForm.value['container_port' + value] !== undefined) {
+        //     lbArr[key] = {
+        //       container_port: this.loadBanlancerForm.value['container_port' + value],
+        //       listener_port: this.loadBanlancerForm.value['listener_port' + value],
+        //       protocol: this.loadBanlancerForm.value['protocol' + value]
+        //     };
+        //     lbPorts[key] = parseInt(this.loadBanlancerForm.value['container_port' + value]);
+        //   }
+        //   // lbArr[key]['container_port'] = this.loadBanlancerForm.value['container_port' + value];
+        // });
+        // this.configFileData = _.map(this.configFileData, (value, key) => {
+        //   delete value.valueKey;
+        //   return value;
+        // });
+        // // this.env1Enty[this.env1Form.value['key']] = this.env1Form.value['value'];
+        // // todo next
+        // // 这里logPath好像接口上没注明，需要立果确认
+        // // 还有配置文件，传参和灵雀云不太一样，看下飞信聊天以及实例接口文档
+        // // this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] = this.logFormProject1.value['logPath'] + ',' + this.logFormProject1.value['logPath1'];
+        // // 下面是对object假值的处理：https://stackoverflow.com/questions/30812765/how-to-remove-undefined-and-null-values-from-an-object-using-lodash
+        // this.env1Enty = _.pickBy(this.env1Enty, _.identity);
+        // _.map(this.configKeyValueArr, (value, key) => {
+        //   if (value['key'] === this.configFileForm.value['key']) {
+        //     this.configKeyValue1 = value['id'];
+        //   }
+        // });
         // console.log('form333', this.formThirdProject);
         // todo next
         // _.map(this.repositoryId, (value1, key1) => {
@@ -943,54 +956,27 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         //     clusterName: this.radioValue === 'prodDomain' ? 'cmss' : 'ebd'
         //   }
         // });
-        this.formData['microservices'][0] = {
-          storageSize: 0,
-          scaling_mode: 'MANUAL',
-          space_name: 'admin',
-          microserviceName: this.formSecondProject.value['microserviceName'],
-          podsCount: parseInt(this.formSecondProject.value['podsCount']),
-          repositoryId: this.repositoryId,
-          instance_size: this.instanceSecond.value['instance_size'],
-          // 这里由于线上可用的集群就两个：cmss和ebd，所以先暂时写死
-          clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
-          network_mode: this.networkConfig,
-          ports: lbPorts.length > 0 ? lbPorts : undefined,
-          load_balancers: lbArr.length > 0 ? [{
-            listeners: lbArr
-          }] : undefined,
-          // ports这里先不弄
-          // ports: [this.formImgNetworkProject.value['ports']],
-          // load_balancers: this.formImgNetworkProject.value['loadbanlancer'] === undefined ? undefined : [
-          //   {
-          //     listeners: [
-          //       {
-          //         listener_port: parseInt(this.loadBanlancerForm.value['listener_port']),
-          //         container_port: this.loadBanlancerForm.value['container_port'],
-          //         protocol: this.loadBanlancerForm.value['protocol'],
-          //         rules: []
-          //       }
-          //     ],
-          //     load_balancer_id: "1f9afbd2-4538-4089-63cb-8feab689d436",
-          //     name: "haproxy-10-198-102-207",
-          //     type: "haproxy",
-          //     uniqueId: "load_balancer_id1",
-          //     version: 1
-          //   }
-          // ],
-          // ports这里先不弄
-          // todo next
-          // envfiles: [
-          //   {
-          //     name: this.envFormProject1.value['envconfig']
-          //   }
-          // ],
-          // todo next
-          // todo next
-          // 对object {} 空对象的比较：http://www.zuojj.com/archives/775.html
-          instance_envvars: _.isEqual(this.env1Enty, {}) ? undefined : this.env1Enty,
-          microserviceConfigs: this.configFileData.length > 0 ? this.configFileData : undefined
-          // clusterName: this.radioValue === 'prodDomain' ? this.networkRadioValue : 'testDomain'
-        }
+        this.formData['microservices'] = this.imageData;
+        // this.formData['microservices'][0] = {
+        //   storageSize: 0,
+        //   scaling_mode: 'MANUAL',
+        //   space_name: 'admin',
+        //   microserviceName: this.formSecondProject.value['microserviceName'],
+        //   podsCount: parseInt(this.formSecondProject.value['podsCount']),
+        //   repositoryId: this.repositoryId,
+        //   instance_size: this.instanceSecond.value['instance_size'],
+        //   // 这里由于线上可用的集群就两个：cmss和ebd，所以先暂时写死
+        //   clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
+        //   network_mode: this.networkConfig,
+        //   ports: lbPorts.length > 0 ? lbPorts : undefined,
+        //   load_balancers: lbArr.length > 0 ? [{
+        //     listeners: lbArr
+        //   }] : undefined,
+        //   // 对object {} 空对象的比较：http://www.zuojj.com/archives/775.html
+        //   instance_envvars: _.isEqual(this.env1Enty, {}) ? undefined : this.env1Enty,
+        //   microserviceConfigs: this.configFileData.length > 0 ? this.configFileData : undefined
+        //   // clusterName: this.radioValue === 'prodDomain' ? this.networkRadioValue : 'testDomain'
+        // }
         if (this.serviceId) {
           // console.log('这是seriveId', this.serviceId);
           // await this.getServiceVersion();
@@ -1190,14 +1176,93 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   // todo 这里两个choosed函数可以优化
   choosedImageFunc(tab) {
     // console.log('image func', tab);
+    console.log(this.activeImage);
     this.choosedImageName = tab;
-    _.map(this.images, (value, key) => {
-      if (value['repositoryName'] === this.choosedImageName) {
-        // todo next
-        // this.repositoryId[key] = value['id'];
-        this.repositoryId = value['id'];
+    const keyList = ['', 1, 11, 111, 1111];
+    const lbArr = [];
+    const lbPorts = [];
+    this.configFileData = _.map(this.configFileData, (value, key) => {
+      delete value.valueKey;
+      return value;
+    });
+    console.log(this.configFileData);
+    _.map(this.configKeyValueArr, (value, key) => {
+      if (value['key'] === this.configFileForm.value['key']) {
+        this.configKeyValue1 = value['id'];
       }
-    })
+    });
+    _.map(this.images, (value1, key1) => {
+      if (value1['repositoryName'] === this.choosedImageName) {
+        _.map(keyList, (value, key) => {
+          if (this.env1Form.value['value' + value] !== undefined) {
+            this.env1Enty[key1] = _.assign({}, this.env1Enty[key1], {
+              [this.env1Form.value['key'] + value]: this.env1Form.value['value' + value]
+            });
+          }
+          if (this.logFormProject1.value['logPath' + value] !== undefined) {
+            if (key === 0) {
+              this.env1Enty[key1] = _.assign({}, this.env1Enty[key1], {
+                ['__ALAUDA_FILE_LOG_PATH__']: this.logFormProject1.value['logPath' + value]
+              });
+            } else {
+              this.env1Enty[key1] = _.assign({}, this.env1Enty[key1], {
+                ['__ALAUDA_FILE_LOG_PATH__']: this.env1Enty[key1]['__ALAUDA_FILE_LOG_PATH__'] + ',' +
+                this.logFormProject1.value['logPath' + value]
+              });
+            }
+          }
+          // console.log(this.env1Enty);
+          // console.log(this.imageData);
+          // container_port undefined?
+          // https://stackoverflow.com/questions/7479520/javascript-cannot-set-property-of-undefined
+          if (this.loadBanlancerForm.value['container_port' + value] !== undefined) {
+            lbArr[key] = {
+              container_port: this.loadBanlancerForm.value['container_port' + value],
+              listener_port: this.loadBanlancerForm.value['listener_port' + value],
+              protocol: this.loadBanlancerForm.value['protocol' + value]
+            };
+            lbPorts[key] = parseInt(this.loadBanlancerForm.value['container_port' + value]);
+          }
+          console.log(lbArr, lbPorts);
+          // lbArr[key]['container_port'] = this.loadBanlancerForm.value['container_port' + value];
+        });
+        console.log(this.env1Enty);
+        // 这里当第一次oninit的时候，会报错null undefined
+        _.map(this.env1Enty, (value, key) => {
+          if (value.null !== undefined) {
+            delete value.null;
+          }
+          return value;
+          // value = _.pickBy(value, _.identity);
+          // return value;
+        });
+        // this.env1Enty = _.pickBy(this.env1Enty, _.identity);
+        // this.env1Enty的数据，在tab来回切换的时候会有问题，但是正常流程如下：
+        // tab1，填配置，tab2，填配置，然后直接下一步
+        console.log(this.env1Enty, this.imageData);
+        this.repositoryId = value1['id'];
+        this.imageData[key1] = {
+          storageSize: 0,
+          scaling_mode: 'MANUAL',
+          space_name: 'admin',
+          microserviceName: this.formSecondProject.value['microserviceName'],
+          podsCount: parseInt(this.formSecondProject.value['podsCount']),
+          repositoryId: this.repositoryId,
+          instance_size: this.instanceSecond.value['instance_size'],
+          clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
+          network_mode: this.networkConfig,
+          ports: lbPorts.length > 0 ? lbPorts : undefined,
+          load_balancers: lbArr.length > 0 ? [{
+            listeners: lbArr
+          }] : undefined,
+          // 对object {} 空对象的比较：http://www.zuojj.com/archives/775.html
+          // todo instance这里数据有问题
+          instance_envvars: _.isEqual(this.env1Enty[key1], {}) ? undefined : this.env1Enty[key1],
+          microserviceConfigs: this.configFileData.length > 0 ? this.configFileData : undefined
+        };
+      }
+    });
+    console.log(this.imageData);
     // console.log('image-id', this.repositoryId);
   }
 

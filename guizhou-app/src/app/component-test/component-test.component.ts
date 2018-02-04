@@ -100,6 +100,8 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   _dataSet = [];
 
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
+  @ViewChild(DynamicFormComponent) form11: DynamicFormComponent;
+  config1: FieldConfig[] = [];
   config: FieldConfig[] = [
     {
       type: 'input',
@@ -169,6 +171,9 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   ];
   name: string = 'Semlinker';
   @ViewChild('greet') greetDiv: ElementRef;
+  imageTabs = ['name1', 'name2'];
+  arrData = [];
+  choosedImageName;
 
   // @ViewChildren(DynamicFormComponent) formArr: QueryList<DynamicFormComponent>;
   // configArr = [];
@@ -219,6 +224,25 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
       // this.form3.setConfig(this.config3);
     }
     this.form3.setConfig(this.config3);
+  }
+
+  choosedImageFunc(tab) {
+    this.choosedImageName = tab;
+    // if (this.choosedImageName === 'name1') {
+    //   this.form.setConfig(this.config);
+    //   this.arrData[0] = this.form.value;
+    // } else if (this.choosedImageName === 'name2') {
+    //   this.form11.setConfig(this.config);
+    //   this.arrData[1] = this.form11.value;
+    // }
+    _.map(this.imageTabs, (value, key) => {
+      if (tab === value) {
+        this.arrData[key] = this.form.value;
+      }
+    });
+    console.log(tab, this.form, this.imageTabs);
+    // this.arrData[0] = this.form.value;
+    console.log(this.arrData);
   }
 
   getFormValue() {
@@ -351,6 +375,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   // }
 
   ngAfterViewInit() {
+    this.choosedImageName = 'name1';
     let previousValid = this.form.valid;
     this.form.changes.subscribe(() => {
       if (this.form.valid !== previousValid) {
@@ -413,6 +438,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     // });
   }
   ngOnInit() {
+    this.choosedImageName = 'name1';
     // for (let i = 0; i < 46; i++) {
     //   this._dataSet.push({
     //     key: i,
