@@ -481,7 +481,7 @@ export class AppReleaseComponent implements OnInit {
     this.form.value.services = _.map(servicesId, (value, key) => {
       return servicesId[key];
     })
-    this.form.value.createUserId = 1;
+    this.form.value.createUserId = this.servicesService.getUserId();
     this.form.value.containerSrvId = 1;
     this.http.post(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') + '/applications', this.form.value).subscribe(data => {
       const thisParent = this;

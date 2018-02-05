@@ -181,11 +181,10 @@ export class AppInstanceDetailDetailComponent implements OnInit {
   }
 
   putNewMode () {
-    // TO DO : USERID userId userID 需要更新为获取，不是写死。
     console.log('选择更新的模式为：' + this.scaling_mode);
     if(this.scaling_mode === 'MANUAL') {
       this.http.put(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/application-instance-microservices/' + this.instanceDetailID, {
-        'updateUserId': '1',
+        'updateUserId': this.servicesService.getUserId(),
         'scaling_mode': this.scaling_mode,
         'podsCount': this.manualInput_1
       }).subscribe(response => {
@@ -197,7 +196,7 @@ export class AppInstanceDetailDetailComponent implements OnInit {
         });
     } else {
       this.http.put(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/application-instance-microservices/' + this.instanceDetailID, {
-        'updateUserId': '1',
+        'updateUserId': this.servicesService.getUserId(),
         'scaling_mode': this.scaling_mode,
         'autoscaling_config': {
           'decrease_delta': this.autoInput_1,

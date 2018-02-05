@@ -43,7 +43,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   selectValueSub: Subscription;
   appId: string = '';
   formData: object = {
-    createUserId: 1,
+    createUserId: this.servicesService.getUserId(),
     groupId: this.servicesService.getCookie('groupID'),
     microservices: [
       {
@@ -2057,11 +2057,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   }
 
   ngAfterContentInit() {
-    // console.log('AfterContentInit'); 
+    // console.log('AfterContentInit');
   }
 
   ngAfterContentChecked() {
-    // console.log('AfterContentChecked'); 
+    // console.log('AfterContentChecked');
   }
 
   ngAfterViewChecked() {

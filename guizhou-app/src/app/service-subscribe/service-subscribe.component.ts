@@ -48,7 +48,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         serviceInstances: [
             {
                 storageSize: 0,
-                createUserId: 1,
+                createUserId: this.servicesService.getUserId(),
                 groupId: this.servicesService.getCookie('groupID'),
             }
         ]
@@ -998,7 +998,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         // }
         this.formData['serviceInstances'][0] = {
             storageSize: 0,
-            createUserId: 1,
+            createUserId: this.servicesService.getUserId(),
             groupId: this.servicesService.getCookie('groupID'),
             serviceId: this.serviceId,
             instanceName: this.formThirdProject.value['instanceName'],
