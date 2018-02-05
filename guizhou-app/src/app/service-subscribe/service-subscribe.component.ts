@@ -969,21 +969,24 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         // }
         if (this.serviceName === 'redis') {
             this.formThird1RadioEntity['cluster_size'] = {
-                'size': this.instanceThird.value['instance_size'],
+                'size': 'CUSTOMIZED',
                 'cpu': this.instanceThird.value['cpuSize'],
-                'mem': this.instanceThird.value['memSize']
+                'mem': this.instanceThird.value['instance_size'] === 'XS' ? this.instanceThird.value['memSize'] :
+                this.instanceThird.value['memSize'] * 1024
             };
         } else if (this.serviceName === 'zookeeper') {
             this.formThird1RadioEntity['zookeeper_size'] = {
-                'size': this.instanceThird.value['instance_size'],
+                'size': 'CUSTOMIZED',
                 'cpu': this.instanceThird.value['cpuSize'],
-                'mem': this.instanceThird.value['memSize']
+                'mem': this.instanceThird.value['instance_size'] === 'XS' ? this.instanceThird.value['memSize'] :
+                this.instanceThird.value['memSize'] * 1024
             };
         } else if (this.serviceName === 'mysql') {
             this.formThird1RadioEntity['cluster_size'] = {
-                'size': this.instanceThird.value['instance_size'],
+                'size': 'CUSTOMIZED',
                 'cpu': this.instanceThird.value['cpuSize'],
-                'mem': this.instanceThird.value['memSize']
+                'mem': this.instanceThird.value['instance_size'] === 'XS' ? this.instanceThird.value['memSize'] :
+                this.instanceThird.value['memSize'] * 1024
             };
         }
         // todo next
@@ -1004,7 +1007,9 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             instanceName: this.formThirdProject.value['instanceName'],
             instancesCount: parseInt(this.formThird1Project.value['num_of_nodes']),
             cpuSize: this.instanceThird.value['cpuSize'] * this.formThird1Project.value['num_of_nodes'],
-            memSize: this.instanceThird.value['memSize'] * this.formThird1Project.value['num_of_nodes'],
+            memSize: this.instanceThird.value['instance_size'] === 'XS' ? this.instanceThird.value['memSize'] *
+            this.formThird1Project.value['num_of_nodes'] :
+            this.instanceThird.value['memSize'] * 1024 * this.formThird1Project.value['num_of_nodes'],
             clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
             info: {
                 // todo: this.formThird2RadioEntity, this.formThird3Entity
