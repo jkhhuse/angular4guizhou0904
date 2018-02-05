@@ -43,7 +43,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   selectValueSub: Subscription;
   appId: string = '';
   formData: object = {
-    createUserId: 1,
+    createUserId: this.servicesService.getUserId(),
     groupId: this.servicesService.getCookie('groupID'),
     microservices: [
       {
@@ -1066,59 +1066,59 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
 
   done() {
     // 这里，需要复习一下object[变量]和object['常量']的区别
+    // todo 这里把服务配置给清除掉
+    // if (this.choosedServiceName === 'zookeeper') {
+    //   if (this.formThird2Radios) {
+    //     _.map(this.formThird2Radios, (value, key) => {
+    //       // console.log('打印radio', value);
+    //       const valueName$ = value.name;
+    //       this.formThird2RadioEntity[valueName$] = value.defaultValue;
+    //       // this.formThird2RadioEntity[key] = {
+    //       //   [valueName$]: value.defaultValue
+    //       // }
+    //     });
+    //   }
+    // } else {
+    //   this.formThird2RadioEntity['mode'] = 'replication';
+    // }
+    // if (this.formThird3Project) {
+    //   _.mapKeys(this.formThird3Project['value'], (value, key) => {
+    //     this.formThird3Entity[key] = value;
+    //   });
+    // } else {
+    //   this.formThird3Entity = {};
+    // }
+    // if (this.formThird4Project) {
+    //   if (this.formThird4Project['config'].length !== 0) {
+    //     _.mapKeys(this.formThird4Project['value'], (value, key) => {
+    //       this.formThird4Entity[key] = value;
+    //     });
+    //   } else {
+    //     this.formThird4Entity = {};
+    //   }
+    // }
+    // this.formThird1RadioEntity[this.instanceThird.value['name']] = this.instanceThird.value['instance_size']
+    // if (this.choosedServiceName === 'zookeeper') {
+    //   this.formThird1Project.value['num_of_nodes'] = parseInt(this.formThird1Project.value['num_of_nodes']);
+    // }
+    // this.formData['serviceInstances'][0] = {
+    //   storageSize: 0,
+    //   serviceId: this.serviceId,
+    //   instanceName: this.formThirdProject.value['instanceName'],
+    //   instancesCount: parseInt(this.formThird1Project.value['num_of_nodes']),
+    //   cpuSize: this.instanceThird.value['cpuSize'] * this.formThird1Project.value['num_of_nodes'],
+    //   memSize: this.instanceThird.value['memSize'] * this.formThird1Project.value['num_of_nodes'],
+    //   clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
+    //   info: {
+    //     basic_config: _.assign(this.formThird1Project.value, this.formThird1RadioEntity,
+    //       this.choosedServiceName === 'redis' ? this.formThird2RadioEntity : {},
+    //       this.formThird3Entity),
+    //     advanced_config: _.assign(this.formThird2Project.value, this.choosedServiceName === 'zookeeper' ?
+    //       this.formThird2RadioEntity : {}, this.formThird4Entity)
+    //   }
+    // }
+    // todo 这里把服务配置给清除掉
     if (this.serviceTabs.length > 0) {
-      // todo 这里把服务配置给清除掉
-      // if (this.choosedServiceName === 'zookeeper') {
-      //   if (this.formThird2Radios) {
-      //     _.map(this.formThird2Radios, (value, key) => {
-      //       // console.log('打印radio', value);
-      //       const valueName$ = value.name;
-      //       this.formThird2RadioEntity[valueName$] = value.defaultValue;
-      //       // this.formThird2RadioEntity[key] = {
-      //       //   [valueName$]: value.defaultValue
-      //       // }
-      //     });
-      //   }
-      // } else {
-      //   this.formThird2RadioEntity['mode'] = 'replication';
-      // }
-      // if (this.formThird3Project) {
-      //   _.mapKeys(this.formThird3Project['value'], (value, key) => {
-      //     this.formThird3Entity[key] = value;
-      //   });
-      // } else {
-      //   this.formThird3Entity = {};
-      // }
-      // if (this.formThird4Project) {
-      //   if (this.formThird4Project['config'].length !== 0) {
-      //     _.mapKeys(this.formThird4Project['value'], (value, key) => {
-      //       this.formThird4Entity[key] = value;
-      //     });
-      //   } else {
-      //     this.formThird4Entity = {};
-      //   }
-      // }
-      // this.formThird1RadioEntity[this.instanceThird.value['name']] = this.instanceThird.value['instance_size']
-      // if (this.choosedServiceName === 'zookeeper') {
-      //   this.formThird1Project.value['num_of_nodes'] = parseInt(this.formThird1Project.value['num_of_nodes']);
-      // }
-      // this.formData['serviceInstances'][0] = {
-      //   storageSize: 0,
-      //   serviceId: this.serviceId,
-      //   instanceName: this.formThirdProject.value['instanceName'],
-      //   instancesCount: parseInt(this.formThird1Project.value['num_of_nodes']),
-      //   cpuSize: this.instanceThird.value['cpuSize'] * this.formThird1Project.value['num_of_nodes'],
-      //   memSize: this.instanceThird.value['memSize'] * this.formThird1Project.value['num_of_nodes'],
-      //   clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
-      //   info: {
-      //     basic_config: _.assign(this.formThird1Project.value, this.formThird1RadioEntity,
-      //       this.choosedServiceName === 'redis' ? this.formThird2RadioEntity : {},
-      //       this.formThird3Entity),
-      //     advanced_config: _.assign(this.formThird2Project.value, this.choosedServiceName === 'zookeeper' ?
-      //       this.formThird2RadioEntity : {}, this.formThird4Entity)
-      //   }
-      // }
-      // todo 这里把服务配置给清除掉
       const serviceIdData = [];
       console.log('打印formThird5', this.formThird5Project);
       // if (this.formThird5Project.value['service_mysql'] !== undefined) {
@@ -1136,26 +1136,26 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       // _.map(this.formThird5Project.value, ())
       // const serviceInstanceData;
       this.formData['serviceInstances'] = _.compact(serviceIdData);
-      this.http.post(environment.apiApp + '/apiApp/applications/' + this.appId + '/instances', this.formData).subscribe(data => {
-        const thisParent = this;
-        console.log('应用部署成功', data);
-        this.confirmServ.success({
-          maskClosable: false,
-          title: '应用部署成功!',
-          content: '点确认按钮跳转到应用商城',
-          okText: '确定',
-          onOk() {
-            // .contentControl = true;
-            // console.log('form11', thisParent.form);
-            // const redirect = window.location.host + '/#/appStore';
-            // window.location.href = window.location.origin + '/#/appStore';
-            thisParent.router.navigate(['appStore']);
-          },
-          onCancel() {
-          }
-        });
-      })
     }
+    this.http.post(environment.apiApp + '/apiApp/applications/' + this.appId + '/instances', this.formData).subscribe(data => {
+      const thisParent = this;
+      console.log('应用部署成功', data);
+      this.confirmServ.success({
+        maskClosable: false,
+        title: '应用部署成功!',
+        content: '点确认按钮跳转到应用商城',
+        okText: '确定',
+        onOk() {
+          // .contentControl = true;
+          // console.log('form11', thisParent.form);
+          // const redirect = window.location.host + '/#/appStore';
+          // window.location.href = window.location.origin + '/#/appStore';
+          thisParent.router.navigate(['appStore']);
+        },
+        onCancel() {
+        }
+      });
+    });
     // if (this.formThird1Radios) {
     //   _.map(this.formThird1Radios, (value, key) => {
     //     const valueName$ = value.name;
@@ -1207,7 +1207,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
             } else {
               this.env1Enty[key1] = _.assign({}, this.env1Enty[key1], {
                 ['__ALAUDA_FILE_LOG_PATH__']: this.env1Enty[key1]['__ALAUDA_FILE_LOG_PATH__'] + ',' +
-                this.logFormProject1.value['logPath' + value]
+                  this.logFormProject1.value['logPath' + value]
               });
             }
           }
@@ -2057,11 +2057,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   }
 
   ngAfterContentInit() {
-    // console.log('AfterContentInit'); 
+    // console.log('AfterContentInit');
   }
 
   ngAfterContentChecked() {
-    // console.log('AfterContentChecked'); 
+    // console.log('AfterContentChecked');
   }
 
   ngAfterViewChecked() {
