@@ -47,22 +47,24 @@ export class ServicesService {
 
     // 通过url获取op侧的userid
     getUserId(): string {
+
         // const url = window.location.href;
        const url = 'http://10.254.3.120:8080/pass/#/appStore?userId=1&userName=admin';
        console.log('local url: ' + url);
+
         if (!!url) {
           const search = url.split('?');
            console.log('search: ' + search);
           if (!!search[1]) {
                 const searchArray = search[1].split('&');
                 console.log('URL searchArray: ' + searchArray);
-                // console.log('URL searchArray: ' + searchArray.length);
+                console.log('URL searchArray: ' + searchArray.length);
                 // 如果split数据正常，数组长度为2，一个是userid，一个是username
                 if (searchArray.length === 2) {
                   const userIDArray = searchArray[0].split('=');
                   const userUsernameArray = searchArray[1].split('=');
-                  // console.log('userIDArray: ' + userIDArray);
-                  // console.log('userUsernameArray: ' + userUsernameArray);
+                  console.log('userIDArray: ' + userIDArray);
+                  console.log('userUsernameArray: ' + userUsernameArray);
                   const userID = userIDArray[1];
                   const userName = userUsernameArray[1];
                   // 只要能获取到userID和userName字段，且不是空的，就更新cookie的值
