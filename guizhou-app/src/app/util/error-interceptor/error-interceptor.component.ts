@@ -15,7 +15,7 @@ import { ServiceTestService } from '../../service-test/service-test.service';
 export class ErrorInterceptorComponent implements HttpInterceptor, OnInit {
   createNotification = (type, messageType, messageContent) => {
     this._notification.create(type, messageType, messageContent);
-  };
+  }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // const clonedRequest = req.clone({
@@ -25,7 +25,7 @@ export class ErrorInterceptorComponent implements HttpInterceptor, OnInit {
     // 这里是注入translateService，不能在constructor里面注入
     const translateService = this.inj.get(TranslateService);
     const serviceTest = this.inj.get(ServiceTestService);
-    translateService.addLangs(["zh", "en"]);
+    translateService.addLangs(['zh', 'en']);
     // translateService.setDefaultLang("zh");
     const browserLang = translateService.getBrowserLang();
     // translateService.use(browserLang.match(/zh|en/) ? browserLang : 'zh');
@@ -52,7 +52,7 @@ export class ErrorInterceptorComponent implements HttpInterceptor, OnInit {
         } else {
           // translateService.setDefaultLang("zh");
           let errCode, errMsg, errMsg2;
-          const chinaReg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+          const chinaReg = new RegExp('[\\u4E00-\\u9FFF]+', 'g');
           if (err.status === 400 || err.status === 403) {
             if (err.error.errorMsg !== undefined) {
               errMsg2 = err.error.errorMsg;
@@ -70,15 +70,15 @@ export class ErrorInterceptorComponent implements HttpInterceptor, OnInit {
               translateService.get(errCode).subscribe((res) => {
                 if (errCode !== 'others') {
                   if (errCode === res) {
-                    this.createNotification('error', '服务器错误', errMsg);
+                    this.createNotification('error', '请求无效', errMsg);
                   } else {
-                    this.createNotification('error', '服务器错误', res);
+                    this.createNotification('error', '请求无效', res);
                   }
                 } else {
                   if (errMsg2 !== undefined) {
-                    this.createNotification('error', '服务器错误', errMsg2);
+                    this.createNotification('error', '请求无效', errMsg2);
                   } else {
-                    this.createNotification('error', '服务器错误', errMsg);
+                    this.createNotification('error', '请求无效', errMsg);
                   }
                 }
                 // 如果国际化翻译文件没有的话，就显示errMsg的信息

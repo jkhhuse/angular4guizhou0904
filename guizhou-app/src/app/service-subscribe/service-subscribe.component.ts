@@ -313,7 +313,6 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             this.formThird3Project.setConfig(this.formThird3);
         }
     }
-
     getIpTag() {
         return new Promise((resolve, reject) => {
             if (this.radioValue === 'product') {
@@ -451,7 +450,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     styles: {
                                         'width': '400px'
                                     }
-                                }
+                                };
                                 break;
                             }
                             case 'int': {
@@ -468,7 +467,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     styles: {
                                         'width': '400px'
                                     }
-                                }
+                                };
                                 break;
                             }
                             case 'radio_group_tab': {
@@ -521,7 +520,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                                     cpuSize: 0.125,
                                                     memSize: 256,
                                                     choosed: true
-                                                }
+                                                };
                                                 break;
                                             }
                                             case 'XS': {
@@ -530,7 +529,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                                     insSize: valueOp,
                                                     cpuSize: 0.25,
                                                     memSize: 512
-                                                }
+                                                };
                                                 break;
                                             }
                                             case 'S': {
@@ -539,7 +538,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                                     insSize: valueOp,
                                                     cpuSize: 0.5,
                                                     memSize: 1
-                                                }
+                                                };
                                                 break;
                                             }
                                             case 'M': {
@@ -548,7 +547,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                                     insSize: valueOp,
                                                     cpuSize: 1,
                                                     memSize: 2
-                                                }
+                                                };
                                                 break;
                                             }
                                             case 'L': {
@@ -557,7 +556,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                                     insSize: valueOp,
                                                     cpuSize: 2,
                                                     memSize: 4
-                                                }
+                                                };
                                                 break;
                                             }
                                             case 'XL': {
@@ -566,13 +565,13 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                                     insSize: valueOp,
                                                     cpuSize: 4,
                                                     memSize: 8
-                                                }
+                                                };
                                                 break;
                                             }
                                             default:
                                                 break;
                                         }
-                                    })
+                                    });
                                     _.map(cluserOption, (valueIns, keyIns) => {
                                         this.formThird1Radios[keyIns] = {
                                             name: valueIns.name,
@@ -583,7 +582,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                             currentClass: {
                                                 'focused': valueIns.choosed ? true : false
                                             }
-                                        }
+                                        };
                                     });
                                 } else {
                                     this.formThird1[key] = {
@@ -597,7 +596,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                         styles: {
                                             'width': '400px'
                                         },
-                                    }
+                                    };
                                 }
                                 break;
                             }
@@ -631,7 +630,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                         'width': '400px'
                                     },
                                     valueUpdate: true
-                                }
+                                };
                                 break;
                             }
                             default:
@@ -735,7 +734,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     styles: {
                                         'width': '400px'
                                     }
-                                }
+                                };
                                 break;
                             }
                             case 'int': {
@@ -752,7 +751,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     styles: {
                                         'width': '400px'
                                     }
-                                }
+                                };
                                 break;
                             }
                             case 'radio_group_tab': {
@@ -765,7 +764,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     name: value['attribute_name'],
                                     labelContent: value['option'],
                                     defaultValue: value['option'][0]
-                                }
+                                };
                                 break;
                             }
                             case 'option': {
@@ -777,7 +776,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     } else {
                                         return value1;
                                     }
-                                })
+                                });
                                 this.formThird2[key] = {
                                     type: 'select',
                                     label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
@@ -789,7 +788,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     styles: {
                                         'width': '400px'
                                     },
-                                }
+                                };
                                 break;
                             }
                             default:
@@ -809,7 +808,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                             styles: {
                                 'width': '400px'
                             },
-                        }
+                        };
                         this.formThird2 = _.concat(config$, this.formThird2);
                     }
                     this.formThird2Radios = _.uniqWith(_.compact(this.formThird2Radios), _.isEqual);
@@ -928,7 +927,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     // this.formThird2RadioEntity[key] = {
                     //   [valueName$]: value.defaultValue
                     // }
-                })
+                });
             }
         } else if (this.serviceName === 'mysql') {
             // 动态表单内数据拼接，取出内容，拼成key valye形式。
@@ -944,7 +943,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     console.log('打印value', value);
                     console.log('key', key);
                     this.formThird4Entity[key] = value;
-                })
+                });
             }
         } else if (this.serviceName === 'redis') {
             this.formThird2RadioEntity['mode'] = this.modelValue;
@@ -1021,7 +1020,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 advanced_config: _.assign({}, this.formThird2Project.value, this.serviceName === 'zookeeper' ?
                     this.formThird2RadioEntity : {})
             }
-        }
+        };
         this.http.post(environment.apiService + '/apiService/services/' + this.serviceId + '/instances',
             this.formData['serviceInstances'][0]).subscribe(
             data => {
@@ -1050,7 +1049,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             //     console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
             //   }
             // }
-        )
+        );
         console.log('这是formdata', this.formData);
     }
 }
