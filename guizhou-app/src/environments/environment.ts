@@ -8,6 +8,8 @@ export const environment = {
     api: 'http://135.10.143.20:18180',
     apiAlauda: 'http://135.10.143.20:18039/apiJakiro/v1',
     apiOP: 'http://135.10.143.20:17080/bdoc/v2',
+    bomp: 'http://135.10.143.20:8080/api',
+    pass: 'http://135.10.143.20:18035/opsOverview',
     adminGroupId: '0',
     namespace: 'alauda'
 };
