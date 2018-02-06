@@ -1,16 +1,16 @@
 import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {Validators} from '@angular/forms';
 import {FileUploader, FileSelectDirective} from 'ng2-file-upload';
-import {environment} from "../../environments/environment";
+import {environment} from '../../environments/environment';
 import {FieldConfig} from '../dynamic-form/models/field-config.interface';
 import {DynamicFormComponent} from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
-import {HttpClient} from "@angular/common/http";
-import {HttpParams} from "@angular/common/http";
+import {HttpClient} from '@angular/common/http';
+import {HttpParams} from '@angular/common/http';
 import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 import {Router, RouterModule} from '@angular/router';
 import * as _ from 'lodash';
 import {ActivatedRoute} from '@angular/router';
-import {ServicesService} from "../shared/services.service";
+import {ServicesService} from '../shared/services.service';
 
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
@@ -28,10 +28,16 @@ export class BuildImageComponent implements OnInit {
   public url: string = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/upload/image/fileName/';
   // 这里的itemAlias是设置的name ="newname"，本来是name="file"，相当于form的name值
   // public uploader: FileUploader = new FileUploader({ url: this.url, itemAlias: 'newname' });
-  public uploader: FileUploader = new FileUploader({url: this.url, queueLimit: 1,});
+  public uploader: FileUploader = new FileUploader({
+    url: this.url,
+    queueLimit: 1,
+    // todo next这里限制文件格式，tar，有问题
+    // 还有一个是allowedMimeType可以限制图片格式
+    // allowedFileType: ['tar'],
+  });
   _dataSet = this.uploader.queue;
 
-  radioValue: string = 'newImage';
+  radioValue = 'newImage';
   images: string[] = [];
   imageOriginId: string;
   // imageIdArr: object[] = [];
@@ -110,23 +116,24 @@ export class BuildImageComponent implements OnInit {
   ngOnInit() {
     this.mirrorName = this.routeInfo.snapshot.params['mirrorName'];
     this.repoName = this.routeInfo.snapshot.params['name'];
-    console.log("mirrorName: " + this.mirrorName);
-    console.log("repoName: " + this.repoName);
+    console.log('mirrorName: ' + this.mirrorName);
+    console.log('repoName: ' + this.repoName);
     this.getImageOrigin();
     this.getImages();
   }
 
   createNotification = (type, title, content) => {
     this._notification.create(type, title, content);
-  };
+  }
 
   FileSelected(uploaderType: any) {
+    console.log('文件上传完了111', this.uploader);
     if (uploaderType === 'image') {
       console.log('文件上传完了', this.uploader);
       this.uploader.onBeforeUploadItem = (item) => {
         item.withCredentials = false;
         item.url = this.url + item.file.name;
-      }
+      };
     } else {
       // console.log('Icon文件上传完了', this.uploaderIcon);
       // this.uploaderIcon.onBeforeUploadItem = (item) => {
@@ -197,14 +204,14 @@ export class BuildImageComponent implements OnInit {
           // _.replace(value, '.', '') : formValue.imageName
           this.http.post(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository?module=image', {
             // "description": formValue.description,
-            "description": '',
-            "fileName": value,
-            "isApp": false,
-            "registryId": this.imageOriginId,
+            'description': '',
+            'fileName': value,
+            'isApp': false,
+            'registryId': this.imageOriginId,
             // "description": formValue.description,
             // "repositoryName": formValue.imageName,
-            "repositoryName": this.repoName,
-            "version": formValue.version
+            'repositoryName': this.repoName,
+            'version': formValue.version
           }).subscribe(response => {
             console.log('这是response', response);
             const thisParent = this;
@@ -244,15 +251,15 @@ export class BuildImageComponent implements OnInit {
       const dataValue = data;
       this.imageOriginId = dataValue['id'];
       // this.imageOriginId = dataValue.id;
-    })
+    });
   }
 
   getImages() {
     this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository?region=' + this.mirrorName).subscribe(data => {
       this.images = _.map(data['images'], (value, key) => {
         return value['repositoryName'];
-      })
-    })
+      });
+    });
   }
 
 }

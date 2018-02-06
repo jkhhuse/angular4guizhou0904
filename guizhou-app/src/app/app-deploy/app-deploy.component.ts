@@ -157,17 +157,17 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         'focused': false
       }
     },
-  ]
+  ];
   images: string[] = [];
   imageTabs: string[] = [];
-  choosedImageName: string = '';
+  choosedImageName = '';
   imageData = [];
   activeImage;
   // todo next
   // repositoryId: string[] = [];
-  repositoryId: string = '';
-  networkRadioValue: string = '';
-  networkRadioValue2: string = '';
+  repositoryId = '';
+  networkRadioValue = '';
+  networkRadioValue2 = '';
   // 镜像配置里的网络配置
   networkConfig = '';
   loadBanlancer$ = [];
@@ -347,11 +347,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     //   },
     //   ifTags: 'true'
     // },
-  ]
+  ];
   serviceTabs: string[] = [];
   services: string[] = [];
-  choosedServiceName: string = '';
-  serviceId: string = '';
+  choosedServiceName = '';
+  serviceId = '';
   instancesCount$: number;
   // tabs = [
   //   {
@@ -448,6 +448,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       },
     }
   ];
+  ifServiceInstance = false;
 
   // async toggleButton() {
   //   await this.getIpTag();
@@ -566,7 +567,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 styles: {
                   'width': '400px'
                 }
-              }
+              };
               break;
             }
             case 'int': {
@@ -609,7 +610,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 }
               });
               if (value['attribute_name'] === 'cluster_size') {
-                let cluserOption = [];
+                const cluserOption = [];
                 _.map(options$, (valueOp, keyOp) => {
                   switch (valueOp) {
                     case 'XXS': {
@@ -664,7 +665,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                     default:
                       break;
                   }
-                })
+                });
                 _.map(cluserOption, (valueIns, keyIns) => {
                   this.formThird1Radios[keyIns] = {
                     name: value['attribute_name'],
@@ -675,7 +676,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                     currentClass: {
                       'focused': valueIns.choosed ? true : false
                     }
-                  }
+                  };
                 });
               } else {
                 this.formThird1[key] = {
@@ -690,7 +691,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                   styles: {
                     'width': '400px'
                   },
-                }
+                };
               }
               break;
             }
@@ -724,7 +725,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                   'width': '400px'
                 },
                 valueUpdate: true
-              }
+              };
               break;
             }
             default:
@@ -762,7 +763,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 styles: {
                   'width': '400px'
                 }
-              }
+              };
               break;
             }
             case 'int': {
@@ -779,7 +780,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 styles: {
                   'width': '400px'
                 }
-              }
+              };
               break;
             }
             case 'radio_group_tab': {
@@ -789,13 +790,13 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 name: value['attribute_name'],
                 labelContent: value['option'],
                 defaultValue: value['option'][0]
-              }
+              };
               break;
             }
             case 'option': {
               const options$ = _.map(value['option'], (value1, key1) => {
                 return value1['type'];
-              })
+              });
               this.formThird2[key] = {
                 type: 'select',
                 label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
@@ -807,7 +808,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 styles: {
                   'width': '400px'
                 },
-              }
+              };
               break;
             }
             default:
@@ -830,7 +831,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 styles: {
                   'width': '400px'
                 }
-              }
+              };
               break;
             }
             default:
@@ -850,7 +851,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
             styles: {
               'width': '400px'
             },
-          }
+          };
           this.formThird2 = _.concat(config$, this.formThird2);
         }
         this.formThird2Radios = _.uniqWith(_.compact(this.formThird2Radios), _.isEqual);
@@ -859,7 +860,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     });
   }
 
-  //region pre
+  // region pre
   pre() {
     this.current -= 1;
     if (this.current === -1) {
@@ -868,7 +869,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     }
     this.changeContent();
   }
-  //endregion pre
+  // endregion pre
   async next() {
     switch (this.current) {
       case 0: {
@@ -1418,7 +1419,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       //     return value['serviceName'];
       //   });
       // });
-    })
+    });
   }
 
   toggleRadio() {
@@ -2021,6 +2022,16 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     // await this.getEnvFile();
     // this.envFormProject1.setConfig(this.envFormConfig);
     console.log('测试服务Init', this.imageTabs, this.images, this.services, this.serviceTabs);
+    // todo next 应用部署，依赖服务没实例
+    // 先获取http://10.132.49.122:18032/apiService/groups/2/service-instances下的name列表，然后判断
+    _.map(this.services, (value, key) => {
+      _.map(this.formThird5Map, (value1, key1) => {
+        if (value1['serviceName'] === value['serviceName']) {
+          this.ifServiceInstance = true;
+        }
+      });
+    });
+    // this.ifServiceInstance
   }
 
   ngAfterViewInit() {
