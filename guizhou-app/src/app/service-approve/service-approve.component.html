@@ -7,8 +7,13 @@
             <p style="font-size: 16px">服务订阅</p>
         </nz-header>
         <nz-content>
+          <div _ngcontent-c17="" nz-col="" style="text-align: right;margin-right: 10px;" class="ant-col-4" ng-reflect-nz-span="4">
+            <label _ngcontent-c17="">
+              期望审批时间
+            </label>
+          </div>
             <div nz-row>
-                <nz-datepicker [(ngModel)]="_date" [nzPlaceHolder]="'Select date'"
+                <nz-datepicker [(ngModel)]="_date" [nzPlaceHolder]="'请选择日期'"
                                [nzDisabledDate]="_disabledDate"></nz-datepicker>
                 <nz-timepicker [(ngModel)]="_time"></nz-timepicker>
             </div>

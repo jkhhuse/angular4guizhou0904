@@ -83,7 +83,7 @@ export class ServiceApproveComponent implements OnInit {
         console.log('formValue', formValue);
         return new Promise((resolve, reject) => {
             this.http.post(environment.apiService + '/apiService' + '/service/' + this.serviceId + '/subscriptions', {
-                'subscriberId': 1,
+                'subscriberId': this.servicesService.getUserId(),
                 'groupId': this.servicesService.getCookie('groupID'),
                 'expectTime': this.getSelectTime(),
                 'description': formValue.description,

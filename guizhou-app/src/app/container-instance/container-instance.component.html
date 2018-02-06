@@ -1,7 +1,7 @@
 <!-- <div class="container" (click)="toggleChoose()">
   <div class="header" [ngClass]="currentClasses"> -->
-<div class="container" (click)="isFocused(field)" *ngFor="let field of config">
-  <div class="header" [ngClass]="field.currentClass">
+<div [ngStyle]="field.divStyles" class="container" (click)="isFocused(field)" *ngFor="let field of config">
+  <div [ngStyle]="field.divStyles" class="header" [ngClass]="field.currentClass">
     <span>{{ field.instance_size }}</span>
     <span *ngIf="field.focused">
       <i class="anticon anticon-check"></i>

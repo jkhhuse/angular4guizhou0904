@@ -12,7 +12,8 @@ import {environment} from "../../environments/environment";
 })
 export class AppOverviewDetailComponent implements OnInit {
   _isSpinning = false;
-
+  userId:string;
+  userName:string;
   // 版本升级选择框
   versionOptions = [];
   selectedVersion;
@@ -138,17 +139,24 @@ export class AppOverviewDetailComponent implements OnInit {
   };
 
   putNewVersion () {
-    console.log('选择升级的版本为：' + this.selectedVersion);
-    // TO DO: 获取userID后续需要修改为当前userID
+    this.userId = this.servicesService.getUserId();
+    console.log('选择userId：' + this.userId);
     this.http.put(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/application-instances/' + this.instanceId, {
       'applicationVersion': this.selectedVersion,
-      'updateUserId': '0'
+      'updateUserId': this.userId
     }).subscribe(response => {
       console.log('这是response', response);
 
-    });
+    },
+      err => {
+        console.log(err._body);
+        this.createNotification('error', '升级应用失败', err._body);
+      });
   }
   handleCancel = (e) => {
+    /*this.userId = this.servicesService.getUserId();
+    console.log('选择userId：' + this.userId);
+    console.log('选择userName：' + this.servicesService.getUserName());*/
     console.log(e);
     this.isVisible = false;
   };

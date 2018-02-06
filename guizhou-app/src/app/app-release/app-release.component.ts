@@ -54,6 +54,7 @@ export class AppReleaseComponent implements OnInit {
   imageOriginId: string;
   repositories: string[] = [];
   radioValue: string = 'newApp';
+  radioValueBom: string = 'B';
   // @ViewChild('formProject') formThird2Project: DynamicFormComponent;
   /* 选择镜像相关 开始*/
   mirrorRadioValue = 7;
@@ -156,7 +157,6 @@ export class AppReleaseComponent implements OnInit {
       label: '应用描述',
       name: 'description',
       placeholder: '请输入应用描述',
-      validation: [Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
       notNecessary: true,
       inputType: 'textarea',
       styles: {
@@ -369,6 +369,10 @@ export class AppReleaseComponent implements OnInit {
     console.log(this.formConfig);
   }
 
+  toggleRadioBom() {
+    console.log(this.radioValueBom);
+  }
+
   createNotification = (type, title, content) => {
     this._notification.create(type, title, content);
   };
@@ -460,6 +464,7 @@ export class AppReleaseComponent implements OnInit {
     // console.log('看下load', this.loadImage(value));
     // await this.loadImage(value);
     this.form.value['repositories'] = this.repoVersionRadioValue;
+    this.form.value['area'] = this.radioValueBom;
     console.log('repositories', this.repositories);
     console.log('this.form.value', this.form.value);
 
@@ -475,7 +480,7 @@ export class AppReleaseComponent implements OnInit {
     this.form.value.services = _.map(servicesId, (value, key) => {
       return servicesId[key];
     })
-    this.form.value.createUserId = 1;
+    this.form.value.createUserId = this.servicesService.getUserId();
     this.form.value.containerSrvId = 1;
     this.http.post(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') + '/applications', this.form.value).subscribe(data => {
       const thisParent = this;

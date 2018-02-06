@@ -75,6 +75,8 @@ import { OperaMonitorModule } from './opera-monitor/opera-monitor.module';
 import { ConvertTagPipe } from './shared/pipe/ConvertTagPipe.pipe';
 import { AppMonitorComponent } from './app-monitor/app-monitor.component';
 import { AppLogsComponent } from './app-logs/app-logs.component';
+import { ConfigFileComponent } from './config-file/config-file.component';
+
 
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -132,7 +134,8 @@ export function createTranslateHttpLoader(http: HttpClient) {
         ServiceApproveComponent,
         ConvertTagPipe,
         AppMonitorComponent,
-        AppLogsComponent
+        AppLogsComponent,
+        ConfigFileComponent
     ],
     imports: [
         BrowserModule,
@@ -173,6 +176,7 @@ export function createTranslateHttpLoader(http: HttpClient) {
             // deps: [Http]
         }
     ],
+    entryComponents: [ConfigFileComponent],
     bootstrap: [AppComponent]
 })
 export class AppModule {
