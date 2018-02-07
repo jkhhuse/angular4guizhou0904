@@ -92,7 +92,7 @@
                   <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
                     <!-- 这里需要绑定click事件，触发toggleButton事件，现在的逻辑是在资源池选择上，会触发getIptags函数，因为每个资源池下只有一个集群，可以测试，但是当每个资源池下的
               集群数量》1的时候，需要在这里绑定click事件，切换集群的时候，重新调用getIp函数，现在线上没有多集群，所以暂时不测试 -->
-                    <nz-radio-group [(ngModel)]="this.networkRadioValue">
+                    <nz-radio-group (click)="changeNetwork(this.radioValue)" [(ngModel)]="this.networkRadioValue">
                       <label *ngFor="let cluster of prodCluster" nz-radio [nzValue]="cluster.name">
                         <span>{{ cluster.displayName }}</span>
                       </label>
@@ -109,7 +109,7 @@
                                       color: rgba(0, 0, 0, 0.9);">集群</span>
                   </div>
                   <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
-                    <nz-radio-group [(ngModel)]="this.networkRadioValue2">
+                    <nz-radio-group (click)="changeNetwork(this.radioValue)" [(ngModel)]="this.networkRadioValue2">
                       <label *ngFor="let cluster of testCluster" nz-radio [nzValue]="cluster.name">
                         <span>{{ cluster.name }}</span>
                       </label>
