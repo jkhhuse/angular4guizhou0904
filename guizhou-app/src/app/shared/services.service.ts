@@ -47,8 +47,8 @@ export class ServicesService {
 
     // 通过url获取op侧的userid
     getUserId(): string {
-        const url = window.location.href;
-       // const url = 'http://10.254.3.120:8080/pass/#/appStore?userId=1&userName=admin';
+        //const url = window.location.href;
+        const url = 'http://10.254.3.120:8080/pass/#/appStore?userId=1&userName=admin';
        console.log('local url: ' + url);
 
         if (!!url) {

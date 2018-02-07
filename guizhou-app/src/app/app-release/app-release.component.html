@@ -12,7 +12,7 @@
         <nz-layout>
           <nz-content class="mirror-store-wrapper">
             <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" class="mirrorTab">
-              <nz-tab *ngFor="let tab of tabs" (nzClick)="changeTabName(tab.tabName)">
+              <nz-tab *ngFor="let tab of tabs" [nzDisabled]="tab.disabled" (nzClick)="changeTabName(tab.tabName)" >
                 <ng-template #nzTabHeading>
                   {{tab.name}}
                 </ng-template>
@@ -41,12 +41,11 @@
                             <ng-template #title>
                               <div class="mirror-header">
                                 {{service.repositoryName}}
-
                               </div>
                             </ng-template>
                             <ng-template #body>
                               <div class="custom-card">
-                                <div class="card-content" *ngIf="repoTypeArray[i] && repoTypeArray[i].opRepository">
+                                <div class="card-content" *ngIf="repoTypeArray[i]">
                                   <div>
                                     <p style="font-size: 12px;">镜像版本：</p>
                                     <nz-radio-group [(ngModel)]="repoVersionRadioValue[i]" *ngFor="let repoVersion of repoTypeArray[i].opRepository;">

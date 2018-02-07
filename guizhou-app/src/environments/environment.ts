@@ -1,5 +1,4 @@
-
-export const environment = {
+/*export const environment = {
     production: false,
     name: '贵州v3.5线上环境',
     apiService: 'http://135.10.143.20:18032',
@@ -11,8 +10,8 @@ export const environment = {
     bomp: 'http://135.10.143.20:8080/api',
     pass: 'http://135.10.143.20:18035/opsOverview',
     adminGroupId: '0',
-    namespace: 'alauda'
-};
+    namespace: 'gzpaas'
+};*/
 /*export const environment = {
     production: false,
     name: '贵州v3.0线上环境',
@@ -26,7 +25,7 @@ export const environment = {
     adminGroupId: '0',
     namespace: 'alauda'
 };*/
-/*export const environment = {
+export const environment = {
     production: false,
     name: 'op联调提测环境',
     apiService: 'http://10.132.49.122:18032',
@@ -40,5 +39,5 @@ export const environment = {
     groupId: '2',
     adminGroupId: '0',
     namespace: 'alauda'
-};*/
+};
 
