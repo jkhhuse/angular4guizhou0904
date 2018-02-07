@@ -548,15 +548,15 @@ export class AppReleaseComponent implements OnInit {
               console.log('i:' + i);
               console.log('this.appRepoList.repositoryName:' + this.appRepoList[i].repositoryName);
               this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + this.appRepoList[i].repositoryName + '?region=' + this.tabName).subscribe((data) => {
-                console.log('循环data: ' + data['repositoryName']);
+                console.log('循环data: ' + data['repositoryName'] + "???" + i);
                 // 判断镜像仓库的images内部是否为空null，如果不判断，for循环会空值 跳过
                 if (data['images'] === null || data['images'] === '') {
                   data['images'] = {};
                     // console.log('空的data: ' + data.repositoryName);
 
                 }
-                this.repoTypeArray.push(data['images']);
-                console.log('repoTypeArray: ' + this.repoTypeArray);
+                  console.log('data[\'images\']: ' + data['images']);
+                  this.repoTypeArray[i] = (data['images']);
               });
             }
             console.log('repoTypeArray: ' + this.repoTypeArray);
