@@ -654,7 +654,7 @@
               </div>
             </div>
           </nz-content>
-          <nz-content *ngIf="!ifServiceInstance">
+          <nz-content *ngIf="!ifServiceInstance && serviceTabs.length !== 0">
             <div class="marginTop20">
               <div class="borderTop80">
                 <nz-alert class="service-tips" [nzType]="'info'">
