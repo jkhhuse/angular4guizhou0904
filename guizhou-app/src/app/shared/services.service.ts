@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
 import { Http } from '@angular/http';
-import { environment } from "../../environments/environment";
+import { environment } from '../../environments/environment';
 import { CookieService } from 'angular2-cookie';
 import { NzNotificationService } from 'ng-zorro-antd';
 
@@ -47,9 +47,9 @@ export class ServicesService {
 
     // 通过url获取op侧的userid
     getUserId(): string {
-        //const url = window.location.href;
+        // const url = window.location.href;
         const url = 'http://10.254.3.120:8080/pass/#/appStore?userId=1&userName=admin';
-       console.log('local url: ' + url);
+     console.log('local url: ' + url);
 
         if (!!url) {
           const search = url.split('?');

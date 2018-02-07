@@ -10,21 +10,21 @@ import {
 } from '@angular/core';
 import { enableProdMode } from '@angular/core';
 // enableProdMode();
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NzModalService, NzNotificationService, NzMessageService } from 'ng-zorro-antd';
-import { HttpClient } from "@angular/common/http";
-import { HttpParams } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import * as _ from 'lodash';
 
-import { environment } from "../../environments/environment";
+import { environment } from '../../environments/environment';
 import { FieldConfig } from '../dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { ContainerInstanceComponent } from '../container-instance/container-instance.component';
-import { ComponentServiceService } from "../dynamic-form/services/component-service.service";
-import { ServicesService } from "../shared/services.service";
+import { ComponentServiceService } from '../dynamic-form/services/component-service.service';
+import { ServicesService } from '../shared/services.service';
 import { ConfigFileComponent } from '../config-file/config-file.component';
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
@@ -41,7 +41,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   testCluster;
   prodCluster;
   selectValueSub: Subscription;
-  appId: string = '';
+  appId = '';
   formData: object = {
     createUserId: this.servicesService.getUserId(),
     groupId: this.servicesService.getCookie('groupID'),
@@ -57,7 +57,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       //   storageSize: 0,
       // }
     ]
-  }
+  };
   current = 0;
   // 第一个表单
   @ViewChild('formFirstProject') formFirstProject: DynamicFormComponent;
@@ -72,8 +72,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         'width': '400px'
       }
     }
-  ]
-  radioValue: string = 'product';
+  ];
+  radioValue = 'product';
   private modelValue = 'replication';
   // 第二个表单
   @ViewChild('formSecondProject') formSecondProject: DynamicFormComponent;
@@ -100,7 +100,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         'width': '400px'
       }
     }
-  ]
+  ];
   // 这里表单2和表单3都有用到
   instanceConfig = [
     {
@@ -584,7 +584,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 styles: {
                   'width': '400px'
                 }
-              }
+              };
               break;
             }
             case 'radio_group_tab': {
@@ -594,11 +594,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 name: value['attribute_name'],
                 labelContent: value['option'],
                 defaultValue: value['option'][0]
-              }
+              };
               break;
             }
             case 'option': {
-              let options$ = _.map(value['option'], (value1, key1) => {
+              const options$ = _.map(value['option'], (value1, key1) => {
                 if (_.isObject(value1)) {
                   const optionType = [];
                   _.forIn(value1, (value2, key2) => {
@@ -619,7 +619,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                         cpuSize: 0.125,
                         memSize: 256,
                         choosed: true
-                      }
+                      };
                       break;
                     }
                     case 'XS': {
@@ -627,7 +627,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                         insSize: valueOp,
                         cpuSize: 0.25,
                         memSize: 512
-                      }
+                      };
                       break;
                     }
                     case 'S': {
@@ -635,7 +635,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                         insSize: valueOp,
                         cpuSize: 0.5,
                         memSize: 1
-                      }
+                      };
                       break;
                     }
                     case 'M': {
@@ -643,7 +643,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                         insSize: valueOp,
                         cpuSize: 1,
                         memSize: 2
-                      }
+                      };
                       break;
                     }
                     case 'L': {
@@ -651,7 +651,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                         insSize: valueOp,
                         cpuSize: 2,
                         memSize: 4
-                      }
+                      };
                       break;
                     }
                     case 'XL': {
@@ -659,7 +659,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                         insSize: valueOp,
                         cpuSize: 4,
                         memSize: 8
-                      }
+                      };
                       break;
                     }
                     default:
@@ -860,6 +860,15 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     });
   }
 
+  async changeNetwork(radioValue) {
+    if (radioValue === 'product') {
+      await this.getNetworkOptions(this.networkRadioValue);
+      await this.getnetworkAdvanced();
+    } else {
+      await this.getNetworkOptions(this.networkRadioValue2);
+      await this.getnetworkAdvanced();
+    }
+  }
   // region pre
   pre() {
     this.current -= 1;
@@ -878,6 +887,13 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         this.formData['instanceName'] = this.formFirstProject.value['instanceName'];
         this.formData['clusterZone'] = this.radioValue;
         console.log('form222', this.formSecondProject);
+        if (this.radioValue === 'product') {
+          await this.getNetworkOptions(this.networkRadioValue);
+          await this.getnetworkAdvanced();
+        } else {
+          await this.getNetworkOptions(this.networkRadioValue2);
+          await this.getnetworkAdvanced();
+        }
         break;
         // if(this.formFirst.disabled) {
 
@@ -1341,8 +1357,6 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     this.buttonDisabled();
     console.log('service-id', this.serviceId);
   }
-
-
 
   changeContent() {
     switch (this.current) {
@@ -1865,11 +1879,12 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     });
   }
 
-  getNetworkOptions() {
+  getNetworkOptions(radioValue) {
     return new Promise((resolve, reject) => {
       this.http.get(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') +
-        '/lb-ports/ebd').subscribe(data => {
+        '/lb-ports/' + radioValue).subscribe(data => {
           console.log('options', data);
+          this.networkOptions = [];
           _.map(data, (value, key) => {
             this.networkOptions[key] = value['port'];
           });
@@ -1882,8 +1897,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     // 这里this.getnetworkAdvanced();需要在networkOptions前后调用两次，不然会报错，可以优化
     // await this.getServiceBasic();
     await this.getnetworkAdvanced();
-    await this.getNetworkOptions();
-    await this.getnetworkAdvanced();
+    // await this.getNetworkOptions();
     await this.getImgAdvanced();
     this.appId = this.routeInfo.snapshot.params['appId'];
     // this.getServiceVersion();

@@ -12,6 +12,7 @@
     adminGroupId: '0',
     namespace: 'gzpaas'
 };*/
+
 /*export const environment = {
     production: false,
     name: '贵州v3.0线上环境',
