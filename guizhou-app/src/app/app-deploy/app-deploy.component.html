@@ -707,7 +707,7 @@
         </button>
       </span>
       <span [hidden]="current !== 2">
-        <button [disabled]="buttonDisabled() || !ifServiceInstance" nz-button [nzType]="'primary'" (click)="done()">
+        <button [disabled]="buttonDisabled() || (!ifServiceInstance && serviceTabs.length !== 0)" nz-button [nzType]="'primary'" (click)="done()">
           <span>部署</span>
         </button>
       </span>
