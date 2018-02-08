@@ -449,6 +449,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     }
   ];
   ifServiceInstance = false;
+  ifOninitCompleted = false;
 
   // async toggleButton() {
   //   await this.getIpTag();
@@ -504,6 +505,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/' + this.networkRadioValue + '/labels').
           subscribe(data => {
             console.log('这是主机标签', data);
+            this.ifOninitCompleted = true;
             this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
               // if (value['labels'].length > 0) {
               // if (value['node_tag']) {
@@ -516,6 +518,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/' + this.networkRadioValue2 + '/labels').
           subscribe(data => {
             console.log('这是主机标签', data);
+            this.ifOninitCompleted = true;
             this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
               // if (value['labels'].length > 0) {
               // if (value['node_tag']) {
@@ -878,6 +881,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     }
     this.changeContent();
   }
+
+  createNotification = (type, title, content) => {
+    this._notification.create(type, title, content);
+  }
+
   // endregion pre
   async next() {
     switch (this.current) {
@@ -887,12 +895,16 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         this.formData['instanceName'] = this.formFirstProject.value['instanceName'];
         this.formData['clusterZone'] = this.radioValue;
         console.log('form222', this.formSecondProject);
-        if (this.radioValue === 'product') {
-          await this.getNetworkOptions(this.networkRadioValue);
-          await this.getnetworkAdvanced();
+        if (this.ifOninitCompleted === true) {
+          if (this.radioValue === 'product') {
+            await this.getNetworkOptions(this.networkRadioValue);
+            await this.getnetworkAdvanced();
+          } else {
+            await this.getNetworkOptions(this.networkRadioValue2);
+            await this.getnetworkAdvanced();
+          }
         } else {
-          await this.getNetworkOptions(this.networkRadioValue2);
-          await this.getnetworkAdvanced();
+          this.createNotification('warning', '需要获取集群列表', '请耐心等待2-3秒，集群列表获取成功之后即可正常部署!');
         }
         break;
         // if(this.formFirst.disabled) {
@@ -1077,8 +1089,10 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       //   break;
       // }
     }
-    this.current += 1;
-    this.changeContent();
+    if (this.ifOninitCompleted === true) {
+      this.current += 1;
+      this.changeContent();
+    }
   }
 
   done() {
@@ -1384,7 +1398,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
 
   constructor(private fb: FormBuilder, private router: Router, private confirmServ: NzModalService,
     private _message: NzMessageService, private http: HttpClient, private routeInfo: ActivatedRoute,
-    private componentSer: ComponentServiceService, private servicesService: ServicesService) {
+    private componentSer: ComponentServiceService, private servicesService: ServicesService, private _notification: NzNotificationService) {
   }
 
   getServiceInit() {
