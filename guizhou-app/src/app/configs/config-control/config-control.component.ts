@@ -70,7 +70,11 @@ export class ConfigControlComponent implements OnInit {
       console.log('data2: ' + data);
       status = data.toString();
       console.log('data: ' + data);
-    });
+    },
+      err => {
+          console.log(err._body);
+          this.createNotification('error', '删除配置失败', err._body);
+      });
     return status;
   }
 

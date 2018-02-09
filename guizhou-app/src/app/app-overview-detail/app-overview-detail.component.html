@@ -10,10 +10,17 @@
       <p class="detail-title" *ngIf="appInstanceDetail">{{appInstanceDetail.instanceName}}</p>
     </div>
     <div class="long-block"></div>
-    <div class="action-block">
-      <button nz-button [nzType]="'primary'" (click)="showModal()">
-        <span>更新</span>
-      </button>
+    <div class="action-block" *ngIf="appInstanceDetail">
+      <div *ngIf="appInstanceDetail.status === 'Running'">
+        <button nz-button [nzType]="'primary'" (click)="showModal()">
+          <span>更新</span>
+        </button>
+      </div>
+      <div *ngIf="appInstanceDetail.status !== 'Running'">
+        <button nz-button [nzType]="'primary'"disabled>
+          <span>更新</span>
+        </button>
+      </div>
       <nz-modal [nzVisible]="isVisible" [nzTitle]="'版本升级'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
         <ng-template #modalContent>
           <div>

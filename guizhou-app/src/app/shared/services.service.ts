@@ -49,15 +49,14 @@ export class ServicesService {
     getUserId(): string {
         // const url = window.location.href;
         const url = 'http://10.254.3.120:8080/pass/#/appStore?userId=1&userName=admin';
-     console.log('local url: ' + url);
+        console.log('local url: ' + url);
 
         if (!!url) {
           const search = url.split('?');
-           console.log('search: ' + search);
+           console.log('URL: ' + search);
           if (!!search[1]) {
                 const searchArray = search[1].split('&');
-                console.log('URL searchArray: ' + searchArray);
-                console.log('URL searchArray: ' + searchArray.length);
+                console.log('URL split & : ' + searchArray);
                 // 如果split数据正常，数组长度为2，一个是userid，一个是username
                 if (searchArray.length === 2) {
                   const userIDArray = searchArray[0].split('=');
@@ -66,6 +65,15 @@ export class ServicesService {
                   console.log('userUsernameArray: ' + userUsernameArray);
                   const userID = userIDArray[1];
                   const userName = userUsernameArray[1];
+                  // 更新用户名和用户ID之前，判断，是否用户变更了
+                  // 如果cookie中有userid字段，并且和现在获取的userid值不同，说明经理了用户切换
+                    console.log('cookie userid: ' + this.getCookie('userID'));
+                    // 如果cookie中有用户id，说明之前登录过。并且现在获取的id值不相同，说明切换了用户
+                  if (this.getCookie('userID') !== '' && ( userID !== this.getCookie('userID'))) {
+                      // 用户切换过，清除掉cookie值。
+                      this.setCookie('groupID', '');
+                      this.setCookie('groupName', '');
+                  }
                   // 只要能获取到userID和userName字段，且不是空的，就更新cookie的值
                   this.setCookie('userID', userIDArray[1]);
                   this.setCookie('userName', userUsernameArray[1]);
