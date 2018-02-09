@@ -1898,10 +1898,15 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       this.http.get(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') +
         '/lb-ports/' + radioValue).subscribe(data => {
           console.log('options', data);
+          data[0]['status'] = 0;
           this.networkOptions = [];
           _.map(data, (value, key) => {
-            this.networkOptions[key] = value['port'];
+            if (value['status'] === 1) {
+              this.networkOptions[key] = value['port'];
+            }
           });
+          this.networkOptions = _.compact(this.networkOptions);
+          console.log(this.networkOptions);
           resolve();
         });
     });
