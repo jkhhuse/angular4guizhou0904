@@ -2,8 +2,7 @@
   build-image works!
 </p> -->
 <div>
-    <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'文件上传中...'" style="position: absolute;top: 0;bottom: 0;left: 0;right: 0;">
-    </nz-spin>
+
   <nz-layout style="z-index: 100;">
     <nz-header style="line-height:32px">
       <a style="font-size: 16px" href="#/repositoryStore">
@@ -11,6 +10,8 @@
           <p style="font-size: 16px">上传镜像</p>
     </nz-header>
     <nz-content>
+      <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'文件上传中...'" style="text-align: center;">
+      </nz-spin>
       <div nz-row>
         <div nz-col [nzSpan]="4">
           <span style="display: block;
