@@ -196,7 +196,7 @@
                     <div nz-row>
                       <div nz-col [nzMd]="20">
                         <form nz-form class="dynamic-form" [formGroup]="loadBanlancerForm">
-                          <div nz-row [nzGutter]="16" *ngFor="let control1 of lbControlArray">
+                          <div nz-row [nzGutter]="16" *ngFor="let control1 of lbControlArray let i=index">
                             <div nz-col [nzSpan]="4" *ngFor="let control of control1" [class.d-none]="!control.show">
                               <div nz-form-item nz-row>
                                 <!-- <div nz-form-label nz-col>
@@ -214,6 +214,7 @@
                                 </div>
                               </div>
                             </div>
+                            <button (click)="deleteClick1(i)">删除负载均衡</button>
                           </div>
                         </form>
                       </div>
@@ -223,12 +224,6 @@
                 <div nz-row>
                   <div nz-row>
                     <div nz-col [nzSpan]="4" style="text-align: right">
-                      <!-- <span style="display: block;
-                                            font-size: 13px;
-                                            font-weight: 400;
-                                            letter-spacing: 0px;
-                                            margin-bottom: 10px;
-                                            color: rgba(0, 0, 0, 0.9);">日志文件</span> -->
                     </div>
                     <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-bottom: 10px">
                       <div nz-row>
@@ -487,7 +482,8 @@
                   </div>
                 </div>
               </div>
-              <nz-modal [nzVisible]="isVisible" [nzTitle]="'添加配置文件'" [nzContent]="modalContent" (nzOnCancel)="handleCancelConfig($event)" (nzOnOk)="handleOkConfig($event)">
+              <nz-modal [nzVisible]="isVisible" [nzTitle]="'添加配置文件'" [nzContent]="modalContent" (nzOnCancel)="handleCancelConfig($event)"
+                (nzOnOk)="handleOkConfig($event)">
                 <ng-template #modalContent>
                   <div nz-row>
                     <div style="margin-bottom: 10px" nz-row>
@@ -707,7 +703,8 @@
         </button>
       </span>
       <span [hidden]="current !== 2">
-        <button [disabled]="buttonDisabled() || (!ifServiceInstance && serviceTabs.length !== 0)" nz-button [nzType]="'primary'" (click)="done()">
+        <button [disabled]="buttonDisabled() || (!ifServiceInstance && serviceTabs.length !== 0)" nz-button [nzType]="'primary'"
+          (click)="done()">
           <span>部署</span>
         </button>
       </span>
