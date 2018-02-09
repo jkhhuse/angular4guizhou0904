@@ -1225,6 +1225,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   choosedImageFunc(tab) {
     // console.log('image func', tab);
     console.log(this.activeImage);
+    console.log(this.loadBanlancerForm);
     this.choosedImageName = tab;
     const keyList = ['', 1, 11, 111, 1111];
     const lbArr = [];

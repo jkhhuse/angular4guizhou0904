@@ -6,22 +6,27 @@
 <div class="app">
   <!-- <dynamic-form [config]="config" form="dynamicForm" (submit)="submit($event)"> -->
   <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
-    <nz-tab (nzSelect)="choosedImageFunc(tab)" *ngFor="let tab of imageTabs">
+    <nz-tab (nzSelect)="choosedImageFunc(tab)" *ngFor="let tab of imageTabs let i=index">
       <ng-template #nzTabHeading>
         {{tab}}
       </ng-template>
+      {{ tab || json }} {{ i || json }}
+      <dynamic-form [config]="config" (submit)="submit($event)">
+      </dynamic-form>
+      <dynamic-form [config]="config2" (submit)="submit($event)">
+      </dynamic-form>
       <!-- <span>Content of Tab Pane {{tab.index}}</span> -->
     </nz-tab>
   </nz-tabset>
-  <dynamic-form #form [config]="config" (submit)="submit($event)">
-  </dynamic-form>
+  <!-- <dynamic-form #form [config]="config" (submit)="submit($event)">
+  </dynamic-form> -->
   <!-- <dynamic-form *ngIf="choosedImageName === 'name2'" #form11 [config]="config" (submit)="submit($event)">
     </dynamic-form> -->
   <button (click)="addClick()">addClick</button>
   <button (click)="addClick1()">addClick1</button>
 
-  <dynamic-form #form2 [config]="config2">
-  </dynamic-form>
+  <!-- <dynamic-form #form2 [config]="config2">
+  </dynamic-form> -->
 
   <div nz-col [nzSpan]="4" style="text-align: right">
     <span style="display: block;
@@ -56,8 +61,8 @@
     </nz-radio-group>
   </div>
   <!-- <dynamic-form #form3 [config]="config3" *ngFor="let config of formConfigArr"> -->
-  <dynamic-form #form3 [config]="config3">
-  </dynamic-form>
+  <!-- <dynamic-form #form3 [config]="config3">
+  </dynamic-form> -->
   <!-- {{ form.valid }} {{ form.value | json }} -->
 </div>
 

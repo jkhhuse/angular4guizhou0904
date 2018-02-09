@@ -71,97 +71,98 @@
                     <ng-template #nzTabHeading>
                       {{tab}}
                     </ng-template>
-                    <!-- <span>Content of Tab Pane {{tab.index}}</span> -->
-                  </nz-tab>
-                </nz-tabset>
-              </div>
-            </div>
+                    <!-- todo next 这里希望是通过tab的循环来定义不同的表单 -->
+                    <!-- 可以查看componentTest的代码 -->
+                    <!-- 测试<dynamic-form #formSecondProject [config]="formSecond">getValue('tabname')
+                      </dynamic-form>这个，是可以出现两个表单的，但是数据也要处理一下 -->
 
-            <div class="marginTop20">
-              <p class="borderBottom80">基本配置</p>
-              <div nz-row style="margin-bottom: 15px">
-                <div style="margin-bottom: 10px" *ngIf="this.radioValue === 'product'" nz-row>
-                  <div nz-col [nzSpan]="4" style="text-align: right">
-                    <span style="display: block;
+                    <!-- 基本配置 -->
+                    <div class="marginTop20">
+                      <p class="borderBottom80">基本配置</p>
+                      <div nz-row style="margin-bottom: 15px">
+                        <div style="margin-bottom: 10px" *ngIf="this.radioValue === 'product'" nz-row>
+                          <div nz-col [nzSpan]="4" style="text-align: right">
+                            <span style="display: block;
                                       font-size: 13px;
                                       font-weight: 400;
                                       letter-spacing: 0px;
                                       margin-bottom: 10px;
                                       color: rgba(0, 0, 0, 0.9);">集群</span>
-                  </div>
-                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
-                    <!-- 这里需要绑定click事件，触发toggleButton事件，现在的逻辑是在资源池选择上，会触发getIptags函数，因为每个资源池下只有一个集群，可以测试，但是当每个资源池下的
+                          </div>
+                          <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                            <!-- 这里需要绑定click事件，触发toggleButton事件，现在的逻辑是在资源池选择上，会触发getIptags函数，因为每个资源池下只有一个集群，可以测试，但是当每个资源池下的
               集群数量》1的时候，需要在这里绑定click事件，切换集群的时候，重新调用getIp函数，现在线上没有多集群，所以暂时不测试 -->
-                    <nz-radio-group (click)="changeNetwork(this.radioValue)" [(ngModel)]="this.networkRadioValue">
-                      <label *ngFor="let cluster of prodCluster" nz-radio [nzValue]="cluster.name">
-                        <span>{{ cluster.displayName }}</span>
-                      </label>
-                    </nz-radio-group>
-                  </div>
-                </div>
-                <div style="margin-bottom: 10px" *ngIf="this.radioValue === 'test'" nz-row>
-                  <div nz-col [nzSpan]="4" style="text-align: right">
-                    <span style="display: block;
+                            <nz-radio-group (click)="changeNetwork(this.radioValue)" [(ngModel)]="this.networkRadioValue">
+                              <label *ngFor="let cluster of prodCluster" nz-radio [nzValue]="cluster.name">
+                                <span>{{ cluster.displayName }}</span>
+                              </label>
+                            </nz-radio-group>
+                          </div>
+                        </div>
+                        <div style="margin-bottom: 10px" *ngIf="this.radioValue === 'test'" nz-row>
+                          <div nz-col [nzSpan]="4" style="text-align: right">
+                            <span style="display: block;
                                       font-size: 13px;
                                       font-weight: 400;
                                       letter-spacing: 0px;
                                       margin-bottom: 10px;
                                       color: rgba(0, 0, 0, 0.9);">集群</span>
-                  </div>
-                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
-                    <nz-radio-group (click)="changeNetwork(this.radioValue)" [(ngModel)]="this.networkRadioValue2">
-                      <label *ngFor="let cluster of testCluster" nz-radio [nzValue]="cluster.name">
-                        <span>{{ cluster.name }}</span>
-                      </label>
-                    </nz-radio-group>
-                  </div>
-                </div>
-                <dynamic-form #formSecondProject [config]="formSecond">getValue('tabname')
-                </dynamic-form>
-                <div nz-row>
-                  <div nz-col [nzSpan]="4" style="text-align: right">
-                    <span style="display: block;
+                          </div>
+                          <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                            <nz-radio-group (click)="changeNetwork(this.radioValue)" [(ngModel)]="this.networkRadioValue2">
+                              <label *ngFor="let cluster of testCluster" nz-radio [nzValue]="cluster.name">
+                                <span>{{ cluster.name }}</span>
+                              </label>
+                            </nz-radio-group>
+                          </div>
+                        </div>
+                        <dynamic-form #formSecondProject [config]="formSecond">getValue('tabname')
+                        </dynamic-form>
+                        <div nz-row>
+                          <div nz-col [nzSpan]="4" style="text-align: right">
+                            <span style="display: block;
                               font-size: 13px;
                               font-weight: 400;
                               letter-spacing: 0px;
                               margin-bottom: 10px;
                               color: rgba(0, 0, 0, 0.9);">容器实例大小</span>
-                  </div>
-                  <div nz-col [nzSpan]="18" style="margin-left: 10px">
-                    <app-container-instance #instanceSecond [config]="instanceConfig">
-                    </app-container-instance>
-                  </div>
-                </div>
-              </div>
-            </div>
+                          </div>
+                          <div nz-col [nzSpan]="18" style="margin-left: 10px">
+                            <app-container-instance #instanceSecond [config]="instanceConfig">
+                            </app-container-instance>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
-            <div class="marginTop20">
-              <p class="borderBottom80">网络配置</p>
-              <div nz-row style="margin-bottom: 15px">
-                <div style="margin-bottom: 10px" nz-row>
-                  <div nz-col [nzSpan]="4" style="text-align: right">
-                    <span style="display: block;
+                    <!-- 网络配置 -->
+                    <div class="marginTop20">
+                      <p class="borderBottom80">网络配置</p>
+                      <div nz-row style="margin-bottom: 15px">
+                        <div style="margin-bottom: 10px" nz-row>
+                          <div nz-col [nzSpan]="4" style="text-align: right">
+                            <span style="display: block;
                                       font-size: 13px;
                                       font-weight: 400;
                                       letter-spacing: 0px;
                                       margin-bottom: 10px;
                                       color: rgba(0, 0, 0, 0.9);">网络模式</span>
-                  </div>
-                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
-                    <nz-radio-group [(ngModel)]="this.networkConfig">
-                      <label nz-radio [nzValue]="'FLANNEL'">
-                        <span>Flannel</span>
-                      </label>
-                    </nz-radio-group>
-                  </div>
-                </div>
-              </div>
-              <!-- <dynamic-form #formImgNetworkProject [config]="formImgNetwork"></dynamic-form> -->
-              <!-- todo next -->
-              <div nz-row>
-                <div style="margin-bottom: 10px" nz-row>
-                  <div nz-col [nzSpan]="4" style="text-align: right">
-                    <!-- <span style="display: block;
+                          </div>
+                          <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                            <nz-radio-group [(ngModel)]="this.networkConfig">
+                              <label nz-radio [nzValue]="'FLANNEL'">
+                                <span>Flannel</span>
+                              </label>
+                            </nz-radio-group>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- <dynamic-form #formImgNetworkProject [config]="formImgNetwork"></dynamic-form> -->
+                      <!-- todo next -->
+                      <div nz-row>
+                        <div style="margin-bottom: 10px" nz-row>
+                          <div nz-col [nzSpan]="4" style="text-align: right">
+                            <!-- <span style="display: block;
                                       font-size: 13px;
                                       font-weight: 400;
                                       letter-spacing: 0px;
@@ -177,15 +178,11 @@
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              <div nz-row>
-                <div nz-row>
-                  <div nz-col [nzSpan]="4" style="text-align: right">
-                    <span style="display: block;
+                      <div nz-row>
+                        <div nz-row>
+                          <div nz-col [nzSpan]="4" style="text-align: right">
+                            <span style="display: block;
                                         font-size: 13px;
                                         font-weight: 400;
                                         letter-spacing: 0px;
@@ -215,300 +212,235 @@
                               </div>
                             </div>
                           </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div nz-row>
-                  <div nz-row>
-                    <div nz-col [nzSpan]="4" style="text-align: right">
-                    </div>
-                    <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-bottom: 10px">
-                      <div nz-row>
-                        <button nz-button [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mt-md" (click)="addLb()">
-                          <i class="anticon anticon-plus"></i>
-                          <span>新增负载均衡</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="marginTop20">
-              <p class="borderBottom80">高级配置</p>
-              <div nz-row>
-                <div style="margin-bottom: 10px" nz-row>
-                  <div nz-col [nzSpan]="4" style="text-align: right">
-                    <span style="display: block;
-                                        font-size: 13px;
-                                        font-weight: 400;
-                                        letter-spacing: 0px;
-                                        margin-bottom: 10px;
-                                        color: rgba(0, 0, 0, 0.9);">服务类型</span>
-                  </div>
-                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
-                    <nz-radio-group [(ngModel)]="this.serviceType">
-                      <label nz-radio [nzValue]="'stateless'">
-                        <span>无状态服务</span>
-                      </label>
-                      <!-- <label nz-radio [nzValue]="'stateful'">
-                        <span>有状态服务</span>
-                      </label> -->
-                    </nz-radio-group>
-                  </div>
-                </div>
-              </div>
-              <div nz-row>
-                <div style="margin-bottom: 10px" nz-row>
-                  <div nz-col [nzSpan]="4" style="text-align: right">
-                    <!-- <span style="display: block;
-                                          font-size: 13px;
-                                          font-weight: 400;
-                                          letter-spacing: 0px;
-                                          margin-bottom: 10px;
-                                          color: rgba(0, 0, 0, 0.9);">日志文件</span> -->
-                  </div>
-                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
-                    <div nz-row>
-                      <div nz-col [nzMd]="20">
-                        <div nz-row [nzGutter]="16">
-                          <div nz-col [nzSpan]="4" *ngFor="let label of serviceAdvancedLabel">
-                            <span>{{ label.value }}</span>
-                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-              <dynamic-form #logFormProject1 [config]="logFormConfig">
-              </dynamic-form>
-              <div nz-row>
-                <div nz-row>
-                  <div nz-col [nzSpan]="4" style="text-align: right">
-                    <!-- <span style="display: block;
-                                          font-size: 13px;
-                                          font-weight: 400;
-                                          letter-spacing: 0px;
-                                          margin-bottom: 10px;
-                                          color: rgba(0, 0, 0, 0.9);">日志文件</span> -->
-                  </div>
-                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-bottom: 10px">
-                    <div nz-row>
-                      <button nz-button [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mt-md" (click)="addLogFile()">
-                        <i class="anticon anticon-plus"></i>
-                        <span>新增日志文件</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- todo next -->
-              <!-- <div nz-row>
-                <div style="margin-bottom: 10px" nz-row>
-                  <div nz-col [nzSpan]="4" style="text-align: right">
-                  </div>
-                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
-                    <div nz-row>
-                      <div nz-col [nzMd]="20">
-                        <div nz-row [nzGutter]="16">
-                          <div nz-col [nzSpan]="4">
-                            <span>名称</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
-              <!-- todo next -->
-              <!-- todo next -->
-              <!-- <dynamic-form #envFormProject1 [config]="envFormConfig">
-              </dynamic-form> -->
-              <!-- todo next -->
-              <!-- todo next -->
-              <div nz-row>
-                <div style="margin-bottom: 10px" nz-row>
-                  <div nz-col [nzSpan]="4" style="text-align: right">
-                  </div>
-                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
-                    <div nz-row>
-                      <div nz-col [nzMd]="20">
-                        <div nz-row [nzGutter]="16">
-                          <div nz-col [nzSpan]="10" *ngFor="let label of env1">
-                            <span>{{ label.value }}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              <!-- todo next -->
-              <div nz-row>
-                <div nz-row>
-                  <div nz-col [nzSpan]="4" style="text-align: right">
-                    <span style="display: block;
-                                        font-size: 13px;
-                                        font-weight: 400;
-                                        letter-spacing: 0px;
-                                        margin-bottom: 10px;
-                                        color: rgba(0, 0, 0, 0.9);">环境变量</span>
-                  </div>
-                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
-                    <div nz-row>
-                      <div nz-col [nzMd]="20">
-                        <form nz-form class="dynamic-form" [formGroup]="env1Form">
-                          <div nz-row [nzGutter]="16">
-                            <div *ngFor="let control1 of env1Array">
-                              <div nz-col [nzSpan]="10" *ngFor="let control of control1">
-                                <div nz-form-item nz-row>
-                                  <div *ngIf="control.type === 'input'" nz-form-control nz-col>
-                                    <nz-input [nzSize]="'large'" [nzPlaceHolder]="control.placeholder" [formControlName]="control.name"></nz-input>
+                    <!-- 高级配置 -->
+                    <div class="marginTop20">
+                      <p class="borderBottom80">高级配置</p>
+                      <!-- 服务类型配置 -->
+                      <div nz-row>
+                        <div style="margin-bottom: 10px" nz-row>
+                          <div nz-col [nzSpan]="4" style="text-align: right">
+                            <span style="display: block;
+                                                font-size: 13px;
+                                                font-weight: 400;
+                                                letter-spacing: 0px;
+                                                margin-bottom: 10px;
+                                                color: rgba(0, 0, 0, 0.9);">服务类型</span>
+                          </div>
+                          <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                            <nz-radio-group [(ngModel)]="this.serviceType">
+                              <label nz-radio [nzValue]="'stateless'">
+                                <span>无状态服务</span>
+                              </label>
+                              <!-- <label nz-radio [nzValue]="'stateful'">
+                                <span>有状态服务</span>
+                              </label> -->
+                            </nz-radio-group>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- 日志文件配置 -->
+                      <div nz-row>
+                        <div style="margin-bottom: 10px" nz-row>
+                          <div nz-col [nzSpan]="4" style="text-align: right">
+                            <!-- <span style="display: block;
+                                                  font-size: 13px;
+                                                  font-weight: 400;
+                                                  letter-spacing: 0px;
+                                                  margin-bottom: 10px;
+                                                  color: rgba(0, 0, 0, 0.9);">日志文件</span> -->
+                          </div>
+                          <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                            <div nz-row>
+                              <div nz-col [nzMd]="20">
+                                <div nz-row [nzGutter]="16">
+                                  <div nz-col [nzSpan]="4" *ngFor="let label of serviceAdvancedLabel">
+                                    <span>{{ label.value }}</span>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </form>
+                        </div>
+                      </div>
+                      <dynamic-form #logFormProject1 [config]="logFormConfig">
+                      </dynamic-form>
+                      <div nz-row>
+                        <div nz-row>
+                          <div nz-col [nzSpan]="4" style="text-align: right">
+                            <!-- <span style="display: block;
+                                                  font-size: 13px;
+                                                  font-weight: 400;
+                                                  letter-spacing: 0px;
+                                                  margin-bottom: 10px;
+                                                  color: rgba(0, 0, 0, 0.9);">日志文件</span> -->
+                          </div>
+                          <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-bottom: 10px">
+                            <div nz-row>
+                              <button nz-button [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mt-md" (click)="addLogFile()">
+                                <i class="anticon anticon-plus"></i>
+                                <span>新增日志文件</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- 环境变量配置 -->
+                      <div nz-row>
+                        <div style="margin-bottom: 10px" nz-row>
+                          <div nz-col [nzSpan]="4" style="text-align: right">
+                          </div>
+                          <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                            <div nz-row>
+                              <div nz-col [nzMd]="20">
+                                <div nz-row [nzGutter]="16">
+                                  <div nz-col [nzSpan]="10" *ngFor="let label of env1">
+                                    <span>{{ label.value }}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- todo next -->
+                      <div nz-row>
+                        <div nz-row>
+                          <div nz-col [nzSpan]="4" style="text-align: right">
+                            <span style="display: block;
+                                                font-size: 13px;
+                                                font-weight: 400;
+                                                letter-spacing: 0px;
+                                                margin-bottom: 10px;
+                                                color: rgba(0, 0, 0, 0.9);">环境变量</span>
+                          </div>
+                          <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                            <div nz-row>
+                              <div nz-col [nzMd]="20">
+                                <form nz-form class="dynamic-form" [formGroup]="env1Form">
+                                  <div nz-row [nzGutter]="16">
+                                    <div *ngFor="let control1 of env1Array">
+                                      <div nz-col [nzSpan]="10" *ngFor="let control of control1">
+                                        <div nz-form-item nz-row>
+                                          <div *ngIf="control.type === 'input'" nz-form-control nz-col>
+                                            <nz-input [nzSize]="'large'" [nzPlaceHolder]="control.placeholder" [formControlName]="control.name"></nz-input>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div nz-row>
+                        <div nz-row>
+                          <div nz-col [nzSpan]="4" style="text-align: right">
+                            <!-- <span style="display: block;
+                                                  font-size: 13px;
+                                                  font-weight: 400;
+                                                  letter-spacing: 0px;
+                                                  margin-bottom: 10px;
+                                                  color: rgba(0, 0, 0, 0.9);">日志文件</span> -->
+                          </div>
+                          <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-bottom: 10px">
+                            <div nz-row>
+                              <button nz-button [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mt-md" (click)="addEnv()">
+                                <i class="anticon anticon-plus"></i>
+                                <span>新增环境变量</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- 配置文件配置 -->
+                      <div nz-row>
+                        <div nz-row>
+                          <div nz-col [nzSpan]="4" style="text-align: right">
+                            <span style="display: block;
+                                                font-size: 13px;
+                                                font-weight: 400;
+                                                letter-spacing: 0px;
+                                                margin-bottom: 10px;
+                                                color: rgba(0, 0, 0, 0.9);">配置文件</span>
+                          </div>
+                          <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                            <nz-table #nzTable [nzAjaxData]="configFileData" [nzIsPagination]="false">
+                              <thead nz-thead>
+                                <tr>
+                                  <th nz-th>
+                                    <span>文件路径</span>
+                                  </th>
+                                  <th nz-th>
+                                    <span>配置项</span>
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody nz-tbody>
+                                <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+                                  <td nz-td>
+                                    {{data.path}}
+                                  </td>
+                                  <td nz-td>{{data.valueKey}}</td>
+                                </tr>
+                              </tbody>
+                            </nz-table>
+                          </div>
+                        </div>
+                      </div>
+                      <div nz-row>
+                        <div nz-row>
+                          <div nz-col [nzSpan]="4" style="text-align: right">
+                          </div>
+                          <div nz-col [nzSpan]="18" style="margin-top: 10px; margin-left: 10px; margin-bottom: 10px">
+                            <div nz-row>
+                              <button nz-button [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mt-md" (click)="addConfigFile()">
+                                <i class="anticon anticon-plus"></i>
+                                <span>新增配置文件</span>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  </nz-tab>
+                </nz-tabset>
               </div>
-              <!-- <div *ngFor="let arr of env1Array">
-                {{ arr || json }}
-                <div *ngFor="let arr1 of arr">
-                  {{ arr1.name || json }}
-                </div>
-              </div> -->
-              <div nz-row>
+            </div>
+
+            <!-- 配置文件弹出框 -->
+            <nz-modal [nzVisible]="isVisible" [nzTitle]="'添加配置文件'" [nzContent]="modalContent" (nzOnCancel)="handleCancelConfig($event)"
+              (nzOnOk)="handleOkConfig($event)">
+              <ng-template #modalContent>
                 <div nz-row>
-                  <div nz-col [nzSpan]="4" style="text-align: right">
-                    <!-- <span style="display: block;
-                                          font-size: 13px;
-                                          font-weight: 400;
-                                          letter-spacing: 0px;
-                                          margin-bottom: 10px;
-                                          color: rgba(0, 0, 0, 0.9);">日志文件</span> -->
-                  </div>
-                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-bottom: 10px">
-                    <div nz-row>
-                      <button nz-button [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mt-md" (click)="addEnv()">
-                        <i class="anticon anticon-plus"></i>
-                        <span>新增环境变量</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- 配置文件 -->
-              <!-- <div nz-row>
-                <div style="margin-bottom: 10px" nz-row>
-                  <div nz-col [nzSpan]="4" style="text-align: right">
-                    <span style="display: block;
-                                        font-size: 13px;
-                                        font-weight: 400;
-                                        letter-spacing: 0px;
-                                        margin-bottom: 10px;
-                                        color: rgba(0, 0, 0, 0.9);">内容选取方式</span>
-                  </div>
-                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
-                    <nz-radio-group [(ngModel)]="this.configFileRadio">
-                      <label nz-radio [nzValue]="'config'" style="margin-right: 25px">
-                        <span>选择</span>
-                      </label>
-                    </nz-radio-group>
-                  </div>
-                </div>
-              </div> -->
-              <!-- <dynamic-form #configFileForm [config]="configFile">
-              </dynamic-form> -->
-              <div nz-row>
-                <div nz-row>
-                  <div nz-col [nzSpan]="4" style="text-align: right">
-                    <span style="display: block;
-                                        font-size: 13px;
-                                        font-weight: 400;
-                                        letter-spacing: 0px;
-                                        margin-bottom: 10px;
-                                        color: rgba(0, 0, 0, 0.9);">配置文件</span>
-                  </div>
-                  <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
-                    <nz-table #nzTable [nzAjaxData]="configFileData" [nzIsPagination]="false">
-                      <thead nz-thead>
-                        <tr>
-                          <th nz-th>
-                            <span>文件路径</span>
-                          </th>
-                          <th nz-th>
-                            <span>配置项</span>
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody nz-tbody>
-                        <tr nz-tbody-tr *ngFor="let data of nzTable.data">
-                          <td nz-td>
-                            {{data.path}}
-                          </td>
-                          <td nz-td>{{data.valueKey}}</td>
-                        </tr>
-                      </tbody>
-                    </nz-table>
-                  </div>
-                </div>
-              </div>
-              <div nz-row>
-                <div nz-row>
-                  <div nz-col [nzSpan]="4" style="text-align: right">
-                    <!-- <span style="display: block;
-                                          font-size: 13px;
-                                          font-weight: 400;
-                                          letter-spacing: 0px;
-                                          margin-bottom: 10px;
-                                          color: rgba(0, 0, 0, 0.9);">日志文件</span> -->
-                  </div>
-                  <div nz-col [nzSpan]="18" style="margin-top: 10px; margin-left: 10px; margin-bottom: 10px">
-                    <div nz-row>
-                      <button nz-button [nzType]="'dashed'" [nzSize]="'large'" class="ant-btn__block mt-md" (click)="addConfigFile()">
-                        <i class="anticon anticon-plus"></i>
-                        <span>新增配置文件</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <nz-modal [nzVisible]="isVisible" [nzTitle]="'添加配置文件'" [nzContent]="modalContent" (nzOnCancel)="handleCancelConfig($event)"
-                (nzOnOk)="handleOkConfig($event)">
-                <ng-template #modalContent>
-                  <div nz-row>
-                    <div style="margin-bottom: 10px" nz-row>
-                      <div nz-col [nzSpan]="4" style="text-align: right">
-                        <span style="display: block;
+                  <div style="margin-bottom: 10px" nz-row>
+                    <div nz-col [nzSpan]="4" style="text-align: right">
+                      <span style="display: block;
                                             font-size: 13px;
-                                            font-weight: 400;
+                                            fonrgba(7, 6, 6, 0.9)
                                             letter-spacing: 0px;
                                             margin-bottom: 10px;
                                             color: rgba(0, 0, 0, 0.9);">内容选取方式</span>
-                      </div>
-                      <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
-                        <nz-radio-group [(ngModel)]="this.configFileRadio">
-                          <label nz-radio [nzValue]="'config'" style="margin-right: 25px">
-                            <span>选择</span>
-                          </label>
-                        </nz-radio-group>
-                      </div>
                     </div>
-                    <dynamic-form #configFileForm [config]="configFile">
-                    </dynamic-form>
+                    <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                      <nz-radio-group [(ngModel)]="this.configFileRadio">
+                        <label nz-radio [nzValue]="'config'" style="margin-right: 25px">
+                          <span>选择</span>
+                        </label>
+                      </nz-radio-group>
+                    </div>
                   </div>
-                </ng-template>
-              </nz-modal>
-              <!-- todo next -->
-            </div>
+                  <dynamic-form #configFileForm [config]="configFile">
+                  </dynamic-form>
+                </div>
+              </ng-template>
+            </nz-modal>
           </nz-content>
         </nz-layout>
       </div>
