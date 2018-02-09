@@ -11,19 +11,19 @@ import {
 // import { enableProdMode } from '@angular/core';
 // enableProdMode();
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { NzModalService, NzNotificationService, NzMessageService } from 'ng-zorro-antd';
-import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
-import { environment } from "../../environments/environment";
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 import { FieldConfig } from '../dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { ContainerInstanceComponent } from '../container-instance/container-instance.component';
 import * as _ from 'lodash';
-import { ComponentServiceService } from "../dynamic-form/services/component-service.service";
-import { ServicesService } from "../shared/services.service";
+import { ComponentServiceService } from '../dynamic-form/services/component-service.service';
+import { ServicesService } from '../shared/services.service';
 
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
@@ -38,7 +38,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
     networkRadioValue2 = '';
     testCluster;
     prodCluster;
-    private radioValue = "product";
+    private radioValue = 'product';
     private modelValue = 'replication';
     private radioTest = 'prodDomain1';
     private serviceId: string;
@@ -108,7 +108,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 'width': '400px'
             }
         },
-    ]
+    ];
 
     @ViewChild('formThird2Project') formThird2Project: DynamicFormComponent;
     formThird2: FieldConfig[] = [];
@@ -341,6 +341,22 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     });
             }
         });
+    }
+
+    async changeRegion(networkRadioValue) {
+        console.log(networkRadioValue);
+        this.ipTag$ = [];
+        await this.getIpTag();
+        // mock iptag
+        // this.ipTag$ = [1, 2, 3];
+        _.map(this.formThird1, (value, key) => {
+            if (value['name'] === 'ip_tag') {
+                value['options'] = this.ipTag$;
+            }
+        });
+        console.log(this.formThird1Project, this.formThird1);
+        this.formThird1Project.setConfig(this.formThird1);
+        console.log(this.ipTag$);
     }
 
     async toggleButton() {
@@ -880,7 +896,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 //   },
                 // };
                 // const formConfig3 = [];
-                if (value !== undefined && _.indexOf(this.ipTag$, value[0]) >= 0) {
+                if (value !== undefined && _.indexOf(this.ipTag$, value[0]) >= 0 && this.serviceName === 'redis') {
                     _.map(this.formThird3, (value3, key3) => {
                         console.log(value3);
                         // formConfig3[key3] = value3;
