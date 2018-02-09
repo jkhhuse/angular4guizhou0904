@@ -22,6 +22,7 @@ import {ServicesService} from '../shared/services.service';
 export class BuildImageComponent implements OnInit {
   mirrorName: '';
   repoName: '';
+  _isSpinning = false;
 
   // 这里后端api有一个Module，是存放文件的目录，比如应用，那么就是app，服务，涉及到文件上传时，就是service，镜像，就是image
   // 这里前端定义好，后面有Get请求，需要用到这个module的话，可以参照
@@ -127,12 +128,20 @@ export class BuildImageComponent implements OnInit {
   }
 
   FileSelected(uploaderType: any) {
-    console.log('文件上传完了111', this.uploader);
+    console.log('文件选择完了', this.uploader);
     if (uploaderType === 'image') {
-      console.log('文件上传完了', this.uploader);
       this.uploader.onBeforeUploadItem = (item) => {
+          // 开始上传时，disable掉构建按钮
+          console.log('文件开始上传');
+          this.form.setDisabled('submit', true);
+          this._isSpinning = true;
         item.withCredentials = false;
         item.url = this.url + item.file.name;
+      };
+      // onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any;
+      this.uploader.onSuccessItem = (item, response, status, headers) => {
+          this._isSpinning = false;
+          console.log('文件上传完成');
       };
     } else {
       // console.log('Icon文件上传完了', this.uploaderIcon);
@@ -177,6 +186,7 @@ export class BuildImageComponent implements OnInit {
   async submit(value: { [name: string]: any }) {
     await this.loadImage(value);
     console.log('镜像上传');
+
   }
 
   async loadImage(formValue) {

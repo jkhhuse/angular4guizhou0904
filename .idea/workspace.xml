@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4141e5f-de44-4a6e-a719-0f6d1fe3c137" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/environments/environment.ts" afterPath="$PROJECT_DIR$/guizhou-app/src/environments/environment.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/app.component.html" afterPath="$PROJECT_DIR$/guizhou-app/src/app/app.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/build-image/build-image.component.html" afterPath="$PROJECT_DIR$/guizhou-app/src/app/build-image/build-image.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/build-image/build-image.component.ts" afterPath="$PROJECT_DIR$/guizhou-app/src/app/build-image/build-image.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guizhou-app/src/app/shared/services.service.ts" afterPath="$PROJECT_DIR$/guizhou-app/src/app/shared/services.service.ts" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -19,11 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="environment.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="environment.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/guizhou-app/src/environments/environment.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+            <state relative-caret-position="441">
+              <caret line="21" column="38" lean-forward="false" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="38" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -35,21 +39,47 @@
         <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/app.component.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="21">
-              <caret line="1" column="4" lean-forward="false" selection-start-line="1" selection-start-column="4" selection-end-line="1" selection-end-column="4" />
+              <caret line="1" column="8" lean-forward="false" selection-start-line="1" selection-start-column="4" selection-end-line="3" selection-end-column="18" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="services.service.ts" pinned="false" current-in-tab="false">
+      <file leaf-file-name="services.service.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/shared/services.service.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
-              <caret line="50" column="8" lean-forward="false" selection-start-line="50" selection-start-column="8" selection-end-line="50" selection-end-column="8" />
+            <state relative-caret-position="63">
+              <caret line="49" column="8" lean-forward="false" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="8" />
               <folding>
                 <element signature="e#0#43#0" expanded="true" />
                 <element signature="n#!!block;n#getUserName#0;n#ServicesService#0" expanded="false" />
                 <element signature="n#!!block;n#getGroupNameList#0;n#ServicesService#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build-image.component.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/build-image/build-image.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="294">
+              <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="21" />
+              <folding>
+                <element signature="e#0#74#0" expanded="true" />
+                <element signature="e#1980#3097#0" expanded="false" />
+                <element signature="n#!!block;n#ngOnInit#0;n#BuildImageComponent#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build-image.component.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/build-image/build-image.component.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="84">
+              <caret line="4" column="106" lean-forward="false" selection-start-line="4" selection-start-column="106" selection-end-line="4" selection-end-column="106" />
+              <folding>
+                <element signature="n#style#0;n#nz-layout#0;n#div#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -68,12 +98,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>10-132</find>
-      <find>EchartsDirective</find>
-      <find>src</find>
-      <find>font-size:</find>
-      <find>chart-style</find>
-      <find>dashboard-resulet-wrapper</find>
       <find>services/</find>
       <find>订购</find>
       <find>DocFileComponent</find>
@@ -98,6 +122,12 @@
       <find>err</find>
       <find>应用状态</find>
       <find>firstGroupName</find>
+      <find>upload</find>
+      <find>上传</find>
+      <find>删除中</find>
+      <find>_isSpinning</find>
+      <find>uploader</find>
+      <find>构建</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\zhenghao\Desktop\angular4guizhou0904\guizhou-app</dir>
@@ -112,7 +142,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/guizhou-app/package.json" />
-        <option value="$PROJECT_DIR$/guizhou-app/src/app/build-image/build-image.component.html" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/app-nztable/app-nztable.component.html" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/app-instance-detail-detail/app-instance-detail-detail.component.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/repository-detail/repository-detail.component.html" />
@@ -124,7 +153,6 @@
         <option value="$PROJECT_DIR$/guizhou-app/src/assets/i18n/zh.json" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/build-image-category/build-image-category.component.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/build-config/build-config.component.ts" />
-        <option value="$PROJECT_DIR$/guizhou-app/src/app/build-image/build-image.component.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/service-catalog/service-catalog.component.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/mirror-store/mirror-store.component.css" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/config-control/config-control.component.html" />
@@ -147,7 +175,6 @@
         <option value="$PROJECT_DIR$/guizhou-app/src/app/configs/build-config/build-config.component.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/configs/build-config/build-config.component.html" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/service-approve/service-approve.component.html" />
-        <option value="$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.html" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/service-approve/service-approve.component.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/app.module.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/opera-monitor/opera-monitor.component.ts" />
@@ -160,8 +187,11 @@
         <option value="$PROJECT_DIR$/guizhou-app/src/app/group-select/group-select.component.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/configs/config-control/config-control.component.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/app-overview-detail/app-overview-detail.component.html" />
-        <option value="$PROJECT_DIR$/guizhou-app/src/app/shared/services.service.ts" />
         <option value="$PROJECT_DIR$/guizhou-app/src/app/app.component.html" />
+        <option value="$PROJECT_DIR$/guizhou-app/src/app/shared/services.service.ts" />
+        <option value="$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.html" />
+        <option value="$PROJECT_DIR$/guizhou-app/src/app/build-image/build-image.component.ts" />
+        <option value="$PROJECT_DIR$/guizhou-app/src/app/build-image/build-image.component.html" />
       </list>
     </option>
   </component>
@@ -230,7 +260,7 @@
               <item name="guizhou-app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="app-overview-detail" type="462c0819:PsiDirectoryNode" />
+              <item name="build-image" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="angular4guizhou0904" type="b2602c69:ProjectViewProjectNode" />
@@ -238,24 +268,7 @@
               <item name="guizhou-app" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="configs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="angular4guizhou0904" type="b2602c69:ProjectViewProjectNode" />
-              <item name="angular4guizhou0904" type="462c0819:PsiDirectoryNode" />
-              <item name="guizhou-app" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="configs" type="462c0819:PsiDirectoryNode" />
-              <item name="config-control" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="angular4guizhou0904" type="b2602c69:ProjectViewProjectNode" />
-              <item name="angular4guizhou0904" type="462c0819:PsiDirectoryNode" />
-              <item name="guizhou-app" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-              <item name="group-select" type="462c0819:PsiDirectoryNode" />
+              <item name="service-detail" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="angular4guizhou0904" type="b2602c69:ProjectViewProjectNode" />
@@ -465,12 +478,12 @@
       <workItem from="1517973664957" duration="915000" />
       <workItem from="1517984367222" duration="12440000" />
       <workItem from="1518071889989" duration="654000" />
-      <workItem from="1518139926733" duration="10368000" />
+      <workItem from="1518139926733" duration="16795000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="647879000" />
+    <option name="totallyTimeSpent" value="654306000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
@@ -478,7 +491,7 @@
     <layout>
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12481089" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12708019" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32894737" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -523,24 +536,12 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/shared/directive/echarts/echarts.directive.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="48" column="21" lean-forward="false" selection-start-line="48" selection-start-column="10" selection-end-line="48" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/opera-overview/opera-overview.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="2" column="32" lean-forward="true" selection-start-line="2" selection-start-column="32" selection-end-line="2" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/opera-overview/opera-overview.component.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="294">
@@ -606,31 +607,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/build-image/build-image.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="30" column="12" lean-forward="true" selection-start-line="30" selection-start-column="12" selection-end-line="30" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/guizhou-app/tslint.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="155" column="46" lean-forward="false" selection-start-line="155" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="483">
-          <caret line="34" column="35" lean-forward="true" selection-start-line="34" selection-start-column="35" selection-end-line="34" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -867,14 +847,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/shared/services.service.ts">
+    <entry file="file://$PROJECT_DIR$/guizhou-app/node_modules/ng2-file-upload/file-upload/file-uploader.class.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="236">
+          <caret line="70" column="17" lean-forward="false" selection-start-line="70" selection-start-column="4" selection-end-line="70" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="91" column="22" lean-forward="true" selection-start-line="91" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/service-detail/service-detail.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="337">
+          <caret line="230" column="76" lean-forward="false" selection-start-line="230" selection-start-column="73" selection-end-line="230" selection-end-column="76" />
+          <folding>
+            <element signature="n#style#0;n#nz-spin#0;n#ng-template#0;n#nz-modal#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/build-image/build-image.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#74#0" expanded="true" />
+            <element signature="e#1980#3097#0" expanded="false" />
+            <element signature="n#!!block;n#ngOnInit#0;n#BuildImageComponent#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/build-image/build-image.component.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="84">
-          <caret line="50" column="8" lean-forward="false" selection-start-line="50" selection-start-column="8" selection-end-line="50" selection-end-column="8" />
+          <caret line="4" column="106" lean-forward="false" selection-start-line="4" selection-start-column="106" selection-end-line="4" selection-end-column="106" />
           <folding>
-            <element signature="e#0#43#0" expanded="true" />
-            <element signature="n#!!block;n#getUserName#0;n#ServicesService#0" expanded="false" />
-            <element signature="n#!!block;n#getGroupNameList#0;n#ServicesService#0" expanded="false" />
+            <element signature="n#style#0;n#nz-layout#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -882,17 +898,29 @@
     <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/app.component.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="21">
-          <caret line="1" column="4" lean-forward="false" selection-start-line="1" selection-start-column="4" selection-end-line="1" selection-end-column="4" />
+          <caret line="1" column="8" lean-forward="false" selection-start-line="1" selection-start-column="4" selection-end-line="3" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/guizhou-app/src/environments/environment.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        <state relative-caret-position="441">
+          <caret line="21" column="38" lean-forward="false" selection-start-line="21" selection-start-column="38" selection-end-line="21" selection-end-column="38" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guizhou-app/src/app/shared/services.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="63">
+          <caret line="49" column="8" lean-forward="false" selection-start-line="49" selection-start-column="8" selection-end-line="49" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+            <element signature="n#!!block;n#getUserName#0;n#ServicesService#0" expanded="false" />
+            <element signature="n#!!block;n#getGroupNameList#0;n#ServicesService#0" expanded="false" />
           </folding>
         </state>
       </provider>
