@@ -11,10 +11,17 @@
       </div>
     <div class="long-block"></div>
 
-    <div class="action-block">
-      <button nz-button [nzType]="'primary'" (click)="showModal()">
-        <span>更新策略</span>
-      </button>
+    <div class="action-block" *ngIf="instanceDetail">
+      <div *ngIf="instanceDetail.status === 'Running'">
+        <button nz-button [nzType]="'primary'" (click)="showModal()">
+          <span>更新策略</span>
+        </button>
+      </div>
+      <div *ngIf="instanceDetail.status !== 'Running'">
+        <button nz-button [nzType]="'primary'" disabled>
+            <span>更新策略</span>
+          </button>
+       </div>
       <nz-modal [nzVisible]="isVisible" [nzTitle]="'更新策略'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
         <ng-template #modalContent>
           <div class="">
