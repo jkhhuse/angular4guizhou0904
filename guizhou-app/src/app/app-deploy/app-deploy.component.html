@@ -196,7 +196,7 @@
                     <div nz-row>
                       <div nz-col [nzMd]="20">
                         <form nz-form class="dynamic-form" [formGroup]="loadBanlancerForm">
-                          <div nz-row [nzGutter]="16" *ngFor="let control1 of lbControlArray let i=index">
+                          <div nz-row [nzGutter]="16" *ngFor="let control1 of lbControlArray">
                             <div nz-col [nzSpan]="4" *ngFor="let control of control1" [class.d-none]="!control.show">
                               <div nz-form-item nz-row>
                                 <!-- <div nz-form-label nz-col>
@@ -214,7 +214,6 @@
                                 </div>
                               </div>
                             </div>
-                            <button (click)="deleteClick1(i)">删除负载均衡</button>
                           </div>
                         </form>
                       </div>
