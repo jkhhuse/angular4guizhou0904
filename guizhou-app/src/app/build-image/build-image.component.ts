@@ -23,6 +23,7 @@ export class BuildImageComponent implements OnInit {
   mirrorName: '';
   repoName: '';
   _isSpinning = false;
+  _isSpinning2 = false;
 
   // 这里后端api有一个Module，是存放文件的目录，比如应用，那么就是app，服务，涉及到文件上传时，就是service，镜像，就是image
   // 这里前端定义好，后面有Get请求，需要用到这个module的话，可以参照
@@ -205,7 +206,7 @@ export class BuildImageComponent implements OnInit {
       return new Promise((resolve, reject) => {
         // 开始上传时，disable掉构建按钮
           this.form.setDisabled('submit', true);
-
+          this._isSpinning2 = true;
           // 这里箭头函数，解决闭包之后This指向windows的问题
         // setTimeout(() => {
         console.log('测试promise', this);
@@ -224,10 +225,11 @@ export class BuildImageComponent implements OnInit {
             'version': formValue.version
           }).subscribe(response => {
             console.log('这是response', response);
+            this._isSpinning2 = false;
             const thisParent = this;
             this.confirmServ.success({
               maskClosable: false,
-              title: '上传镜像成功!',
+              title: '构建镜像成功!',
               content: '点确认按钮跳转到镜像详情',
               okText: '确定',
               onOk() {
