@@ -359,6 +359,22 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         console.log(this.ipTag$);
     }
 
+    async changeRegion(networkRadioValue) {
+        console.log(networkRadioValue);
+        this.ipTag$ = [];
+        await this.getIpTag();
+        // mock iptag
+        // this.ipTag$ = [1, 2, 3];
+        _.map(this.formThird1, (value, key) => {
+            if (value['name'] === 'ip_tag') {
+                value['options'] = this.ipTag$;
+            }
+        });
+        console.log(this.formThird1Project, this.formThird1);
+        this.formThird1Project.setConfig(this.formThird1);
+        console.log(this.ipTag$);
+    }
+
     async toggleButton() {
         await this.getIpTag();
         await this.getOperateMode();
