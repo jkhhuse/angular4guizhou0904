@@ -14,7 +14,7 @@ import { ServicesService } from '../shared/services.service';
   styleUrls: ['./app-instance-detail-detail.component.css']
 })
 export class AppInstanceDetailDetailComponent implements OnInit {
-  private monitor_q = ['cpu.utilization', 'mem.utilization', 'net.bytes_sent.total', 'net.bytes_rcvd.total'];
+  private monitor_q = ['cpu.utilization', 'mem.utilization', 'net.bytes_sent', 'net.bytes_rcvd'];
   private monitorName = ['CPU利用率', '内存利用率', '发送字节', '接收字节'];
   _isSpinning = false;
 

@@ -35,6 +35,7 @@ export class AppMonitorComponent implements OnInit {
   // 下拉选择框
   options = [];
   selectedOption;
+    yOption: any;
   // 时间戳相关
   private end = new Date().getTime(); // 结束时间是当前时间
   // get监控接口参数
@@ -67,23 +68,32 @@ export class AppMonitorComponent implements OnInit {
   getMonitorData(monitorData) {
     this.xAxisData = [];
     this.yAxisData = [];
-    //console.log('this.monitorData: ' + monitorData);
-
-    for(let key in monitorData) {
+    for (let key in monitorData) {
       // 使用DatePipe格式化时间戳，需要*1000解决时间戳都是从1970年开始的问题
       this.xAxisData.push(this.datePipe.transform(parseInt(key) * 1000,'yyyy-MM-dd HH:mm:ss'));
-      this.yAxisData.push(monitorData[key]);
+      // 如果是百分比的小数，展示为百分数，并且只保留五位。
+      if ((monitorData[key] * 1) < 1) {
+          this.yAxisData.push((monitorData[key] * 100).toFixed(5));
+
+      } else {
+          this.yAxisData.push(monitorData[key]);
+      }
     }
     // console.log('this.xAxisData: ' + this.xAxisData);
-    // console.log('this.yAxisData: ' + this.yAxisData);
     // 处理好数据后，加载chart，取消loading模式
-    if(this.xAxisData.length > 0) {
+    if (this.xAxisData.length > 0) {
       this.getMonitorOption();
       this.showloading = false;
     }
   }
 
   getMonitorOption() {
+    // 百分比相关的，添加单位
+    if (this.monitorName === 'CPU利用率' || this.monitorName === '内存利用率') {
+      this.yOption = [{type : 'value', axisLabel : {formatter: '{value} %'}}];
+    } else {
+      this.yOption = [{type : 'value', axisLabel : {formatter: '{value} Bytes'}}];
+    }
     this.logOptions = {
       title: {
         text: this.monitorName
@@ -101,7 +111,7 @@ export class AppMonitorComponent implements OnInit {
           show: false
         }
       },
-      yAxis: {},
+        yAxis : this.yOption,
       series: [{
         name: this.monitorName,
         type: 'line',
@@ -120,7 +130,7 @@ export class AppMonitorComponent implements OnInit {
   getChartData() {
    // console.log('selectedOption: ' + this.selectedOption.value);
     // 如果没有moudule名称，是应用详情监控
-    if(this.mouduleName === 'apiApp') {
+    if (this.mouduleName === 'apiApp') {
       this.http.get(environment.apiApp + '/apiApp'  + '/application-instance-microservices/' + this.appId + '/monitors',
         {
           'params': {
@@ -131,7 +141,7 @@ export class AppMonitorComponent implements OnInit {
           },
         }).subscribe(response => {
        // console.log('这是response', response.json());
-        if(response.json().length > 0) {
+        if (response.json().length > 0) {
         //  console.log('这是dps', response.json()[0].dps);
           this.chartData = response.json()[0].dps;
           // 处理日志数据，分离time和count

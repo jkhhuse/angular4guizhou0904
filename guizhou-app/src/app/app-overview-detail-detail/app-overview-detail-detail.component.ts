@@ -10,7 +10,7 @@ import {environment} from "../../environments/environment";
   styleUrls: ['./app-overview-detail-detail.component.css']
 })
 export class AppOverviewDetailDetailComponent implements OnInit {
-  private monitor_q = ['cpu.utilization','mem.utilization','net.bytes_sent.total','net.bytes_rcvd.total'];
+  private monitor_q = ['cpu.utilization','mem.utilization','net.bytes_sent','net.bytes_rcvd'];
   private monitorName = ['CPU利用率','内存利用率','发送字节','接收字节'];
 // 标签名
   public title: String = '服务实例详情';
