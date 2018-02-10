@@ -207,27 +207,27 @@ export class AppReleaseComponent implements OnInit {
     this.uploaderIcon.onBeforeUploadItem = (item) => {
       item.withCredentials = false;
       item.url = this.urlIcon + this.form.value['appName'] + '.png';
-    }
+    };
   }
 
-  // FileSelected(uploaderType: any) {
-  //   if (uploaderType === 'image') {
-  //     console.log('文件上传完了', this.uploader);
-  //     this.uploader.onBeforeUploadItem = (item) => {
-  //       item.file.name = item.file.name.replace(/\s/g, '');
-  //       item.withCredentials = false;
-  //       item.url = this.url + item.file.name;
-  //     }
-  //   } else {
-  //     console.log('Icon文件上传完了', this.uploaderIcon);
-  //     console.log('这里打印form', this.form);
-  //     this.uploaderIcon.onBeforeUploadItem = (item) => {
-  //       item.file.name = item.file.name.replace(/\s/g, '');
-  //       item.withCredentials = false;
-  //       item.url = this.urlIcon + this.form.value['appName'] + '.png';
-  //     }
-  //   }
-  // }
+   FileSelected(uploaderType: any) {
+     if (uploaderType === 'image') {
+       console.log('文件上传完了', this.uploader);
+       this.uploader.onBeforeUploadItem = (item) => {
+         item.file.name = item.file.name.replace(/\s/g, '');
+         item.withCredentials = false;
+         item.url = this.url + item.file.name;
+       }
+     } else {
+       console.log('Icon文件上传完了', this.uploaderIcon);
+       console.log('这里打印form', this.form);
+       this.uploaderIcon.onBeforeUploadItem = (item) => {
+         item.file.name = item.file.name.replace(/\s/g, '');
+         item.withCredentials = false;
+         item.url = this.urlIcon + this.form.value['appName'] + '.png';
+       }
+     }
+   }
 
   // // 模态框
   // showConfirm = () => {
