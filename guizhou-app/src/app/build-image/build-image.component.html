@@ -2,13 +2,18 @@
   build-image works!
 </p> -->
 <div>
-  <nz-layout>
+
+  <nz-layout style="z-index: 100;">
     <nz-header style="line-height:32px">
       <a style="font-size: 16px" href="#/repositoryStore">
         <返回</a>
           <p style="font-size: 16px">上传镜像</p>
     </nz-header>
     <nz-content>
+      <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'文件上传中...'" style="text-align: center;">
+      </nz-spin>
+      <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning2" [nzTip]="'镜像构建中...'" style="text-align: center;">
+      </nz-spin>
       <div nz-row>
         <div nz-col [nzSpan]="4">
           <span style="display: block;
@@ -55,6 +60,7 @@
               </thead>
             </ng-template>
             <tbody nz-tbody>
+
               <tr nz-tbody-tr *ngFor="let item of nzTable.data">
                 <td nz-td>
                   <i class="anticon anticon-paper-clip"></i>

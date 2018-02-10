@@ -1,16 +1,16 @@
 import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
 import {Validators} from '@angular/forms';
 import {FileUploader, FileSelectDirective} from 'ng2-file-upload';
-import {environment} from "../../environments/environment";
+import {environment} from '../../environments/environment';
 import {FieldConfig} from '../dynamic-form/models/field-config.interface';
 import {DynamicFormComponent} from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
-import {HttpClient} from "@angular/common/http";
-import {HttpParams} from "@angular/common/http";
+import {HttpClient} from '@angular/common/http';
+import {HttpParams} from '@angular/common/http';
 import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
 import {Router, RouterModule} from '@angular/router';
 import * as _ from 'lodash';
 import {ActivatedRoute} from '@angular/router';
-import {ServicesService} from "../shared/services.service";
+import {ServicesService} from '../shared/services.service';
 
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
@@ -22,16 +22,24 @@ import {ServicesService} from "../shared/services.service";
 export class BuildImageComponent implements OnInit {
   mirrorName: '';
   repoName: '';
+  _isSpinning = false;
+  _isSpinning2 = false;
 
   // 这里后端api有一个Module，是存放文件的目录，比如应用，那么就是app，服务，涉及到文件上传时，就是service，镜像，就是image
   // 这里前端定义好，后面有Get请求，需要用到这个module的话，可以参照
   public url: string = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/upload/image/fileName/';
   // 这里的itemAlias是设置的name ="newname"，本来是name="file"，相当于form的name值
   // public uploader: FileUploader = new FileUploader({ url: this.url, itemAlias: 'newname' });
-  public uploader: FileUploader = new FileUploader({url: this.url, queueLimit: 1,});
+  public uploader: FileUploader = new FileUploader({
+    url: this.url,
+    queueLimit: 1,
+    // todo next这里限制文件格式，tar，有问题
+    // 还有一个是allowedMimeType可以限制图片格式
+    // allowedFileType: ['tar'],
+  });
   _dataSet = this.uploader.queue;
 
-  radioValue: string = 'newImage';
+  radioValue = 'newImage';
   images: string[] = [];
   imageOriginId: string;
   // imageIdArr: object[] = [];
@@ -110,23 +118,32 @@ export class BuildImageComponent implements OnInit {
   ngOnInit() {
     this.mirrorName = this.routeInfo.snapshot.params['mirrorName'];
     this.repoName = this.routeInfo.snapshot.params['name'];
-    console.log("mirrorName: " + this.mirrorName);
-    console.log("repoName: " + this.repoName);
+    console.log('mirrorName: ' + this.mirrorName);
+    console.log('repoName: ' + this.repoName);
     this.getImageOrigin();
     this.getImages();
   }
 
   createNotification = (type, title, content) => {
     this._notification.create(type, title, content);
-  };
+  }
 
   FileSelected(uploaderType: any) {
+    console.log('文件选择完了', this.uploader);
     if (uploaderType === 'image') {
-      console.log('文件上传完了', this.uploader);
       this.uploader.onBeforeUploadItem = (item) => {
+          // 开始上传时，disable掉构建按钮
+          console.log('文件开始上传');
+          this.form.setDisabled('submit', true);
+          this._isSpinning = true;
         item.withCredentials = false;
         item.url = this.url + item.file.name;
-      }
+      };
+      // onSuccessItem(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders): any;
+      this.uploader.onSuccessItem = (item, response, status, headers) => {
+          this._isSpinning = false;
+          console.log('文件上传完成');
+      };
     } else {
       // console.log('Icon文件上传完了', this.uploaderIcon);
       // this.uploaderIcon.onBeforeUploadItem = (item) => {
@@ -170,6 +187,7 @@ export class BuildImageComponent implements OnInit {
   async submit(value: { [name: string]: any }) {
     await this.loadImage(value);
     console.log('镜像上传');
+
   }
 
   async loadImage(formValue) {
@@ -188,7 +206,7 @@ export class BuildImageComponent implements OnInit {
       return new Promise((resolve, reject) => {
         // 开始上传时，disable掉构建按钮
           this.form.setDisabled('submit', true);
-
+          this._isSpinning2 = true;
           // 这里箭头函数，解决闭包之后This指向windows的问题
         // setTimeout(() => {
         console.log('测试promise', this);
@@ -197,20 +215,21 @@ export class BuildImageComponent implements OnInit {
           // _.replace(value, '.', '') : formValue.imageName
           this.http.post(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository?module=image', {
             // "description": formValue.description,
-            "description": '',
-            "fileName": value,
-            "isApp": false,
-            "registryId": this.imageOriginId,
+            'description': '',
+            'fileName': value,
+            'isApp': false,
+            'registryId': this.imageOriginId,
             // "description": formValue.description,
             // "repositoryName": formValue.imageName,
-            "repositoryName": this.repoName,
-            "version": formValue.version
+            'repositoryName': this.repoName,
+            'version': formValue.version
           }).subscribe(response => {
             console.log('这是response', response);
+            this._isSpinning2 = false;
             const thisParent = this;
             this.confirmServ.success({
               maskClosable: false,
-              title: '上传镜像成功!',
+              title: '构建镜像成功!',
               content: '点确认按钮跳转到镜像详情',
               okText: '确定',
               onOk() {
@@ -244,15 +263,15 @@ export class BuildImageComponent implements OnInit {
       const dataValue = data;
       this.imageOriginId = dataValue['id'];
       // this.imageOriginId = dataValue.id;
-    })
+    });
   }
 
   getImages() {
     this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository?region=' + this.mirrorName).subscribe(data => {
       this.images = _.map(data['images'], (value, key) => {
         return value['repositoryName'];
-      })
-    })
+      });
+    });
   }
 
 }

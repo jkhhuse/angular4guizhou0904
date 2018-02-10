@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ServicesService} from "../shared/services.service";
+
 @Component({
     selector: 'app-group-select',
     templateUrl: './group-select.component.html',
@@ -25,10 +26,13 @@ export class GroupSelectComponent implements OnInit {
             if (this.servicesService.getCookie('groupID') === temp[1]) {
                 // 如果传入的新groupid和cookie里面已经保存的一样，不需要刷新页面
             } else {
-              // 更新groupID 和 groupName
-              this.servicesService.setCookie('groupID', temp[1]);
-              this.servicesService.setCookie('groupName', data);
-              console.log('changeGroup SETcookie: ' + this.servicesService.getCookie('groupID'));
+                // 更新groupID 和 groupName
+                this.servicesService.setCookie('groupID', temp[1]);
+                this.servicesService.setCookie('groupName', data);
+                console.log('changeGroup SETcookie: ' + this.servicesService.getCookie('groupID'));
+                // 修改当前的第一个groupid和groupname
+                this.firstGroupName = this.servicesService.getCookie('groupName');
+                this.firstGroupID = this.servicesService.getCookie('groupID');
                 // 如果更新groupid，向父组件传送一个子组件的string对象
                 this.groupidHandler.emit(temp[1]);
             }
@@ -55,36 +59,35 @@ export class GroupSelectComponent implements OnInit {
         console.log('groupID cookie: ' + this.servicesService.getCookie('groupID'));*/
 
         // 订阅op的group流
-         this.servicesService.getGroupList().subscribe((data) => {
+        this.servicesService.getGroupList().subscribe((data) => {
             // 过滤出需要的数据，拼接成一个array
-             this.groupList  =  this.servicesService.getGroupNameList(data);
+            this.groupList = this.servicesService.getGroupNameList(data);
             // this.groupList  = [ 'aaa_1', 'testd_2', 'BDOC-TEST-11_5', 'GGGGGGG_10', 'GROUP2_9', 'test111_8', 'asd_7'];
             console.log('groupList: ' + this.groupList);
             console.log('groupList[0]: ' + this.groupList[0]);
-           // 加载项目选择框的时候，默认把第一个group作为默认项目组
-           const temp = this.groupList[0].split('_');
-           this.firstGroupName = this.groupList[0];
-           this.firstGroupID = temp[1];
-           // console.log(this.firstGroupName);
-           // console.log(this.firstGroupID);
-           // alert(this.servicesService.getCookie('groupID'));
-            if((this.servicesService.getCookie('groupID') === '' ) || (typeof(this.servicesService.getCookie('groupID'))=="undefined")) {
-              // 如果cookie的值是空的，往cookie中传入第一个id值
-              this.servicesService.setCookie('groupID', this.firstGroupID);
-              this.servicesService.setCookie('groupName', this.firstGroupName);
-              this.selectGroup = this.firstGroupName;
-              // 向外传出默认的第一个groupid
-              this.groupidHandler.emit(temp[1]);
+            // 加载项目选择框的时候，默认把第一个group作为默认项目组
+            const temp = this.groupList[0].split('_');
+            this.firstGroupName = this.groupList[0];
+            this.firstGroupID = temp[1];
+            console.log('firstGroupName: ' + this.firstGroupName);
+            console.log('cookie groupID: ' + this.servicesService.getCookie('groupID'));
+            if ((this.servicesService.getCookie('groupID') === '' ) || (typeof(this.servicesService.getCookie('groupID')) === 'undefined')) {
+                // 如果cookie的值是空的，往cookie中传入第一个id值
+                this.servicesService.setCookie('groupID', this.firstGroupID);
+                this.servicesService.setCookie('groupName', this.firstGroupName);
+                this.selectGroup = this.firstGroupName;
+                // 向外传出默认的第一个groupid
+                this.groupidHandler.emit(temp[1]);
             } else {
-              // 如果cookie的值不是空的，从已有的cookie中选择出旧的groupID
-              // 向外传出默认的groupid
-              this.groupidHandler.emit(this.servicesService.getCookie('groupID'));
-              // 如果已经有存在的group，从cookie中取得选中的groupName
-              this.selectGroup = this.servicesService.getCookie('groupName');
+                // 如果cookie的值不是空的，从已有的cookie中选择出旧的groupID
+                this.groupidHandler.emit(this.servicesService.getCookie('groupID'));
+                // 如果已经有存在的group，从cookie中取得选中的groupName
+                this.selectGroup = this.servicesService.getCookie('groupName');
             }
-         });
+        });
     }
 }
+
 /*
 // 子组件向父级组件传值用
 export class GroupOutput {

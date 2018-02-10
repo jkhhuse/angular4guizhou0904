@@ -10,21 +10,21 @@ import {
 } from '@angular/core';
 import { enableProdMode } from '@angular/core';
 // enableProdMode();
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NzModalService, NzNotificationService, NzMessageService } from 'ng-zorro-antd';
-import { HttpClient } from "@angular/common/http";
-import { HttpParams } from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import * as _ from 'lodash';
 
-import { environment } from "../../environments/environment";
+import { environment } from '../../environments/environment';
 import { FieldConfig } from '../dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { ContainerInstanceComponent } from '../container-instance/container-instance.component';
-import { ComponentServiceService } from "../dynamic-form/services/component-service.service";
-import { ServicesService } from "../shared/services.service";
+import { ComponentServiceService } from '../dynamic-form/services/component-service.service';
+import { ServicesService } from '../shared/services.service';
 import { ConfigFileComponent } from '../config-file/config-file.component';
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
@@ -41,7 +41,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   testCluster;
   prodCluster;
   selectValueSub: Subscription;
-  appId: string = '';
+  appId = '';
   formData: object = {
     createUserId: this.servicesService.getUserId(),
     groupId: this.servicesService.getCookie('groupID'),
@@ -57,7 +57,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       //   storageSize: 0,
       // }
     ]
-  }
+  };
   current = 0;
   // 第一个表单
   @ViewChild('formFirstProject') formFirstProject: DynamicFormComponent;
@@ -72,8 +72,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         'width': '400px'
       }
     }
-  ]
-  radioValue: string = 'product';
+  ];
+  radioValue = 'product';
   private modelValue = 'replication';
   // 第二个表单
   @ViewChild('formSecondProject') formSecondProject: DynamicFormComponent;
@@ -100,7 +100,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         'width': '400px'
       }
     }
-  ]
+  ];
   // 这里表单2和表单3都有用到
   instanceConfig = [
     {
@@ -157,17 +157,17 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         'focused': false
       }
     },
-  ]
+  ];
   images: string[] = [];
   imageTabs: string[] = [];
-  choosedImageName: string = '';
+  choosedImageName = '';
   imageData = [];
   activeImage;
   // todo next
   // repositoryId: string[] = [];
-  repositoryId: string = '';
-  networkRadioValue: string = '';
-  networkRadioValue2: string = '';
+  repositoryId = '';
+  networkRadioValue = '';
+  networkRadioValue2 = '';
   // 镜像配置里的网络配置
   networkConfig = '';
   loadBanlancer$ = [];
@@ -347,11 +347,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     //   },
     //   ifTags: 'true'
     // },
-  ]
+  ];
   serviceTabs: string[] = [];
   services: string[] = [];
-  choosedServiceName: string = '';
-  serviceId: string = '';
+  choosedServiceName = '';
+  serviceId = '';
   instancesCount$: number;
   // tabs = [
   //   {
@@ -448,6 +448,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       },
     }
   ];
+  ifServiceInstance = false;
+  ifOninitCompleted = false;
 
   // async toggleButton() {
   //   await this.getIpTag();
@@ -503,6 +505,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/' + this.networkRadioValue + '/labels').
           subscribe(data => {
             console.log('这是主机标签', data);
+            this.ifOninitCompleted = true;
             this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
               // if (value['labels'].length > 0) {
               // if (value['node_tag']) {
@@ -515,6 +518,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/' + this.networkRadioValue2 + '/labels').
           subscribe(data => {
             console.log('这是主机标签', data);
+            this.ifOninitCompleted = true;
             this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
               // if (value['labels'].length > 0) {
               // if (value['node_tag']) {
@@ -566,7 +570,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 styles: {
                   'width': '400px'
                 }
-              }
+              };
               break;
             }
             case 'int': {
@@ -583,7 +587,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 styles: {
                   'width': '400px'
                 }
-              }
+              };
               break;
             }
             case 'radio_group_tab': {
@@ -593,11 +597,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 name: value['attribute_name'],
                 labelContent: value['option'],
                 defaultValue: value['option'][0]
-              }
+              };
               break;
             }
             case 'option': {
-              let options$ = _.map(value['option'], (value1, key1) => {
+              const options$ = _.map(value['option'], (value1, key1) => {
                 if (_.isObject(value1)) {
                   const optionType = [];
                   _.forIn(value1, (value2, key2) => {
@@ -609,7 +613,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 }
               });
               if (value['attribute_name'] === 'cluster_size') {
-                let cluserOption = [];
+                const cluserOption = [];
                 _.map(options$, (valueOp, keyOp) => {
                   switch (valueOp) {
                     case 'XXS': {
@@ -618,7 +622,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                         cpuSize: 0.125,
                         memSize: 256,
                         choosed: true
-                      }
+                      };
                       break;
                     }
                     case 'XS': {
@@ -626,7 +630,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                         insSize: valueOp,
                         cpuSize: 0.25,
                         memSize: 512
-                      }
+                      };
                       break;
                     }
                     case 'S': {
@@ -634,7 +638,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                         insSize: valueOp,
                         cpuSize: 0.5,
                         memSize: 1
-                      }
+                      };
                       break;
                     }
                     case 'M': {
@@ -642,7 +646,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                         insSize: valueOp,
                         cpuSize: 1,
                         memSize: 2
-                      }
+                      };
                       break;
                     }
                     case 'L': {
@@ -650,7 +654,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                         insSize: valueOp,
                         cpuSize: 2,
                         memSize: 4
-                      }
+                      };
                       break;
                     }
                     case 'XL': {
@@ -658,13 +662,13 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                         insSize: valueOp,
                         cpuSize: 4,
                         memSize: 8
-                      }
+                      };
                       break;
                     }
                     default:
                       break;
                   }
-                })
+                });
                 _.map(cluserOption, (valueIns, keyIns) => {
                   this.formThird1Radios[keyIns] = {
                     name: value['attribute_name'],
@@ -675,7 +679,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                     currentClass: {
                       'focused': valueIns.choosed ? true : false
                     }
-                  }
+                  };
                 });
               } else {
                 this.formThird1[key] = {
@@ -690,7 +694,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                   styles: {
                     'width': '400px'
                   },
-                }
+                };
               }
               break;
             }
@@ -724,7 +728,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                   'width': '400px'
                 },
                 valueUpdate: true
-              }
+              };
               break;
             }
             default:
@@ -762,7 +766,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 styles: {
                   'width': '400px'
                 }
-              }
+              };
               break;
             }
             case 'int': {
@@ -779,7 +783,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 styles: {
                   'width': '400px'
                 }
-              }
+              };
               break;
             }
             case 'radio_group_tab': {
@@ -789,13 +793,13 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 name: value['attribute_name'],
                 labelContent: value['option'],
                 defaultValue: value['option'][0]
-              }
+              };
               break;
             }
             case 'option': {
               const options$ = _.map(value['option'], (value1, key1) => {
                 return value1['type'];
-              })
+              });
               this.formThird2[key] = {
                 type: 'select',
                 label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
@@ -807,7 +811,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 styles: {
                   'width': '400px'
                 },
-              }
+              };
               break;
             }
             default:
@@ -830,7 +834,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
                 styles: {
                   'width': '400px'
                 }
-              }
+              };
               break;
             }
             default:
@@ -850,7 +854,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
             styles: {
               'width': '400px'
             },
-          }
+          };
           this.formThird2 = _.concat(config$, this.formThird2);
         }
         this.formThird2Radios = _.uniqWith(_.compact(this.formThird2Radios), _.isEqual);
@@ -859,7 +863,16 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     });
   }
 
-  //region pre
+  async changeNetwork(radioValue) {
+    if (radioValue === 'product') {
+      await this.getNetworkOptions(this.networkRadioValue);
+      await this.getnetworkAdvanced();
+    } else {
+      await this.getNetworkOptions(this.networkRadioValue2);
+      await this.getnetworkAdvanced();
+    }
+  }
+  // region pre
   pre() {
     this.current -= 1;
     if (this.current === -1) {
@@ -868,7 +881,12 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     }
     this.changeContent();
   }
-  //endregion pre
+
+  createNotification = (type, title, content) => {
+    this._notification.create(type, title, content);
+  }
+
+  // endregion pre
   async next() {
     switch (this.current) {
       case 0: {
@@ -877,6 +895,17 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         this.formData['instanceName'] = this.formFirstProject.value['instanceName'];
         this.formData['clusterZone'] = this.radioValue;
         console.log('form222', this.formSecondProject);
+        if (this.ifOninitCompleted === true) {
+          if (this.radioValue === 'product') {
+            await this.getNetworkOptions(this.networkRadioValue);
+            await this.getnetworkAdvanced();
+          } else {
+            await this.getNetworkOptions(this.networkRadioValue2);
+            await this.getnetworkAdvanced();
+          }
+        } else {
+          this.createNotification('warning', '需要获取集群列表', '请耐心等待2-3秒，集群列表获取成功之后即可正常部署!');
+        }
         break;
         // if(this.formFirst.disabled) {
 
@@ -1060,8 +1089,10 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       //   break;
       // }
     }
-    this.current += 1;
-    this.changeContent();
+    if (this.ifOninitCompleted === true) {
+      this.current += 1;
+      this.changeContent();
+    }
   }
 
   done() {
@@ -1341,8 +1372,6 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     console.log('service-id', this.serviceId);
   }
 
-
-
   changeContent() {
     switch (this.current) {
       case 0: {
@@ -1369,7 +1398,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
 
   constructor(private fb: FormBuilder, private router: Router, private confirmServ: NzModalService,
     private _message: NzMessageService, private http: HttpClient, private routeInfo: ActivatedRoute,
-    private componentSer: ComponentServiceService, private servicesService: ServicesService) {
+    private componentSer: ComponentServiceService, private servicesService: ServicesService, private _notification: NzNotificationService) {
   }
 
   getServiceInit() {
@@ -1418,7 +1447,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       //     return value['serviceName'];
       //   });
       // });
-    })
+    });
   }
 
   toggleRadio() {
@@ -1864,14 +1893,19 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     });
   }
 
-  getNetworkOptions() {
+  getNetworkOptions(radioValue) {
     return new Promise((resolve, reject) => {
       this.http.get(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') +
-        '/lb-ports/ebd').subscribe(data => {
+        '/lb-ports/' + radioValue).subscribe(data => {
           console.log('options', data);
+          this.networkOptions = [];
           _.map(data, (value, key) => {
-            this.networkOptions[key] = value['port'];
+            if (value['status'] === 1) {
+              this.networkOptions[key] = value['port'];
+            }
           });
+          this.networkOptions = _.compact(this.networkOptions);
+          console.log(this.networkOptions);
           resolve();
         });
     });
@@ -1881,8 +1915,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     // 这里this.getnetworkAdvanced();需要在networkOptions前后调用两次，不然会报错，可以优化
     // await this.getServiceBasic();
     await this.getnetworkAdvanced();
-    await this.getNetworkOptions();
-    await this.getnetworkAdvanced();
+    // await this.getNetworkOptions();
     await this.getImgAdvanced();
     this.appId = this.routeInfo.snapshot.params['appId'];
     // this.getServiceVersion();
@@ -2021,6 +2054,16 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     // await this.getEnvFile();
     // this.envFormProject1.setConfig(this.envFormConfig);
     console.log('测试服务Init', this.imageTabs, this.images, this.services, this.serviceTabs);
+    // todo next 应用部署，依赖服务没实例
+    // 先获取http://10.132.49.122:18032/apiService/groups/2/service-instances下的name列表，然后判断
+    _.map(this.services, (value, key) => {
+      _.map(this.formThird5Map, (value1, key1) => {
+        if (value1['serviceName'] === value['serviceName']) {
+          this.ifServiceInstance = true;
+        }
+      });
+    });
+    // this.ifServiceInstance
   }
 
   ngAfterViewInit() {

@@ -66,12 +66,14 @@ export class AppReleaseComponent implements OnInit {
     {
       index: 1,
       name: '我的镜像',
-      tabName: 'private'
+      tabName: 'private',
+      disabled: 'false'
     },
     {
       index: 2,
       name: '公有镜像',
-      tabName: 'public'
+      tabName: 'public',
+      disabled: 'true'
     }
   ];
   mirror_tabs = [
@@ -533,32 +535,34 @@ export class AppReleaseComponent implements OnInit {
       }
     }
   }
-s  // 获取应用类别的镜像列表
+  // 获取应用类别的镜像列表
   getAppRepoList() {
     if (this.tabName === 'private') {
       this.servicesService.getCateServices(this.tabName, 'repository', this.mirrorRadioValue).subscribe((data) => {
         this.appRepoList = data;
         console.log('apprepolist: ' + this.appRepoList);
-        setTimeout(() => {
+        // setTimeout(() => {
           console.log("appRepoList length: " + this.appRepoList.length);
           if (this.appRepoList.length > 0) {
             for (let i = 0; i < this.appRepoList.length; i++) {
               console.log('i:' + i);
               console.log('this.appRepoList.repositoryName:' + this.appRepoList[i].repositoryName);
               this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + this.appRepoList[i].repositoryName + '?region=' + this.tabName).subscribe((data) => {
-                console.log('data: ' + data);
+                console.log('循环data: ' + data['repositoryName'] + "???" + i);
                 // 判断镜像仓库的images内部是否为空null，如果不判断，for循环会空值 跳过
                 if (data['images'] === null || data['images'] === '') {
                   data['images'] = {};
+                    // console.log('空的data: ' + data.repositoryName);
+
                 }
-                this.repoTypeArray.push(data['images']);
-                console.log('repoTypeArray: ' + this.repoTypeArray);
+                  console.log('data[\'images\']: ' + data['images']);
+                  this.repoTypeArray[i] = (data['images']);
               });
             }
             console.log('repoTypeArray: ' + this.repoTypeArray);
             console.log('repoVersionRadioValue: ' + this.repoVersionRadioValue);
           }
-        });
+        // });s
 
       });
 
