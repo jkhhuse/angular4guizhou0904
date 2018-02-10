@@ -304,7 +304,9 @@ export class OperaEventComponent implements OnInit {
     } else {
       const temp = [];
       this.typeOption.forEach((obj, key) => {
+        if (obj.checked === true) {
         temp.push(obj.value);
+        }
       });
       operateType = temp.join(',');
     }
@@ -314,7 +316,9 @@ export class OperaEventComponent implements OnInit {
     } else {
       const temp = [];
       this.objOption.forEach((obj, key) => {
-        temp.push(obj.value);
+        if (obj.checked === true) {
+          temp.push(obj.value);
+        }
       });
       opObj = temp.join(',');
     }
