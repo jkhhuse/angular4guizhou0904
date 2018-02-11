@@ -10,8 +10,8 @@ import {environment} from "../../environments/environment";
   styleUrls: ['./app-overview-detail-detail.component.css']
 })
 export class AppOverviewDetailDetailComponent implements OnInit {
-  private monitor_q = ['cpu.utilization','mem.utilization','net.bytes_sent','net.bytes_rcvd'];
-  private monitorName = ['CPU利用率','内存利用率','发送字节','接收字节'];
+  private monitor_q = ['cpu.utilization', 'mem.utilization', 'net.bytes_sent', 'net.bytes_rcvd'];
+  private monitorName = ['CPU利用率', '内存利用率', '发送字节', '接收字节'];
 // 标签名
   public title: String = '服务实例详情';
   serviceImgUrl = 'assets/service/mirror.png';
@@ -71,7 +71,37 @@ export class AppOverviewDetailDetailComponent implements OnInit {
       name: '操作',
     }
   ];
+  // 配置中心表格
+  table7Title = [
+        {
+            index: 1,
+            name: '配置名称',
+        },
+        {
+            index: 2,
+            name: '键',
+        },
+        {
+            index: 3,
+            name: '值',
+        }
+    ];
 
+  // 存储卷表格
+  table10Title = [
+      {
+          index: 1,
+          name: '存储卷名称',
+      },
+      {
+          index: 2,
+          name: '驱动类型',
+      },
+      {
+          index: 3,
+          name: '关联服务路径',
+      }
+  ];
   getServiceInstanceDetail(instanceId, moduleName): Observable<any[]> {
     return this.http.get(environment.apiService + '/apiService' + '/service-instances/' + instanceId + '/modules/' + moduleName).map(res => res.json());
   }
