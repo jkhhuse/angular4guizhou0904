@@ -169,7 +169,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   networkRadioValue = '';
   networkRadioValue2 = '';
   // 镜像配置里的网络配置
-  networkConfig = '';
+  networkConfig = 'FLANNEL';
   loadBanlancer$ = [];
   loadBanlancerForm: FormGroup;
   lbControlLabel = [];
@@ -194,7 +194,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     },
   ];
   // 镜像配置里的高级配置
-  serviceType = '';
+  serviceType = 'stateless';
   serviceAdvancedLabel = [];
   logForm: FormGroup;
   env$ = [];
