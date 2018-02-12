@@ -11,7 +11,8 @@
     <!-- <div [ngClass]="(getFormControl().invalid && getFormControl().dirty && getFormControl().hasError('nameReg')) ? 'has-error'  : ''"  nz-col nz-form-control [nzValidateStatus]="getFormControl()" [nzSpan]="18" style="margin-left: 10px"> -->
     <div [ngClass]="(getFormControl().invalid && getFormControl().dirty) && (getFormControl().hasError('max') || getFormControl().hasError('min') || getFormControl().hasError('maxLength')) ? 'has-error'  : ''" nz-col nz-form-control [nzValidateStatus]="getFormControl()" [nzSpan]="config.nzStyles ? config.nzStyles : 18" style="margin-left: 10px">
         <nz-input nzHasFeedback [ngModel]="config.defaultValue" [nzType]="config.inputType" [id]="config.name" [ngStyle]="config.styles"
-            [nzPlaceHolder]="config.placeholder" [nzDisabled]="config.inputDisabled" [formControlName]="config.name" [nzRows]="config.rows"></nz-input>
+            [nzPlaceHolder]="config.placeholder" [formControlName]="config.name"></nz-input>
+        <button (click)="deleteClick1(config.name)">删除</button>
         <!-- 这里增加getFormControl().touched校验可以成功，但是style没有变化，官方建议是增加dirty和touched校验的，这里是个Bug -->
         <div *ngIf="getFormControl().invalid && getFormControl().dirty">
             <div nz-form-explain *ngIf="getFormControl().hasError('required')">{{config.label}}不能为空</div>

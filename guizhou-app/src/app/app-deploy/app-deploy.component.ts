@@ -2312,24 +2312,20 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     // await this.getnetworkAdvanced();
   }
 
-  deleteClick1(i) {
-    console.log(i, this.lbControlArray, this.loadBanlancerForm);
-    const deleteArr = _.pullAt(this.lbControlArray, i);
-    console.log(this.lbControlArray, this.loadBanlancerForm);
-    _.map(deleteArr, (value1, key1) => {
-      _.map(value1, (value2, key2) => {
-        this.loadBanlancerForm.removeControl(value2['name']);
+  deleteClick1(type, i) {
+    if (type === 'lb') {
+      console.log(i, this.lbControlArray, this.loadBanlancerForm);
+      const deleteArr = _.pullAt(this.lbControlArray, i);
+      console.log(this.lbControlArray, this.loadBanlancerForm);
+      _.map(deleteArr, (value1, key1) => {
+        _.map(value1, (value2, key2) => {
+          this.loadBanlancerForm.removeControl(value2['name']);
+        });
       });
-    });
-    console.log(this.loadBanlancerForm);
-    // _.map(this.lbControlArray, (value1, key1) => {
-    //   _.map(value1, (value2, key2) => {
-    //     this.loadBanlancerForm.addControl(value2['name'], new FormControl());
-    //     if (value2['type'] === 'select') {
-    //       value2['selectedOption'] = value2['options'][0];
-    //     }
-    //   });
-    // });
+      console.log(this.loadBanlancerForm);
+    } else if (type === 'log') {
+      console.log('deleteclick', this.logFormConfig);
+    }
   }
 
   addConfigFile() {
@@ -3061,17 +3057,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   }
 
   ngAfterViewInit() {
-    // 不同的表单，但是确实同一个实例，这个要怎么解决呢？todo//
-    // <dynamic-form #form1></dynamic-form>
-    // <dynamic-form #form2></dynamic-form>
-    // @ViewChild('form1') form1: DynamicFormComponent;
-    // @ViewChild('form2') form2: DynamicFormComponent;
-    console.log('form111', this.formFirstProject);
-    console.log('form222', this.formSecondProject);
-    // console.log('form333', this.formThirdProject);
-    console.log('instance2', this.instanceSecond);
-    console.log('instance3', this.instanceThird);
-    // console.log('form111', this.formFirstProject);
+    console.log('新的表单页面渲染');
   }
 
   ngDoCheck() {
