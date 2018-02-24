@@ -41,7 +41,8 @@ export class AddConfigComponent implements OnInit {
       inputType: 'textarea',
       styles: {
         'width': '400px',
-        'height': '200px'
+        'height': '200px',
+        'min-height' : '200px'
       }
     },
     {

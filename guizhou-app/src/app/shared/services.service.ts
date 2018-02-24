@@ -5,11 +5,12 @@ import { Http } from '@angular/http';
 import { environment } from '../../environments/environment';
 import { CookieService } from 'angular2-cookie';
 import { NzNotificationService } from 'ng-zorro-antd';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class ServicesService {
 
-    constructor(private _notification: NzNotificationService, private http: Http, private _cookieService: CookieService) {
+    constructor(private _notification: NzNotificationService, private http: Http, private httpClient: HttpClient, private _cookieService: CookieService) {
     }
 
     getServices(tabName, moduleName): Observable<any[]> {
@@ -97,32 +98,35 @@ export class ServicesService {
     // 通过url获取op侧的userName
     getUserName(): string {
         // const url = window.location.href;
-        // console.log('local url: ' + url);
         const url = 'http://10.254.3.120:8080/pass/#/appStore?userId=1&userName=admin';
+        console.log('local url: ' + url);
+
         if (!!url) {
             const search = url.split('?');
-            // console.log('search: ' + search);
             if (!!search[1]) {
                 const searchArray = search[1].split('&');
-                console.log('URL searchArray: ' + searchArray);
-                // console.log('URL searchArray: ' + searchArray.length);
                 // 如果split数据正常，数组长度为2，一个是userid，一个是username
                 if (searchArray.length === 2) {
                     const userIDArray = searchArray[0].split('=');
                     const userUsernameArray = searchArray[1].split('=');
-                    // console.log('userIDArray: ' + userIDArray);
-                    // console.log('userUsernameArray: ' + userUsernameArray);
                     const userID = userIDArray[1];
                     const userName = userUsernameArray[1];
+                    // 更新用户名和用户ID之前，判断，是否用户变更了
+                    // 如果cookie中有userid字段，并且和现在获取的userid值不同，说明经理了用户切换
+                    // 如果cookie中有用户id，说明之前登录过。并且现在获取的id值不相同，说明切换了用户
+                    if (this.getCookie('userID') !== '' && ( userID !== this.getCookie('userID'))) {
+                        // 用户切换过，清除掉cookie值。
+                        this.setCookie('groupID', '');
+                        this.setCookie('groupName', '');
+                    }
                     // 只要能获取到userID和userName字段，且不是空的，就更新cookie的值
                     this.setCookie('userID', userIDArray[1]);
                     this.setCookie('userName', userUsernameArray[1]);
                     console.log('userID: ' + userID);
                     console.log('userName: ' + userName);
-                    return userName;
+                    return  userName;
                 } else {
                     return this.getCookie('userName');
-                    // this.createNotification('error', '获取用户信息失败', 'iframe数据分离失败');
                 }
             } else {
                 // 取不到后缀的信息，可能在内层子页面，直接返回cookie的值
@@ -140,7 +144,9 @@ export class ServicesService {
             return '';
         } else {
             // return '';
-            return this.http.get(environment.apiOP + '/renter/users/' + this.getUserId() + '/groups?roleName=all').map(res => res.json());
+            return this.httpClient.get(environment.apiOP + '/renter/users/' + this.getUserId() + '/groups?roleName=all', {
+                headers: new HttpHeaders().set('BDOC-User', this.getUserName()),
+            });
         }
     }
 
