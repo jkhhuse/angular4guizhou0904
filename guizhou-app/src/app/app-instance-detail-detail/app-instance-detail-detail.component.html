@@ -12,16 +12,16 @@
     <div class="long-block"></div>
 
     <div class="action-block" *ngIf="instanceDetail">
-      <div>
+      <div *ngIf="instanceDetail.status == 'Running'">
         <button nz-button [nzType]="'primary'" (click)="showModal()">
           <span>更新策略</span>
         </button>
       </div>
-      <!--<div *ngIf="instanceDetail.status !== 'Running'">
+      <div *ngIf="instanceDetail.status !== 'Running'">
         <button nz-button [nzType]="'primary'" disabled>
             <span>更新策略</span>
           </button>
-       </div>-->
+       </div>
       <nz-modal [nzVisible]="isVisible" [nzTitle]="'更新策略'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
         <ng-template #modalContent>
           <div class="">
@@ -138,7 +138,7 @@
           实例个数
         </div>
         <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
-          {{instanceDetail.podsCount}}
+          {{instanceDetail.info.current_num_instances}}
         </div>
       </div>
 

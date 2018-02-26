@@ -16,9 +16,9 @@
 export const environment = {
     production: false,
     name: 'op联调提测环境',
-    apiService: 'http://10.132.49.122:18032',
-    apiApp: 'http://10.132.49.122:18031',
-    apiConfig: 'http://10.132.49.122:18037',
+    apiService: 'http://10.132.49.131:8032',
+    apiApp: 'http://10.132.49.131:8031',
+    apiConfig: 'http://10.132.49.131:8037',
     api: 'http://10.132.49.122:18180',
     apiAlauda: 'http://10.132.49.122:18039/apiJakiro/v1',
     apiOP: 'http://10.139.8.78:7080/bdoc/v2',
