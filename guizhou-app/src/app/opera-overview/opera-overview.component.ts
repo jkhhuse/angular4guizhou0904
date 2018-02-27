@@ -308,7 +308,7 @@ export class OperaOverviewComponent implements OnInit, OnDestroy {
   getLogTopList() {
     const params: HttpParams = new HttpParams()
     .append('offset', '1')
-    .append('limit', '12')
+    .append('limit', '15')
     .append('operateType', 'ALL')
     .append('opObj', 'ALL')
     .append('operateResult', 'ALL')

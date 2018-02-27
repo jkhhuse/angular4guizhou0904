@@ -12,12 +12,13 @@
 
 .container-box {
     background-color: #f9f9f8;
-    padding: 16px 6px 16px 4px;
-    margin-top: 20px;
+    padding: 6px 6px 6px 4px;
+    margin-top: 10px;
 }
 
 .container-box>.container-header {
     font-size: 12px;
+    padding: 0 4px;
 }
 
 .container-box-view {
@@ -57,6 +58,27 @@
     width: 55%;
 }
 
+.container-box-view>.container-box-metric-tag {
+    font-size: 12px;
+    width: 82%;
+}
+
+.metric-tags-list {
+    padding: 5px 0px;
+    word-break: break-word;
+    text-overflow: clip;
+    overflow: auto;
+    max-height: 60px;
+}
+
+.metric-tag {
+    font-size: 12px;
+    padding: 2px 5px;
+    background: #EAEEEF;
+    display: inline-block;
+    margin: 1px;
+}
+
 .container-box-metric div {
     height: 20px;
 }
@@ -91,7 +113,7 @@
 
 .subfield-wrapper {
     padding: 8px 0px 8px 0px;
-    margin-top: 15px;
+    margin-top: 2px;
     display: flex;
     flex-direction: row;
     font-size: 12px;

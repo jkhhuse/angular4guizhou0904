@@ -78,12 +78,12 @@
 
 .chart-style {
     width: 100%;
-    height: 165px;
+    height: 180px;
 }
 
 .alert-log {
     margin-top: 16px;
-    height: 495px;
+    height: 632px;
     overflow-y: auto;
     padding: 4px 5px 10px 5px;
     margin-bottom: 12px;
