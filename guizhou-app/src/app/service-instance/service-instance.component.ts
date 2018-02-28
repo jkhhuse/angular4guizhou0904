@@ -53,7 +53,7 @@ export class ServiceInstanceComponent implements OnInit {
       console.log('删除成功，更新列表');
       this.refreshData();
       this._isSpinning = false;
-    }, 1000);
+    }, 3000);
   }
 
   createNotification = (type, title, content) => {

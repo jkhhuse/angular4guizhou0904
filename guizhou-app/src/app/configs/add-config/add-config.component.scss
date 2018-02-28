@@ -2,7 +2,10 @@ nz-layout{
   background: #fff;
   padding: 20px;
 }
-
+form textarea.ant-input {
+  height: 200px !important;
+  min-height: 200px !important;
+}
 nz-header, nz-content, nz-footer {
   background: #fff
 }

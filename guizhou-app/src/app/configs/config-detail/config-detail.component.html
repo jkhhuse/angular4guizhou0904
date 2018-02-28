@@ -56,9 +56,9 @@
       </thead>
       <tbody nz-tbody>
       <tr nz-tbody-tr *ngFor="let data of nzTable.data">
-        <td nz-td>{{data.key}}</td>
+        <td nz-td style="width: 20%">{{data.key}}</td>
         <td nz-td>{{data.value}}</td>
-        <td nz-td>
+        <td nz-td style="width: 20%">
           <button nz-button [nzType]="'primary'" [routerLink]="['/editConfig', configID, data.key]">
             <span>编辑</span>
           </button>

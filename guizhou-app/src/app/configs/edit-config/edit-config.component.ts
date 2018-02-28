@@ -29,8 +29,11 @@ export class EditConfigComponent implements OnInit {
             name: 'configValue',
             placeholder: '请输入配置值',
             validation: [Validators.required],
+            inputType: 'textarea',
             styles: {
                 'width': '400px',
+                'height': '200px',
+                'min-height' : '200px'
             }
         },
         {

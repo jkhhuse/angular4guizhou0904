@@ -12,7 +12,7 @@
     <div class="long-block"></div>
 
     <div class="action-block" *ngIf="instanceDetail">
-      <div *ngIf="instanceDetail.status === 'Running'">
+      <div *ngIf="instanceDetail.status == 'Running'">
         <button nz-button [nzType]="'primary'" (click)="showModal()">
           <span>更新策略</span>
         </button>
@@ -52,7 +52,7 @@
               <div class="modal-tem"></div>
               <span class="modal-label">实例数量最小值</span>
               <span class="modal-cont">
-                <nz-input-number style="width: 100%" [(ngModel)]="autoInput_4" [nzMin]="1" [nzMax]="10" [nzStep]="1" [nzPlaceHolder]="'请输入实例数量最小值..'" ></nz-input-number>
+                <nz-input-number style="width: 100%" [(ngModel)]="autoInput_4" [nzMin]="1" [nzMax]="9" [nzStep]="1" [nzPlaceHolder]="'请输入实例数量最小值..'" ></nz-input-number>
               </span>
               <div class="modal-tem"></div>
             </div>
@@ -68,7 +68,7 @@
               <div class="modal-tem"></div>
               <span class="modal-label">减少量</span>
               <span class="modal-cont">
-                  <nz-input-number style="width: 100%" [(ngModel)]="autoInput_1" [nzMin]="1" [nzMax]="10" [nzStep]="1" [nzPlaceHolder]="'请输入减少量..'" ></nz-input-number>
+                  <nz-input-number style="width: 100%" [(ngModel)]="autoInput_1" [nzMin]="1" [nzMax]="9" [nzStep]="1" [nzPlaceHolder]="'请输入减少量..'" ></nz-input-number>
               </span>
               <div class="modal-tem"></div>
             </div>
@@ -76,7 +76,7 @@
               <div class="modal-tem"></div>
               <span class="modal-label">增加量</span>
               <span class="modal-cont">
-                  <nz-input-number style="width: 100%" [(ngModel)]="autoInput_2" [nzMin]="1" [nzMax]="10" [nzStep]="1" [nzPlaceHolder]="'请输入增加量..'" ></nz-input-number>
+                  <nz-input-number style="width: 100%" [(ngModel)]="autoInput_2" [nzMin]="1" [nzMax]="9" [nzStep]="1" [nzPlaceHolder]="'请输入增加量..'" ></nz-input-number>
               </span>
               <div class="modal-tem"></div>
             </div>
@@ -138,7 +138,7 @@
           实例个数
         </div>
         <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
-          {{instanceDetail.podsCount}}
+          {{instanceDetail.info.current_num_instances}}
         </div>
       </div>
 

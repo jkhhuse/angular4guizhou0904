@@ -21,6 +21,7 @@ export class AppOverviewComponent implements OnInit {
     public groupList: any;
     public appCount: any;
     public podsCount: any;
+    public status: any;
     appImgUrl1 = 'assets/application/u3225.png';
     appImgUrl2 = 'assets/application/u3227.png';
     title: String = '应用概览';
@@ -72,13 +73,19 @@ export class AppOverviewComponent implements OnInit {
 
     handleOk = (e) => {
         this.deleteAppInstance(this.deleteID, this.deleteName);
+        console.log('status: ' + this.status);
+        console.log('status2: ' + this.status.toString().indexOf('200'));
+        console.log('status3: ' + this.status.toString().indexOf('204'));
         this._isSpinning = true;
-        setTimeout(() => {
-            this.isVisible = false;
-            console.log('删除成功，更新列表');
-            this.refreshData();
-            this._isSpinning = false;
-        }, 3000);
+        // 删除接口返回的字段中含有状态吗200或者204
+        if (this.status.toString().indexOf('200') > 0 || this.status.toString().indexOf('204') > 0) {
+            setTimeout(() => {
+                this.isVisible = false;
+                console.log('删除成功，更新列表');
+                this.refreshData();
+                this._isSpinning = false;
+            }, 3000);
+        }
     }
 
     createNotification = (type, title, content) => {
@@ -94,8 +101,8 @@ export class AppOverviewComponent implements OnInit {
     // 删除应用实例接口
     deleteAppInstance(instanceID, instanceName) {
         this.http.delete(environment.apiApp + '/apiApp/' + '/groups/' + this.servicesService.getCookie('groupID') + '/application-instances/' + instanceID).subscribe((data) => {
-                status = data.toString();
-                console.log('datatoString: ' + status);
+                this.status = data.toString();
+                console.log('datatoString: ' + this.status);
             },
             err => {
                 console.log(err._body);

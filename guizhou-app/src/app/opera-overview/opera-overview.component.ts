@@ -171,7 +171,7 @@ export class OperaOverviewComponent implements OnInit, OnDestroy {
   // 获得metric及资源概况信息
   getOverViewInfo() {
     const options = {
-      headers: new HttpHeaders().set('Content-Type', 'application/json'),
+      headers: new HttpHeaders().set('Content-Type', 'application/json').set('BDOC-User', this._service.getUserName()),
       responseType: 'json' as 'json'
     };
     this._http.get<any>(environment.apiOP + '/op/overview/res/operator/' + this.userId, options)
@@ -317,7 +317,7 @@ export class OperaOverviewComponent implements OnInit, OnDestroy {
     // .append('sortName', this.sortName)
     // .append('sortValue', this.sortValue)
     const options = {
-      headers: new HttpHeaders().set('Content-Type', 'application/json'),
+      headers: new HttpHeaders().set('Content-Type', 'application/json').set('BDOC-User', this._service.getUserName()),
       responseType: 'json' as 'json',
       params: params
     };

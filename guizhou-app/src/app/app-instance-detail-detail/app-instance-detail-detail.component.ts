@@ -14,7 +14,7 @@ import { ServicesService } from '../shared/services.service';
   styleUrls: ['./app-instance-detail-detail.component.css']
 })
 export class AppInstanceDetailDetailComponent implements OnInit {
-  private monitor_q = ['cpu.utilization', 'mem.utilization', 'net.bytes_sent.total', 'net.bytes_rcvd.total'];
+  private monitor_q = ['cpu.utilization', 'mem.utilization', 'net.bytes_sent', 'net.bytes_rcvd'];
   private monitorName = ['CPU利用率', '内存利用率', '发送字节', '接收字节'];
   _isSpinning = false;
 
@@ -30,8 +30,9 @@ export class AppInstanceDetailDetailComponent implements OnInit {
   // 自动调节模式 输入值
   autoInput_1 = 1;
   autoInput_2 = 1;
-  autoInput_3 = 1;
+  autoInput_3 = 10;
   autoInput_4 = 1;
+  putModeStatus = false;
   tabs = [
     {
       index: 1,
@@ -155,16 +156,19 @@ export class AppInstanceDetailDetailComponent implements OnInit {
     console.log('this.autoInput_3: ' + this.autoInput_3);
     console.log('this.autoInput_4: ' + this.autoInput_4);
 
-    this._isSpinning = true;
     // 发送请求更新版本
     this.putNewMode();
-    setTimeout(() => {
-      // 更新实例的数据体
-      this.getInitData();
-      this._isSpinning = false;
-      this.isVisible = false;
-      console.log('更新成功，更新列表');
-    }, 3000);
+    if(this.putModeStatus) {
+      this._isSpinning = true;
+      // 如果更新版本通过了表单验证，则执行loading并刷新数据。
+      setTimeout(() => {
+        // 更新实例的数据体
+        this.getInitData();
+        this._isSpinning = false;
+        this.isVisible = false;
+        console.log('更新成功，更新列表');
+      }, 3000);
+    }
   }
 
   _console(value) {
@@ -172,45 +176,56 @@ export class AppInstanceDetailDetailComponent implements OnInit {
   }
   handleCancel = (e) => {
     console.log(e);
-    console.log('this.autoInput_1: ' + this.autoInput_1);
-    console.log('this.autoInput_2: ' + this.autoInput_2);
-    console.log('this.autoInput_3: ' + this.autoInput_3);
-    console.log('this.autoInput_4: ' + this.autoInput_4);
-
     this.isVisible = false;
   }
 
   putNewMode() {
-    console.log('选择更新的模式为：' + this.scaling_mode);
-    if (this.scaling_mode === 'MANUAL') {
-      this.http.put(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/application-instance-microservices/' + this.instanceDetailID, {
-        'updateUserId': this.servicesService.getUserId(),
-        'scaling_mode': this.scaling_mode,
-        'podsCount': this.manualInput_1
-      }).subscribe(response => {
-        console.log('这是response1', response);
-      },
-        err => {
-          console.log(err._body);
-          this.createNotification('error', '更新模式失败', err._body);
-        });
+    // 实例数量最小值 autoInput_4
+    // 实例数量最大值 autoInput_3
+    // 减少量 autoInput_1
+    // 增加量 autoInput_2
+    if(this.autoInput_2 > (this.autoInput_3 - this.autoInput_4)) {
+      // 如果增加量的值 大于 实例数量最大值和最小值的差值。
+      this.putModeStatus = false;
+      this.createNotification('error', '更新模式失败', '增加量的值应小于实例数量最大值和最小值的差值');
+    } else if (this.autoInput_1 > this.autoInput_4) {
+      // 如果减少量的值 大于 实例数量的最小值
+      this.putModeStatus = false;
+      this.createNotification('error', '更新模式失败', '减小量的值应小于实例数量最小值');
     } else {
-      this.http.put(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/application-instance-microservices/' + this.instanceDetailID, {
-        'updateUserId': this.servicesService.getUserId(),
-        'scaling_mode': this.scaling_mode,
-        'autoscaling_config': {
-          'decrease_delta': this.autoInput_1,
-          'increase_delta': this.autoInput_2,
-          'maximum_num_instances': this.autoInput_3,
-          'minimum_num_instances': this.autoInput_4
-        }
-      }).subscribe(response => {
-        console.log('这是response2', response);
-      },
-        err => {
-          console.log(err._body);
-          this.createNotification('error', '更新模式失败', err._body);
-        });
+      // 如果通过增加量，减小量的数值验证，则进行版本升级
+      this.putModeStatus = true;
+      console.log('选择更新的模式为：' + this.scaling_mode);
+      if (this.scaling_mode === 'MANUAL') {
+        this.http.put(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/application-instance-microservices/' + this.instanceDetailID, {
+          'updateUserId': this.servicesService.getUserId(),
+          'scaling_mode': this.scaling_mode,
+          'podsCount': this.manualInput_1
+        }).subscribe(response => {
+            console.log('这是response1', response);
+          },
+          err => {
+            console.log(err._body);
+            this.createNotification('error', '更新模式失败', err._body);
+          });
+      } else {
+        this.http.put(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/application-instance-microservices/' + this.instanceDetailID, {
+          'updateUserId': this.servicesService.getUserId(),
+          'scaling_mode': this.scaling_mode,
+          'autoscaling_config': {
+            'decrease_delta': this.autoInput_1,
+            'increase_delta': this.autoInput_2,
+            'maximum_num_instances': this.autoInput_3,
+            'minimum_num_instances': this.autoInput_4
+          }
+        }).subscribe(response => {
+            console.log('这是response2', response);
+          },
+          err => {
+            console.log(err._body);
+            this.createNotification('error', '更新模式失败', err._body);
+          });
+      }
     }
   }
 
