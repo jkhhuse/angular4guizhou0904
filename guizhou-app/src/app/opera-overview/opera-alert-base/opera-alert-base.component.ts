@@ -71,7 +71,7 @@ export class OperaAlertBaseComponent implements OnInit, AfterViewChecked {
               }
           }
       }],
-      color: ['#1494DB', '#00D0CB', '#B871D8']
+      color: ['#00D0CB', '#B871D8']
     };
     this.serviceOption = {
       tooltip: {
@@ -126,7 +126,7 @@ export class OperaAlertBaseComponent implements OnInit, AfterViewChecked {
               }
           }
       }],
-      color: ['#1494DB', '#00D0CB', '#B871D8']
+      color: ['#00D0CB', '#1494DB', '#B871D8']
     };
     this.clusterOption = {
       tooltip: {
@@ -138,7 +138,7 @@ export class OperaAlertBaseComponent implements OnInit, AfterViewChecked {
           bottom: '0%',
           itemWidth: 12,
           itemHeight: 8,
-          data: ['正常', '异常'],
+          data: ['资源充足', '资源不足'],
           textStyle: {
               color: '#ccc',
               fontSize: 10
@@ -161,10 +161,10 @@ export class OperaAlertBaseComponent implements OnInit, AfterViewChecked {
           },
           data: [{
               value: this.clusterAndHostChart.sufficient,
-              name: '正常'
+              name: '资源充足'
           }, {
               value: this.clusterAndHostChart.insufficient,
-              name: '异常'
+              name: '资源不足'
           }],
           itemStyle: {
               normal: {
@@ -178,7 +178,7 @@ export class OperaAlertBaseComponent implements OnInit, AfterViewChecked {
               }
           }
       }],
-      color: ['#1494DB', '#00D0CB', '#B871D8']
+      color: ['#00D0CB', '#B871D8']
     };
     this.hostOption = {
       tooltip: {
@@ -230,7 +230,7 @@ export class OperaAlertBaseComponent implements OnInit, AfterViewChecked {
               }
           }
       }],
-      color: ['#1494DB', '#00D0CB', '#B871D8']
+      color: ['#00D0CB', '#B871D8']
     };
     this.cdr.detectChanges();
   }

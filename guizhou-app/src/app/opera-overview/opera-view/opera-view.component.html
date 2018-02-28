@@ -2,7 +2,7 @@
     <div nz-col [nzMd]="8" [nzXs]="24" class="view-opera">
         <div class="view-stats">
             <div class="view-content-box">
-                <div>{{ viewCount?.clusterCount }}</div>
+                <div>{{ container?.clusterCount + oracleResource?.sumClusters }}</div>
                 <div>集群数</div>
             </div>
             <div class="view-content-box">
@@ -10,7 +10,7 @@
                 <div>项目组数</div>
             </div>
             <div class="view-content-box">
-                <div>{{ viewCount?.hostCount }}</div>
+                <div>{{ container?.hostCount + oracleResource?.sumNode }}</div>
                 <div>主机数</div>
             </div>
         </div>

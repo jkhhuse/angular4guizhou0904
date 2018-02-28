@@ -185,12 +185,12 @@ export class OperaOverviewComponent implements OnInit, OnDestroy {
           this.viewCount.storageCount = res.resInfo.storage.total;
           this.container.clusterCount = res.container.clusterNum;
           this.container.hostCount = res.container.hostNum;
-          this.container.cpuAssigned = (res.container.assignedCpu / res.container.cpu * 120) + '%';
-          this.container.cpuUsed = (res.container.usedCpu / res.container.cpu * 120) + '%';
-          this.container.memAssigned = (res.container.assignedMem / res.container.mem * 120) + '%';
-          this.container.memUsed = (res.container.usedMem / res.container.mem * 120) + '%';
-          this.container.storageAssigned = (res.container.assignedStorage / res.container.storage * 120) + '%';
-          this.container.storageUsed = (res.container.usedStorage / res.container.storage * 120) + '%';
+          this.container.cpuAssigned = (res.container.assignedCpu / res.container.cpu * 120).toFixed(2) + '%';
+          this.container.cpuUsed = (res.container.usedCpu / res.container.cpu * 120).toFixed(2) + '%';
+          this.container.memAssigned = (res.container.assignedMem / res.container.mem * 120).toFixed(2) + '%';
+          this.container.memUsed = (res.container.usedMem / res.container.mem * 120).toFixed(2) + '%';
+          this.container.storageAssigned = (res.container.assignedStorage / res.container.storage * 120).toFixed(2) + '%';
+          this.container.storageUsed = (res.container.usedStorage / res.container.storage * 120).toFixed(2) + '%';
           this.image.private = res.image.privates;
           this.image.public = res.image.publics;
           this.image.totalSize = res.image.totalSize;
@@ -214,14 +214,14 @@ export class OperaOverviewComponent implements OnInit, OnDestroy {
           this.oracleResource.sumClusters = res.sumClusters;
           this.oracleResource.sumInstances = res.sumInstances;
           this.oracleResource.sumNode = res.sumNode;
-          this.oracleResource.cpuAssigned = (res.cpu.design / res.cpu.total * 120) + '%';
-          this.oracleResource.cpuUsed = (res.cpu.usage / res.cpu.total * 120) + '%';
-          this.oracleResource.memAssigned = (res.ram.design / res.ram.total * 120) + '%';
-          this.oracleResource.memUsed = (res.ram.usage / res.ram.total * 120) + '%';
-          this.oracleResource.storageAssigned = (res.storage.design / res.storage.total * 120) + '%';
-          this.oracleResource.storageUsed = (res.storage.usage / res.storage.total * 120) + '%';
-          this.oracleResource.sessionAssigned = (res.session.design / res.session.total * 120) + '%';
-          this.oracleResource.sessionUsed = (res.session.usage / res.session.total * 120) + '%';
+          this.oracleResource.cpuAssigned = (res.cpu.design / res.cpu.total * 120).toFixed(2) + '%';
+          this.oracleResource.cpuUsed = (res.cpu.usage / res.cpu.total * 120).toFixed(2) + '%';
+          this.oracleResource.memAssigned = (res.ram.design / res.ram.total * 120).toFixed(2) + '%';
+          this.oracleResource.memUsed = (res.ram.usage / res.ram.total * 120).toFixed(2) + '%';
+          this.oracleResource.storageAssigned = (res.storage.design / res.storage.total * 120).toFixed(2) + '%';
+          this.oracleResource.storageUsed = (res.storage.usage / res.storage.total * 120).toFixed(2) + '%';
+          this.oracleResource.sessionAssigned = (res.session.design / res.session.total * 120).toFixed(2) + '%';
+          this.oracleResource.sessionUsed = (res.session.usage / res.session.total * 120).toFixed(2) + '%';
         },
         error => {
           console.log('refreshEventTable error!');
@@ -271,8 +271,8 @@ export class OperaOverviewComponent implements OnInit, OnDestroy {
           this.clusterAndHostChart.normalHost = res.alarmOverViewHost.normalHost;
           this.clusterAndHostChart.abnormalHost = res.alarmOverViewHost.abnormalHost;
           this.extraResource.containerCount = res.containers_count;
-          this.extraResource.portAssigned = (res.port.portAssigned / res.port.portCount * 120) + '%';
-          this.extraResource.portUsed = (res.port.portUsed / res.port.portCount * 120) + '%';
+          this.extraResource.portAssigned = (res.port.portAssigned / res.port.portCount * 120).toFixed(2) + '%';
+          this.extraResource.portUsed = (res.port.portUsed / res.port.portCount * 120).toFixed(2) + '%';
           let slaver = 0;
           let slavee = 0;
           let sysr = 0;

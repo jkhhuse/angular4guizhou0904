@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ViewCount, ViewCountBark } from '../opera-overview.model';
+import { ViewCount, ViewCountBark, Container, Oracle } from '../opera-overview.model';
 
 @Component({
   selector: 'app-opera-view',
@@ -10,6 +10,8 @@ export class OperaViewComponent implements OnInit {
 
   @Input() viewCount: ViewCount;
   @Input() viewCountBark: ViewCountBark;
+  @Input() container: Container;
+  @Input() oracleResource: Oracle;
 
   constructor() { }
 
