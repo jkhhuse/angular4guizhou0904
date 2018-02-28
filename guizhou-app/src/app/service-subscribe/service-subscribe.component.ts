@@ -762,7 +762,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     name: value['attribute_name'],
                                     placeholder: (value['description'] && value['description']['zh'] !== '') ?
                                         value['description']['zh'] : value['attribute_name'],
-                                    validation: [Validators.required],
+                                    validation: [Validators.required, Validators.pattern(eval(value.pattern))],
                                     // notNecessary: true,
                                     styles: {
                                         'width': '400px'
@@ -779,7 +779,9 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     name: value['attribute_name'],
                                     placeholder: (value['description'] && value['description']['zh'] !== '') ?
                                         value['description']['zh'] : value['attribute_name'],
-                                    validation: [Validators.required, Validators.min(1)],
+                                    validation: [Validators.required, Validators.min(value['min_value']),
+                                    Validators.max(value['max_value']),
+                                    Validators.pattern(eval(value.pattern))],
                                     // notNecessary: true,
                                     styles: {
                                         'width': '400px'
@@ -817,7 +819,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     options: options$,
                                     placeholder: (value['description'] && value['description']['zh'] !== '') ?
                                         value['description']['zh'] : value['attribute_name'],
-                                    validation: [Validators.required],
+                                    validation: [Validators.required, Validators.pattern(eval(value.pattern))],
                                     styles: {
                                         'width': '400px'
                                     },

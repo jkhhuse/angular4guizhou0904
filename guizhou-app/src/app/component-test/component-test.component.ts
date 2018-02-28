@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit, Directive, QueryList, ViewChildren, Input, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
+// import 'rxjs/add/operator/throttleTime';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Validators } from '@angular/forms';
 
@@ -12,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 import { userNameAsyncValidator } from '../util/reg-pattern/reg-name.directive';
 import { nicknameValidator } from '../util/reg-pattern/reg-name.directive';
-import { ComponentServiceService } from "../dynamic-form/services/component-service.service";
+import { ComponentServiceService } from '../dynamic-form/services/component-service.service';
 import { config } from '../../../protractor.conf';
 import * as _ from 'lodash';
 
@@ -95,7 +96,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
         'focused': false
       }
     },
-  ]
+  ];
 
   _dataSet = [];
 
@@ -154,7 +155,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
         'width': '400px',
       }
     },
-  ]
+  ];
 
   @ViewChild('form3') form3: DynamicFormComponent;
   config3: FieldConfig[] = [
@@ -169,7 +170,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
       }
     },
   ];
-  name: string = 'Semlinker';
+  name = 'Semlinker';
   @ViewChild('greet') greetDiv: ElementRef;
   imageTabs = ['name1', 'name2'];
   arrData = [];
@@ -253,9 +254,16 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     agreed ? this.agreed++ : this.disagreed++;
   }
 
+  addClick1() {
+    // const clickEvent = Observable.fromEvent(document, 'click');
+    // const result = clickEvent.throttleTime(1000);
+    // result.subscribe(x => {
+    //   console.log('222', x);
+    // });
+  }
+
   addClick() {
-    console.log('111');
-    console.log(this.config);
+
     // this.config[0] = {
     //   type: 'input',
     //   label: 'Last name333',
@@ -402,8 +410,8 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   }
 
   constructor(public translateService: TranslateService, private component: ComponentServiceService) {
-    translateService.addLangs(["zh", "en"]);
-    translateService.setDefaultLang("zh");
+    translateService.addLangs(['zh', 'en']);
+    translateService.setDefaultLang('zh');
     const browserLang = this.translateService.getBrowserLang();
 
     translateService.use(browserLang.match(/zh|en/) ? browserLang : 'zh');
@@ -438,6 +446,11 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     // });
   }
   ngOnInit() {
+    const clickEvent = Observable.fromEvent(document, 'click');
+    const result = clickEvent.throttleTime(1000);
+    result.subscribe(x => {
+      console.log('222', x);
+    });
     this.choosedImageName = 'name1';
     // for (let i = 0; i < 46; i++) {
     //   this._dataSet.push({
@@ -476,7 +489,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
         age: '',
         address: '232323'
       }
-    ]
+    ];
   }
 
   // commit reset
