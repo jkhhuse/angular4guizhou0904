@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { EventTable, OperateLog, SortMap, Condition, EventChart, Count, CheckOption } from './opera-event.model';
 import { environment } from '../../environments/environment';
+import {ServicesService} from "../shared/services.service";
 
 @Component({
   selector: 'app-opera-event',
@@ -63,7 +64,7 @@ export class OperaEventComponent implements OnInit {
   isLogVisible = false;
   logData: string;
 
-  constructor(private _http: HttpClient) {
+  constructor(private _http: HttpClient, private serviceService: ServicesService) {
     this.keyword = '';
     this.pageSize = 10;
     this.currentPage = 1;
@@ -141,7 +142,7 @@ export class OperaEventComponent implements OnInit {
       .append('timeRanges', this.selectedTime.value);
 
     const options = {
-      headers: new HttpHeaders().set('Content-Type', 'application/json'),
+      headers: new HttpHeaders().set('Content-Type', 'application/json').set('BDOC-User', this.serviceService.getUserName()),
       responseType: 'json' as 'json',
       params: params
     };
@@ -335,7 +336,7 @@ export class OperaEventComponent implements OnInit {
       // .append('sortValue', this.sortValue)
 
     const options = {
-      headers: new HttpHeaders().set('Content-Type', 'application/json'),
+      headers: new HttpHeaders().set('Content-Type', 'application/json').set('BDOC-User', this.serviceService.getUserName()),
       responseType: 'json' as 'json',
       params: params
     };
@@ -363,7 +364,7 @@ export class OperaEventComponent implements OnInit {
 
   showLogModal(id) {
     const options = {
-      headers: new HttpHeaders().set('Content-Type', 'application/json'),
+      headers: new HttpHeaders().set('Content-Type', 'application/json').set('BDOC-User', this.serviceService.getUserName()),
       responseType: 'json' as 'json'
     };
     this._http.get<any>(environment.apiOP + '/renter/operatemanage/log/' + id, options)
