@@ -73,7 +73,7 @@
 </nz-content>
 
 <nz-modal [nzVisible]="isVisible" [nzTitle]="'操作确认'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)"
-          (nzOnOk)="handleOk($event)">
+          (nzOnOk)="handleOk($event)" [nzConfirmLoading]="isConfirmLoading">
   <ng-template #modalContent>
     <p>已选择配置键：{{deleteKey}}，其值为{{deleteValue}}, 是否确定删除？</p>
     <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="text-align: center;">

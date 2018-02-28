@@ -22,7 +22,8 @@ export class ConfigDetailComponent implements OnInit {
     deleteValue = '';
     isVisible = false;
     _isSpinning = false;
-    content = [];
+  isConfirmLoading = false;
+  content = [];
 
     getConfigsObservable(): Observable<any> {
         return this.http.get(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') + '/configs').map(res => res.json());
@@ -36,6 +37,8 @@ export class ConfigDetailComponent implements OnInit {
         this.isVisible = true;
         this.deleteKey = key;
         this.deleteValue = value;
+      this.isConfirmLoading = false;
+
     }
     // 拼接删除时需要传入的content数组
     // 逻辑：传入需要删除的key和value。=》得到已存在的配置项目组。=》在配置项目组中for循环找到对应的key，删除key。=》
@@ -80,7 +83,11 @@ export class ConfigDetailComponent implements OnInit {
                     this.isVisible = false;
                     this.createNotification('error', '删除失败', data['message']);
                 }
-            });
+            },
+              err => {
+                console.log(err._body);
+                this.createNotification('error', '删除配置失败', err._body);
+              });
         });
     }
 
@@ -94,11 +101,14 @@ export class ConfigDetailComponent implements OnInit {
     }
 
     handleOk = (e) => {
-        this.deleteConfigSelected(this.deleteKey, this.deleteValue);
+      this.isConfirmLoading = true;
+      this.deleteConfigSelected(this.deleteKey, this.deleteValue);
     }
     handleCancel = (e) => {
         console.log(e);
         this.isVisible = false;
+      this.isConfirmLoading = false;
+
     }
 
     constructor(private routeInfo: ActivatedRoute,

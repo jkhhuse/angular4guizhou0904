@@ -18,6 +18,7 @@ export class ConfigControlComponent implements OnInit {
   deleteName = '';
   isVisible = false;
   _isSpinning = false;
+  isConfirmLoading = false;
 
   //表格6thead
   table6Title = [
@@ -82,9 +83,11 @@ export class ConfigControlComponent implements OnInit {
     this.isVisible = true;
     this.deleteID = id;
     this.deleteName = name;
+    this.isConfirmLoading = false;
   }
 
   handleOk = (e) => {
+    this.isConfirmLoading = true;
     let status = '';
     // 如果对应的是删除镜像
     status = this.deleteConfig(this.deleteID, this.deleteName);
@@ -111,6 +114,7 @@ export class ConfigControlComponent implements OnInit {
   handleCancel = (e) => {
     console.log(e);
     this.isVisible = false;
+    this.isConfirmLoading = false;
   }
 
   constructor(private http: Http,
