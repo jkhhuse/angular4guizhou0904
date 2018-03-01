@@ -3,7 +3,7 @@
     <nz-header style="line-height:32px">
       <a href="#/serviceCatalog">
         <返回</a>
-          <p>订购 {{ serviceName }}</p>
+          <p>启动 {{ serviceName }}</p>
     </nz-header>
     <nz-content>
       <div style="width:80%;margin-top:10px">
@@ -129,7 +129,7 @@
           <div nz-row>
             <!-- todo next -->
             <!-- <div nz-row> -->
-            <div *ngIf="serviceName === 'redis'" class="marginBottom15" nz-row>
+            <div *ngIf="serviceName === 'redis' || serviceName === 'mysql'" class="marginBottom15" nz-row>
               <div nz-col [nzSpan]="4" style="text-align: right">
                 <span style="display: block;
                               font-size: 13px;
@@ -149,14 +149,14 @@
                 </nz-radio-group>
               </div>
             </div>
-            <dynamic-form *ngIf="serviceName === 'mysql'" #formThird4Project [config]="formThird4">
-            </dynamic-form>
+            <!-- <dynamic-form *ngIf="serviceName === 'mysql'" #formThird4Project [config]="formThird4">
+            </dynamic-form> -->
             <!-- <dynamic-form *ngIf="serviceName === 'redis'" #formThird4Project [config]="formThird4">
             </dynamic-form> -->
           </div>
           <dynamic-form #formThird1Project [config]="formThird1">
           </dynamic-form>
-          <dynamic-form *ngIf="serviceName === 'redis'" #formThird3Project [config]="formThird3">
+          <dynamic-form *ngIf="serviceName === 'redis' || serviceName === 'mysql'" #formThird3Project [config]="formThird3">
           </dynamic-form>
           <div nz-row>
             <div nz-col [nzSpan]="4" style="text-align: right">
@@ -209,7 +209,7 @@
         <div nz-col [nzSpan]="18">
           <span>
             <button [disabled]="buttonDisabled()" nz-button [nzType]="'primary'" (click)="done()">
-              <span>订购</span>
+              <span>启动</span>
             </button>
           </span>
           <span>

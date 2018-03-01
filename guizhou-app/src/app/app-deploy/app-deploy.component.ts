@@ -37,6 +37,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   AfterContentInit, AfterContentChecked,
   AfterViewInit, AfterViewChecked,
   OnDestroy {
+  isLoadingDone = false;
   configFileRadio;
   testCluster;
   prodCluster;
@@ -1168,25 +1169,38 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       // const serviceInstanceData;
       this.formData['serviceInstances'] = _.compact(serviceIdData);
     }
-    this.http.post(environment.apiApp + '/apiApp/applications/' + this.appId + '/instances', this.formData).subscribe(data => {
-      const thisParent = this;
-      console.log('应用部署成功', data);
-      this.confirmServ.success({
-        maskClosable: false,
-        title: '应用部署成功!',
-        content: '点确认按钮跳转到应用商城',
-        okText: '确定',
-        onOk() {
-          // .contentControl = true;
-          // console.log('form11', thisParent.form);
-          // const redirect = window.location.host + '/#/appStore';
-          // window.location.href = window.location.origin + '/#/appStore';
-          thisParent.router.navigate(['appStore']);
-        },
-        onCancel() {
-        }
+    // todo next button 一秒钟最多点击一次
+    // const button = document.querySelector('button');
+    // Observable.fromEvent(button, 'click')
+    //   .throttleTime(1000);
+    // const httpEvent = this.http.post(environment.apiApp + '/apiApp/applications/' + this.appId + '/instances', this.formData);
+    // Observable.from(httpEvent).throttleTime(1000)
+    // const httpDone = this.http.post(environment.apiApp + '/apiApp/applications/' + this.appId +
+    //   '/instances', this.formData).throttleTime(1000);
+    this.isLoadingDone = true;
+    this.http.post(environment.apiApp + '/apiApp/applications/' + this.appId + '/instances', this.formData).throttleTime(1000).
+      subscribe(data => {
+        const thisParent = this;
+        console.log('应用部署成功', data);
+        this.confirmServ.success({
+          maskClosable: false,
+          title: '应用部署成功!',
+          content: '点确认按钮跳转到应用商城',
+          okText: '确定',
+          onOk() {
+            // .contentControl = true;
+            // console.log('form11', thisParent.form);
+            // const redirect = window.location.host + '/#/appStore';
+            // window.location.href = window.location.origin + '/#/appStore';
+            thisParent.router.navigate(['appStore']);
+          },
+          onCancel() {
+          }
+        });
+      }, (err) => {
+        console.log(err);
+        this.isLoadingDone = false;
       });
-    });
     // if (this.formThird1Radios) {
     //   _.map(this.formThird1Radios, (value, key) => {
     //     const valueName$ = value.name;
