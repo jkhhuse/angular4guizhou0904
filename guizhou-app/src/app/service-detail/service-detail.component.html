@@ -18,7 +18,7 @@
             <div *ngIf="serviceDetail" class="detail-btn-group">
                 <button *ngIf="serviceDetail && subscribeID === 0" [routerLink]="['/serviceApprove', serviceDetail.serviceName, serviceId]" nz-button [nzType]="'primary'"
                         [nzSize]="'large'">
-                    <span>订阅</span>
+                    <span>订购</span>
                 </button>
                 <button *ngIf="serviceDetail && subscribeID === 1" disabled nz-button [nzType]="'default'"
                         [nzSize]="'large'">
