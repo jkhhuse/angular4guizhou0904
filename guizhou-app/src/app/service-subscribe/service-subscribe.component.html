@@ -129,22 +129,19 @@
           <div nz-row>
             <!-- todo next -->
             <!-- <div nz-row> -->
-            <div *ngIf="serviceName === 'redis' || serviceName === 'mysql'" class="marginBottom15" nz-row>
+            <div class="marginBottom15" *ngFor="let formThird2RadioBasic of formThird2RadiosBasic" nz-row>
               <div nz-col [nzSpan]="4" style="text-align: right">
                 <span style="display: block;
                               font-size: 13px;
                               font-weight: 400;
                               letter-spacing: 0px;
                               margin-bottom: 10px;
-                              color: rgba(0, 0, 0, 0.9);">运行模式</span>
+                              color: rgba(0, 0, 0, 0.9);">{{ formThird2RadioBasic.label }}</span>
               </div>
               <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
                 <nz-radio-group (click)="toggleRadio()" [(ngModel)]="this.modelValue">
-                  <label nz-radio [nzValue]="'replication'">
-                    <span>主从</span>
-                  </label>
-                  <label nz-radio [nzValue]="'cluster'">
-                    <span>集群</span>
+                  <label *ngFor="let labelContent of formThird2RadioBasic.labelContent" nz-radio [nzValue]="labelContent">
+                    <span>{{ labelContent | translate }}</span>
                   </label>
                 </nz-radio-group>
               </div>
@@ -156,7 +153,7 @@
           </div>
           <dynamic-form #formThird1Project [config]="formThird1">
           </dynamic-form>
-          <dynamic-form *ngIf="serviceName === 'redis' || serviceName === 'mysql'" #formThird3Project [config]="formThird3">
+          <dynamic-form *ngIf="serviceName === 'redis' || serviceName === 'mysql' || serviceName === 'mongodb'" #formThird3Project [config]="formThird3">
           </dynamic-form>
           <div nz-row>
             <div nz-col [nzSpan]="4" style="text-align: right">
@@ -174,7 +171,7 @@
           </div>
         </div>
       </div>
-      <div>
+      <div *ngIf="formThird2.length > 0 || formThird2Radios.length > 0">
         <p class="borderBottom80 marginTop20">高级配置</p>
         <!-- <div style="text-align: center">
           <nz-spin [nzTip]="'正在读取数据...'" *ngIf="formThird2.length === 0 && formThird2Radios.length === 0"></nz-spin>
