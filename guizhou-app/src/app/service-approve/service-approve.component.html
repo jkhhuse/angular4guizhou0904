@@ -15,7 +15,9 @@
             <div nz-row>
                 <nz-datepicker [(ngModel)]="_date" [nzPlaceHolder]="'请选择日期'"
                                [nzDisabledDate]="_disabledDate"></nz-datepicker>
+<!--
                 <nz-timepicker [(ngModel)]="_time"></nz-timepicker>
+-->
             </div>
             <div nz-row>
                 <dynamic-form [config]="formConfig" (submit)="submit($event)">

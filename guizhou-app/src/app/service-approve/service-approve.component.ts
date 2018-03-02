@@ -71,7 +71,7 @@ export class ServiceApproveComponent implements OnInit {
     }*/
     // 时间拼接
     getSelectTime() {
-        const mytime = new Date(this._time);
+        const mytime = new Date();
         mytime.setHours(mytime.getHours() + 8);
         return mytime;
     }
@@ -111,6 +111,7 @@ export class ServiceApproveComponent implements OnInit {
             });
 
         });
+
 
     }
 
