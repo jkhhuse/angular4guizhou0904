@@ -137,6 +137,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
     // ];
 
     formThird3Entity: object = {};
+    operateServiceArr = ['redis', 'mysql', 'mongodb'];
 
     constructor(private router: Router, private confirmServ: NzModalService, private routeInfo: ActivatedRoute, private http: HttpClient,
         private componentSer: ComponentServiceService, private servicesService: ServicesService) {
@@ -249,7 +250,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             //     this.formThird3Project.setConfig(this.formThird3);
             //   }
             // });
-        } else if (this.serviceName === 'redis' || this.serviceName === 'mysql' || this.serviceName === 'mongodb') {
+        } else if (_.indexOf(this.operateServiceArr, this.serviceName) > -1) {
             if (this.modelValue === 'replication' || this.modelValue === 'cluster' || this.modelValue === 'replica_set') {
                 this.formThird3 = [];
                 _.map(this.operateMode[this.modelValue], (value1, key1) => {
@@ -737,8 +738,9 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     name: value['attribute_name'],
                                     placeholder: (value['description'] && value['description']['zh'] !== '') ?
                                         value['description']['zh'] : value['attribute_name'],
-                                    validation: [Validators.required, Validators.pattern(eval(value.pattern))],
-                                    // notNecessary: true,
+                                    validation: value.required !== false ? [Validators.required, Validators.pattern(eval(value.pattern))]
+                                        : [Validators.pattern(eval(value.pattern))],
+                                    notNecessary: value.required !== false ? false : true,
                                     styles: {
                                         'width': '400px'
                                     }
@@ -754,10 +756,12 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     name: value['attribute_name'],
                                     placeholder: (value['description'] && value['description']['zh'] !== '') ?
                                         value['description']['zh'] : value['attribute_name'],
-                                    validation: [Validators.required, Validators.min(value['min_value']),
+                                    validation: value.required !== false ? [Validators.required, Validators.min(value['min_value']),
+                                    Validators.max(value['max_value']),
+                                    Validators.pattern(eval(value.pattern))] : [Validators.min(value['min_value']),
                                     Validators.max(value['max_value']),
                                     Validators.pattern(eval(value.pattern))],
-                                    // notNecessary: true,
+                                    notNecessary: value.required !== false ? false : true,
                                     styles: {
                                         'width': '400px'
                                     }
@@ -794,7 +798,9 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     options: options$,
                                     placeholder: (value['description'] && value['description']['zh'] !== '') ?
                                         value['description']['zh'] : value['attribute_name'],
-                                    validation: [Validators.required, Validators.pattern(eval(value.pattern))],
+                                    validation: value.required !== false ? [Validators.required, Validators.pattern(eval(value.pattern))] :
+                                        [Validators.pattern(eval(value.pattern))],
+                                    notNecessary: value.required !== false ? false : true,
                                     styles: {
                                         'width': '400px'
                                     },
@@ -881,7 +887,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             }
         });
         await this.getServiceAdvanced();
-        if (this.serviceName === 'redis' || this.serviceName === 'mysql' || this.serviceName === 'mongodb') {
+        if (_.indexOf(this.operateServiceArr, this.serviceName) > -1) {
             this.modelValue = 'standalone';
             this.formThird3 = [];
             this.formThird3Project.setConfig(this.formThird3);
@@ -908,7 +914,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 // };
                 // const formConfig3 = [];
                 if (value !== undefined && _.indexOf(this.ipTag$, value[0]) >= 0 &&
-                    (this.serviceName === 'redis' || this.serviceName === 'mysql' || this.serviceName === 'mongodb')) {
+                    (_.indexOf(this.operateServiceArr, this.serviceName) > -1)) {
                     _.map(this.formThird3, (value3, key3) => {
                         console.log(value3);
                         // formConfig3[key3] = value3;
@@ -998,8 +1004,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         //     this.formThird1RadioEntity[valueName$] = value.instance_size;
         //   })
         // }
-        if (this.serviceName === 'redis' || this.serviceName === 'mysql' || this.serviceName === 'spring_eureka' ||
-            this.serviceName === 'memcached') {
+        const clusterServiceArr = ['redis', 'mysql', 'spring_eureka', 'memcached', 'spring_config_server'];
+        if (_.indexOf(clusterServiceArr, this.serviceName) > -1) {
             this.formThird1RadioEntity['cluster_size'] = {
                 'size': 'CUSTOMIZED',
                 'cpu': this.instanceThird.value['cpuSize'],
@@ -1059,7 +1065,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 // todo: this.formThird2RadioEntity, this.formThird3Entity
                 // _.assign方法，会从后往前覆盖Object，所以在开头加上一个{}，确保后面的对象不被覆盖
                 basic_config: _.assign({}, this.formThird1Project.value, this.formThird1RadioEntity,
-                    (this.serviceName === 'redis' || this.serviceName === 'mysql' || this.serviceName === 'mongodb')
+                    (_.indexOf(this.operateServiceArr, this.serviceName) > -1)
                         ? this.formThird2RadioBasicEntity : {},
                     this.formThird3Entity),
                 advanced_config: this.formThird2Project === undefined ? undefined : _.assign({}, this.formThird2Project === undefined ? {} :
