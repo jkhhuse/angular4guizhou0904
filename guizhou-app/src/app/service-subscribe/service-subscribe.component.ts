@@ -998,7 +998,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         //     this.formThird1RadioEntity[valueName$] = value.instance_size;
         //   })
         // }
-        if (this.serviceName === 'redis' || this.serviceName === 'mysql' || this.serviceName === 'spring_eureka') {
+        if (this.serviceName === 'redis' || this.serviceName === 'mysql' || this.serviceName === 'spring_eureka' ||
+            this.serviceName === 'memcached') {
             this.formThird1RadioEntity['cluster_size'] = {
                 'size': 'CUSTOMIZED',
                 'cpu': this.instanceThird.value['cpuSize'],
