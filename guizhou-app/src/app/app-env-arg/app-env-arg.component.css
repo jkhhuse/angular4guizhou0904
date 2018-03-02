@@ -1,0 +1,36 @@
+.ea-container {
+    padding: 28px 32px;
+}
+
+.ea-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.ea-table {
+    margin-top: 10px;
+}
+
+.ea-name {
+    color: #2C9CFA;
+}
+
+.ea-name:hover {
+    color: rgb(36, 177, 224);
+    cursor: pointer;
+}
+
+.ea-op span {
+    margin-right: 10px;
+    color: #2C9CFA;
+}
+
+.ea-op span:hover {
+    color: rgb(36, 177, 224);
+    cursor: pointer;
+}
+
+.hasError {
+    color: #f04134;
+}
