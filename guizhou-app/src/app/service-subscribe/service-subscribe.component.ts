@@ -1064,6 +1064,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             info: {
                 // todo: this.formThird2RadioEntity, this.formThird3Entity
                 // _.assign方法，会从后往前覆盖Object，所以在开头加上一个{}，确保后面的对象不被覆盖
+                network_mode: this.serviceName === 'spring_eureka' ? ['flannel'] : undefined,
                 basic_config: _.assign({}, this.formThird1Project.value, this.formThird1RadioEntity,
                     (_.indexOf(this.operateServiceArr, this.serviceName) > -1)
                         ? this.formThird2RadioBasicEntity : {},
