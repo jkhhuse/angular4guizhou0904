@@ -77,6 +77,8 @@ import { AppMonitorComponent } from './app-monitor/app-monitor.component';
 import { AppLogsComponent } from './app-logs/app-logs.component';
 import { ConfigFileComponent } from './config-file/config-file.component';
 import { RequestInterceptor } from './util/request/request.interceptor';
+import { AppEnvArgComponent } from './app-env-arg/app-env-arg.component';
+import { AppEnvArgDetailComponent } from './app-env-arg/app-env-arg-detail/app-env-arg-detail.component';
 
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -135,7 +137,9 @@ export function createTranslateHttpLoader(http: HttpClient) {
         ConvertTagPipe,
         AppMonitorComponent,
         AppLogsComponent,
-        ConfigFileComponent
+        ConfigFileComponent,
+        AppEnvArgComponent,
+        AppEnvArgDetailComponent
     ],
     imports: [
         BrowserModule,

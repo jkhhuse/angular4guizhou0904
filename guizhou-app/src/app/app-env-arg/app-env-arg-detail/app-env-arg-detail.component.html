@@ -1,0 +1,39 @@
+<div class="detail-header">
+    <a (click)="routerBack()">
+        < 返回 </a>
+            <span>|    环境变量详情</span>
+</div>
+<div class="detail-container">
+    <div class="detail-config-title">
+        <div>{{ detailView?.name }}</div>
+        <div></div>
+    </div>
+    <div class="detail-config-content">
+        <div>
+            <div>
+                <span>创建者</span>
+                <span>{{ groupId }}</span>
+            </div>
+            <div>
+                <span>更新时间</span>
+                <span>{{ detailView?.updated_at | date:'yyyy-MM-dd HH:mm:ss' }}</span>
+            </div>
+        </div>
+        <div>
+            <div>
+                <span>创建时间</span>
+                <span>{{ detailView?.created_at | date:'yyyy-MM-dd HH:mm:ss' }}</span>
+            </div>
+            <div>
+                <span>描述</span>
+                <span>{{ detailView?.description }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="detail-arg-title">
+        内容
+    </div>
+    <div class="detail-arg-content">
+        {{ detailView?.content }}
+    </div>
+</div>

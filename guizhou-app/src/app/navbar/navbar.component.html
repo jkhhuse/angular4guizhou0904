@@ -1,8 +1,8 @@
 <div id="app-sider">
     <div class="logo">
     </div>
-    <ul nz-menu  [nzMode]="isCollapsed?'vertical':'inline'" [nzTheme]="'dark'" id="side-ul">
-      <!--  <li nz-menu-item><span><i class="anticon anticon-file"></i><span class="nav-text">概览</span></span></li>
+    <ul nz-menu [nzMode]="isCollapsed?'vertical':'inline'" [nzTheme]="'dark'" id="side-ul">
+        <!--  <li nz-menu-item><span><i class="anticon anticon-file"></i><span class="nav-text">概览</span></span></li>
         <li nz-submenu>
             <span title><i class="anticon anticon-user"></i><span class="nav-text">资源管理</span></span>
             <ul class="inside-ul">
@@ -24,33 +24,31 @@
                 <li nz-menu-item [routerLink]="['/appStore']">应用商城</li>
                 <li nz-menu-item [routerLink]="['/appOverview']">应用概览</li>
                 <li nz-menu-item [routerLink]="['/configControl']">配置管理</li>
-<!--
-                <li nz-menu-item [routerLink]="['/envDoc']">环境变量文件</li>
--->
+                <li nz-menu-item [routerLink]="['/envArg']">环境变量文件</li>
             </ul>
         </li>
         <li nz-submenu [nzOpen]="true">
             <span title><i class="anticon anticon-team"></i><span class="nav-text">资产仓库</span></span>
             <ul class="inside-ul">
                 <li nz-menu-item [routerLink]="['/repositoryStore']">镜像仓库</li>
-<!--
+                <!--
                 <li nz-menu-item [routerLink]="['/fileCenter']">文档中心</li>
 -->
             </ul>
         </li>
-      <li nz-submenu [nzOpen]="true">
-        <span title><i class="anticon anticon-team"></i><span class="nav-text">运维中心</span></span>
-        <ul class="inside-ul">
-          <li nz-menu-item [routerLink]="['/operaOverview']">运维概览</li>
-          <li nz-menu-item [routerLink]="['/operaMonitor']">运维监控</li>
-          <li nz-menu-item [routerLink]="['/operaEvent']">平台事件</li>
-          <li nz-menu-item [routerLink]="['/operaLog']">平台日志</li>
-          <!--
+        <li nz-submenu [nzOpen]="true">
+            <span title><i class="anticon anticon-team"></i><span class="nav-text">运维中心</span></span>
+            <ul class="inside-ul">
+                <li nz-menu-item [routerLink]="['/operaOverview']">运维概览</li>
+                <li nz-menu-item [routerLink]="['/operaMonitor']">运维监控</li>
+                <li nz-menu-item [routerLink]="['/operaEvent']">平台事件</li>
+                <li nz-menu-item [routerLink]="['/operaLog']">平台日志</li>
+                <!--
                           <li nz-menu-item [routerLink]="['/fileCenter']">文档中心</li>
           -->
-        </ul>
-      </li>
-       <!-- <li nz-submenu>
+            </ul>
+        </li>
+        <!-- <li nz-submenu>
             <span title><i class="anticon anticon-user"></i><span class="nav-text">运维中心</span></span>
             <ul class="inside-ul">
                 <li nz-menu-item>运维概览</li>
