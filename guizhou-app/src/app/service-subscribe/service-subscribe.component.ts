@@ -39,7 +39,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
     testCluster;
     prodCluster;
     private radioValue = 'product';
-    private modelValue = 'replication';
+    private modelValue;
     private radioTest = 'prodDomain1';
     private serviceId: string;
     private serviceName: string;
@@ -112,6 +112,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
 
     @ViewChild('formThird2Project') formThird2Project: DynamicFormComponent;
     formThird2: FieldConfig[] = [];
+    formThird2RadiosBasic: object[] = [];
+    formThird2RadioBasicEntity: object = {};
     formThird2Radios: object[] = [];
     formThird2RadioEntity: object = {};
 
@@ -135,6 +137,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
     // ];
 
     formThird3Entity: object = {};
+    operateServiceArr = ['redis', 'mysql', 'mongodb'];
 
     constructor(private router: Router, private confirmServ: NzModalService, private routeInfo: ActivatedRoute, private http: HttpClient,
         private componentSer: ComponentServiceService, private servicesService: ServicesService) {
@@ -247,10 +250,10 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             //     this.formThird3Project.setConfig(this.formThird3);
             //   }
             // });
-        } else if (this.serviceName === 'redis' || this.serviceName === 'mysql') {
-            if (this.modelValue === 'replication') {
+        } else if (_.indexOf(this.operateServiceArr, this.serviceName) > -1) {
+            if (this.modelValue === 'replication' || this.modelValue === 'cluster' || this.modelValue === 'replica_set') {
                 this.formThird3 = [];
-                _.map(this.operateMode['replication'], (value1, key1) => {
+                _.map(this.operateMode[this.modelValue], (value1, key1) => {
                     if (value1['type'] === 'int') {
                         this.formThird3[key1] = {
                             type: 'input',
@@ -259,7 +262,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                             name: value1['attribute_name'],
                             placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
                                 value1['description']['zh'] : value1['attribute_name'],
-                            validation: [Validators.required, Validators.min(1)],
+                            validation: [Validators.required, Validators.min(value1['min_value'])],
                             styles: {
                                 'width': '400px'
                             }
@@ -292,37 +295,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                         };
                     }
                 });
-            } else if (this.modelValue === 'cluster') {
-                // 这里每次要清除一次数据，不然console会报错
+            } else if (this.modelValue === 'standalone') {
                 this.formThird3 = [];
-                _.map(this.operateMode['cluster'], (value1, key1) => {
-                    if (value1['type'] === 'int') {
-                        this.formThird3[key1] = {
-                            type: 'input',
-                            inputType: 'number',
-                            label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
-                            name: value1['attribute_name'],
-                            placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-                                value1['description']['zh'] : value1['attribute_name'],
-                            validation: [Validators.required, Validators.min(1)],
-                            styles: {
-                                'width': '400px'
-                            }
-                        };
-                    } else if (value1['type'] === 'string') {
-                        this.formThird3[key1] = {
-                            type: 'input',
-                            label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
-                            name: value1['attribute_name'],
-                            placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-                                value1['description']['zh'] : value1['attribute_name'],
-                            validation: [Validators.required, Validators.pattern(eval(value1.pattern))],
-                            styles: {
-                                'width': '400px'
-                            }
-                        };
-                    }
-                });
             }
             // this.formThird3 = [{
             //     type: 'input',
@@ -410,7 +384,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         if (this.formThird3Project) {
             mode$ = !this.formThird3Project.valid;
         }
-        return !this.formThirdProject.valid || !this.formThird2Project.valid || !this.formThird1Project.valid ||
+        return !this.formThirdProject.valid || (this.formThird2Project === undefined ? undefined :
+            !this.formThird2Project.valid) || !this.formThird1Project.valid ||
             mode$;
     }
 
@@ -449,6 +424,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     this.operateMode['cluster'] = data['cluster_config'];
                     // todo next
                     this.operateMode['replication'] = data['replication_config'];
+                    this.operateMode['replica_set'] = data['replica_set_config'];
                     resolve();
                 });
         });
@@ -461,7 +437,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     // 这里每次都需要清除一次数据，不然数据会重复
                     this.formThird1 = [];
                     this.formThird1Radios = [];
-                    // this.formThird2Radios = [];
+                    this.formThird2RadiosBasic = [];
                     let mysqlMinValue;
                     let redisMinValue;
                     let zookeeperMinValue;
@@ -512,12 +488,12 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                 //   value['option'] = ["replication"];
                                 // }
                                 // // const radioAttriName = value['attribute_name']
-                                // this.formThird2Radios[key] = {
-                                //   label: value['display_name']['zh'],
-                                //   name: value['attribute_name'],
-                                //   labelContent: value['option'],
-                                //   defaultValue: value['option'][0]
-                                // }
+                                this.formThird2RadiosBasic[key] = {
+                                    label: value['display_name']['zh'],
+                                    name: value['attribute_name'],
+                                    labelContent: value['option'],
+                                    defaultValue: value['option'][0]
+                                };
                                 // todo next
                                 break;
                             }
@@ -540,7 +516,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                 if (value['attribute_name'] === 'cluster_size') {
                                     if (this.serviceName === 'redis') {
                                         redisMinValue = value['min_value']['cpu'];
-                                    } else {
+                                    } else if (this.serviceName === 'mysql') {
                                         mysqlMinValue = value['min_value']['cpu'];
                                     }
                                     const cluserOption = [];
@@ -735,7 +711,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     //     // value.cpuSize = 1;
                     //   });
                     // todo next
-                    // this.formThird2Radios = _.uniqWith(_.compact(this.formThird2Radios), _.isEqual);
+                    this.formThird2RadiosBasic = _.uniqWith(_.compact(this.formThird2RadiosBasic), _.isEqual);
                     // todo next
                     resolve();
                 });
@@ -762,8 +738,9 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     name: value['attribute_name'],
                                     placeholder: (value['description'] && value['description']['zh'] !== '') ?
                                         value['description']['zh'] : value['attribute_name'],
-                                    validation: [Validators.required, Validators.pattern(eval(value.pattern))],
-                                    // notNecessary: true,
+                                    validation: value.required !== false ? [Validators.required, Validators.pattern(eval(value.pattern))]
+                                        : [Validators.pattern(eval(value.pattern))],
+                                    notNecessary: value.required !== false ? false : true,
                                     styles: {
                                         'width': '400px'
                                     }
@@ -779,10 +756,12 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     name: value['attribute_name'],
                                     placeholder: (value['description'] && value['description']['zh'] !== '') ?
                                         value['description']['zh'] : value['attribute_name'],
-                                    validation: [Validators.required, Validators.min(value['min_value']),
+                                    validation: value.required !== false ? [Validators.required, Validators.min(value['min_value']),
+                                    Validators.max(value['max_value']),
+                                    Validators.pattern(eval(value.pattern))] : [Validators.min(value['min_value']),
                                     Validators.max(value['max_value']),
                                     Validators.pattern(eval(value.pattern))],
-                                    // notNecessary: true,
+                                    notNecessary: value.required !== false ? false : true,
                                     styles: {
                                         'width': '400px'
                                     }
@@ -819,7 +798,9 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     options: options$,
                                     placeholder: (value['description'] && value['description']['zh'] !== '') ?
                                         value['description']['zh'] : value['attribute_name'],
-                                    validation: [Validators.required, Validators.pattern(eval(value.pattern))],
+                                    validation: value.required !== false ? [Validators.required, Validators.pattern(eval(value.pattern))] :
+                                        [Validators.pattern(eval(value.pattern))],
+                                    notNecessary: value.required !== false ? false : true,
                                     styles: {
                                         'width': '400px'
                                     },
@@ -906,6 +887,11 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             }
         });
         await this.getServiceAdvanced();
+        if (_.indexOf(this.operateServiceArr, this.serviceName) > -1) {
+            this.modelValue = 'standalone';
+            this.formThird3 = [];
+            this.formThird3Project.setConfig(this.formThird3);
+        }
         // next todo
         // componentValue$ => output
         // this.componentSer.componentName$.subscribe(value1 => {
@@ -928,7 +914,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 // };
                 // const formConfig3 = [];
                 if (value !== undefined && _.indexOf(this.ipTag$, value[0]) >= 0 &&
-                    (this.serviceName === 'redis' || this.serviceName === 'mysql')) {
+                    (_.indexOf(this.operateServiceArr, this.serviceName) > -1)) {
                     _.map(this.formThird3, (value3, key3) => {
                         console.log(value3);
                         // formConfig3[key3] = value3;
@@ -977,14 +963,14 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     // }
                 });
             }
-        } else if (this.serviceName === 'mysql') {
+        } else if (this.serviceName === 'mysql' || this.serviceName === 'redis' || this.serviceName === 'mongodb') {
             // 动态表单内数据拼接，取出内容，拼成key valye形式。
             // 再添加两个静态的radio内容
             // "mode": "cluster","enable_dbproxy": "disable_dbproxy",
             // 添加 集群模式
             // this.formThird4Entity['mode'] = 'cluster';
             // 添加 禁用dbproxy
-            this.formThird2RadioEntity['mode'] = this.modelValue;
+            this.formThird2RadioBasicEntity['mode'] = this.modelValue;
             // if (this.formThird4Project) {
             //     console.log('打印value.na', this.formThird4Project.value);
             //     _.map(this.formThird4Project.value, (value, key) => {
@@ -993,8 +979,6 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             //         this.formThird4Entity[key] = value;
             //     });
             // }
-        } else if (this.serviceName === 'redis') {
-            this.formThird2RadioEntity['mode'] = this.modelValue;
         }
         // todo next
         if (this.formThird3Project) {
@@ -1003,7 +987,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 // if (this.modelValue === 'cluster') {
                 //     value = parseInt(value);
                 // }
-                if (key === 'num_of_nodes') {
+                if (key === 'num_of_nodes' || key === 'secondary_node_number') {
                     value = parseInt(value);
                 }
                 this.formThird3Entity[key] = value;
@@ -1020,7 +1004,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         //     this.formThird1RadioEntity[valueName$] = value.instance_size;
         //   })
         // }
-        if (this.serviceName === 'redis') {
+        const clusterServiceArr = ['redis', 'mysql', 'spring_eureka', 'memcached', 'spring_config_server'];
+        if (_.indexOf(clusterServiceArr, this.serviceName) > -1) {
             this.formThird1RadioEntity['cluster_size'] = {
                 'size': 'CUSTOMIZED',
                 'cpu': this.instanceThird.value['cpuSize'],
@@ -1034,8 +1019,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 'mem': this.instanceThird.value['instance_size'] === 'XS' ? this.instanceThird.value['memSize'] :
                     this.instanceThird.value['memSize'] * 1024
             };
-        } else if (this.serviceName === 'mysql') {
-            this.formThird1RadioEntity['cluster_size'] = {
+        } else if (this.serviceName === 'mongodb') {
+            this.formThird1RadioEntity['mongodb_size'] = {
                 'size': 'CUSTOMIZED',
                 'cpu': this.instanceThird.value['cpuSize'],
                 'mem': this.instanceThird.value['instance_size'] === 'XS' ? this.instanceThird.value['memSize'] :
@@ -1045,6 +1030,18 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         // todo next
         if (this.serviceName === 'zookeeper') {
             this.formThird1Project.value['num_of_nodes'] = parseInt(this.formThird1Project.value['num_of_nodes']);
+        }
+        if (this.serviceName === 'spring_eureka') {
+            console.log(this.formThird1Project, this.formThird1RadioEntity);
+            if (!_.isObject(this.formThird1Project.value['node_tag'][0])) {
+                this.formThird1Project.value['node_tag'] = _.map(this.formThird1Project.value['node_tag'], (value, key) => {
+                    return {
+                        key: 'ip',
+                        value: value
+                    };
+                });
+            }
+            console.log(this.formThird1Project, this.formThird1RadioEntity);
         }
         // todo next
         // if (this.formThird1Project.value['ip_tag'].length === 1) {
@@ -1067,11 +1064,14 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             info: {
                 // todo: this.formThird2RadioEntity, this.formThird3Entity
                 // _.assign方法，会从后往前覆盖Object，所以在开头加上一个{}，确保后面的对象不被覆盖
+                network_mode: this.serviceName === 'spring_eureka' ? ['flannel'] : undefined,
                 basic_config: _.assign({}, this.formThird1Project.value, this.formThird1RadioEntity,
-                    (this.serviceName === 'redis' || this.serviceName === 'mysql') ? this.formThird2RadioEntity : {},
+                    (_.indexOf(this.operateServiceArr, this.serviceName) > -1)
+                        ? this.formThird2RadioBasicEntity : {},
                     this.formThird3Entity),
-                advanced_config: _.assign({}, this.formThird2Project.value, this.serviceName === 'zookeeper' ?
-                    this.formThird2RadioEntity : {})
+                advanced_config: this.formThird2Project === undefined ? undefined : _.assign({}, this.formThird2Project === undefined ? {} :
+                    this.formThird2Project.value, this.serviceName === 'zookeeper' ?
+                        this.formThird2RadioEntity : {})
             }
         };
         this.http.post(environment.apiService + '/apiService/services/' + this.serviceId + '/instances',
