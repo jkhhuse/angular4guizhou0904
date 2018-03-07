@@ -49,6 +49,12 @@
       添加版本
     </button>
   </div>
+
+  <div *ngIf="module === 'app'">
+    <button class="addVersion" nz-button [nzType]="'primary'" [routerLink]="['/appRelease/addVersion', name]">
+      添加版本
+    </button>
+  </div>
   <div class="detail-versions-wrapper" *ngIf="mirrorVersions">
     <nz-table #nzTable [nzAjaxData]="mirrorVersions" [nzIsPagination]="false">
       <thead nz-thead>

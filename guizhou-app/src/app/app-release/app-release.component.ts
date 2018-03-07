@@ -4,7 +4,7 @@ import { NzModalService, NzNotificationService } from 'ng-zorro-antd';
 import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
 import { Observable } from "rxjs/Observable";
 import { HttpClient, HttpParams, HttpErrorResponse } from "@angular/common/http";
-import { Router, RouterModule } from '@angular/router';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import * as _ from 'lodash';
 
 import { environment } from "../../environments/environment";
@@ -53,7 +53,8 @@ export class AppReleaseComponent implements OnInit {
   servicesNameId$: string[];
   imageOriginId: string;
   repositories: string[] = [];
-  radioValue: string = 'newApp';
+  moduleValue: string;
+  appName: string;
   radioValueBom: string = 'B';
   // @ViewChild('formProject') formThird2Project: DynamicFormComponent;
   /* 选择镜像相关 开始*/
@@ -340,8 +341,8 @@ export class AppReleaseComponent implements OnInit {
   }
 
   toggleRadio() {
-    console.log(this.radioValue)
-    if (this.radioValue === 'newApp') {
+    console.log(this.moduleValue)
+    if (this.moduleValue === 'newApp') {
       this.testValue = '222';
       this.formConfig[0] = {
         type: 'input',
@@ -356,11 +357,11 @@ export class AppReleaseComponent implements OnInit {
     } else {
       this.testValue = '333';
       this.formConfig[0] = {
-        type: 'select',
+        type: 'input',
         label: '应用名称',
         name: 'appName',
-        options: this.applications$,
-        placeholder: '请选择应用',
+        defaultValue: this.appName,
+        inputDisabled: true,
         styles: {
           'width': '400px'
         }
@@ -540,15 +541,15 @@ export class AppReleaseComponent implements OnInit {
     if (this.tabName === 'private') {
       this.servicesService.getCateServices(this.tabName, 'repository', this.mirrorRadioValue).subscribe((data) => {
         this.appRepoList = data;
-        console.log('apprepolist: ' + this.appRepoList);
+        // console.log('apprepolist: ' + this.appRepoList);
         // setTimeout(() => {
-          console.log("appRepoList length: " + this.appRepoList.length);
+        //  console.log("appRepoList length: " + this.appRepoList.length);
           if (this.appRepoList.length > 0) {
             for (let i = 0; i < this.appRepoList.length; i++) {
-              console.log('i:' + i);
-              console.log('this.appRepoList.repositoryName:' + this.appRepoList[i].repositoryName);
+             // console.log('i:' + i);
+             // console.log('this.appRepoList.repositoryName:' + this.appRepoList[i].repositoryName);
               this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + this.appRepoList[i].repositoryName + '?region=' + this.tabName).subscribe((data) => {
-                console.log('循环data: ' + data['repositoryName'] + "???" + i);
+          //      console.log('循环data: ' + data['repositoryName'] + "???" + i);
                 // 判断镜像仓库的images内部是否为空null，如果不判断，for循环会空值 跳过
                 if (data['images'] === null || data['images'] === '') {
                   data['images'] = {};
@@ -581,7 +582,7 @@ export class AppReleaseComponent implements OnInit {
     }
   }
 
-  constructor(private router: Router,
+  constructor(private router: Router, private routeInfo: ActivatedRoute,
     private confirmServ: NzModalService, private http: HttpClient, private _notification: NzNotificationService, private servicesService: ServicesService) {
     // this.showConfirm();
     console.log('11', this.contentControl);
@@ -596,6 +597,11 @@ export class AppReleaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.moduleValue = this.routeInfo.snapshot.params['moduleValue'];
+    this.appName = this.routeInfo.snapshot.params['appName'];
+    console.log('this.moduleValue: ' + this.moduleValue);
+    console.log('this.appName: ' + this.appName);
+    this.toggleRadio();
     // console.log('hhh', this.form);
     // 解决文件上传的跨域问题
     // this.uploader.onBeforeUploadItem = (item) => {

@@ -55,7 +55,7 @@ const routes: Routes = [
   {path: 'serviceCatalog', component: ServiceCatalogComponent},
   {path: 'serviceDetail/:module/:serviceId/:tabName', component: ServiceDetailComponent},
   {path: 'serviceRelease', component: ServiceReleaseComponent},
-  {path: 'appRelease', component: AppReleaseComponent},
+  {path: 'appRelease/:moduleValue/:appName', component: AppReleaseComponent},
   {path: 'serviceInstance', component: ServiceInstanceComponent},
   {path: 'serviceInstanceDetail/:instanceId', component: ServiceInstanceDetailComponent},
 
