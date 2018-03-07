@@ -24,6 +24,7 @@ import { ContainerInstanceComponent } from '../container-instance/container-inst
 import * as _ from 'lodash';
 import { ComponentServiceService } from '../dynamic-form/services/component-service.service';
 import { ServicesService } from '../shared/services.service';
+import { promise } from 'protractor';
 
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
@@ -138,6 +139,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
 
     formThird3Entity: object = {};
     operateServiceArr = ['redis', 'mysql', 'mongodb'];
+    zookeeperList = [];
 
     constructor(private router: Router, private confirmServ: NzModalService, private routeInfo: ActivatedRoute, private http: HttpClient,
         private componentSer: ComponentServiceService, private servicesService: ServicesService) {
@@ -782,7 +784,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                 break;
                             }
                             case 'option': {
-                                const options$ = _.map(value['option'], (value1, key1) => {
+                                let options$ = [];
+                                options$ = _.map(value['option'], (value1, key1) => {
                                     console.log('value1: ' + value1);
                                     console.log('key: ' + key);
                                     if (value1['type']) {
@@ -791,6 +794,12 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                         return value1;
                                     }
                                 });
+                                if (this.serviceName === 'dubbo') {
+                                    options$ = _.map(this.zookeeperList, (value1, key1) => {
+                                        return value1['instanceName'];
+                                    });
+                                    console.log(options$);
+                                }
                                 this.formThird2[key] = {
                                     type: 'select',
                                     label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
@@ -833,6 +842,24 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         });
     }
 
+    getZookeeperList() {
+        return new Promise((resolve, reject) => {
+            this.http.get(environment.apiService + '/apiService' + '/groups/' +
+                this.servicesService.getCookie('groupID') + '/services/zookeeper/instances')
+                .subscribe(data => {
+                    console.log('zookeeperList', data);
+                    _.map(data, (value, key) => {
+                        this.zookeeperList[key] = {
+                            id: value['id'],
+                            instanceName: value['instanceName']
+                        };
+                    });
+                    console.log(this.zookeeperList);
+                    resolve();
+                });
+        });
+    }
+
     async ngOnInit() {
         this.serviceId = this.routeInfo.snapshot.params['serviceId'];
         this.serviceName = this.routeInfo.snapshot.params['serviceName'];
@@ -841,6 +868,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         await this.getIpTag();
         await this.getOperateMode();
         await this.getServiceBasic();
+        await this.getZookeeperList();
         // this.formThird3Project.setConfig(this.formThird3);
         // 这里不能this.toggleRadio，里面setconfig会报错
         _.map(this.operateMode['replication'], (value1, key1) => {
@@ -1004,7 +1032,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         //     this.formThird1RadioEntity[valueName$] = value.instance_size;
         //   })
         // }
-        const clusterServiceArr = ['redis', 'mysql', 'spring_eureka', 'memcached', 'spring_config_server'];
+        const clusterServiceArr = ['redis', 'mysql', 'spring_eureka', 'memcached', 'spring_config_server', 'dubbo'];
         if (_.indexOf(clusterServiceArr, this.serviceName) > -1) {
             this.formThird1RadioEntity['cluster_size'] = {
                 'size': 'CUSTOMIZED',
@@ -1042,6 +1070,15 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 });
             }
             console.log(this.formThird1Project, this.formThird1RadioEntity);
+        }
+        if (this.serviceName === 'dubbo') {
+            console.log(this.formThird2Project);
+            _.map(this.zookeeperList, (value, key) => {
+                if (this.formThird2Project.value['zk_uuid'] === value['instanceName']) {
+                    this.formThird2Project.value['zk_uuid'] = value['id'];
+                }
+            });
+            console.log(this.formThird2Project);
         }
         // todo next
         // if (this.formThird1Project.value['ip_tag'].length === 1) {
