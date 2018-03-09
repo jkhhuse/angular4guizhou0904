@@ -332,6 +332,9 @@ export class AppReleaseComponent implements OnInit {
       } else {
         this.createNotification('error', '部分镜像未选择版本', '添加版本的镜像数目需要与应用已有的镜像数目相同!');
       }
+    } else {
+      this.current += 1;
+      this.changeContent();
     }
 
     console.log('this.current: ' + this.current);
