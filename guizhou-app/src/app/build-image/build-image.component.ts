@@ -109,10 +109,12 @@ export class BuildImageComponent implements OnInit {
     // }, 0);
     let previousValid = this.form.valid;
     this.form.changes.subscribe(() => {
-      if (this.form.valid !== previousValid) {
+      console.log('submit', this.form.valid);
+      console.log('previousValid', previousValid);
+      // if (this.form.valid !== previousValid) {
         previousValid = this.form.valid;
         this.form.setDisabled('submit', !previousValid);
-      }
+      // }
     });
   }
   ngOnInit() {
@@ -134,7 +136,7 @@ export class BuildImageComponent implements OnInit {
       this.uploader.onBeforeUploadItem = (item) => {
           // 开始上传时，disable掉构建按钮
           console.log('文件开始上传');
-          this.form.setDisabled('submit', true);
+          // this.form.setDisabled('submit', true);
           this._isSpinning = true;
         item.withCredentials = false;
         item.url = this.url + item.file.name;
@@ -143,6 +145,7 @@ export class BuildImageComponent implements OnInit {
       this.uploader.onSuccessItem = (item, response, status, headers) => {
           this._isSpinning = false;
           console.log('文件上传完成');
+         // this.form.setDisabled('submit', true);
       };
     } else {
       // console.log('Icon文件上传完了', this.uploaderIcon);
