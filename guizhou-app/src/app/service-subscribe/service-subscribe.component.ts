@@ -13,7 +13,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { NzModalService, NzNotificationService, NzMessageService } from 'ng-zorro-antd';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
@@ -24,6 +24,7 @@ import { ContainerInstanceComponent } from '../container-instance/container-inst
 import * as _ from 'lodash';
 import { ComponentServiceService } from '../dynamic-form/services/component-service.service';
 import { ServicesService } from '../shared/services.service';
+import { promise } from 'protractor';
 
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
@@ -33,6 +34,15 @@ import { ServicesService } from '../shared/services.service';
     styleUrls: ['./service-subscribe.component.scss']
 })
 export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
+    // 负载均衡器
+    loadBanlancer$ = [];
+    loadBanlancerForm: FormGroup;
+    lbControlLabel = [];
+    lbControlArray = [];
+    lbSub: Subscription;
+    networkOptions = [];
+    networkOptionsEnv = [];
+    networkOptionsHttp = [];
     selectValueSub: Subscription;
     networkRadioValue = '';
     networkRadioValue2 = '';
@@ -138,8 +148,10 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
 
     formThird3Entity: object = {};
     operateServiceArr = ['redis', 'mysql', 'mongodb'];
+    zookeeperList = [];
 
-    constructor(private router: Router, private confirmServ: NzModalService, private routeInfo: ActivatedRoute, private http: HttpClient,
+    constructor(private fb: FormBuilder,
+        private router: Router, private confirmServ: NzModalService, private routeInfo: ActivatedRoute, private http: HttpClient,
         private componentSer: ComponentServiceService, private servicesService: ServicesService) {
     }
 
@@ -324,6 +336,9 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                             // }
                         }));
                         resolve();
+                    }, err => {
+                        console.log(err.errors);
+                        // this.createNotification('error', '更新模式失败', err._body);
                     });
             } else {
                 this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/' + this.networkRadioValue2 + '/labels').
@@ -341,7 +356,14 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         });
     }
 
-    async changeRegion(networkRadioValue) {
+    async changeRegion(radioValue, networkRadioValue) {
+        if (radioValue === 'product') {
+            await this.getNetworkOptions(this.networkRadioValue);
+            await this.getnetworkAdvanced();
+        } else {
+            await this.getNetworkOptions(this.networkRadioValue2);
+            await this.getnetworkAdvanced();
+        }
         console.log(networkRadioValue);
         this.ipTag$ = [];
         await this.getIpTag();
@@ -782,7 +804,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                 break;
                             }
                             case 'option': {
-                                const options$ = _.map(value['option'], (value1, key1) => {
+                                let options$ = [];
+                                options$ = _.map(value['option'], (value1, key1) => {
                                     console.log('value1: ' + value1);
                                     console.log('key: ' + key);
                                     if (value1['type']) {
@@ -791,6 +814,12 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                         return value1;
                                     }
                                 });
+                                if (this.serviceName === 'dubbo') {
+                                    options$ = _.map(this.zookeeperList, (value1, key1) => {
+                                        return value1['instanceName'];
+                                    });
+                                    console.log(options$);
+                                }
                                 this.formThird2[key] = {
                                     type: 'select',
                                     label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
@@ -833,6 +862,24 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         });
     }
 
+    getZookeeperList() {
+        return new Promise((resolve, reject) => {
+            this.http.get(environment.apiService + '/apiService' + '/groups/' +
+                this.servicesService.getCookie('groupID') + '/services/zookeeper/instances')
+                .subscribe(data => {
+                    console.log('zookeeperList', data);
+                    _.map(data, (value, key) => {
+                        this.zookeeperList[key] = {
+                            id: value['id'],
+                            instanceName: value['instanceName']
+                        };
+                    });
+                    console.log(this.zookeeperList);
+                    resolve();
+                });
+        });
+    }
+
     async ngOnInit() {
         this.serviceId = this.routeInfo.snapshot.params['serviceId'];
         this.serviceName = this.routeInfo.snapshot.params['serviceName'];
@@ -841,6 +888,9 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         await this.getIpTag();
         await this.getOperateMode();
         await this.getServiceBasic();
+        await this.getZookeeperList();
+        await this.getNetworkOptions(this.networkRadioValue);
+        await this.getnetworkAdvanced();
         // this.formThird3Project.setConfig(this.formThird3);
         // 这里不能this.toggleRadio，里面setconfig会报错
         _.map(this.operateMode['replication'], (value1, key1) => {
@@ -950,7 +1000,188 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         // window.location.href = window.location.origin + '/#/serviceCatalog';
     }
 
+    lbEmit(lbName, index) {
+        console.log(lbName, index, this.lbControlArray, this.loadBanlancerForm);
+        if (this.loadBanlancerForm.value[lbName] === 'http') {
+            // todo next 这里有bug，切换http，增加status = 2的值时，本来下拉框的值不会被清除掉，要想办法清除掉
+            this.lbControlArray[index][0]['options'] = this.networkOptionsHttp;
+            this.lbControlArray[index][3]['disabled'] = false;
+        } else if (this.loadBanlancerForm.value[lbName] === 'tcp') {
+            this.lbControlArray[index][0]['options'] = this.networkOptions;
+            this.lbControlArray[index][3]['disabled'] = true;
+        }
+    }
+
+    getNetworkOptions(radioValue) {
+        return new Promise((resolve, reject) => {
+            this.http.get(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') +
+                '/infrastructures/' + radioValue + '/lb-ports').subscribe(data => {
+                    console.log('options', data);
+                    this.networkOptions = [];
+                    _.map(data, (value, key) => {
+                        if (value['status'] === 1) {
+                            this.networkOptions[key] = value['loadBalancer']['lbName'] + ':' + value['port'];
+                            this.networkOptionsEnv[key] = value['loadBalancer'];
+                        }
+                    });
+                    _.map(data, (value, key) => {
+                        if (value['status'] === 2) {
+                            const networkOptionsHttp$ = value['loadBalancer']['lbName'] + ':' + value['port'];
+                            this.networkOptionsHttp = _.concat(this.networkOptions, networkOptionsHttp$);
+                            console.log(this.networkOptionsHttp);
+                        }
+                    });
+                    this.networkOptions = _.compact(this.networkOptions);
+                    this.networkOptionsEnv = _.compact(this.networkOptionsEnv);
+                    this.networkOptionsHttp = _.compact(this.networkOptionsHttp);
+                    console.log(this.networkOptions);
+                    resolve();
+                });
+        });
+    }
+
+    getnetworkAdvanced() {
+        return new Promise((resolve, reject) => {
+            this.loadBanlancerForm = this.fb.group({});
+            // for (let i = 0; i < 5; i++) {
+            //     this.lbControlArray.push({ index: i, show: i < 6 });
+            //     // this.loadBanlancerForm.addControl(`field${i}`, new FormControl());
+            // }
+            this.lbControlLabel = [
+                {
+                    value: '监听端口'
+                },
+                {
+                    value: '容器端口'
+                },
+                {
+                    value: '协议'
+                },
+                {
+                    value: '地址'
+                },
+                {
+                    value: '证书'
+                },
+            ];
+
+            this.lbControlArray = [
+                // 这里需要替换成真实数据
+                [
+                    {
+                        type: 'select',
+                        name: 'listener_port',
+                        placeholder: '1~65535',
+                        options: this.networkOptions,
+                    },
+                    {
+                        type: 'input',
+                        inputType: 'number',
+                        name: 'container_port',
+                        placeholder: '容器暴露端口',
+                    },
+                    {
+                        type: 'select',
+                        name: 'protocol',
+                        placeholder: '协议',
+                        options: ['tcp'],
+                    },
+                    {
+                        type: 'select',
+                        placeholder: '回车或空格确定',
+                        options: [],
+                        name: 'rules',
+                        disabled: true,
+                        ifTags: true
+                    },
+                    {
+                        type: 'select',
+                        name: 'select1',
+                        // placeholder: 'select1213',
+                        options: [],
+                        // selectedOption: undefined,
+                        disabled: true
+                        // disabled:
+                    },
+                ]
+            ];
+            // this.testSelectedOption = undefined;
+            _.map(this.lbControlArray, (value1, key1) => {
+                _.map(value1, (value2, key2) => {
+                    this.loadBanlancerForm.addControl(value2['name'], new FormControl());
+                    if (value2['type'] === 'select') {
+                        value2['selectedOption'] = value2['options'][0];
+                    }
+                });
+            });
+            resolve();
+        });
+    }
+
+    addLb() {
+        // 这里存在换行的问题
+        const lbControlInput = [[
+            {
+                type: 'select',
+                name: this.lbControlArray[this.lbControlArray.length - 1][0]['name'] + 1,
+                placeholder: '1~65535',
+                options: this.networkOptions,
+            },
+            {
+                type: 'input',
+                inputType: 'number',
+                name: this.lbControlArray[this.lbControlArray.length - 1][1]['name'] + 1,
+                placeholder: '容器暴露端口',
+            },
+            {
+                type: 'select',
+                name: this.lbControlArray[this.lbControlArray.length - 1][2]['name'] + 1,
+                placeholder: '协议',
+                options: ['tcp'],
+            },
+            {
+                type: 'select',
+                placeholder: '回车或空格确定',
+                options: [],
+                name: this.lbControlArray[this.lbControlArray.length - 1][3]['name'] + 1,
+                disabled: true,
+                ifTags: true
+            },
+            {
+                type: 'select',
+                name: 'select1',
+                // placeholder: 'select1213',
+                options: [],
+                // selectedOption: undefined,
+                disabled: true
+                // disabled:
+            },
+        ]];
+        this.lbControlArray = _.concat(this.lbControlArray, lbControlInput);
+        console.log(this.lbControlArray);
+        // _.map(lbControlInput, (value3, key3) => {
+        //   this.loadBanlancerForm.addControl(value2['name'], new FormControl());
+        // })
+        _.map(this.lbControlArray, (value1, key1) => {
+            if (key1 === this.lbControlArray.length - 1) {
+                _.map(value1, (value2, key2) => {
+                    this.loadBanlancerForm.addControl(value2['name'], new FormControl());
+                    // if (value2['type'] === 'select') {
+                    //   value2['selectedOption'] = value2['options'][0];
+                    // }
+                });
+            }
+        });
+    }
+
     done() {
+        // 负载均衡器数据
+        const keyList = ['', 1, 11, 111, 1111];
+        const lbArr = [];
+        const lbId = [];
+        const lbPorts = [];
+        const lbAddress$ = [];
+        let lb_port$ = {};
         // todo next
         if (this.serviceName === 'zookeeper') {
             if (this.formThird2Radios) {
@@ -1004,7 +1235,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         //     this.formThird1RadioEntity[valueName$] = value.instance_size;
         //   })
         // }
-        const clusterServiceArr = ['redis', 'mysql', 'spring_eureka', 'memcached', 'spring_config_server'];
+        const clusterServiceArr = ['redis', 'mysql', 'spring_eureka', 'memcached', 'spring_config_server', 'dubbo'];
         if (_.indexOf(clusterServiceArr, this.serviceName) > -1) {
             this.formThird1RadioEntity['cluster_size'] = {
                 'size': 'CUSTOMIZED',
@@ -1043,6 +1274,54 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             }
             console.log(this.formThird1Project, this.formThird1RadioEntity);
         }
+        if (this.serviceName === 'dubbo') {
+            console.log(this.formThird2Project);
+            _.map(this.zookeeperList, (value, key) => {
+                if (this.formThird2Project.value['zk_uuid'] === value['instanceName']) {
+                    this.formThird2Project.value['zk_uuid'] = value['id'];
+                }
+            });
+            console.log(this.formThird2Project);
+            _.map(keyList, (value, key) => {
+                if (this.loadBanlancerForm.value['container_port' + value] !== undefined) {
+                    const lbName$ = _.split(this.loadBanlancerForm.value['listener_port' + value], ':')[0];
+                    const listener_port$ = _.split(this.loadBanlancerForm.value['listener_port' + value], ':')[1];
+                    //   lbAddress$[key] = _.split(this.loadBanlancerForm.value['listener_port' + value], ':')[1];
+                    //   console.log(this.networkOptionsEnv, lbAddress$);
+                    //   console.log('lbAdd', lbAddress$);
+                    //   _.map(lbAddress$, (value2, key2) => {
+                    //     _.map(this.networkOptionsEnv, (value3, key3) => {
+                    //       if (value3['lbAddress'] === value2) {
+                    //         lbId[key2] = value3['id'];
+                    //       }
+                    //     });
+                    //   });
+                    //   console.log('lbId', lbId);
+                    // lbId[key] = _.s
+                    //   const rules$ = _.map(this.loadBanlancerForm.value['rules' + value], (value2, key2) => {
+                    //     return {
+                    //       domain: value2,
+                    //       url: ''
+                    //     };
+                    //   });
+                    lbArr[key] = this.loadBanlancerForm.value['listener_port' + value] + ':' +
+                        this.loadBanlancerForm.value['container_port' + value] + '/tcp';
+                    //   lbArr[key] = {
+                    //     container_port: this.loadBanlancerForm.value['container_port' + value],
+                    //     listener_port: listener_port$,
+                    //     protocol: this.loadBanlancerForm.value['protocol' + value],
+                    //     rules: this.loadBanlancerForm.value['protocol' + value] === 'tcp' ? []
+                    //       : rules$
+                    //   };
+                    //   lbPorts[key] = parseInt(this.loadBanlancerForm.value['container_port' + value]);
+                }
+                console.log(lbArr);
+                // lbArr[key]['container_port'] = this.loadBanlancerForm.value['container_port' + value];
+            });
+            lb_port$ = {
+                lb_port: lbArr
+            };
+        }
         // todo next
         // if (this.formThird1Project.value['ip_tag'].length === 1) {
         //   const arr = [];
@@ -1065,7 +1344,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 // todo: this.formThird2RadioEntity, this.formThird3Entity
                 // _.assign方法，会从后往前覆盖Object，所以在开头加上一个{}，确保后面的对象不被覆盖
                 network_mode: this.serviceName === 'spring_eureka' ? ['flannel'] : undefined,
-                basic_config: _.assign({}, this.formThird1Project.value, this.formThird1RadioEntity,
+                basic_config: _.assign({}, this.serviceName === 'dubbo' ? lb_port$ : {},
+                    this.formThird1Project.value, this.formThird1RadioEntity,
                     (_.indexOf(this.operateServiceArr, this.serviceName) > -1)
                         ? this.formThird2RadioBasicEntity : {},
                     this.formThird3Entity),

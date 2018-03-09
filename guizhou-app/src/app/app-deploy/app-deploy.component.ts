@@ -175,7 +175,10 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   loadBanlancerForm: FormGroup;
   lbControlLabel = [];
   lbControlArray = [];
+  lbSub: Subscription;
   networkOptions = [];
+  networkOptionsEnv = [];
+  networkOptionsHttp = [];
   testOptions = [];
   testSelectedOption;
   @ViewChild('formImgNetworkProject') formImgNetworkProject: DynamicFormComponent;
@@ -1225,7 +1228,9 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     this.choosedImageName = tab;
     const keyList = ['', 1, 11, 111, 1111];
     const lbArr = [];
+    const lbId = [];
     const lbPorts = [];
+    const lbAddress$ = [];
     this.configFileData = _.map(this.configFileData, (value, key) => {
       delete value.valueKey;
       return value;
@@ -1261,10 +1266,31 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           // container_port undefined?
           // https://stackoverflow.com/questions/7479520/javascript-cannot-set-property-of-undefined
           if (this.loadBanlancerForm.value['container_port' + value] !== undefined) {
+            const listener_port$ = _.split(this.loadBanlancerForm.value['listener_port' + value], ':')[2];
+            lbAddress$[key] = _.split(this.loadBanlancerForm.value['listener_port' + value], ':')[1];
+            console.log(this.networkOptionsEnv, lbAddress$);
+            console.log('lbAdd', lbAddress$);
+            _.map(lbAddress$, (value2, key2) => {
+              _.map(this.networkOptionsEnv, (value3, key3) => {
+                if (value3['lbAddress'] === value2) {
+                  lbId[key2] = value3['id'];
+                }
+              });
+            });
+            console.log('lbId', lbId);
+            // lbId[key] = _.s
+            const rules$ = _.map(this.loadBanlancerForm.value['rules' + value], (value2, key2) => {
+              return {
+                domain: value2,
+                url: ''
+              };
+            });
             lbArr[key] = {
               container_port: this.loadBanlancerForm.value['container_port' + value],
-              listener_port: this.loadBanlancerForm.value['listener_port' + value],
-              protocol: this.loadBanlancerForm.value['protocol' + value]
+              listener_port: listener_port$,
+              protocol: this.loadBanlancerForm.value['protocol' + value],
+              rules: this.loadBanlancerForm.value['protocol' + value] === 'tcp' ? []
+                : rules$
             };
             lbPorts[key] = parseInt(this.loadBanlancerForm.value['container_port' + value]);
           }
@@ -1286,6 +1312,13 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         // tab1，填配置，tab2，填配置，然后直接下一步
         console.log(this.env1Enty, this.imageData);
         this.repositoryId = value1['id'];
+        const lbArr$ = [];
+        _.map(lbId, (value3, key3) => {
+          lbArr$[key3] = {
+            load_balancer_id: value3,
+            listeners: [lbArr[key3]]
+          };
+        });
         this.imageData[key1] = {
           storageSize: 0,
           scaling_mode: 'MANUAL',
@@ -1297,9 +1330,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
           network_mode: this.networkConfig,
           ports: lbPorts.length > 0 ? lbPorts : undefined,
-          load_balancers: lbArr.length > 0 ? [{
-            listeners: lbArr
-          }] : undefined,
+          load_balancers: lbArr.length > 0 ? lbArr$ : undefined,
           // 对object {} 空对象的比较：http://www.zuojj.com/archives/775.html
           // todo instance这里数据有问题
           instance_envvars: _.isEqual(this.env1Enty[key1], {}) ? undefined : this.env1Enty[key1],
@@ -1595,13 +1626,15 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         type: 'select',
         name: this.lbControlArray[this.lbControlArray.length - 1][2]['name'] + 1,
         placeholder: '协议',
-        options: ['tcp'],
+        options: ['tcp', 'http'],
       },
       {
-        type: 'input',
+        type: 'select',
         placeholder: '回车或空格确定',
-        name: 'input1',
-        disabled: true
+        options: [],
+        name: this.lbControlArray[this.lbControlArray.length - 1][3]['name'] + 1,
+        disabled: true,
+        ifTags: true
       },
       {
         type: 'select',
@@ -1614,13 +1647,19 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       },
     ]];
     this.lbControlArray = _.concat(this.lbControlArray, lbControlInput);
+    console.log(this.lbControlArray);
+    // _.map(lbControlInput, (value3, key3) => {
+    //   this.loadBanlancerForm.addControl(value2['name'], new FormControl());
+    // })
     _.map(this.lbControlArray, (value1, key1) => {
-      _.map(value1, (value2, key2) => {
-        this.loadBanlancerForm.addControl(value2['name'], new FormControl());
-        if (value2['type'] === 'select') {
-          value2['selectedOption'] = value2['options'][0];
-        }
-      });
+      if (key1 === this.lbControlArray.length - 1) {
+        _.map(value1, (value2, key2) => {
+          this.loadBanlancerForm.addControl(value2['name'], new FormControl());
+          // if (value2['type'] === 'select') {
+          //   value2['selectedOption'] = value2['options'][0];
+          // }
+        });
+      }
     });
   }
 
@@ -1740,13 +1779,15 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
             type: 'select',
             name: 'protocol',
             placeholder: '协议',
-            options: ['tcp'],
+            options: ['tcp', 'http'],
           },
           {
-            type: 'input',
+            type: 'select',
             placeholder: '回车或空格确定',
-            name: 'input1',
-            disabled: true
+            options: [],
+            name: 'rules',
+            disabled: true,
+            ifTags: true
           },
           {
             type: 'select',
@@ -1798,7 +1839,6 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           this.env1Form.addControl(value3['name'], new FormControl());
         });
       });
-
       this.serviceAdvancedLabel = [
         {
           value: '文件路径'
@@ -1910,19 +1950,41 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   getNetworkOptions(radioValue) {
     return new Promise((resolve, reject) => {
       this.http.get(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') +
-        '/lb-ports/' + radioValue).subscribe(data => {
+        '/infrastructures/' + radioValue + '/lb-ports').subscribe(data => {
           console.log('options', data);
           this.networkOptions = [];
           _.map(data, (value, key) => {
             if (value['status'] === 1) {
-              this.networkOptions[key] = value['port'];
+              this.networkOptions[key] = 'haproxy:' + value['loadBalancer']['lbAddress'] + ':' + value['port'];
+              this.networkOptionsEnv[key] = value['loadBalancer'];
+            }
+          });
+          _.map(data, (value, key) => {
+            if (value['status'] === 2) {
+              const networkOptionsHttp$ = 'haproxy:' + value['loadBalancer']['lbAddress'] + ':' + value['port'];
+              this.networkOptionsHttp = _.concat(this.networkOptions, networkOptionsHttp$);
+              console.log(this.networkOptionsHttp);
             }
           });
           this.networkOptions = _.compact(this.networkOptions);
+          this.networkOptionsEnv = _.compact(this.networkOptionsEnv);
+          this.networkOptionsHttp = _.compact(this.networkOptionsHttp);
           console.log(this.networkOptions);
           resolve();
         });
     });
+  }
+
+  lbEmit(lbName, index) {
+    console.log(lbName, index, this.lbControlArray, this.loadBanlancerForm);
+    if (this.loadBanlancerForm.value[lbName] === 'http') {
+      // todo next 这里有bug，切换http，增加status = 2的值时，本来下拉框的值不会被清除掉，要想办法清除掉
+      this.lbControlArray[index][0]['options'] = this.networkOptionsHttp;
+      this.lbControlArray[index][3]['disabled'] = false;
+    } else if (this.loadBanlancerForm.value[lbName] === 'tcp') {
+      this.lbControlArray[index][0]['options'] = this.networkOptions;
+      this.lbControlArray[index][3]['disabled'] = true;
+    }
   }
 
   async ngOnInit() {
@@ -2063,6 +2125,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         }
       }
     );
+    // this.lbSub = this.componentSer.componentValue.subscribe(
+    //   value => {
+    //     console.log(value);
+    //   }
+    // );
     // 这里后面新加的需要await的数据请求，需要加到后面，不然会报错controls undefined
     // todo next 环境变量文件
     // await this.getEnvFile();

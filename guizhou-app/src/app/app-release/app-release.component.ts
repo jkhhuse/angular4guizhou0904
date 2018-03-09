@@ -7,10 +7,10 @@ import {HttpClient, HttpParams, HttpErrorResponse} from "@angular/common/http";
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import * as _ from 'lodash';
 
-import {environment} from "../../environments/environment";
-import {FieldConfig} from '../dynamic-form/models/field-config.interface';
-import {DynamicFormComponent} from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
-import {ServicesService} from "../shared/services.service";
+import { environment } from "../../environments/environment";
+import { FieldConfig } from '../dynamic-form/models/field-config.interface';
+import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
+import { ServicesService } from '../shared/services.service';
 
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
@@ -21,7 +21,7 @@ import {ServicesService} from "../shared/services.service";
 })
 export class AppReleaseComponent implements OnInit {
   current = 0;
-  testValue: string = '111';
+  testValue = '111';
   // 控制layout是否可见
   public contentControl: boolean = false;
   // 文件上传
@@ -33,7 +33,7 @@ export class AppReleaseComponent implements OnInit {
     url: this.url,
   });
 
-  public hasBaseDropZoneOver: boolean = false;
+  public hasBaseDropZoneOver = false;
   public urlIcon: string = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/upload/app/fileName/';
   public uploaderIcon: FileUploader = new FileUploader({
     url: this.urlIcon,
@@ -52,7 +52,7 @@ export class AppReleaseComponent implements OnInit {
   repositories: string[] = [];
   moduleValue: string;
   appName: string;
-  radioValueBom: string = 'B';
+  radioValueBom = 'B';
   // @ViewChild('formProject') formThird2Project: DynamicFormComponent;
   /* 选择镜像相关 开始*/
   mirrorRadioValue = 7;
@@ -192,31 +192,31 @@ export class AppReleaseComponent implements OnInit {
     };
   }
 
-  FileSelected(uploaderType: any) {
-    if (uploaderType === 'image') {
-      console.log('文件上传完了', this.uploader);
-      this.uploader.onBeforeUploadItem = (item) => {
-        item.file.name = item.file.name.replace(/\s/g, '');
-        item.withCredentials = false;
-        item.url = this.url + item.file.name;
-      }
-    } else {
-      console.log('Icon文件上传完了', this.uploaderIcon);
-      console.log('这里打印form', this.form);
-      this.uploaderIcon.onBeforeUploadItem = (item) => {
-        item.file.name = item.file.name.replace(/\s/g, '');
-        item.withCredentials = false;
-        item.url = this.urlIcon + this.form.value['appName'] + '.png';
-      }
-    }
-  }
+   FileSelected(uploaderType: any) {
+     if (uploaderType === 'image') {
+       console.log('文件上传完了', this.uploader);
+       this.uploader.onBeforeUploadItem = (item) => {
+         item.file.name = item.file.name.replace(/\s/g, '');
+         item.withCredentials = false;
+         item.url = this.url + item.file.name;
+       };
+     } else {
+       console.log('Icon文件上传完了', this.uploaderIcon);
+       console.log('这里打印form', this.form);
+       this.uploaderIcon.onBeforeUploadItem = (item) => {
+         item.file.name = item.file.name.replace(/\s/g, '');
+         item.withCredentials = false;
+         item.url = this.urlIcon + this.form.value['appName'] + '.png';
+       };
+     }
+   }
 
   getApplications() {
     this.http.get(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') + '/applications').subscribe(data => {
       this.applications$ = _.map(data, (value, key) => {
         return value['appName'];
-      })
-    })
+      });
+    });
   }
 
   async loadImage2(formValue) {
@@ -224,7 +224,7 @@ export class AppReleaseComponent implements OnInit {
       if (value['isSuccess'] === true) {
         return value['file']['name'];
       }
-    })
+    });
     const fileArrErr = _.map(_.compact(fileArr), (value, key) => {
       return value;
     });
@@ -243,14 +243,14 @@ export class AppReleaseComponent implements OnInit {
 
   // 根据options选择的serviceName，映射找到id列表
   extractIdByName(crr, crr1) {
-    var ret = []
-    if (!crr || !Array.isArray(crr.services) || !Array.isArray(crr1)) return ret
+    const ret = [];
+    if (!crr || !Array.isArray(crr.services) || !Array.isArray(crr1)) return ret;
     crr.services.forEach(
       nameVal => ret.push(
         crr1[crr1.findIndex(data => data.serviceName === nameVal || data.id === nameVal
         )].id)
-    )
-    return ret
+    );
+    return ret;
   }
 
   toggleRadio() {
@@ -287,7 +287,7 @@ export class AppReleaseComponent implements OnInit {
 
   createNotification = (type, title, content) => {
     this._notification.create(type, title, content);
-  };
+  }
 
   buttonDisabled() {
     switch (this.current) {
@@ -312,7 +312,7 @@ export class AppReleaseComponent implements OnInit {
       }
 
     }
-  };
+  }
 
   async next() {
     switch (this.current) {
@@ -340,8 +340,8 @@ export class AppReleaseComponent implements OnInit {
 
   cleanRepoVersionRadioList(repoVersionRadioValue) {
     let finalRepoList;
-    for (var i = 0; i < repoVersionRadioValue.length; i++) {
-      if (repoVersionRadioValue[i] == "" || typeof (repoVersionRadioValue[i]) == "undefined") {
+    for (let i = 0; i < repoVersionRadioValue.length; i++) {
+      if (repoVersionRadioValue[i] === '' || typeof (repoVersionRadioValue[i]) === 'undefined') {
         repoVersionRadioValue.splice(i, 1);
         i = i - 1;
       }
@@ -387,7 +387,7 @@ export class AppReleaseComponent implements OnInit {
     const servicesId = this.extractIdByName(this.form.value, this.servicesNameId$);
     this.form.value.services = _.map(servicesId, (value, key) => {
       return servicesId[key];
-    })
+    });
     this.form.value.createUserId = this.servicesService.getUserId();
     this.form.value.containerSrvId = 1;
     this.http.post(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') + '/applications', this.form.value).subscribe(data => {
@@ -529,11 +529,11 @@ export class AppReleaseComponent implements OnInit {
       this.services$ = _.values(data);
       this.servicesName$ = _.map(this.services$, function (value, key) {
         return value.serviceName;
-      })
+      });
       this.formConfig[3].options = this.servicesName$;
       this.servicesNameId$ = _.map(this.services$, function (value, key) {
-        return _.pick(value, ['serviceName', 'id'])
-      })
+        return _.pick(value, ['serviceName', 'id']);
+      });
       console.log(this.servicesNameId$);
     });
   }

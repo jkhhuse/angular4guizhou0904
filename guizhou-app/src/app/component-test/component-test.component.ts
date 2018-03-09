@@ -113,7 +113,9 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
       // [null, Validators.compose([Validators.required, Validators.minLength(6)]), nicknameValidator.bind(this)]
       styles: {
         'width': '400px',
-      }
+      },
+      disabled: true,
+      defaultValue: 'eeee'
     },
     {
       type: 'input',
@@ -175,7 +177,11 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   imageTabs = ['name1', 'name2'];
   arrData = [];
   choosedImageName;
+  inputValue: string;
+  searchOptions = [
 
+  ];
+  selectedMultipleOption = [ this.searchOptions[ 0 ] ];
   // @ViewChildren(DynamicFormComponent) formArr: QueryList<DynamicFormComponent>;
   // configArr = [];
   //  测试viewChildren：https://angular.io/api/core/ViewChildren
@@ -183,6 +189,10 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   // serializedPanes: string = '';
   // shouldShow = false;
   // show() { this.shouldShow = true; }
+
+  selectTest1() {
+    console.log(this.selectedMultipleOption);
+  }
 
   toggleRadio() {
     if (this.radioValue === 'prodDomain') {
@@ -446,6 +456,9 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     // });
   }
   ngOnInit() {
+    setTimeout(_ => {
+      this.selectedMultipleOption = [];
+    }, 2000);
     const clickEvent = Observable.fromEvent(document, 'click');
     const result = clickEvent.throttleTime(1000);
     result.subscribe(x => {
