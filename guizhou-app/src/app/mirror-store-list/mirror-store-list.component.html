@@ -1,6 +1,6 @@
 <div *ngIf="services" id="mirror-list-wrapper">
   <div *ngFor="let service of services | async  | appFilter: moduleName : keyword">
-    <div nz-col [nzSpan]="5" class="">
+    <div nz-col [nzSpan]="6" class="">
       <nz-card>
         <ng-template #title>
           <div class="mirror-header">

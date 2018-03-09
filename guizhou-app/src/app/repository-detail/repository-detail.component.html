@@ -35,15 +35,15 @@
         <span>实例描述</span>
         <span class="detail-line-value" *ngIf="mirrorDetail">{{mirrorDetail.description}}</span></div>
     </div>
-    <div nz-col [nzSpan]="12" class="detail-12col"  *ngIf="module === 'repository'">
+    <div nz-col [nzSpan]="12" class="detail-12col" *ngIf="module === 'repository'">
       <div class="detail-line">
         <span>所属分类</span>
         <span class="detail-line-value" *ngIf="mirrorDetail">{{mirrorDetailCateName}}</span></div>
     </div>
   </div>
-<!--
-  添加版本按钮只在镜像仓库中展示
--->
+  <!--
+    添加版本按钮只在镜像仓库中展示
+  -->
   <div *ngIf="module === 'repository'">
     <button class="addVersion" nz-button [nzType]="'primary'" [routerLink]="['/buildImage', name, tabName]">
       添加版本
@@ -128,7 +128,7 @@
   </div>
 </nz-content>
 <nz-modal [nzVisible]="isVisible" [nzTitle]="'操作确认'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)"
-          (nzOnOk)="handleOk($event)">
+          (nzOnOk)="handleOk($event)" [nzConfirmLoading]="isConfirmLoading">
   <ng-template #modalContent>
     <p>您是否确定删除{{name}}的{{deleteName}}版本？</p>
     <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="text-align: center;">

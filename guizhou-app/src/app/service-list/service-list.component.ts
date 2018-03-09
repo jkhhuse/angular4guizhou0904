@@ -30,6 +30,7 @@ export class ServiceListComponent implements OnInit, OnChanges {
   services2: any;
   products: any;
   _isSpinning = false;
+  isConfirmLoading = false;
 
   isVisible = false;
   deleteID = '';
@@ -41,9 +42,11 @@ export class ServiceListComponent implements OnInit, OnChanges {
     console.log('??' + id + name);
     this.deleteID = id;
     this.deleteName = name;
+    this.isConfirmLoading = false;
   }
 
   handleOk = (e) => {
+    this.isConfirmLoading = true;
     let status = '';
     // 如果对应的是删除镜像
     if (this.deleteID === 'repository') {
@@ -79,6 +82,7 @@ export class ServiceListComponent implements OnInit, OnChanges {
   }
 
   handleCancel = (e) => {
+    this.isConfirmLoading = false;
     console.log(e);
     this.isVisible = false;
   }
