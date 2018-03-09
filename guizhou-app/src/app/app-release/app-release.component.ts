@@ -1,16 +1,16 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { Validators, FormControl } from '@angular/forms';
-import { NzModalService, NzNotificationService } from 'ng-zorro-antd';
-import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
-import { Observable } from "rxjs/Observable";
-import { HttpClient, HttpParams, HttpErrorResponse } from "@angular/common/http";
+import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
+import {Validators, FormControl} from '@angular/forms';
+import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
+import {FileUploader, FileSelectDirective} from 'ng2-file-upload';
+import {Observable} from "rxjs/Observable";
+import {HttpClient, HttpParams, HttpErrorResponse} from "@angular/common/http";
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import * as _ from 'lodash';
 
-import { environment } from "../../environments/environment";
-import { FieldConfig } from '../dynamic-form/models/field-config.interface';
-import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
-import { ServicesService } from "../shared/services.service";
+import {environment} from "../../environments/environment";
+import {FieldConfig} from '../dynamic-form/models/field-config.interface';
+import {DynamicFormComponent} from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
+import {ServicesService} from "../shared/services.service";
 
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
@@ -21,7 +21,6 @@ import { ServicesService } from "../shared/services.service";
 })
 export class AppReleaseComponent implements OnInit {
   current = 0;
-
   testValue: string = '111';
   // 控制layout是否可见
   public contentControl: boolean = false;
@@ -32,8 +31,6 @@ export class AppReleaseComponent implements OnInit {
   // public uploader: FileUploader = new FileUploader({ url: this.url, itemAlias: 'newname' });
   public uploader: FileUploader = new FileUploader({
     url: this.url,
-    // todo这里不起作用？
-    // allowedMimeType: ['application/tar'],
   });
 
   public hasBaseDropZoneOver: boolean = false;
@@ -179,22 +176,6 @@ export class AppReleaseComponent implements OnInit {
       },
       ifTags: 'true'
     }
-    // ,
-    // {
-    //   label: '发布',
-    //   name: 'submit',
-    //   type: 'button',
-    //   buttonType: 'primary',
-    //   styles: {
-    //     'margin-left': '20%'
-    //   },
-    //   divStyles: {
-    //     'width': '80%',
-    //     'border-top': '1px solid #ddd',
-    //     'padding-top': '20px'
-    //   },
-    //   // buttonDis: this.buttonDisabled()
-    // },
   ];
 
   changeTabName(tabName): void {
@@ -211,49 +192,24 @@ export class AppReleaseComponent implements OnInit {
     };
   }
 
-   FileSelected(uploaderType: any) {
-     if (uploaderType === 'image') {
-       console.log('文件上传完了', this.uploader);
-       this.uploader.onBeforeUploadItem = (item) => {
-         item.file.name = item.file.name.replace(/\s/g, '');
-         item.withCredentials = false;
-         item.url = this.url + item.file.name;
-       }
-     } else {
-       console.log('Icon文件上传完了', this.uploaderIcon);
-       console.log('这里打印form', this.form);
-       this.uploaderIcon.onBeforeUploadItem = (item) => {
-         item.file.name = item.file.name.replace(/\s/g, '');
-         item.withCredentials = false;
-         item.url = this.urlIcon + this.form.value['appName'] + '.png';
-       }
-     }
-   }
-
-  // // 模态框
-  // showConfirm = () => {
-  //   const thisParent = this;
-  //   this.confirmServ.confirm({
-  //     maskClosable: false,
-  //     title: '是否选择通过开发测试平台发布？',
-  //     // content: '点确认 1 秒后关闭',
-  //     onOk() {
-  //       window.location.href = window.location.origin + '/#/appStore';
-  //     },
-  //     onCancel() {
-  //       thisParent.contentControl = true;
-  //       console.log('form11', thisParent.form);
-  //     }
-  //   });
-  // }
-
-  // getImageOrigin() {
-  //   this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/registry').subscribe(data => {
-  //     const dataValue = data;
-  //     this.imageOriginId = dataValue['id'];
-  //     // this.imageOriginId = dataValue.id;
-  //   })
-  // }
+  FileSelected(uploaderType: any) {
+    if (uploaderType === 'image') {
+      console.log('文件上传完了', this.uploader);
+      this.uploader.onBeforeUploadItem = (item) => {
+        item.file.name = item.file.name.replace(/\s/g, '');
+        item.withCredentials = false;
+        item.url = this.url + item.file.name;
+      }
+    } else {
+      console.log('Icon文件上传完了', this.uploaderIcon);
+      console.log('这里打印form', this.form);
+      this.uploaderIcon.onBeforeUploadItem = (item) => {
+        item.file.name = item.file.name.replace(/\s/g, '');
+        item.withCredentials = false;
+        item.url = this.urlIcon + this.form.value['appName'] + '.png';
+      }
+    }
+  }
 
   getApplications() {
     this.http.get(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') + '/applications').subscribe(data => {
@@ -272,52 +228,10 @@ export class AppReleaseComponent implements OnInit {
     const fileArrErr = _.map(_.compact(fileArr), (value, key) => {
       return value;
     });
-    console.log('formValue', formValue);
-
-    /*if (fileArrErr.length === 0) {
-      this.createNotification('error', '服务器错误', '请上传镜像文件!');
-    } else {
-      return new Promise((resolve, reject) => {
-        // 这里箭头函数，解决闭包之后This指向windows的问题
-        // setTimeout(() => {
-        console.log('测试promise', this);
-        // _.map(_.compact(fileArr), (value, key) => {
-        // value = value.replace(/\s/g, '');
-        const reg = /\.\w+$/;
-        const httpArr = Observable.forkJoin(
-          _.map(_.compact(fileArr), (value, key) => {
-            value = value.replace(/\s/g, '');
-            return this.http.post(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository?module=app', {
-              "description": formValue.description,
-              "fileName": value,
-              "isApp": true,
-              "registryId": this.imageOriginId,
-              "repositoryName": formValue.appName + '-' + value.replace(reg, ''),
-              "version": formValue.version
-            });
-          })
-        );
-        httpArr.subscribe(values => {
-          if (values.length > 0) {
-            console.log(values);
-            _.map(values, (value, key) => {
-              this.imageIdArr[key] = value;
-              this.repositories[key] = this.imageIdArr[key]['id'];
-            });
-            resolve();
-          } else {
-            throw new Error('error');
-          }
-        });
-      });
-    }*/
   }
 
   ngAfterViewInit() {
-    // setTimeout(() => {
-    console.log('form11', this.form.controls);
     this.form.setDisabled('submit', true);
-    // }, 0);
     let previousValid = this.form.valid;
     this.form.changes.subscribe(() => {
       if (this.form.valid !== previousValid) {
@@ -325,7 +239,6 @@ export class AppReleaseComponent implements OnInit {
         this.form.setDisabled('submit', !previousValid);
       }
     });
-    // // this.form.setValue('name', '');
   }
 
   // 根据options选择的serviceName，映射找到id列表
@@ -341,7 +254,6 @@ export class AppReleaseComponent implements OnInit {
   }
 
   toggleRadio() {
-    console.log(this.moduleValue)
     if (this.moduleValue === 'newApp') {
       this.testValue = '222';
       this.formConfig[0] = {
@@ -353,7 +265,6 @@ export class AppReleaseComponent implements OnInit {
           'width': '400px'
         }
       };
-      console.log('form333', this.form);
     } else {
       this.testValue = '333';
       this.formConfig[0] = {
@@ -366,10 +277,8 @@ export class AppReleaseComponent implements OnInit {
           'width': '400px'
         }
       };
-      console.log('form333', this.form);
     }
     this.form.setValue('appName', this.formConfig[0]);
-    console.log(this.formConfig);
   }
 
   toggleRadioBom() {
@@ -383,9 +292,9 @@ export class AppReleaseComponent implements OnInit {
   buttonDisabled() {
     switch (this.current) {
       case 0: {
-        if(this.repoVersionRadioValue.length === 0) {
+        if (this.repoVersionRadioValue.length === 0) {
           return true;
-        } else{
+        } else {
           return false;
         }
       }
@@ -408,13 +317,25 @@ export class AppReleaseComponent implements OnInit {
   async next() {
     switch (this.current) {
       case 0: {
-        console.log(this.repoVersionRadioValue);
-
         break;
       }
     }
-    this.current += 1;
-    this.changeContent();
+    console.log(this.repoVersionRadioValue);
+    if (this.moduleValue == 'addVersion' && this.current == 0) {
+      console.log(this.appRepoList.length);
+      console.log(this.repoVersionRadioValue.length);
+      let tempRadioValue = this.repoVersionRadioValue;
+      console.log(this.cleanRepoVersionRadioList(tempRadioValue).length);
+      console.log(this.repoVersionRadioValue.length);
+      if(this.appRepoList.length === tempRadioValue.length) {
+        this.current += 1;
+        this.changeContent();
+      } else {
+        this.createNotification('error', '部分镜像未选择版本', '添加版本的镜像数目需要与应用已有的镜像数目相同!');
+      }
+    }
+
+    console.log('this.current: ' + this.current);
   }
 
   cleanRepoVersionRadioList(repoVersionRadioValue) {
@@ -425,21 +346,19 @@ export class AppReleaseComponent implements OnInit {
         i = i - 1;
       }
     }
-    console.log('clean: ' + repoVersionRadioValue);
     return repoVersionRadioValue;
   }
 
   pre() {
     this.current -= 1;
     if (this.current === -1) {
-      // window.location.href = window.location.origin + '/#/appStore';
       this.router.navigate(['appStore']);
     }
     this.changeContent();
-    console.log(this.repoVersionRadioValue);
   }
 
   changeContent() {
+    console.log('changeContent current: ' + this.current);
     switch (this.current) {
       case 0: {
         this.current = 0;
@@ -463,55 +382,34 @@ export class AppReleaseComponent implements OnInit {
     // 处理清空镜像id数组中的empty空值 和 undefined值，只保留有用的镜像id值
     this.repoVersionRadioValue = this.cleanRepoVersionRadioList(this.repoVersionRadioValue);
     console.log(this.repoVersionRadioValue);
-
-    // console.log('看下load', this.loadImage(value));
-    // await this.loadImage(value);
     this.form.value['repositories'] = this.repoVersionRadioValue;
     this.form.value['area'] = this.radioValueBom;
-    console.log('repositories', this.repositories);
-    console.log('this.form.value', this.form.value);
-
-    console.log('dataSet', this._dataSet);
-    console.log('之前打印value', this.form.value);
-    // console.log(this.servicesNameId$);
-    // 两次点击submit，id这里会有问题
-    // if (condition) {
-
-    // }
     const servicesId = this.extractIdByName(this.form.value, this.servicesNameId$);
-    console.log('这是id', servicesId);
     this.form.value.services = _.map(servicesId, (value, key) => {
       return servicesId[key];
     })
     this.form.value.createUserId = this.servicesService.getUserId();
     this.form.value.containerSrvId = 1;
     this.http.post(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') + '/applications', this.form.value).subscribe(data => {
-      const thisParent = this;
-      console.log('发布应用成功', data);
-      // this.createNotification('success', '发布应用成功', '正在跳转到应用商城页面', {nzDuration: 0});
-      this.confirmServ.success({
-        maskClosable: false,
-        title: '应用发布成功!',
-        content: '点确认按钮跳转到应用商城',
-        okText: '确定',
-        onOk() {
-          // .contentControl = true;
-          // console.log('form11', thisParent.form);
-          // const redirect = window.location.host + '/#/appStore';
-          // window.location.href = window.location.origin + '/#/appStore';
-          thisParent.router.navigate(['appStore']);
-        },
-        onCancel() {
-        }
-      });
-    },
+        const thisParent = this;
+        console.log('发布应用成功', data);
+        // this.createNotification('success', '发布应用成功', '正在跳转到应用商城页面', {nzDuration: 0});
+        this.confirmServ.success({
+          maskClosable: false,
+          title: '应用发布成功!',
+          content: '点确认按钮跳转到应用商城',
+          okText: '确定',
+          onOk() {
+            thisParent.router.navigate(['appStore']);
+          },
+          onCancel() {
+          }
+        });
+      },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
-          // A client-side or network error occurred. Handle it accordingly.
           console.log('An error occurred:', err.error.message);
         } else {
-          // The backend returned an unsuccessful response code.
-          // The response body may contain clues as to what went wrong,
           console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
         }
       }
@@ -536,56 +434,9 @@ export class AppReleaseComponent implements OnInit {
       }
     }
   }
-  // 获取应用类别的镜像列表
-  getAppRepoList() {
-    if (this.tabName === 'private') {
-      this.servicesService.getCateServices(this.tabName, 'repository', this.mirrorRadioValue).subscribe((data) => {
-        this.appRepoList = data;
-        // console.log('apprepolist: ' + this.appRepoList);
-        // setTimeout(() => {
-        //  console.log("appRepoList length: " + this.appRepoList.length);
-          if (this.appRepoList.length > 0) {
-            for (let i = 0; i < this.appRepoList.length; i++) {
-             // console.log('i:' + i);
-             // console.log('this.appRepoList.repositoryName:' + this.appRepoList[i].repositoryName);
-              this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + this.appRepoList[i].repositoryName + '?region=' + this.tabName).subscribe((data) => {
-          //      console.log('循环data: ' + data['repositoryName'] + "???" + i);
-                // 判断镜像仓库的images内部是否为空null，如果不判断，for循环会空值 跳过
-                if (data['images'] === null || data['images'] === '') {
-                  data['images'] = {};
-                    // console.log('空的data: ' + data.repositoryName);
-
-                }
-                  console.log('data[\'images\']: ' + data['images']);
-                  this.repoTypeArray[i] = (data['images']);
-              });
-            }
-            console.log('repoTypeArray: ' + this.repoTypeArray);
-            console.log('repoVersionRadioValue: ' + this.repoVersionRadioValue);
-          }
-        // });s
-
-      });
-
-      /*// 订阅流 repositoryName
-      this.getServiceDetail().subscribe((data) => {
-        if(data.images == '' || data.images == null) {
-
-        } else{
-          this.mirrorVersions = data.images.opRepository;
-          this.firstVersionId = data.images.opRepository[0].id;
-          this.firstVersionVersion = data.images.opRepository[0].version;
-        }
-      });*/
-    } else {
-      this.appRepoList = this.servicesService.getServices(this.tabName, 'repository');
-    }
-  }
 
   constructor(private router: Router, private routeInfo: ActivatedRoute,
-    private confirmServ: NzModalService, private http: HttpClient, private _notification: NzNotificationService, private servicesService: ServicesService) {
-    // this.showConfirm();
-    console.log('11', this.contentControl);
+              private confirmServ: NzModalService, private http: HttpClient, private _notification: NzNotificationService, private servicesService: ServicesService) {
   }
 
   nameVerify(item) {
@@ -593,24 +444,84 @@ export class AppReleaseComponent implements OnInit {
     if (reg.test(item['file']['name'])) {
       return true;
     }
-    // console.log(item);
   }
 
-  ngOnInit() {
-    this.moduleValue = this.routeInfo.snapshot.params['moduleValue'];
-    this.appName = this.routeInfo.snapshot.params['appName'];
-    console.log('this.moduleValue: ' + this.moduleValue);
-    console.log('this.appName: ' + this.appName);
-    this.toggleRadio();
-    // console.log('hhh', this.form);
-    // 解决文件上传的跨域问题
-    // this.uploader.onBeforeUploadItem = (item) => {
-    //   item.withCredentials = false;
-    // }
-    // this.getImageOrigin();
-    this.getApplications();
-    // this.refreshData();
-    // 获取services列表
+  /* 发布应用时，获取所有的镜像列表和版本
+  * 1.根据应用名字获取当前所有的镜像列表名称，appRepoList是所有的镜像
+  * 2.分别调用接口，获取应用下镜像的版本列表
+  * */
+
+  // 获取应用类别的镜像列表
+  getAppRepoList() {
+    if (this.tabName === 'private') {
+      // 1.根据应用名字获取当前所有的镜像列表名称，appRepoList是所有的镜像
+      this.servicesService.getCateServices(this.tabName, 'repository', this.mirrorRadioValue).subscribe((data) => {
+        this.appRepoList = data;
+        console.log('this.appRepoList: ' + this.appRepoList);
+        if (this.appRepoList.length > 0) {
+          // 2.分别调用接口，获取应用下镜像的版本列表
+          for (let i = 0; i < this.appRepoList.length; i++) {
+            this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + this.appRepoList[i].repositoryName + '?region=' + this.tabName).subscribe((data) => {
+              // 判断镜像仓库的images内部是否为空null，如果不判断，for循环会空值 跳过
+              if (data['images'] === null || data['images'] === '') {
+                data['images'] = {};
+              }
+              this.repoTypeArray[i] = (data['images']);
+            });
+          }
+        }
+      });
+    } else {
+      this.appRepoList = this.servicesService.getServices(this.tabName, 'repository');
+    }
+  }
+
+  /*  添加版本时，获取镜像列表和版本
+  * 1.根据应用名字获取应用的版本id
+  * 2.根据应用版本id获取该应用下的镜像和选中的镜像版本，appRepoList是应用下的镜像
+  * 3.分别调用接口，获取应用下镜像的版本列表
+  * 4.标注默认版本
+  * */
+  getAppVersions() {
+    // 1.根据应用名字获取应用的版本
+    this.http.get(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + this.appName + '/versions').subscribe(
+      res => {
+        let firstVersionId = res[0].id;
+        // 2.根据应用版本id获取该应用下的镜像和选中的镜像版本
+        this.http.get(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + firstVersionId).subscribe(
+          res => {
+            if (res && res['repositories']) {
+              this.appRepoList = res['repositories'];
+              console.log('this.appRepoList: ' + this.appRepoList);
+              if (this.appRepoList.length > 0) {
+               // 3.分别调用接口，获取应用下镜像的版本列表
+                for (let i = 0; i < this.appRepoList.length; i++) {
+                  this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + this.appRepoList[i].repositoryName + '?region=' + this.tabName).subscribe((data) => {
+                    // 判断镜像仓库的images内部是否为空null，如果不判断，for循环会空值 跳过
+                    if (data['images'] === null || data['images'] === '') {
+                      data['images'] = {};
+                    }
+                    this.repoTypeArray[i] = (data['images']);
+                  });
+                }
+              }
+            }
+          },
+          error => {
+            console.log('get app versions error!');
+          }
+        );
+      },
+      error => {
+        console.log('get app detail error!');
+      },
+      () => {
+      }
+    );
+  }
+
+  // 获取services列表
+  getServiceList() {
     const params = new HttpParams().set('isPublic', '1');
     this.http.get(environment.apiService + '/apiService/groups/' + this.servicesService.getCookie('groupID') + '/services', {
       params: new HttpParams().set('isPublic', '1')
@@ -625,14 +536,23 @@ export class AppReleaseComponent implements OnInit {
       })
       console.log(this.servicesNameId$);
     });
-
-    // 获取应用类别的镜像列表
-    this.getAppRepoList();
-
   }
 
+  ngOnInit() {
+    this.moduleValue = this.routeInfo.snapshot.params['moduleValue'];
+    this.appName = this.routeInfo.snapshot.params['appName'];
+    this.toggleRadio();
+    this.getApplications();
+    if (this.appName !== 'newName') {
+      // 如果不是newName，说明是添加版本
+      this.getAppVersions();
+    } else {
+      // 如果是newName，说明是应用发布
+      this.getAppRepoList();
+    }
+    // 获取services列表
+    this.getServiceList();
+  }
   ngAfterContentChecked() {
-    // console.log('测试changes11');
-    // console.log('这是uploader', this.uploader.queue);
   }
 }
