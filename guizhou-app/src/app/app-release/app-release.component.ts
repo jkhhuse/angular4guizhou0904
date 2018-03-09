@@ -22,6 +22,7 @@ import { ServicesService } from '../shared/services.service';
 export class AppReleaseComponent implements OnInit {
   current = 0;
   testValue = '111';
+  tempRadioValue;
   // 控制layout是否可见
   public contentControl: boolean = false;
   // 文件上传
@@ -321,13 +322,11 @@ export class AppReleaseComponent implements OnInit {
       }
     }
     console.log(this.repoVersionRadioValue);
+    // 如果当前是第一步，并且是添加版本功能
     if (this.moduleValue == 'addVersion' && this.current == 0) {
-      console.log(this.appRepoList.length);
-      console.log(this.repoVersionRadioValue.length);
-      let tempRadioValue = this.repoVersionRadioValue;
-      console.log(this.cleanRepoVersionRadioList(tempRadioValue).length);
-      console.log(this.repoVersionRadioValue.length);
-      if(this.appRepoList.length === tempRadioValue.length) {
+      this.tempRadioValue = this.repoVersionRadioValue;
+      // 如果应用原有的镜像个数，符合当前选择的镜像个数，则通过校验，可以进行下一步
+      if(this.appRepoList.length === this.getCleanedRadioLength(this.tempRadioValue)) {
         this.current += 1;
         this.changeContent();
       } else {
@@ -337,7 +336,7 @@ export class AppReleaseComponent implements OnInit {
 
     console.log('this.current: ' + this.current);
   }
-
+  // 清除radio列表中的空数据，会改变字段原始内容
   cleanRepoVersionRadioList(repoVersionRadioValue) {
     let finalRepoList;
     for (let i = 0; i < repoVersionRadioValue.length; i++) {
@@ -347,6 +346,17 @@ export class AppReleaseComponent implements OnInit {
       }
     }
     return repoVersionRadioValue;
+  }
+
+  // 获取radio列表的有数据的长度，提出掉的空数据，不会改变字段原始内容
+  getCleanedRadioLength(repoVersionRadioValue) {
+    let cleanedRadioLength = repoVersionRadioValue.length;
+    for (let i = 0; i < repoVersionRadioValue.length; i++) {
+      if (repoVersionRadioValue[i] === '' || typeof (repoVersionRadioValue[i]) === 'undefined') {
+        cleanedRadioLength--;
+      }
+    }
+    return cleanedRadioLength;
   }
 
   pre() {
