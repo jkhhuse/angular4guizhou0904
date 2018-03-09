@@ -127,3 +127,12 @@
     {{ arr1.a || json }}
   </div>
 </div>
+
+<nz-input [nzType]="'search'" [(ngModel)]="inputValue" [nzPlaceHolder]="'Basic usage'"></nz-input>
+
+<nz-select style="width: 400px;" [nzTags]="true" [nzPlaceHolder]="'请选择人员'" [(ngModel)]="selectedMultipleOption" [nzNotFoundContent]="'无法找到'"
+  nzShowSearch>
+  <nz-option *ngFor="let option of searchOptions" [nzLabel]="option.label" [nzValue]="option">
+  </nz-option>
+</nz-select>
+<button (click)="selectTest1()">selectTest1</button>

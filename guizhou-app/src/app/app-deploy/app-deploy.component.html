@@ -172,7 +172,7 @@
                     <div nz-row>
                       <div nz-col [nzMd]="20">
                         <div nz-row [nzGutter]="16">
-                          <div nz-col [nzSpan]="4" *ngFor="let label of lbControlLabel">
+                          <div nz-col [nzSpan]="label.value === '监听端口' ? '8' : '3'" *ngFor="let label of lbControlLabel">
                             <span>{{ label.value }}</span>
                           </div>
                         </div>
@@ -196,8 +196,8 @@
                     <div nz-row>
                       <div nz-col [nzMd]="20">
                         <form nz-form class="dynamic-form" [formGroup]="loadBanlancerForm">
-                          <div nz-row [nzGutter]="16" *ngFor="let control1 of lbControlArray">
-                            <div nz-col [nzSpan]="4" *ngFor="let control of control1" [class.d-none]="!control.show">
+                          <div nz-row [nzGutter]="16" *ngFor="let control1 of lbControlArray;let i=index">
+                            <div nz-col [nzSpan]="control.placeholder === '1~65535' ? '8' : '3'" *ngFor="let control of control1" [class.d-none]="!control.show">
                               <div nz-form-item nz-row>
                                 <!-- <div nz-form-label nz-col>
                                         <label [attr.for]="'field' + control.index">Field {{control.index}}</label>
@@ -207,7 +207,7 @@
                                     [nzPlaceHolder]="control.placeholder" [formControlName]="control.name"></nz-input>
                                 </div>
                                 <div *ngIf="control.type === 'select'" nz-form-control nz-col [nzSm]="20">
-                                  <nz-select [formControlName]="control.name" [nzPlaceHolder]="control.placeholder" nzAllowClear [nzDisabled]="control.disabled">
+                                  <nz-select [nzTags]="control.ifTags" (nzOpenChange)="lbEmit(control.name, i)" [formControlName]="control.name" [nzPlaceHolder]="control.placeholder" nzAllowClear [nzDisabled]="control.disabled">
                                     <nz-option *ngFor="let option of control.options" [nzValue]="option" [nzLabel]="option">
                                     </nz-option>
                                   </nz-select>
