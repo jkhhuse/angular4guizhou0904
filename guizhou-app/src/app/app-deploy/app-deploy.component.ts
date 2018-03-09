@@ -1839,7 +1839,6 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           this.env1Form.addControl(value3['name'], new FormControl());
         });
       });
-
       this.serviceAdvancedLabel = [
         {
           value: '文件路径'

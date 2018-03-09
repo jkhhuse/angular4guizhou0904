@@ -10,7 +10,7 @@ import * as _ from 'lodash';
 import { environment } from "../../environments/environment";
 import { FieldConfig } from '../dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
-import { ServicesService } from "../shared/services.service";
+import { ServicesService } from '../shared/services.service';
 
 // import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
@@ -22,7 +22,7 @@ import { ServicesService } from "../shared/services.service";
 export class AppReleaseComponent implements OnInit {
   current = 0;
 
-  testValue: string = '111';
+  testValue = '111';
   // 控制layout是否可见
   public contentControl: boolean = false;
   // 文件上传
@@ -36,7 +36,7 @@ export class AppReleaseComponent implements OnInit {
     // allowedMimeType: ['application/tar'],
   });
 
-  public hasBaseDropZoneOver: boolean = false;
+  public hasBaseDropZoneOver = false;
   public urlIcon: string = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/upload/app/fileName/';
   public uploaderIcon: FileUploader = new FileUploader({
     url: this.urlIcon,
@@ -55,7 +55,7 @@ export class AppReleaseComponent implements OnInit {
   repositories: string[] = [];
   moduleValue: string;
   appName: string;
-  radioValueBom: string = 'B';
+  radioValueBom = 'B';
   // @ViewChild('formProject') formThird2Project: DynamicFormComponent;
   /* 选择镜像相关 开始*/
   mirrorRadioValue = 7;
@@ -218,7 +218,7 @@ export class AppReleaseComponent implements OnInit {
          item.file.name = item.file.name.replace(/\s/g, '');
          item.withCredentials = false;
          item.url = this.url + item.file.name;
-       }
+       };
      } else {
        console.log('Icon文件上传完了', this.uploaderIcon);
        console.log('这里打印form', this.form);
@@ -226,7 +226,7 @@ export class AppReleaseComponent implements OnInit {
          item.file.name = item.file.name.replace(/\s/g, '');
          item.withCredentials = false;
          item.url = this.urlIcon + this.form.value['appName'] + '.png';
-       }
+       };
      }
    }
 
@@ -259,7 +259,7 @@ export class AppReleaseComponent implements OnInit {
     this.http.get(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') + '/applications').subscribe(data => {
       this.applications$ = _.map(data, (value, key) => {
         return value['appName'];
-      })
+      });
     });
   }
 
@@ -341,7 +341,7 @@ export class AppReleaseComponent implements OnInit {
   }
 
   toggleRadio() {
-    console.log(this.moduleValue)
+    console.log(this.moduleValue);
     if (this.moduleValue === 'newApp') {
       this.testValue = '222';
       this.formConfig[0] = {
@@ -420,7 +420,7 @@ export class AppReleaseComponent implements OnInit {
   cleanRepoVersionRadioList(repoVersionRadioValue) {
     let finalRepoList;
     for (let i = 0; i < repoVersionRadioValue.length; i++) {
-      if (repoVersionRadioValue[i] == '' || typeof (repoVersionRadioValue[i]) == 'undefined') {
+      if (repoVersionRadioValue[i] === '' || typeof (repoVersionRadioValue[i]) === 'undefined') {
         repoVersionRadioValue.splice(i, 1);
         i = i - 1;
       }
