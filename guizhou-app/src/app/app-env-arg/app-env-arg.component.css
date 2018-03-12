@@ -34,3 +34,7 @@
 .hasError {
     color: #f04134;
 }
+.config-control-wrapper {
+  margin: 25px 0 15px 0;
+
+}
