@@ -53,7 +53,9 @@ export class ErrorInterceptorComponent implements HttpInterceptor, OnInit {
           // translateService.setDefaultLang("zh");
           let errCode, errMsg, errMsg2;
           const chinaReg = new RegExp('[\\u4E00-\\u9FFF]+', 'g');
-          if (err.status === 400 || err.status === 403) {
+
+       /* 镜像后端只能返回403问题，暂时注释
+       if (err.status === 400 || err.status === 403) {
             if (err.error.errorMsg !== undefined) {
               errMsg2 = err.error.errorMsg;
               errCode = 'others';
@@ -85,6 +87,7 @@ export class ErrorInterceptorComponent implements HttpInterceptor, OnInit {
               });
             });
           }
+          */
           // 这里存在两个问题：
           // 1、需要确定.json file loaded之后，才进行调用translateService.get method，但是调试发现第一次httperror，并不会
           // 加载出来.json文件，第二次触发才能加载。
@@ -97,7 +100,7 @@ export class ErrorInterceptorComponent implements HttpInterceptor, OnInit {
         // 这里必须return才可以
         // return Observable.throw(new Error('Your custom error'));
         // this.createNotification('error', '服务器错误', err.error);
-        return Observable.throw(new HttpErrorResponse(err.error) || 'backend server error');
+        return Observable.throw(new HttpErrorResponse(err) || 'backend server error');
       });
   }
 

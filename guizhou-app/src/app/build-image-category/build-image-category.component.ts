@@ -187,8 +187,8 @@ export class BuildImageCategoryComponent implements OnInit {
             resolve();
           },
             err => {
-              console.log(err._body);
-              this.createNotification('error', '构建失败', err._body);
+              console.log(err);
+              this.createNotification('error', '添加版本失败', err.error.message);
             });
 
       });

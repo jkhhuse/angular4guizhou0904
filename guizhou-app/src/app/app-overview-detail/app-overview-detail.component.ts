@@ -5,12 +5,16 @@ import {RandomUserService} from "../shared/random-user.service";
 import {NzNotificationService} from 'ng-zorro-antd';
 import {ServicesService} from "../shared/services.service";
 import {environment} from "../../environments/environment";
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import  { GrayModifyReqBody } from './app-overview-detail.model';
+
 @Component({
   selector: 'app-app-overview-detail',
   templateUrl: './app-overview-detail.component.html',
   styleUrls: ['./app-overview-detail.component.css']
 })
 export class AppOverviewDetailComponent implements OnInit {
+  validateForm: FormGroup;
   _isSpinning = false;
   userId:string;
   userName:string;
@@ -26,7 +30,9 @@ export class AppOverviewDetailComponent implements OnInit {
   tabName = 'microservices';
   private keyword: string;
   private appInstanceDetail: any;
-
+  maskClosable = true;
+  isModifyModalVisible = false;
+  isFormDisabled = false;
   tabs = [
     {
       index: 1,
@@ -90,7 +96,16 @@ export class AppOverviewDetailComponent implements OnInit {
   _sortName = null;
   _sortValue = null;
   _dataSet = [];
-  _grayDataSet = [];
+  _grayDataSet = [
+    {
+      createTime : '123123',
+      version1 : '1',
+      version2 : '2',
+      status : 'running',
+      rules_intro : '128.0.0.1',
+      microservices : 'fufu',
+    }
+  ];
   copyData = [...this._dataSet];
 
   changeTabName(tabName): void {
@@ -125,14 +140,15 @@ export class AppOverviewDetailComponent implements OnInit {
     }
     this._loading = true;
     this._randomUser.getAppInstanceDetailTable(this._current, this._pageSize, this._sortName, this._sortValue, this.instanceId).subscribe((data: any) => {
-      console.log(this._current);
-      console.log(this._pageSize);
-      console.log(this._sortName);
-      console.log(this._sortValue);
-      console.log(data);
-      console.log(this.tabName);
-      console.log(data[this.tabName]);
-
+      /*
+        console.log(this._current);
+        console.log(this._pageSize);
+        console.log(this._sortName);
+        console.log(this._sortValue);
+        console.log(data);
+        console.log(this.tabName);
+        console.log(data[this.tabName]);
+      */
       this._loading = false;
       this._total = data[this.tabName].length;
       this._dataSet = data[this.tabName];
@@ -238,16 +254,51 @@ export class AppOverviewDetailComponent implements OnInit {
     );
   }
 
-  constructor(private servicesService: ServicesService, private _notification: NzNotificationService, private _randomUser: RandomUserService, private routeInfo: ActivatedRoute, private http: Http) {
+  showUpdateModal() {
+    this.isModifyModalVisible = true;
+  }
+
+  // 获取表单内对应name的formcontrol
+  getFormControl(name) {
+    return this.validateForm.controls[ name ];
+  }
+
+  // 取消提交灰度策略
+  cancelUpdate() {
+    this.isModifyModalVisible = false;
+  }
+
+  // 提交更新灰度策略
+  postUpdate($event) {
+    for (const i of Object.keys(this.validateForm.controls)) {
+      this.validateForm.controls[ i ].markAsDirty();
+    }
+    let isValid = true;
+    for (const value of Object.values(this.validateForm.value)) {
+      if (value === '') {
+        isValid = false;
+      }
+    }
+    if (isValid) {
+      // 验证通过, 组装reqbody
+      const portName = this.validateForm.value['portName'];
+      const content = [];
+      const reqbody = new GrayModifyReqBody();
+      reqbody.portName = portName;
+      console.log('this.reqBody: ' + reqbody);
+    }
+  }
+
+  constructor(private fb: FormBuilder, private servicesService: ServicesService, private _notification: NzNotificationService, private _randomUser: RandomUserService, private routeInfo: ActivatedRoute, private http: Http) {
   }
 
   ngOnInit() {
-
+    this.validateForm = this.fb.group({
+      portName       : [ null, [ Validators.required ] ]
+    });
     this.instanceId = this.routeInfo.snapshot.params['instanceId'];
     this.refreshData();
     this.getInitData();
-    console.log('instanceId: ' + this.instanceId);
-
   }
 
 }

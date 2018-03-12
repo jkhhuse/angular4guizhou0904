@@ -125,7 +125,10 @@
           <td nz-td>{{data.status}}</td>
           <td nz-td>{{data.rules_intro}}</td>
           <td nz-td>{{data.microservices}}</td>
-          <td nz-td>详情</td>
+          <td nz-td>
+            <button nz-button [nzType]="'primary'"><span>详情</span></button>
+            <button nz-button [nzType]="'primary'" (click)="showUpdateModal()"><span>更新</span></button>
+          </td>
         </tr>
         </tbody>
       </nz-table>
@@ -197,3 +200,29 @@
     </nz-tab>
   </nz-tabset>
 </nz-content>
+
+<nz-modal [nzVisible]="isModifyModalVisible" [nzMaskClosable]="maskClosable" [nzTitle]="'更新灰度策略'" [nzContent]="updateGray" [nzFooter]="updateButton" [nzConfirmLoading]="isUpdateConfirm" (nzOnCancel)="cancelUpdate($event)" (nzOnOk)="postUpdate($event)">
+  <ng-template #updateGray>
+    <form nz-form [formGroup]="validateForm">
+      <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+          <label for="name" nz-form-item-required>
+            <span>端口地址</span>
+          </label>
+        </div>
+        <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+          <nz-input [nzSize]="'large'" [nzDisabled]="isFormDisabled" formControlName="portName" [nzPlaceHolder]="'请输入容器端口...'" [nzId]="'name'"></nz-input>
+          <div nz-form-explain class="hasError" *ngIf="getFormControl('portName').dirty&&getFormControl('portName').hasError('required')">请输入端口地址!</div>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template #updateButton>
+    <button nz-button [nzType]="'default'" (click)="cancelUpdate($event)">
+      <span>取 消</span>
+    </button>
+    <button nz-button [nzType]="'primary'" (click)="postUpdate($event)">
+      <span>确 定</span>
+    </button>
+  </ng-template>
+</nz-modal>
