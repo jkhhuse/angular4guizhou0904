@@ -44,7 +44,7 @@
   <!--
     添加版本按钮只在镜像仓库中展示
   -->
-  <div *ngIf="module === 'repository'">
+  <div *ngIf="module === 'repository' && tabName === 'private'">
     <button class="addVersion" nz-button [nzType]="'primary'" [routerLink]="['/buildImage', name, tabName]">
       添加版本
     </button>

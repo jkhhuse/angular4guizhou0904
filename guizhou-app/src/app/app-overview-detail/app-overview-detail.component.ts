@@ -26,6 +26,7 @@ export class AppOverviewDetailComponent implements OnInit {
   tabName = 'microservices';
   private keyword: string;
   private appInstanceDetail: any;
+
   tabs = [
     {
       index: 1,
@@ -36,6 +37,42 @@ export class AppOverviewDetailComponent implements OnInit {
       index: 2,
       name: '依赖服务',
       tabName: 'serviceInstances'
+    },
+    {
+      index: 3,
+      name: '灰度状态',
+      tabName: 'grayStatus'
+    }
+  ];
+  // 灰度状态表格
+  table10Title = [
+    {
+      index: 1,
+      name: '灰度策略创建时间',
+    },
+    {
+      index: 2,
+      name: '灰度前版本',
+    },
+    {
+      index: 3,
+      name: '灰度版本',
+    },
+    {
+      index: 4,
+      name: '状态',
+    },
+    {
+      index: 5,
+      name: '灰度策略',
+    },
+    {
+      index: 6,
+      name: '服务',
+    },
+    {
+      index: 7,
+      name: '操作',
     }
   ];
   _current = 1;
@@ -53,12 +90,16 @@ export class AppOverviewDetailComponent implements OnInit {
   _sortName = null;
   _sortValue = null;
   _dataSet = [];
+  _grayDataSet = [];
   copyData = [...this._dataSet];
 
   changeTabName(tabName): void {
     this.tabName = tabName;
-    this.refreshData();
-    console.log(this.tabName);
+    if(this.tabName==='grayStatus') {
+
+    } else {
+      this.refreshData();
+    }
   }
 
   sort(sortName, value) {
