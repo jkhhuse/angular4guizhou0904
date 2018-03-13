@@ -893,49 +893,49 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         await this.getnetworkAdvanced();
         // this.formThird3Project.setConfig(this.formThird3);
         // 这里不能this.toggleRadio，里面setconfig会报错
-        _.map(this.operateMode['replication'], (value1, key1) => {
-            if (value1['type'] === 'int') {
-                this.formThird3[key1] = {
-                    type: 'input',
-                    inputType: 'number',
-                    label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
-                    name: value1['attribute_name'],
-                    placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-                        value1['description']['zh'] : value1['attribute_name'],
-                    validation: [Validators.required, Validators.min(1)],
-                    styles: {
-                        'width': '400px'
-                    }
-                };
-            } else if (value1['type'] === 'single_ip_tag') {
-                // const options$ = this.formThird1Project.value['ip_tag'] || [];
-                const options$ = [];
-                // const options$ = ['11', '22'];
-                this.formThird3[key1] = {
-                    type: 'select',
-                    label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
-                    name: value1['attribute_name'],
-                    options: options$,
-                    placeholder: '请先选择主机标签地址!',
-                    validation: [Validators.required],
-                    styles: {
-                        'width': '400px'
-                    },
-                };
-            } else if (value1['type'] === 'string') {
-                this.formThird3[key1] = {
-                    type: 'input',
-                    label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
-                    name: value1['attribute_name'],
-                    placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-                        value1['description']['zh'] : value1['attribute_name'],
-                    validation: [Validators.required, Validators.pattern(eval(value1.pattern))],
-                    styles: {
-                        'width': '400px'
-                    }
-                };
-            }
-        });
+        // _.map(this.operateMode['replication'], (value1, key1) => {
+        //     if (value1['type'] === 'int') {
+        //         this.formThird3[key1] = {
+        //             type: 'input',
+        //             inputType: 'number',
+        //             label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
+        //             name: value1['attribute_name'],
+        //             placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
+        //                 value1['description']['zh'] : value1['attribute_name'],
+        //             validation: [Validators.required, Validators.min(1)],
+        //             styles: {
+        //                 'width': '400px'
+        //             }
+        //         };
+        //     } else if (value1['type'] === 'single_ip_tag') {
+        //         // const options$ = this.formThird1Project.value['ip_tag'] || [];
+        //         const options$ = [];
+        //         // const options$ = ['11', '22'];
+        //         this.formThird3[key1] = {
+        //             type: 'select',
+        //             label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
+        //             name: value1['attribute_name'],
+        //             options: options$,
+        //             placeholder: '请先选择主机标签地址!',
+        //             validation: [Validators.required],
+        //             styles: {
+        //                 'width': '400px'
+        //             },
+        //         };
+        //     } else if (value1['type'] === 'string') {
+        //         this.formThird3[key1] = {
+        //             type: 'input',
+        //             label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
+        //             name: value1['attribute_name'],
+        //             placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
+        //                 value1['description']['zh'] : value1['attribute_name'],
+        //             validation: [Validators.required, Validators.pattern(eval(value1.pattern))],
+        //             styles: {
+        //                 'width': '400px'
+        //             }
+        //         };
+        //     }
+        // });
         await this.getServiceAdvanced();
         if (_.indexOf(this.operateServiceArr, this.serviceName) > -1) {
             this.modelValue = 'standalone';
