@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {ServicesService} from "../shared/services.service";
+import {NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
     selector: 'app-group-select',
@@ -42,7 +43,11 @@ export class GroupSelectComponent implements OnInit {
         }
     }
 
-    constructor(private servicesService: ServicesService) {
+    createNotification = (type, title, content) => {
+        this._notification.create(type, title, content);
+    }
+
+    constructor(private servicesService: ServicesService, private _notification: NzNotificationService) {
     }
 
     ngOnInit() {
@@ -84,7 +89,11 @@ export class GroupSelectComponent implements OnInit {
                 // 如果已经有存在的group，从cookie中取得选中的groupName
                 this.selectGroup = this.servicesService.getCookie('groupName');
             }
-        });
+        },
+            err => {
+                console.log(err);
+                this.createNotification('error', '获取项目组信息失败', err._body);
+            });
     }
 }
 
