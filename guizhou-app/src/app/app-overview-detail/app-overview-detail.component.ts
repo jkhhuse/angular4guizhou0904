@@ -17,8 +17,13 @@ import {Http} from "@angular/http";
 export class AppOverviewDetailComponent implements OnInit {
   _grayDataSet: GrayListDetail[];
   validateForm: FormGroup;
+  updateForm: FormGroup;
   detailForm: FormGroup;
+  mockE: MouseEvent;
+  controlArray = [];
+  selectedOption = [];
   grayDetailDataset: any;
+  maxControlArray = 20;
   detailID: string;
   _isSpinning = false;
   userId: string;
@@ -28,7 +33,7 @@ export class AppOverviewDetailComponent implements OnInit {
   lbName: string;
   newServiceName: string;
   portName: string;
-  hostIpArray = [];
+  hostIpArray: string;
   eqIpArray = [];
   rangeIpArray = [];
   // 版本升级选择框
@@ -44,9 +49,26 @@ export class AppOverviewDetailComponent implements OnInit {
   private keyword: string;
   private appInstanceDetail: any;
   maskClosable = true;
-  isModifyModalVisible = false;
+  isUpdateModalVisible = false;
   isDetailModalVisible = false;
   isFormDisabled = true;
+  isVisible = false;
+  _current = 1;
+  _pageSize = 10;
+  _total = 1;
+  _loading = true;
+  _sortName = null;
+  _sortValue = null;
+  _dataSet = [];
+  sortMap = {
+    microserviceName: null,
+    clusterName: null,
+    repository: null,
+    status: null,
+    podsCount: null,
+    storageSize: null
+  };
+  copyData = [...this._dataSet];
   tabs = [
     {
       index: 1,
@@ -64,53 +86,6 @@ export class AppOverviewDetailComponent implements OnInit {
       tabName: 'grayStatus'
     }
   ];
-  // 灰度状态表格
-  table10Title = [
-    {
-      index: 1,
-      name: '灰度策略创建时间',
-    },
-    {
-      index: 2,
-      name: '灰度前版本',
-    },
-    {
-      index: 3,
-      name: '灰度版本',
-    },
-    {
-      index: 4,
-      name: '状态',
-    },
-    {
-      index: 5,
-      name: '灰度策略',
-    },
-    {
-      index: 6,
-      name: '服务',
-    },
-    {
-      index: 7,
-      name: '操作',
-    }
-  ];
-  _current = 1;
-  _pageSize = 10;
-  _total = 1;
-  _loading = true;
-  sortMap = {
-    microserviceName: null,
-    clusterName: null,
-    repository: null,
-    status: null,
-    podsCount: null,
-    storageSize: null
-  };
-  _sortName = null;
-  _sortValue = null;
-  _dataSet = [];
-  copyData = [...this._dataSet];
 
   changeTabName(tabName): void {
     this.tabName = tabName;
@@ -179,11 +154,8 @@ export class AppOverviewDetailComponent implements OnInit {
     console.log('selectedVersion: ' + this.selectedVersion);
   }
 
-  isVisible = false;
-
   showModal = () => {
     this.isVisible = true;
-
   }
 
   handleOk = (e) => {
@@ -288,7 +260,7 @@ export class AppOverviewDetailComponent implements OnInit {
   // 获取灰度状态详情
   getGrayDetail(detailID) {
     this.getGrayDetailRX(detailID).subscribe((data) => {
-        this.hostIpArray = [];
+        this.hostIpArray = '';
         this.eqIpArray = [];
         this.rangeIpArray = [];
         this.grayDetailDataset = data[0];
@@ -307,7 +279,7 @@ export class AppOverviewDetailComponent implements OnInit {
             if (grayIpArray[i].indexOf('IN') >= 0) {
               let HOSTTemp = grayIpArray[i].replace(')', '').split(' ');
               // console.log('HOSTTemp: ' + HOSTTemp[2]);
-              this.hostIpArray.push(HOSTTemp[2]);
+              this.hostIpArray = (HOSTTemp[2]);
               console.log('hostIpArray: ' + this.hostIpArray);
             } else if (grayIpArray[i].indexOf('EQ') >= 0) {
               let EQTemp = grayIpArray[i].replace(')', '').split(' ');
@@ -327,11 +299,11 @@ export class AppOverviewDetailComponent implements OnInit {
           oldServiceName: this.oldServiceName,
           lbName: this.lbName,
           newServiceName: this.newServiceName,
-          portName: this.portName,
+          portName: [this.portName, [Validators.required]],
           select1: ['固定IP'],
           select2: ['IP段限制'],
           value1: this.eqIpArray,
-          value2: this.rangeIpArray,
+          value2: this.rangeIpArray
         });
       },
       err => {
@@ -341,18 +313,146 @@ export class AppOverviewDetailComponent implements OnInit {
     );
   }
 
+  // 获取更新灰度状态详情
+  getUpdateDetail(detailID) {
+    this.getGrayDetailRX(detailID).subscribe((data) => {
+        this.hostIpArray = '';
+        this.grayDetailDataset = data[0];
+
+        this.oldServiceName = this.grayDetailDataset.microservice1.microserviceName;
+        this.newServiceName = this.grayDetailDataset.microservice2.microserviceName;
+        this.lbName = this.grayDetailDataset.lbName;
+        this.portName = this.grayDetailDataset.port;
+
+        // 渲染表格初始值
+        this.updateForm = this.fb.group({
+          oldServiceName: this.oldServiceName,
+          lbName: this.lbName,
+          newServiceName: this.newServiceName,
+          portName: [this.portName, [Validators.required]],
+          select: null,
+        });
+
+        if (this.grayDetailDataset.dsl && this.grayDetailDataset.dsl.length > 0) {
+          // 去掉最后一个字符）
+          console.log(this.grayDetailDataset.dsl.substring(0, this.grayDetailDataset.dsl.length - 1));
+          // 按照（字符 拆分
+          let grayIpArray = this.grayDetailDataset.dsl.substring(0, this.grayDetailDataset.dsl.length - 1).split('(');
+          for (let i = 0; i < grayIpArray.length; i++) {
+            if (grayIpArray[i].indexOf('IN') >= 0) {
+              let HOSTTemp = grayIpArray[i].replace(')', '').split(' ');
+              this.hostIpArray = (HOSTTemp[2]);
+            } else if (grayIpArray[i].indexOf('EQ') >= 0) {
+              let EQTemp = grayIpArray[i].replace(')', '').split(' ');
+              this.addIP(this.mockE, EQTemp[2], '', 'equal');
+
+            } else if (grayIpArray[i].indexOf('RANGE') >= 0) {
+              let RANGETemp = grayIpArray[i].replace(')', '').split(' ');
+              this.addIP(this.mockE, RANGETemp[2], RANGETemp[3], 'range');
+            }
+          }
+        }
+      },
+      err => {
+        console.log(err._body);
+        this.createNotification('error', '灰度状态详情失败', err._body);
+      }
+    );
+  }
+
   showUpdateModal(detailID) {
-    this.isModifyModalVisible = true;
+    this.isUpdateModalVisible = true;
+    this.isFormDisabled = false;
     if (detailID == '' || detailID == 'undefined') {
       this.createNotification('error', '获取灰度详情ID错误', '获取灰度详情ID错误');
     } else {
       this.detailID = detailID;
-      this.getGrayDetail(this.detailID);
+      this.getUpdateDetail(this.detailID);
     }
+  }
+
+  // 点击按钮添加IP
+  addIP(e: MouseEvent, firstIP, secondIP, name) {
+    if (e) {
+      e.preventDefault();
+    }
+    // 如果一进来ip数组为空，则赋值id为0
+    // 否则，id为长度减去1
+    const id = (this.controlArray.length > 0) ? this.controlArray[this.controlArray.length - 1].id + 1 : 0;
+    const control = {
+      id,
+      controlInstance1: `firstIP${id}`,
+      controlInstance2: `secondIP${id}`,
+      controlName: `name${id}`,
+    };
+    const index = this.controlArray.push(control);
+    // 给表单form添加formcontrol,名称为ip0，ip1，ip2...
+    // 给表单form添加formcontrol,名称为name0，name1，name2...
+    this.updateForm.addControl(this.controlArray[index - 1].controlInstance1, new FormControl(firstIP, Validators.required));
+    this.updateForm.addControl(this.controlArray[index - 1].controlInstance2, new FormControl(secondIP, Validators.required));
+    this.updateForm.addControl(this.controlArray[index - 1].controlName, new FormControl(name, Validators.required));
+
+    this.selectedOption[this.controlArray.length - 1] = name;
+
+    console.log('this.selectedOption: ' + this.selectedOption);
+  }
+
+  // 点击按钮删除IP
+  removeIP(control, e: MouseEvent) {
+    e.preventDefault();
+    if (this.controlArray.length > 1) {
+      const index = this.controlArray.indexOf(control);
+      this.controlArray.splice(index, 1);
+      console.log(this.controlArray);
+      this.updateForm.removeControl(control.controlInstance1);
+      this.updateForm.removeControl(control.controlInstance2);
+      this.updateForm.removeControl(control.controlName);
+      console.log('this.selectedOption: ' + this.selectedOption);
+
+      this.selectedOption.splice(index, 1);
+      console.log('this.selectedOption: ' + this.selectedOption);
+
+    }
+  }
+
+  // 提交更新策略表单
+  _submitUpdateForm() {
+    for (const i in this.updateForm.controls) {
+      this.updateForm.controls[i].markAsDirty();
+    }
+    //(AND (IN HOST zzz.test.com) (EQ SRC_IP 10.132.49.124) (RANGE SRC_IP 10.133.1.1 10.133.1.10)
+    console.log(this.updateForm.value);
+
+    let lbString = `(AND (IN HOST ` + this.hostIpArray + `)`;
+    // 此处不能使用i < this.controlArray.length
+    // 举例说明，存在name0和name1，通过addIP新增了name2和name3，又删除了name0和name1
+    // 现在controlArray.length长度为2，只有name2和name3
+    // 若for循环使用controlArray.length为最大长度，无法取到大于length长度2的name值，无法取到name3
+    for (let i = 0; i < this.maxControlArray; i++) {
+      let tempName = 'name' + i;
+      let firstIP = 'firstIP' + i;
+      let secondIP = 'secondIP' + i;
+      console.log(this.updateForm.value[tempName]);
+      if (typeof(this.updateForm.value[tempName]) == 'undefined') {
+        // 如果对应的key的值是undefined，说明这个值曾经存在，但是被remove掉了
+      } else {
+        // 只有有value的值才会被拼接到lbname中
+        if (this.updateForm.value[tempName] === 'equal') {
+          let temp = ` (EQ SRC_IP ` + this.updateForm.value[firstIP] + `)`;
+          lbString += temp;
+        } else {
+          let temp = ` (RANGE SRC_IP ` + this.updateForm.value[firstIP] + ' ' + this.updateForm.value[secondIP] + `)`;
+          lbString += temp;
+        }
+      }
+    }
+    lbString += `)`;
+    console.log('lbString: ' + lbString);
   }
 
   showDetailModal(detailID) {
     this.isDetailModalVisible = true;
+    this.isFormDisabled = true;
     if (detailID == '' || detailID == 'undefined') {
       this.createNotification('error', '获取灰度详情ID错误', '获取灰度详情ID错误');
     } else {
@@ -361,9 +461,14 @@ export class AppOverviewDetailComponent implements OnInit {
     }
   }
 
-  // 获取表单内对应name的formcontrol
+  // 获取详情表单内对应name的formcontrol
   getFormControl(name) {
     return this.validateForm.controls[name];
+  }
+
+  // 获取更新表单内对应name的formcontrol
+  getUpdateFormControl(name) {
+    return this.updateForm.controls[name];
   }
 
   // 取消查看灰度策略详情
@@ -373,7 +478,7 @@ export class AppOverviewDetailComponent implements OnInit {
 
   // 取消提交灰度策略
   cancelUpdate() {
-    this.isModifyModalVisible = false;
+    this.isUpdateModalVisible = false;
   }
 
   // 提交更新灰度策略
@@ -402,16 +507,23 @@ export class AppOverviewDetailComponent implements OnInit {
 
   ngOnInit() {
     this.validateForm = this.fb.group({
-      oldServiceName: this.oldServiceName,
-      lbName: this.lbName,
-      newServiceName: this.newServiceName,
-      portName: this.portName,
-      select1: ['固定IP'],
-      select2: ['IP段限制'],
-      value1: this.eqIpArray,
-      value2: this.rangeIpArray,
+      oldServiceName: null,
+      lbName: null,
+      newServiceName: null,
+      portName: [null, [Validators.required]],
+      select1: null,
+      select2: null,
+      value1: null,
+      value2: null,
     });
-    this.detailForm = this.fb.group({});
+    this.updateForm = this.fb.group({
+      oldServiceName: null,
+      lbName: null,
+      newServiceName: null,
+      portName: [null, [Validators.required]],
+      select: null,
+    });
+    // this.addIP();
     this.instanceId = this.routeInfo.snapshot.params['instanceId'];
     this.refreshData();
     this.getInitData();
