@@ -10,6 +10,11 @@ export class GrayListDetail {
   'microservices': string;
 }
 
-export class GrayModifyReqBody {
-  portName: number;
+export class GrayUpdateReqBody {
+  containerPort2: number;
+  dsl: string;
+  microservice1Id: string;
+  microservice2Name: string;
+  portId: string;
+  weight: number;
 }

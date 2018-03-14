@@ -6,7 +6,7 @@ import {NzNotificationService} from 'ng-zorro-antd';
 import {ServicesService} from "../shared/services.service";
 import {environment} from "../../environments/environment";
 import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
-import {GrayListDetail, GrayModifyReqBody} from './app-overview-detail.model';
+import {GrayListDetail, GrayUpdateReqBody} from './app-overview-detail.model';
 import {Http} from "@angular/http";
 
 @Component({
@@ -36,6 +36,10 @@ export class AppOverviewDetailComponent implements OnInit {
   hostIpArray: string;
   eqIpArray = [];
   rangeIpArray = [];
+  microservice1Id: string;
+  microservice2Name: string;
+  portId: string;
+  weight = 100;
   // 版本升级选择框
   versionOptions = [];
   selectedVersion;
@@ -319,6 +323,14 @@ export class AppOverviewDetailComponent implements OnInit {
         this.hostIpArray = '';
         this.grayDetailDataset = data[0];
 
+        // request body中不在表单显示的值
+        // 服务1的id
+        this.microservice1Id = this.grayDetailDataset.microservice1.id;
+        // 服务2的name
+        this.microservice2Name = this.grayDetailDataset.microservice2.microserviceName;
+        // 详情的portID
+        this.portId = this.grayDetailDataset.portId;
+
         this.oldServiceName = this.grayDetailDataset.microservice1.microserviceName;
         this.newServiceName = this.grayDetailDataset.microservice2.microserviceName;
         this.lbName = this.grayDetailDataset.lbName;
@@ -448,6 +460,59 @@ export class AppOverviewDetailComponent implements OnInit {
     }
     lbString += `)`;
     console.log('lbString: ' + lbString);
+    // 提交更新灰度策略
+    this.postUpdate(lbString);
+  }
+
+  // 提交更新灰度策略
+  postUpdate(dsl) {
+    for (const i of Object.keys(this.validateForm.controls)) {
+      this.validateForm.controls[i].markAsDirty();
+    }
+    let isValid = true;
+    for (const value of Object.values(this.validateForm.value)) {
+      if (value === '') {
+        isValid = false;
+      }
+    }
+    if (isValid) {
+      // 验证通过, 组装reqbody
+      const containerPort2 = this.updateForm.value['portName'];
+      const microservice1Id = this.microservice1Id;
+      const microservice2Name = this.microservice2Name;
+      const portId = this.portId;
+      const weight = this.weight;
+
+      const reqbody = new GrayUpdateReqBody();
+      reqbody.containerPort2 = containerPort2;
+      reqbody.dsl = dsl;
+      reqbody.microservice1Id = microservice1Id;
+      reqbody.microservice2Name = microservice2Name;
+      reqbody.portId = portId;
+      reqbody.weight = weight;
+      console.log('this.reqBody: ' + reqbody);
+      let _finreqBody = `{"rules":[{` + reqbody + `}]}`;
+      console.log('FinreqBody: ' + _finreqBody);
+      this.putGrayDataSet(_finreqBody);
+    }
+  }
+
+  // 发送更新策略的post流
+  putGrayDataSetRX(reqBody) {
+    const options = reqBody
+    return this.http.put(environment.apiApp + '/apiApp' + '/gray-updates/' + this.detailID + '/rules', reqBody).map(res => res.json());
+  }
+
+  // 获取灰度状态tab中的列表数据
+  putGrayDataSet(reqBody) {
+    this.putGrayDataSetRX(reqBody).subscribe((data) => {
+        console.log(data);
+      },
+      err => {
+        console.log(err._body);
+        this.createNotification('error', '更新灰度策略失败', err._body);
+      }
+    );
   }
 
   showDetailModal(detailID) {
@@ -479,27 +544,6 @@ export class AppOverviewDetailComponent implements OnInit {
   // 取消提交灰度策略
   cancelUpdate() {
     this.isUpdateModalVisible = false;
-  }
-
-  // 提交更新灰度策略
-  postUpdate($event) {
-    for (const i of Object.keys(this.validateForm.controls)) {
-      this.validateForm.controls[i].markAsDirty();
-    }
-    let isValid = true;
-    for (const value of Object.values(this.validateForm.value)) {
-      if (value === '') {
-        isValid = false;
-      }
-    }
-    if (isValid) {
-      // 验证通过, 组装reqbody
-      const portName = this.validateForm.value['portName'];
-      const content = [];
-      const reqbody = new GrayModifyReqBody();
-      reqbody.portName = portName;
-      console.log('this.reqBody: ' + reqbody);
-    }
   }
 
   constructor(private fb: FormBuilder, private servicesService: ServicesService, private _notification: NzNotificationService, private _randomUser: RandomUserService, private routeInfo: ActivatedRoute, private http: Http) {
