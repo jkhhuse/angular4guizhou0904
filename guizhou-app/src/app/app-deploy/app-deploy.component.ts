@@ -1441,11 +1441,6 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     }
   }
 
-  constructor(private fb: FormBuilder, private router: Router, private confirmServ: NzModalService,
-    private _message: NzMessageService, private http: HttpClient, private routeInfo: ActivatedRoute,
-    private componentSer: ComponentServiceService, private servicesService: ServicesService, private _notification: NzNotificationService) {
-  }
-
   getServiceInit() {
     // 这里用到了async-await 和 rxjs里面的forkJoin，
     // async-await可参考链接：https://cnodejs.org/topic/5640b80d3a6aa72c5e0030b6
@@ -1955,13 +1950,15 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           this.networkOptions = [];
           _.map(data, (value, key) => {
             if (value['status'] === 1) {
-              this.networkOptions[key] = 'haproxy:' + value['loadBalancer']['lbAddress'] + ':' + value['port'];
+              this.networkOptions[key] = value['loadBalancer']['lbType'] + ':'
+                + value['loadBalancer']['lbAddress'] + ':' + value['port'];
               this.networkOptionsEnv[key] = value['loadBalancer'];
             }
           });
           _.map(data, (value, key) => {
             if (value['status'] === 2) {
-              const networkOptionsHttp$ = 'haproxy:' + value['loadBalancer']['lbAddress'] + ':' + value['port'];
+              const networkOptionsHttp$ = value['loadBalancer']['lbType'] + ':'
+                + value['loadBalancer']['lbAddress'] + ':' + value['port'];
               this.networkOptionsHttp = _.concat(this.networkOptions, networkOptionsHttp$);
               console.log(this.networkOptionsHttp);
             }
@@ -1985,6 +1982,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       this.lbControlArray[index][0]['options'] = this.networkOptions;
       this.lbControlArray[index][3]['disabled'] = true;
     }
+  }
+
+  constructor(private fb: FormBuilder, private router: Router, private confirmServ: NzModalService,
+    private _message: NzMessageService, private http: HttpClient, private routeInfo: ActivatedRoute,
+    private componentSer: ComponentServiceService, private servicesService: ServicesService, private _notification: NzNotificationService) {
   }
 
   async ngOnInit() {
