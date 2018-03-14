@@ -41,6 +41,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
     lbControlArray = [];
     lbSub: Subscription;
     networkOptions = [];
+    networkContainerOptions = [];
     networkOptionsEnv = [];
     networkOptionsHttp = [];
     selectValueSub: Subscription;
@@ -464,6 +465,9 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     let redisMinValue;
                     let zookeeperMinValue;
                     _.map(data['basic_config'], (value, key) => {
+                        if (value['attribute_name'] === 'lb_port') {
+                            this.networkContainerOptions = value['option'];
+                        }
                         switch (value['type']) {
                             case 'string': {
                                 // this.formThird1
@@ -1075,10 +1079,10 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                         options: this.networkOptions,
                     },
                     {
-                        type: 'input',
-                        inputType: 'number',
+                        type: 'select',
                         name: 'container_port',
                         placeholder: '容器暴露端口',
+                        options: this.networkContainerOptions,
                     },
                     {
                         type: 'select',
@@ -1128,10 +1132,10 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 options: this.networkOptions,
             },
             {
-                type: 'input',
-                inputType: 'number',
+                type: 'select',
                 name: this.lbControlArray[this.lbControlArray.length - 1][1]['name'] + 1,
                 placeholder: '容器暴露端口',
+                options: this.networkContainerOptions,
             },
             {
                 type: 'select',
