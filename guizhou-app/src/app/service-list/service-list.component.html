@@ -49,75 +49,77 @@
 -->
 
 <div *ngIf="services">
-    <div nz-row [nzGutter]="8">
-        <div *ngFor="let service of services | async  | appFilter: moduleName : keyword">
-<!--
-          判断如果是应用则显示。如果是服务，需要服务的类型等于tab中选择的类型，如数据库服务，过滤服务数据
--->
-            <div nz-col [nzSpan]="6" *ngIf="(service.serviceName && service.serviceType === tabName) || service.appName">
-                <nz-card>
-                    <ng-template #body>
-                        <!-- 如果是服务-->
-                        <a *ngIf="service.serviceName"
-                           [routerLink]="['/'+moduleName+'Detail', moduleName, service.serviceName + '@' + service.id, tabName]">
-                            <div class="custom-image">
-                                <img *ngIf="service.serviceName"
-                                     [src]='serviceImgUrl + service.serviceName + ".png"'
-                                     alt=""/>
-                            </div>
-                        </a>
-                        <!-- 如果是应用-->
-                        <a *ngIf="service.appName"
-                           [routerLink]="['/'+moduleName+'Detail', moduleName, service.appName, tabName]">
-                            <div class="custom-image">
-                                <img *ngIf="service.appName" #customImg
-                                     [src]='appimgUrl + service.appName + ".png"'
-                                     alt="" onerror="this.src = 'assets/service/app.png'"/>
-                            </div>
-                        </a>
+  <div nz-row [nzGutter]="8">
+    <div *ngFor="let service of services | async  | appFilter: moduleName : keyword">
+      <!--
+                判断如果是应用则显示。如果是服务，需要服务的类型等于tab中选择的类型，如数据库服务，过滤服务数据
+      -->
+      <div nz-col [nzSpan]="6" *ngIf="(service.serviceName && service.serviceType === tabName) || service.appName">
+        <nz-card>
+          <ng-template #body>
+            <!-- 如果是服务-->
+            <a *ngIf="service.serviceName"
+               [routerLink]="['/'+moduleName+'Detail', moduleName, service.serviceName + '@' + service.id, tabName]">
+              <div class="custom-image">
+                <img *ngIf="service.serviceName"
+                     [src]='serviceImgUrl + service.serviceName + ".png"'
+                     alt=""/>
+              </div>
+            </a>
+            <!-- 如果是应用-->
+            <a *ngIf="service.appName"
+               [routerLink]="['/'+moduleName+'Detail', moduleName, service.appName, tabName]">
+              <div class="custom-image">
+                <img *ngIf="service.appName" #customImg
+                     [src]='appimgUrl + service.appName + ".png"'
+                     alt="" onerror="this.src = 'assets/service/app.png'"/>
+              </div>
+            </a>
 
-                        <div class="custom-card">
-                            <div class="card-content">
+            <div class="custom-card">
+              <div class="card-content">
                                     <span *ngIf="service.status" style="float: right"
                                           [style.color]="service.status ? '#006600' : '#999999'">
                                     {{service.isEnable ? '正常':'下架'}}</span>
-                                <span *ngIf="service.deleted || !service.deleted"  style="float: right"
-                                      [style.color]="!service.deleted ? '#006600' : '#999999'">
+                <span *ngIf="service.deleted || !service.deleted" style="float: right"
+                      [style.color]="!service.deleted ? '#006600' : '#999999'">
                                     {{!service.deleted ? '正常':'下架'}}</span>
 
-                                <span *ngIf="service.repositoryName">{{service.repositoryName}}</span>
-                                <span *ngIf="service.serviceName">{{service.serviceName}}</span>
-                                <span *ngIf="service.appName">{{service.appName}}</span>
-                            </div>
-                            <div class="card-content">
-                                <span style="color: #999999">{{service.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                                <span class="pull-right">
-                                    <span *ngIf="service.repositoryName && tabName =='private'" class="glyphicon glyphicon-trash"
+                <span *ngIf="service.repositoryName">{{service.repositoryName}}</span>
+                <span *ngIf="service.serviceName">{{service.serviceName}}</span>
+                <span *ngIf="service.appName">{{service.appName}}</span>
+              </div>
+              <div class="card-content">
+                <span style="color: #999999">{{service.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                <span class="pull-right">
+                                    <span *ngIf="service.repositoryName && tabName =='private'"
+                                          class="glyphicon glyphicon-trash"
                                           (click)="showModal('repository', service.repositoryName);"></span>
-                                    <!--<span *ngIf="service.serviceName" class="glyphicon glyphicon-trash"
-                                          (click)="deleteService(service.id, service.serviceName)">b</span>-->
+                  <!--<span *ngIf="service.serviceName" class="glyphicon glyphicon-trash"
+                        (click)="deleteService(service.id, service.serviceName)">b</span>-->
                                      <span *ngIf="service.appName" class="glyphicon glyphicon-trash"
                                            (click)="showModal(service.id, service.appName);"></span>
 
                                 </span>
-                            </div>
-                        </div>
-                    </ng-template>
-                </nz-card>
+              </div>
             </div>
-        </div>
-        <!--<div *ngFor="let service of services | async">
-            {{service.name}}
-        </div>-->
+          </ng-template>
+        </nz-card>
+      </div>
     </div>
+    <!--<div *ngFor="let service of services | async">
+        {{service.name}}
+    </div>-->
+  </div>
 </div>
 
 
-<nz-modal [nzVisible]="isVisible" [nzTitle]="'操作确认'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
-    <ng-template #modalContent>
-        <p>您是否确定删除{{deleteName}}</p>
-            <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="text-align: center;">
-            </nz-spin>
+<nz-modal [nzVisible]="isVisible" [nzTitle]="'操作确认'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)"
+          (nzOnOk)="handleOk($event)" [nzConfirmLoading]="isConfirmLoading">
+  <ng-template #modalContent>
+    <p>您是否确定删除{{deleteName}}</p>
+    <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="text-align: center;">
+    </nz-spin>
 
-    </ng-template>
+  </ng-template>
 </nz-modal>

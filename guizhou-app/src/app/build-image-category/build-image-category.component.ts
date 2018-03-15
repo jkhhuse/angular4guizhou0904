@@ -185,7 +185,11 @@ export class BuildImageCategoryComponent implements OnInit {
             // this.imageIdArr[key] = response;
             // this.repositories[key] = this.imageIdArr[key]['id'];
             resolve();
-          });
+          },
+            err => {
+              console.log(err);
+              this.createNotification('error', '添加版本失败', err.error.message);
+            });
 
       });
 

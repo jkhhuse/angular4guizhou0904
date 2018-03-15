@@ -24,6 +24,7 @@ export class BuildImageComponent implements OnInit {
   repoName: '';
   _isSpinning = false;
   _isSpinning2 = false;
+  fileValid;
 
   // 这里后端api有一个Module，是存放文件的目录，比如应用，那么就是app，服务，涉及到文件上传时，就是service，镜像，就是image
   // 这里前端定义好，后面有Get请求，需要用到这个module的话，可以参照
@@ -109,10 +110,12 @@ export class BuildImageComponent implements OnInit {
     // }, 0);
     let previousValid = this.form.valid;
     this.form.changes.subscribe(() => {
-      if (this.form.valid !== previousValid) {
+      console.log('submit', this.form.valid);
+      console.log('previousValid', previousValid);
+      // if (this.form.valid !== previousValid) {
         previousValid = this.form.valid;
         this.form.setDisabled('submit', !previousValid);
-      }
+      // }
     });
   }
   ngOnInit() {
@@ -134,8 +137,10 @@ export class BuildImageComponent implements OnInit {
       this.uploader.onBeforeUploadItem = (item) => {
           // 开始上传时，disable掉构建按钮
           console.log('文件开始上传');
-          this.form.setDisabled('submit', true);
-          this._isSpinning = true;
+        this.fileValid = this.form.valid;
+        console.log('fileValid: ' + this.fileValid);
+        this.form.setDisabled('submit', true);
+        this._isSpinning = true;
         item.withCredentials = false;
         item.url = this.url + item.file.name;
       };
@@ -143,6 +148,9 @@ export class BuildImageComponent implements OnInit {
       this.uploader.onSuccessItem = (item, response, status, headers) => {
           this._isSpinning = false;
           console.log('文件上传完成');
+        console.log('fileValid2222: ' + this.fileValid);
+
+        this.form.setDisabled('submit', !this.fileValid);
       };
     } else {
       // console.log('Icon文件上传完了', this.uploaderIcon);
@@ -248,8 +256,9 @@ export class BuildImageComponent implements OnInit {
             resolve();
           },
             err => {
-                console.log(err._body);
-                this.createNotification('error', '创建失败', err._body);
+                console.log(err);
+                this._isSpinning2 = false;
+                this.createNotification('error', '创建失败', err.error.message);
             });
         });
         // resolve();

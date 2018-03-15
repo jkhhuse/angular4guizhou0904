@@ -24,22 +24,17 @@
             </label>
           </nz-radio-group>
         </div>
-       <!-- <div nz-row class="mirror-btns-wrapper">
-          <div nz-col [nzSpan]="6" [nzOffset]="12">
-            <nz-input class="serviceInstanceSearch"
-                      [nzSize]="large"
-                      [nzPlaceHolder]="'按表名称、描述、标签搜索...'"
-                      [formControl]="titleFilter">
-                <ng-template #addOnAfter><i class="anticon anticon-search"></i></ng-template>
-            </nz-input>
+        <div class="mirror-right-wrapper">
+          <div class="mirror-search-wrapper">
+            <app-search [titleFilter]="titleFilter" [offset]="18"></app-search>
           </div>
-        </div>-->
-        <app-search [titleFilter]="titleFilter" [offset]="14"></app-search>
-        <div class="mirror-card-wrapper">
-          <app-mirror-store-list [radioValue]="radioValue" [moduleName]="'repository'" [groupid]="groupid"
-                                 [tabName]="mirrorName" [titleFilter]="titleFilter"
-                                 [radioValueFilter]="radioValueFilter"></app-mirror-store-list>
+          <div class="mirror-card-wrapper">
+            <app-mirror-store-list [radioValue]="radioValue" [moduleName]="'repository'" [groupid]="groupid"
+                                   [tabName]="mirrorName" [titleFilter]="titleFilter"
+                                   [radioValueFilter]="radioValueFilter"></app-mirror-store-list>
+          </div>
         </div>
+
       </div>
     </nz-tab>
   </nz-tabset>

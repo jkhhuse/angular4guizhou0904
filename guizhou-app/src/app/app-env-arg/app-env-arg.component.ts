@@ -61,8 +61,12 @@ export class AppEnvArgComponent implements OnInit {
     this.total = 0;
     this.hasChecked = true;
     this.searchValue = '';
-    // this.groupId = this._service.getCookie('groupID');
-    this.groupId = '8';
+    this.groupId = this._service.getCookie('groupID');
+    this.getEnvFiles(this.searchValue);
+  }
+
+  groupidHandler(event: any) {
+    this.groupId = event;
     this.getEnvFiles(this.searchValue);
   }
 
@@ -213,7 +217,7 @@ export class AppEnvArgComponent implements OnInit {
       responseType: 'json' as 'json',
       params: params
     };
-    this._http.get<EnvFiles>(environment.apiConfig + '/configCenter/' + this.groupId + '/env-files', options)
+    this._http.get<EnvFiles>(environment.apiConfig + '/configCenter/' + this._service.getCookie('groupID') + '/env-files', options)
       .subscribe(
         (res) => {
           this.loading = false;
@@ -236,7 +240,7 @@ export class AppEnvArgComponent implements OnInit {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
       responseType: 'json' as 'json'
     };
-    this._http.get<EnvFileDetail>(environment.apiConfig + '/configCenter/' + this.groupId + '/env-files/' + envfileName, options)
+    this._http.get<EnvFileDetail>(environment.apiConfig + '/configCenter/' + this._service.getCookie('groupID') + '/env-files/' + envfileName, options)
     .subscribe(
       (res) => {
         let tempContent = '';
@@ -267,7 +271,7 @@ export class AppEnvArgComponent implements OnInit {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
       responseType: 'json' as 'json'
     };
-    this._http.delete(environment.apiConfig + '/configCenter/' + this.groupId + '/env-files/' + envfileName, options)
+    this._http.delete(environment.apiConfig + '/configCenter/' + this._service.getCookie('groupID') + '/env-files/' + envfileName, options)
     .subscribe(
       (res) => {
         this.isDeleteModalVisible = false;
@@ -286,7 +290,7 @@ export class AppEnvArgComponent implements OnInit {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
       responseType: 'json' as 'json',
     };
-    this._http.post(environment.apiConfig + '/configCenter/' + this.groupId + '/env-files', envfileAddReqBody, options)
+    this._http.post(environment.apiConfig + '/configCenter/' + this._service.getCookie('groupID') + '/env-files', envfileAddReqBody, options)
     .subscribe(
       (res) => {
         this.isCreateModalVisible = false;
@@ -305,7 +309,7 @@ export class AppEnvArgComponent implements OnInit {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
       responseType: 'json' as 'json',
     };
-    this._http.put(environment.apiConfig + '/configCenter/' + this.groupId + '/env-files/' + envfileName, envfileModifyReqBody, options)
+    this._http.put(environment.apiConfig + '/configCenter/' + this._service.getCookie('groupID') + '/env-files/' + envfileName, envfileModifyReqBody, options)
     .subscribe(
       (res) => {
         this.isUpdateModalVisible = false;

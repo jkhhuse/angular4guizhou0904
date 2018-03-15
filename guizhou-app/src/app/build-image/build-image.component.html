@@ -78,10 +78,10 @@
                   <button nz-button [nzType]="'default'" type="button" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
                     上传
                   </button>
-                  <button nz-button [nzType]="'default'" type="button" (click)="item.cancel()" [disabled]="!item.isUploading">
+                  <button nz-button [nzType]="'default'" type="button" (click)="item.cancel();this._isSpinning2=false;this._isSpinning=false;" [disabled]="!item.isUploading">
                     取消
                   </button>
-                  <button nz-button [nzType]="'default'" type="button" (click)="item.remove()" [disabled]="item.isSuccess">
+                  <button nz-button [nzType]="'default'" type="button" (click)="item.remove();this._isSpinning2=false;this._isSpinning=false;" [disabled]="item.isSuccess">
                     删除
                   </button>
                 </td>

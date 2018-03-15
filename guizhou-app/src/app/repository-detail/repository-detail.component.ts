@@ -30,6 +30,7 @@ export class RepositoryDetailComponent implements OnInit {
   private firstVersionId: string;
   private firstVersionVersion: string;
   isVisible = false;
+  isConfirmLoading = false;
   deleteID = '';
   deleteName = '';
   _isSpinning = false;
@@ -158,6 +159,7 @@ export class RepositoryDetailComponent implements OnInit {
   }
 
   showModal = (name, id) => {
+    this.isConfirmLoading = false;
     this.isVisible = true;
     console.log('要删除的为id:' + id);
     console.log('要删除的为name:' + ' ' + name);
@@ -166,10 +168,12 @@ export class RepositoryDetailComponent implements OnInit {
   }
 
   handleOk = (e) => {
+    this.isConfirmLoading = true;
     this.deleteVersion(this.deleteName, this.deleteID);
   }
 
   handleCancel = (e) => {
+    this.isConfirmLoading = false;
     console.log(e);
     this.isVisible = false;
   }

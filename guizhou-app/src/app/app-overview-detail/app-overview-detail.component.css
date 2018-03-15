@@ -67,3 +67,17 @@
 .modal-cont{
   flex: 1;
 }
+
+.dynamic-delete-button {
+  cursor: pointer;
+  position: relative;
+  top: 4px;
+  font-size: 24px;
+  color: #999;
+  transition: all .3s;
+}
+.gray-status{
+  color: #fff;
+  padding: 5px 15px;
+  border-radius: 15px;
+}

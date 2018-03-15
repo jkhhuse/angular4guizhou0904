@@ -17,7 +17,7 @@
         </button>
       </div>
       <div *ngIf="appInstanceDetail.status !== 'Running'">
-        <button nz-button [nzType]="'primary'"disabled>
+        <button nz-button [nzType]="'primary'">
           <span>更新</span>
         </button>
       </div>
@@ -102,7 +102,49 @@
       <ng-template #nzTabHeading>
         {{tab.name}}
       </ng-template>
-      <nz-table #nzTable
+
+
+      <nz-table *ngIf="tab.tabName==='grayStatus' && _grayDataSet"
+                #grayTable
+                [nzAjaxData]="_grayDataSet"
+                [nzLoading]="_loading"
+                [nzIsPagination]="false"
+                [nzShowSizeChanger]="false"
+      >
+        <thead nz-thead>
+        <tr>
+          <th nz-th><span>灰度策略创建时间</span></th>
+          <th nz-th><span>灰度前版本</span></th>
+          <th nz-th><span>灰度版本</span></th>
+          <th nz-th><span>状态</span></th>
+          <th nz-th><span>灰度策略</span></th>
+          <th nz-th><span>服务</span></th>
+          <th nz-th><span>操作</span></th>
+        </tr>
+        </thead>
+        <tbody nz-tbody>
+        <tr nz-tbody-tr *ngFor="let data of grayTable.data">
+          <td nz-td>{{data.createTime | date:"y-MM-dd HH:mm:ss"}}</td>
+          <td nz-td>{{data.version1}}</td>
+          <td nz-td>{{data.version2}}</td>
+          <td nz-td [ngSwitch]="data.status">
+            <span nz-td *ngSwitchCase="'0'" class='gray-status' style="background-color: #df4f3f;">灰度发布失败</span>
+            <span nz-td *ngSwitchCase="'-1'" class='gray-status' style="background-color: #4a9bf3;">灰度发布已回退</span>
+            <span nz-td *ngSwitchCase="'100'" class='gray-status' style="background-color: #98cd74;">成功升级</span>
+            <span nz-td *ngSwitchDefault class='gray-status' style="background-color: #4a9bf3;">灰度发布中</span>
+          </td>
+          <td nz-td>{{data.rules_intro}}</td>
+          <td nz-td>{{data.microservices}}</td>
+          <td nz-td>
+            <button nz-button [nzType]="'primary'" (click)="showDetailModal(data.id)"><span>详情</span></button>
+            <button nz-button [nzType]="'primary'" (click)="showUpdateModal(data.id)"><span>更新</span></button>
+          </td>
+        </tr>
+        </tbody>
+      </nz-table>
+
+      <nz-table *ngIf="tab.tabName!=='grayStatus' && _dataSet"
+                #nzTable
                 [nzAjaxData]="_dataSet"
                 [nzShowSizeChanger]="true"
                 [nzShowTotal]="true"
@@ -151,15 +193,15 @@
           <td nz-td>
             <a *ngIf="tabName === 'microservices'"
                [routerLink]="['/appInstanceDetailDetail', instanceId, data.id]">
-              {{data.microserviceName ||data.instanceName}}
+              {{data.microserviceName || data.instanceName}}
             </a>
             <a  *ngIf="tabName === 'serviceInstances'"
                 [routerLink]="['/serviceInstanceDetail', data.id]">
-              {{data.microserviceName ||data.instanceName}}
+              {{data.microserviceName || data.instanceName}}
             </a>
           </td>
           <td nz-td>{{data.clusterName}}</td>
-          <td nz-td>{{data.repository||data.serviceName}}</td>
+          <td nz-td>{{data.repository || data.serviceName}}</td>
           <td nz-td>{{data.status}}</td>
           <td nz-td>{{data.podsCount || data.instancesCount}}</td>
           <td nz-td>{{data.cpuSize}}核 {{data.memSize}}M</td>
@@ -169,3 +211,225 @@
     </nz-tab>
   </nz-tabset>
 </nz-content>
+
+<nz-modal [nzVisible]="isDetailModalVisible" [nzMaskClosable]="maskClosable" [nzTitle]="'灰度策略详情'" [nzContent]="detailGray" [nzFooter]="detailButton" (nzOnCancel)="cancelDetail($event)" (nzOnOk)="cancelDetail($event)">
+  <ng-template #detailGray>
+    <form nz-form [formGroup]="validateForm">
+      <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSpan]="6">
+          <label>
+            <span>微服务</span>
+          </label>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="6">
+          <nz-input [nzSize]="'large'" [nzDisabled]="true" formControlName="oldServiceName"></nz-input>
+        </div>
+
+        <div nz-form-label nz-col [nzSpan]="5">
+          <label >
+            <span>负载均衡</span>
+          </label>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="7">
+          <nz-input [nzSize]="'large'" [nzDisabled]="true" formControlName="lbName"></nz-input>
+        </div>
+      </div>
+
+      <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSpan]="6">
+          <label>
+            <span>新版本微服务</span>
+          </label>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="18" nzHasFeedback>
+          <nz-input [nzSize]="'large'" [nzDisabled]="true" formControlName="newServiceName"></nz-input>
+        </div>
+      </div>
+      <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSpan]="6">
+          <label for="name" nz-form-item-required>
+            <span>端口地址</span>
+          </label>
+        </div>
+        <div *ngIf="getFormControl('portName')">
+          {{getFormControl('portName').dirty}}
+          {{getFormControl('portName').hasError('required')}}
+        </div>
+        <div nz-form-control nz-col [nzSpan]="18" nzHasFeedback>
+          <nz-input [nzSize]="'large'" [nzDisabled]="isFormDisabled" formControlName="portName" [nzPlaceHolder]="'请输入容器端口...'" [nzId]="'name'"></nz-input>
+        </div>
+      </div>
+      <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSpan]="6">
+          <label>
+            <span>灰度策略</span>
+          </label>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="18">
+          <span nz-form-text>IP</span>
+        </div>
+      </div>
+      <div *ngFor="let eqIp of eqIpArray">
+        <div nz-form-item nz-row>
+          <div nz-form-control nz-col [nzSpan]="6" [nzOffset]="'6'">
+            <nz-select formControlName="select1" [nzSize]="'large'">
+              <nz-option [nzLabel]="'固定IP'" [nzValue]="'固定IP'"></nz-option>
+            </nz-select>
+          </div>
+          <div nz-form-control nz-col [nzSpan]="12">
+            <nz-input [nzSize]="'large'" [nzDisabled]="isFormDisabled" formControlName="value1" [nzPlaceHolder]="'请输入IP地址...'" [ngModel]="eqIp"></nz-input>
+          </div>
+        </div>
+      </div>
+
+      <div *ngFor="let rangeIp of rangeIpArray">
+        <div nz-form-item nz-row>
+          <div nz-form-control nz-col [nzSpan]="6" [nzOffset]="'6'">
+            <nz-select formControlName="select2" [nzSize]="'large'">
+              <nz-option [nzLabel]="'IP段限制'" [nzValue]="'IP段限制'"></nz-option>
+            </nz-select>
+          </div>
+          <div nz-form-control nz-col [nzSpan]="12">
+            <nz-input [nzSize]="'large'" [nzDisabled]="isFormDisabled" formControlName="value2" [nzPlaceHolder]="'请输入IP地址...'" [ngModel]="rangeIp"></nz-input>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </ng-template>
+  <ng-template #detailButton>
+    <button nz-button [nzType]="'default'" (click)="cancelDetail($event)">
+      <span>取 消</span>
+    </button>
+    <button nz-button [nzType]="'primary'" (click)="cancelDetail($event)">
+      <span>确 定</span>
+    </button>
+  </ng-template>
+</nz-modal>
+
+<nz-modal [nzVisible]="isUpdateModalVisible" [nzMaskClosable]="maskClosable" [nzTitle]="'更新灰度策略'" [nzContent]="updateGray" [nzFooter]="updateButton" [nzConfirmLoading]="isUpdateConfirm" (nzOnCancel)="cancelUpdate($event)" (nzOnOk)="_submitUpdateForm()">
+  <ng-template #updateGray>
+    <form nz-form [formGroup]="updateForm">
+      <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSpan]="5">
+          <label>
+            <span>微服务</span>
+          </label>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="7">
+          <nz-input [nzSize]="'large'" [nzDisabled]="true" formControlName="oldServiceName"></nz-input>
+        </div>
+
+        <div nz-form-label nz-col [nzSpan]="5">
+          <label >
+            <span>负载均衡</span>
+          </label>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="7">
+          <nz-input [nzSize]="'large'" [nzDisabled]="true" formControlName="lbName"></nz-input>
+        </div>
+      </div>
+
+      <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSpan]="5">
+          <label>
+            <span>新版本微服务</span>
+          </label>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="19" nzHasFeedback>
+          <nz-input [nzSize]="'large'" [nzDisabled]="true" formControlName="newServiceName"></nz-input>
+        </div>
+      </div>
+      <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSpan]="5">
+          <label nz-form-item-required>
+            <span>端口地址</span>
+          </label>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="19" nzHasFeedback>
+          <nz-input [nzSize]="'large'" [nzDisabled]="isFormDisabled" formControlName="portName" [nzPlaceHolder]="'请输入容器端口...'" [nzId]="'portName'"></nz-input>
+          <div nz-form-explain class="hasError" *ngIf="getUpdateFormControl('portName').dirty&&getUpdateFormControl('portName').hasError('required')">请输入端口地址!</div>
+        </div>
+      </div>
+      <div nz-form-item nz-row>
+        <div nz-form-label nz-col [nzSpan]="5">
+          <label>
+            <span>灰度策略</span>
+          </label>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="19">
+          <span nz-form-text>IP</span>
+        </div>
+      </div>
+
+      <div nz-form-item nz-row *ngFor="let control of controlArray;let i = index;">
+        <div nz-form-control nz-col [nzSpan]="5" [nzOffset]="'5'">
+          <nz-select [nzSize]="'large'"
+                     [formControlName]="control.controlName"
+                     [(ngModel)]="selectedOption[i]"
+                     >
+            <nz-option [nzLabel]="'固定IP'" [nzValue]="'equal'"></nz-option>
+            <nz-option [nzLabel]="'IP段限制'" [nzValue]="'range'"></nz-option>
+          </nz-select>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="14" *ngIf="selectedOption[i] === 'equal'">
+          <nz-input
+            style="margin-right:5px;"
+            [nzSize]="'large'"
+            [nzPlaceHolder]="'固定IP'"
+            [formControlName]="control.controlInstance1"
+            [nzId]="control.id">
+          </nz-input>
+          <i class="anticon anticon-minus-circle-o dynamic-delete-button" (click)="removeIP(control,$event)"></i>
+          <div nz-form-explain
+               *ngIf="getUpdateFormControl(control.controlInstance)?.dirty&&getUpdateFormControl(control.controlInstance)?.hasError('required')">
+            请填写相应的IP值或删除空选项
+          </div>
+        </div>
+        <div nz-form-control nz-col [nzSpan]="14" *ngIf="selectedOption[i] ==='range'">
+          <nz-input-group [nzSize]="'large'"
+                          nzCompact
+          >
+            <nz-input
+            style="width:40%;"
+            [nzSize]="'large'"
+            [nzPlaceHolder]="'IP段限制'"
+            [formControlName]="control.controlInstance1"
+            [nzId]="control.id">
+          </nz-input>
+            <input type="text" placeholder="~" nz-input style="width: 24px; border-left: 0px; pointer-events: none;">
+            <nz-input
+              style="width:40%;"
+              [nzSize]="'large'"
+              [nzPlaceHolder]="'IP段限制'"
+              [formControlName]="control.controlInstance2"
+              [nzId]="control.id">
+            </nz-input>
+          </nz-input-group>
+          <i class="anticon anticon-minus-circle-o dynamic-delete-button" (click)="removeIP(control,$event)"></i>
+          <div nz-form-explain
+               *ngIf="getUpdateFormControl(control.controlInstance)?.dirty&&getUpdateFormControl(control.controlInstance)?.hasError('required')">
+            请填写相应的IP值或删除空选项
+          </div>
+        </div>
+      </div>
+      <div nz-form-item nz-row>
+        <div nz-form-control nz-col [nzSpan]="20" [nzOffset]="4">
+          <button nz-button [nzType]="'dashed'" [nzSize]="'large'" (click)="addIP($event)">
+            <i class="anticon anticon-plus"></i>
+            <span>继续增加IP</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+  <ng-template #updateButton>
+    <button nz-button [nzType]="'default'" (click)="cancelUpdate($event)">
+      <span>取 消</span>
+    </button>
+    <button nz-button [nzType]="'primary'" (click)="_submitUpdateForm()">
+      <span>确 定</span>
+    </button>
+  </ng-template>
+</nz-modal>
+

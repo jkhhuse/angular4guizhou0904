@@ -21,8 +21,12 @@ export class ServiceInstanceComponent implements OnInit {
   private keyword: string;
   deleteID = '';
   deleteName = '';
-  isVisible = false;
-  _isSpinning = false;
+  isVisible_delete = false;
+  isVisible_start = false;
+  isVisible_stop = false;
+  _isSpinning_delete = false;
+  _isSpinning_start = false;
+  _isSpinning_stop = false;
   _current = 1;
   _pageSize = 10;
   _total = 1;
@@ -39,21 +43,37 @@ export class ServiceInstanceComponent implements OnInit {
   _sortValue = null;
   _dataSet = [];
   copyData = [...this._dataSet];
-  showModal = (id, name) => {
-    this.isVisible = true;
+  showModal_delete = (id, name) => {
+    this.isVisible_delete = true;
     this.deleteID = id;
     this.deleteName = name;
   }
 
-  handleOk = (e) => {
+  showModal_start = (id, name) => {
+    this.isVisible_start = true;
+    this.deleteID = id;
+    this.deleteName = name;
+  }
+
+  showModal_stop = (id, name) => {
+    this.isVisible_stop = true;
+    this.deleteID = id;
+    this.deleteName = name;
+  }
+  handleOk_delete = (e) => {
+    this._isSpinning_delete = true;
     this.deleteServiceInstance(this.deleteID, this.deleteName);
-    this._isSpinning = true;
-    setTimeout(() => {
-      this.isVisible = false;
-      console.log('删除成功，更新列表');
-      this.refreshData();
-      this._isSpinning = false;
-    }, 3000);
+  }
+
+  handleOk_start = (e) => {
+    this._isSpinning_start = true;
+    this.startServiceInstance(this.deleteID, this.deleteName);
+  }
+
+  handleOk_stop = (e) => {
+    this._isSpinning_stop = true;
+    this.stopServiceInstance(this.deleteID, this.deleteName);
+
   }
 
   createNotification = (type, title, content) => {
@@ -63,19 +83,69 @@ export class ServiceInstanceComponent implements OnInit {
 
   handleCancel = (e) => {
     console.log(e);
-    this.isVisible = false;
+    this.isVisible_delete = false;
+    this.isVisible_start = false;
+    this.isVisible_stop = false;
   }
 
-// 删除服务实例接口
+  // 删除服务实例接口
   deleteServiceInstance(instanceID, instanceName) {
-    this.http.delete(environment.apiService + '/apiService/' + '/groups/' + this.servicesService.getCookie('groupID') + '/service-instances/' + instanceID).subscribe((data) => {
+    this.http.delete(environment.apiService + '/apiService/' + 'groups/' + this.servicesService.getCookie('groupID') + '/service-instances/' + instanceID).subscribe((data) => {
         console.log('data: ' + data);
-        status = data.toString();
-        console.log('datatoString: ' + status);
+        if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
+          setTimeout(() => {
+            this.isVisible_delete = false;
+            console.log('删除成功，更新列表');
+            this.refreshData();
+            this._isSpinning_delete = false;
+          }, 3000);
+        } else {
+          this.createNotification('error', '删除服务实例失败', '删除服务实例调用接口失败');
+        }
       },
       err => {
         console.log(err._body);
         this.createNotification('error', '删除服务实例失败', err._body);
+      });
+  }
+
+  // 停止应用实例接口
+  stopServiceInstance(instanceID, instanceName) {
+    this.http.put(environment.apiService + '/apiService/' + 'groups/' + this.servicesService.getCookie('groupID') + '/service-instances/' + instanceID + '/action?op_type=stop',{}).subscribe((data) => {
+        if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
+          setTimeout(() => {
+            this.isVisible_stop = false;
+            console.log('停止成功，更新列表');
+            this.refreshData();
+            this._isSpinning_stop = false;
+          }, 3000);
+        } else {
+          this.createNotification('error', '停止服务实例失败', '停止服务实例调用接口失败');
+        }
+      },
+      err => {
+        console.log(err._body);
+        this.createNotification('error', '停止服务实例失败', err._body);
+      });
+  }
+
+  // 停止应用实例接口
+  startServiceInstance(instanceID, instanceName) {
+    this.http.put(environment.apiService + '/apiService/' + 'groups/' + this.servicesService.getCookie('groupID') + '/service-instances/' + instanceID + '/action?op_type=start',{}).subscribe((data) => {
+        if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
+          setTimeout(() => {
+            this.isVisible_start = false;
+            console.log('停止成功，更新列表');
+            this.refreshData();
+            this._isSpinning_start = false;
+          }, 3000);
+        } else {
+          this.createNotification('error', '停止服务实例失败', '停止服务实例调用接口失败');
+        }
+      },
+      err => {
+        console.log(err._body);
+        this.createNotification('error', '停止服务实例失败', err._body);
       });
   }
 

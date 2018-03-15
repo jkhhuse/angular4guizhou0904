@@ -28,3 +28,7 @@
 .ant-dropdown{
   width: 400px;
 }
+.group-label{
+  max-height: 300px;
+  overflow-y: scroll;
+}
