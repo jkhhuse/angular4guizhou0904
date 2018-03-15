@@ -17,17 +17,17 @@
                     <div class="metric-assign">
                         <span>分配率</span>
                         <svg height="20" width="75%">
-                            <title>已分配{{ container?.cpuAssigned }}</title>
+                            <title>已分配{{ bigData?.cpuAssigned }}</title>
                             <line x1="0" x2="100%" y1="15" y2="15" stroke="#D7D7D7" stroke-width="4" stroke-linecap="round"/>
-                            <line x1="0" *ngIf="container?.cpuAssigned!=='0.00%'" [attr.x2]="container?.cpuAssigned" y1="15" y2="15" stroke="#5CB9FF" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="0" *ngIf="bigData?.cpuAssigned!=='0.00%'" [attr.x2]="bigData?.cpuAssigned" y1="15" y2="15" stroke="#5CB9FF" stroke-width="4" stroke-linecap="round"/>
                         </svg>
                     </div>
                     <div class="metric-use">
                         <span>使用率</span>
                         <svg height="20" width="75%">
-                            <title>已使用{{ container?.cpuUsed }}</title>
+                            <title>已使用{{ bigData?.cpuUsed }}</title>
                             <line x1="0" x2="100%" y1="15" y2="15" stroke="#D7D7D7" stroke-width="4" stroke-linecap="round"/>
-                            <line x1="0" *ngIf="container?.cpuUsed!=='0.00%'" [attr.x2]="container?.cpuUsed" y1="15" y2="15" stroke="#5CB9FF" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="0" *ngIf="bigData?.cpuUsed!=='0.00%'" [attr.x2]="bigData?.cpuUsed" y1="15" y2="15" stroke="#5CB9FF" stroke-width="4" stroke-linecap="round"/>
                         </svg>
                     </div>
                 </div>
@@ -46,22 +46,22 @@
                     <div class="metric-assign">
                         <span>分配率</span>
                         <svg height="20" width="75%">
-                            <title>已分配{{ container?.memAssigned }}</title>
+                            <title>已分配{{ bigData?.memAssigned }}</title>
                             <line x1="0" x2="100%" y1="15" y2="15" stroke="#D7D7D7" stroke-width="4" stroke-linecap="round"/>
-                            <line x1="0" *ngIf="container?.memAssigned!=='0.00%'" [attr.x2]="container?.memAssigned" y1="15" y2="15" stroke="#5CB9FF" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="0" *ngIf="bigData?.memAssigned!=='0.00%'" [attr.x2]="bigData?.memAssigned" y1="15" y2="15" stroke="#5CB9FF" stroke-width="4" stroke-linecap="round"/>
                         </svg>
                     </div>
                     <div class="metric-use">
                         <span>使用率</span>
                         <svg height="20" width="75%">
-                            <title>已使用{{ container?.memUsed }}</title>
+                            <title>已使用{{ bigData?.memUsed }}</title>
                             <line x1="0" x2="100%" y1="15" y2="15" stroke="#D7D7D7" stroke-width="4" stroke-linecap="round"/>
-                            <line x1="0" *ngIf="container?.memUsed!=='0.00%'" [attr.x2]="container?.memUsed" y1="15" y2="15" stroke="#5CB9FF" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="0" *ngIf="bigData?.memUsed!=='0.00%'" [attr.x2]="bigData?.memUsed" y1="15" y2="15" stroke="#5CB9FF" stroke-width="4" stroke-linecap="round"/>
                         </svg>
                     </div>
                 </div>
                 <div class="container-box-count">
-                    <div>{{ container?.clusterCount }}</div>
+                    <div>{{ bigData?.clusterCount }}</div>
                     <div>主机数</div>
                 </div>
             </div>
@@ -75,17 +75,17 @@
                     <div class="metric-assign">
                         <span>分配率</span>
                         <svg height="20" width="75%">
-                            <title>已分配{{ container?.storageAssigned }}</title>
+                            <title>已分配{{ bigData?.storageAssigned }}</title>
                             <line x1="0" x2="100%" y1="15" y2="15" stroke="#D7D7D7" stroke-width="4" stroke-linecap="round"/>
-                            <line x1="0" *ngIf="container?.storageAssigned!=='0.00%'" [attr.x2]="container?.storageAssigned" y1="15" y2="15" stroke="#5CB9FF" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="0" *ngIf="bigData?.storageAssigned!=='0.00%'" [attr.x2]="bigData?.storageAssigned" y1="15" y2="15" stroke="#5CB9FF" stroke-width="4" stroke-linecap="round"/>
                         </svg>
                     </div>
                     <div class="metric-use">
                         <span>使用率</span>
                         <svg height="20" width="75%">
-                            <title>已分配{{ container?.storageUsed }}</title>
+                            <title>已分配{{ bigData?.storageUsed }}</title>
                             <line x1="0" x2="100%" y1="15" y2="15" stroke="#D7D7D7" stroke-width="4" stroke-linecap="round"/>
-                            <line x1="0" *ngIf="container?.storageUsed!=='0.00%'" [attr.x2]="container?.storageUsed" y1="15" y2="15" stroke="#5CB9FF" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="0" *ngIf="bigData?.storageUsed!=='0.00%'" [attr.x2]="bigData?.storageUsed" y1="15" y2="15" stroke="#5CB9FF" stroke-width="4" stroke-linecap="round"/>
                         </svg>
                     </div>
                 </div>
@@ -100,14 +100,8 @@
                 <div class="view-split"></div>
                 <div class="container-box-metric-tag">
                     <div class="metric-tags-list">
-                        <div class="metric-tag">
-                            HDFS
-                        </div>
-                        <div class="metric-tag">
-                            YARN
-                        </div>
-                        <div class="metric-tag">
-                            Hive
+                        <div class="metric-tag" *ngFor="let item of bigData.components">
+                            {{ item }}
                         </div>
                     </div>
                 </div>

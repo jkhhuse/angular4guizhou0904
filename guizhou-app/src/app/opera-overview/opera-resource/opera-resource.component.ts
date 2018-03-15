@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ExtraResource, Oracle, Container, Image } from '../opera-overview.model';
+import { ExtraResource, Oracle, Container, Image, BigData } from '../opera-overview.model';
 
 @Component({
   selector: 'app-opera-resource',
@@ -11,6 +11,7 @@ export class OperaResourceComponent implements OnInit {
   @Input() extraResource: ExtraResource;
   @Input() oracleResource: Oracle;
   @Input() container: Container;
+  @Input() bigData: BigData;
   @Input() image: Image;
 
   constructor() { }
