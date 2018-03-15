@@ -320,6 +320,10 @@ export class AppOverviewDetailComponent implements OnInit {
   // 获取更新灰度状态详情
   getUpdateDetail(detailID) {
     this.getGrayDetailRX(detailID).subscribe((data) => {
+        // 重新打开modal时，清空维护的selectedOption和controlArray
+        this.selectedOption = [];
+        this.controlArray = [];
+
         this.hostIpArray = '';
         this.grayDetailDataset = data[0];
 
@@ -357,7 +361,6 @@ export class AppOverviewDetailComponent implements OnInit {
             } else if (grayIpArray[i].indexOf('EQ') >= 0) {
               let EQTemp = grayIpArray[i].replace(')', '').split(' ');
               this.addIP(this.mockE, EQTemp[2], '', 'equal');
-
             } else if (grayIpArray[i].indexOf('RANGE') >= 0) {
               let RANGETemp = grayIpArray[i].replace(')', '').split(' ');
               this.addIP(this.mockE, RANGETemp[2], RANGETemp[3], 'range');
@@ -544,6 +547,12 @@ export class AppOverviewDetailComponent implements OnInit {
   // 取消提交灰度策略
   cancelUpdate() {
     this.isUpdateModalVisible = false;
+    // 取消提交灰度策略，恢复数据至原始详情值
+    if (this.detailID == '' || this.detailID == 'undefined') {
+      this.createNotification('error', '获取灰度详情ID错误', '获取灰度详情ID错误');
+    } else {
+      this.getUpdateDetail(this.detailID);
+    }
   }
 
   constructor(private fb: FormBuilder, private servicesService: ServicesService, private _notification: NzNotificationService, private _randomUser: RandomUserService, private routeInfo: ActivatedRoute, private http: Http) {
