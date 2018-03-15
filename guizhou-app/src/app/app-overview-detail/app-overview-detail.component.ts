@@ -493,9 +493,10 @@ export class AppOverviewDetailComponent implements OnInit {
       reqbody.portId = portId;
       reqbody.weight = weight;
       console.log('this.reqBody: ' + reqbody);
-      let _finreqBody = `{"rules":[` + reqbody + `]}`;
+      let _finreqBody = [];
+      _finreqBody[0] = reqbody
       console.log('FinreqBody: ' + _finreqBody);
-      this.putGrayDataSet(reqbody);
+      this.putGrayDataSet(_finreqBody);
     }
   }
 
