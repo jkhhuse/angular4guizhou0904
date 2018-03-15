@@ -76,3 +76,8 @@
   color: #999;
   transition: all .3s;
 }
+.gray-status{
+  color: #fff;
+  padding: 5px 15px;
+  border-radius: 15px;
+}

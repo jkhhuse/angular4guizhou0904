@@ -447,7 +447,6 @@ export class AppOverviewDetailComponent implements OnInit {
       let tempName = 'name' + i;
       let firstIP = 'firstIP' + i;
       let secondIP = 'secondIP' + i;
-      console.log(this.updateForm.value[tempName]);
       if (typeof(this.updateForm.value[tempName]) == 'undefined') {
         // 如果对应的key的值是undefined，说明这个值曾经存在，但是被remove掉了
       } else {
@@ -494,9 +493,9 @@ export class AppOverviewDetailComponent implements OnInit {
       reqbody.portId = portId;
       reqbody.weight = weight;
       console.log('this.reqBody: ' + reqbody);
-      let _finreqBody = `{"rules":[{` + reqbody + `}]}`;
+      let _finreqBody = `{"rules":[` + reqbody + `]}`;
       console.log('FinreqBody: ' + _finreqBody);
-      this.putGrayDataSet(_finreqBody);
+      this.putGrayDataSet(reqbody);
     }
   }
 

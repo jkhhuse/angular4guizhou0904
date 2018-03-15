@@ -127,7 +127,12 @@
           <td nz-td>{{data.createTime | date:"y-MM-dd HH:mm:ss"}}</td>
           <td nz-td>{{data.version1}}</td>
           <td nz-td>{{data.version2}}</td>
-          <td nz-td>{{data.status}}</td>
+          <td nz-td [ngSwitch]="data.status">
+            <span nz-td *ngSwitchCase="'0'" class='gray-status' style="background-color: #df4f3f;">灰度发布失败</span>
+            <span nz-td *ngSwitchCase="'-1'" class='gray-status' style="background-color: #4a9bf3;">灰度发布已回退</span>
+            <span nz-td *ngSwitchCase="'100'" class='gray-status' style="background-color: #98cd74;">成功升级</span>
+            <span nz-td *ngSwitchDefault class='gray-status' style="background-color: #4a9bf3;">灰度发布中</span>
+          </td>
           <td nz-td>{{data.rules_intro}}</td>
           <td nz-td>{{data.microservices}}</td>
           <td nz-td>
