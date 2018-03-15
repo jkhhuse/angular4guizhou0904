@@ -47,6 +47,18 @@ export class Oracle {
   sessionAssigned: string;
 }
 
+export class BigData {
+  clusterCount: number;
+  hostCount: number;
+  cpuUsed: string;
+  cpuAssigned: string;
+  memUsed: string;
+  memAssigned: string;
+  storageUsed: string;
+  storageAssigned: string;
+  components: string[];
+}
+
 export class Image {
   private: number;
   public: number;

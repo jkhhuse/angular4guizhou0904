@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ServicesService } from '../shared/services.service';
 import { EventTable, OperateLog, SortMap, Condition, EventChart, Count, CheckOption } from '../opera-event/opera-event.model';
 import { ViewCount, AlertState, ViewCountBark, ServiceAndAppChart, ClusterAndHostChart, Container,
-   Oracle, Image, ExtraResource, Dps } from './opera-overview.model';
+   Oracle, Image, ExtraResource, Dps, BigData } from './opera-overview.model';
 import { environment } from '../../environments/environment';
 import { IntervalObservable } from 'rxjs/observable/IntervalObservable';
 import { Observable } from 'rxjs/Observable';
@@ -25,6 +25,7 @@ export class OperaOverviewComponent implements OnInit, OnDestroy {
   oracleResource: Oracle;
   extraResource: ExtraResource;
   container: Container;
+  bigData: BigData;
   image: Image;
   dps: Dps;
   private alive: boolean;
@@ -74,6 +75,17 @@ export class OperaOverviewComponent implements OnInit, OnDestroy {
       storageAssigned: null,
       sessionUsed: null,
       sessionAssigned: null
+    };
+    this.bigData = {
+      clusterCount: 0,
+      hostCount: 0,
+      cpuUsed: null,
+      cpuAssigned: null,
+      memUsed: null,
+      memAssigned: null,
+      storageUsed: null,
+      storageAssigned: null,
+      components: []
     };
     this.extraResource = {
       containerCount: null,
@@ -194,6 +206,16 @@ export class OperaOverviewComponent implements OnInit, OnDestroy {
           this.image.private = res.image.privates;
           this.image.public = res.image.publics;
           this.image.totalSize = res.image.totalSize;
+          // big data
+          this.bigData.clusterCount = res.bigData.clusterNum;
+          this.bigData.hostCount = res.bigData.hostNum;
+          this.bigData.cpuAssigned = (res.bigData.assignedCpu / res.bigData.cpu * 120).toFixed(2) + '%';
+          this.bigData.cpuUsed = (res.bigData.usedCpu / res.bigData.cpu * 120).toFixed(2) + '%';
+          this.bigData.memAssigned = (res.bigData.assignedMem / res.bigData.mem * 120).toFixed(2) + '%';
+          this.bigData.memUsed = (res.bigData.usedMem / res.bigData.mem * 120).toFixed(2) + '%';
+          this.bigData.storageAssigned = (res.bigData.assignedStorage / res.bigData.storage * 120).toFixed(2) + '%';
+          this.bigData.storageUsed = (res.bigData.usedStorage / res.bigData.storage * 120).toFixed(2) + '%';
+          this.bigData.components = res.bigData.components;
         },
         error => {
           console.log('refreshEventTable error!');
