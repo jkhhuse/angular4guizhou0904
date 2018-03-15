@@ -22,6 +22,11 @@
 .dashboard-li span{
   margin-right: 4px;
 }
+.dashboard-li em{
+  font-style: normal;
+  background-color: #f7e8ac;
+  color: #1a282f;
+}
 .log-message{
   white-space: pre-wrap;
   word-break: break-word;
@@ -58,7 +63,6 @@
   width: 33px !important;
   border: none !important;
   text-align: left !important;
-  margin-left: 28px;
 }
 .dashboard-header{
   padding: 15px 32px;
@@ -84,3 +88,8 @@
 .log_page{
   float:right;
 }
+.time-select{
+  width: 120px;
+  margin: 20px 0;
+}
+
