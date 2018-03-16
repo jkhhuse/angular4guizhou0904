@@ -29,6 +29,7 @@ import * as _ from 'lodash';
 })
 export class ComponentTestComponent implements AfterViewInit, OnInit {
   // 测试
+  inputTest;
   radioValue = 'prodDomain';
   valueSub: Subscription;
   major = 1;
