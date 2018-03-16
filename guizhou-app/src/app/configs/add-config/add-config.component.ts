@@ -39,6 +39,7 @@ export class AddConfigComponent implements OnInit {
       placeholder: '请输入配置值',
       notNecessary: true,
       inputType: 'textarea',
+      rows: 8,
       styles: {
         'width': '400px',
         'height': '200px',

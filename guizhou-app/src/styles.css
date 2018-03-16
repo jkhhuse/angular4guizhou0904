@@ -27,3 +27,12 @@ body, html{
 .marginTop20 {
     margin-bottom: 20px;
 }
+.dashboard-li em{
+  font-style: normal;
+  background-color: #f7e8ac;
+  color: #1a282f;
+}
+.ant-card-body{
+  overflow-y: scroll;
+}
+

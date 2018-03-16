@@ -1,19 +1,51 @@
-<button nz-button [nzType]="'primary'" style="margin-bottom: 15px;" (click)="getConsoleData();">
+<!--<button nz-button [nzType]="'primary'" style="margin-bottom: 15px;" (click)="refreshConsoleData();">
   <i class="anticon anticon-retweet"></i><span>刷新</span>
-</button>
-<div class="HolyGrail">
+</button>-->
+<div class="opera-log-selects">
+  <br/>
+  <button nz-button class="group-name"><span>时间</span> </button>
+
+  <nz-select class="time-select"
+             [(ngModel)]="selectedOption"
+             [nzPlaceHolder]="'choose option'"
+  >
+    <nz-option
+      *ngFor="let option of options"
+      [nzLabel]="option.label"
+      [nzValue]="option"
+      [nzDisabled]="option.disabled">
+    </nz-option>
+  </nz-select>
+  <nz-input [(ngModel)]="query_string" style="width: 400px;" [nzPlaceHolder]="'日志正文关键字搜索..'"></nz-input>
+  <button nz-button [nzType]="'primary'" (click)="getConsoleData()">
+    <i class="anticon anticon-search"></i><span>搜索</span>
+  </button>
+</div>
+
+<div class="HolyGrail" id="HolyGrail">
   <div class="dashboard-resulet-wrapper" style="position: relative">
     <div class="dashboard-resulet">
       <p class="dashboard-header">日志信息</p>
-      <ul>
+      <ul *ngIf="consoleDatas && consoleDatas.logs">
+        <li class="dashboard-li" *ngFor="let consoleData of consoleDatas.logs">
+          <span>{{consoleData?.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+          <span class="log-service">{{consoleData?.service_name}}</span>
+          <span class="log-cluster">{{consoleData?.cluster_name}}</span>
+          <span class="log-node">{{consoleData?.nodes}}</span>
+          <span class="log-instance">{{consoleData?.instance_id}}</span>
+          <span class="log-path">{{consoleData?.paths}}</span>
+          <span class="log-message" [innerHTML]="consoleData?.message"></span>
+        </li>
+      </ul>
+      <ul *ngIf="consoleDatas && !consoleDatas.logs">
         <li class="dashboard-li" *ngFor="let consoleData of consoleDatas">
-          <span>{{consoleData.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-          <span class="log-service">{{consoleData.service_name}}</span>
-          <span class="log-cluster">{{consoleData.cluster_name}}</span>
-          <span class="log-node">{{consoleData.nodes}}</span>
-          <span class="log-instance">{{consoleData.instance_id}}</span>
-          <span class="log-path">{{consoleData.paths}}</span>
-          <span class="log-message">{{consoleData.message}}</span>
+          <span>{{consoleData?.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+          <span class="log-service">{{consoleData?.service_name}}</span>
+          <span class="log-cluster">{{consoleData?.cluster_name}}</span>
+          <span class="log-node">{{consoleData?.nodes}}</span>
+          <span class="log-instance">{{consoleData?.instance_id}}</span>
+          <span class="log-path">{{consoleData?.paths}}</span>
+          <span class="log-message" [innerHTML]="consoleData?.message"></span>
         </li>
       </ul>
 
