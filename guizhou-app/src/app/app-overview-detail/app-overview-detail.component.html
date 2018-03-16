@@ -214,88 +214,93 @@
 
 <nz-modal [nzVisible]="isDetailModalVisible" [nzMaskClosable]="maskClosable" [nzTitle]="'灰度策略详情'" [nzContent]="detailGray" [nzFooter]="detailButton" (nzOnCancel)="cancelDetail($event)" (nzOnOk)="cancelDetail($event)">
   <ng-template #detailGray>
-    <form nz-form [formGroup]="validateForm">
-      <div nz-form-item nz-row>
-        <div nz-form-label nz-col [nzSpan]="6">
-          <label>
-            <span>微服务</span>
-          </label>
-        </div>
-        <div nz-form-control nz-col [nzSpan]="6">
-          <nz-input [nzSize]="'large'" [nzDisabled]="true" formControlName="oldServiceName"></nz-input>
-        </div>
-
-        <div nz-form-label nz-col [nzSpan]="5">
-          <label >
-            <span>负载均衡</span>
-          </label>
-        </div>
-        <div nz-form-control nz-col [nzSpan]="7">
-          <nz-input [nzSize]="'large'" [nzDisabled]="true" formControlName="lbName"></nz-input>
-        </div>
-      </div>
-
-      <div nz-form-item nz-row>
-        <div nz-form-label nz-col [nzSpan]="6">
-          <label>
-            <span>新版本微服务</span>
-          </label>
-        </div>
-        <div nz-form-control nz-col [nzSpan]="18" nzHasFeedback>
-          <nz-input [nzSize]="'large'" [nzDisabled]="true" formControlName="newServiceName"></nz-input>
-        </div>
-      </div>
-      <div nz-form-item nz-row>
-        <div nz-form-label nz-col [nzSpan]="6">
-          <label for="name" nz-form-item-required>
-            <span>端口地址</span>
-          </label>
-        </div>
-        <div *ngIf="getFormControl('portName')">
-          {{getFormControl('portName').dirty}}
-          {{getFormControl('portName').hasError('required')}}
-        </div>
-        <div nz-form-control nz-col [nzSpan]="18" nzHasFeedback>
-          <nz-input [nzSize]="'large'" [nzDisabled]="isFormDisabled" formControlName="portName" [nzPlaceHolder]="'请输入容器端口...'" [nzId]="'name'"></nz-input>
-        </div>
-      </div>
-      <div nz-form-item nz-row>
-        <div nz-form-label nz-col [nzSpan]="6">
-          <label>
-            <span>灰度策略</span>
-          </label>
-        </div>
-        <div nz-form-control nz-col [nzSpan]="18">
-          <span nz-form-text>IP</span>
-        </div>
-      </div>
-      <div *ngFor="let eqIp of eqIpArray">
+    <div *ngFor="let i of formLength">
+      <form nz-form [formGroup]="getValideForm(i)">
         <div nz-form-item nz-row>
-          <div nz-form-control nz-col [nzSpan]="6" [nzOffset]="'6'">
-            <nz-select formControlName="select1" [nzSize]="'large'">
-              <nz-option [nzLabel]="'固定IP'" [nzValue]="'固定IP'"></nz-option>
-            </nz-select>
+          <div nz-form-label nz-col [nzSpan]="6">
+            <label>
+              <span>微服务</span>
+            </label>
           </div>
-          <div nz-form-control nz-col [nzSpan]="12">
-            <nz-input [nzSize]="'large'" [nzDisabled]="isFormDisabled" formControlName="value1" [nzPlaceHolder]="'请输入IP地址...'" [ngModel]="eqIp"></nz-input>
+          <div nz-form-control nz-col [nzSpan]="6">
+            <nz-input [nzSize]="'large'" [nzDisabled]="true" formControlName="oldServiceName"></nz-input>
+          </div>
+
+          <div nz-form-label nz-col [nzSpan]="5">
+            <label >
+              <span>负载均衡</span>
+            </label>
+          </div>
+          <div nz-form-control nz-col [nzSpan]="7">
+            <nz-input [nzSize]="'large'" [nzDisabled]="true" formControlName="lbName"></nz-input>
           </div>
         </div>
-      </div>
 
-      <div *ngFor="let rangeIp of rangeIpArray">
         <div nz-form-item nz-row>
-          <div nz-form-control nz-col [nzSpan]="6" [nzOffset]="'6'">
-            <nz-select formControlName="select2" [nzSize]="'large'">
-              <nz-option [nzLabel]="'IP段限制'" [nzValue]="'IP段限制'"></nz-option>
-            </nz-select>
+          <div nz-form-label nz-col [nzSpan]="6">
+            <label>
+              <span>新版本微服务</span>
+            </label>
           </div>
-          <div nz-form-control nz-col [nzSpan]="12">
-            <nz-input [nzSize]="'large'" [nzDisabled]="isFormDisabled" formControlName="value2" [nzPlaceHolder]="'请输入IP地址...'" [ngModel]="rangeIp"></nz-input>
+          <div nz-form-control nz-col [nzSpan]="18">
+            <nz-input [nzSize]="'large'" [nzDisabled]="true" formControlName="newServiceName"></nz-input>
           </div>
         </div>
-      </div>
+        <div nz-form-item nz-row>
+          <div nz-form-label nz-col [nzSpan]="6">
+            <label>
+              <span>端口地址</span>
+            </label>
+          </div>
+          <div nz-form-control nz-col [nzSpan]="18">
+            <nz-input [nzSize]="'large'" [nzDisabled]="isFormDisabled" formControlName="portName" [nzId]="'name'"></nz-input>
+          </div>
+        </div>
+        <div nz-form-item nz-row>
+          <div nz-form-label nz-col [nzSpan]="6">
+            <label>
+              <span>灰度策略</span>
+            </label>
+          </div>
+          <div nz-form-control nz-col [nzSpan]="18">
+            <span nz-form-text>IP</span>
+          </div>
+        </div>
+        <div *ngFor="let eqIp of eqIpArray[i]">
+          <div nz-form-item nz-row>
+            <div nz-form-control nz-col [nzSpan]="6" [nzOffset]="'6'">
+              <nz-select formControlName="select1" [nzSize]="'large'">
+                <nz-option [nzLabel]="'固定IP'" [nzValue]="'固定IP'"></nz-option>
+              </nz-select>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="12">
+              <span nz-form-text>{{eqIp}}</span>
+<!--
+              <nz-input [nzSize]="'large'" [nzDisabled]="isFormDisabled" formControlName="value1" [nzPlaceHolder]="'请输入IP地址...'" [ngModel]="eqIp"></nz-input>
+-->
+            </div>
+          </div>
+        </div>
 
-    </form>
+        <div *ngFor="let rangeIp of rangeIpArray[i]">
+          <div nz-form-item nz-row>
+            <div nz-form-control nz-col [nzSpan]="6" [nzOffset]="'6'">
+              <nz-select formControlName="select2" [nzSize]="'large'">
+                <nz-option [nzLabel]="'IP段限制'" [nzValue]="'IP段限制'"></nz-option>
+              </nz-select>
+            </div>
+            <div nz-form-control nz-col [nzSpan]="12">
+              <span nz-form-text>{{rangeIp}}</span>
+<!--
+              <nz-input [nzSize]="'large'" [nzDisabled]="isFormDisabled" formControlName="value2" [nzPlaceHolder]="'请输入IP地址...'" [ngModel]="rangeIp"></nz-input>
+-->
+            </div>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
   </ng-template>
   <ng-template #detailButton>
     <button nz-button [nzType]="'default'" (click)="cancelDetail($event)">

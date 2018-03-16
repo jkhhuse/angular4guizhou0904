@@ -16,7 +16,11 @@ import {Http} from "@angular/http";
 })
 export class AppOverviewDetailComponent implements OnInit {
   _grayDataSet: GrayListDetail[];
-  validateForm: FormGroup;
+  validateForm0: FormGroup;
+  validateForm1: FormGroup;
+  validateForm2: FormGroup;
+  validateForm3: FormGroup;
+  validateForm4: FormGroup;
   updateForm: FormGroup;
   detailForm: FormGroup;
   mockE: MouseEvent;
@@ -33,9 +37,11 @@ export class AppOverviewDetailComponent implements OnInit {
   lbName: string;
   newServiceName: string;
   portName: string;
-  hostIpArray: string;
+  hostIpArray = [];
   eqIpArray = [];
+  eqIpArrayTemp = [];
   rangeIpArray = [];
+  rangeIpArrayTemp = [];
   microservice1Id: string;
   microservice2Name: string;
   portId: string;
@@ -53,6 +59,7 @@ export class AppOverviewDetailComponent implements OnInit {
   private keyword: string;
   private appInstanceDetail: any;
   maskClosable = true;
+  formLength = [];
   isUpdateModalVisible = false;
   isDetailModalVisible = false;
   isFormDisabled = true;
@@ -260,55 +267,124 @@ export class AppOverviewDetailComponent implements OnInit {
   getGrayDetailRX(detailID) {
     return this.http.get(environment.apiApp + '/apiApp' + '/gray-updates/' + detailID + '/rules').map(res => res.json());
   }
-
+  // 根据下标，返回对应的form对象
+  getValideForm(i) {
+    if( i === 0) {
+      return this.validateForm0;
+    } else if( i === 1) {
+      return this.validateForm1;
+    } else if( i === 2) {
+      return this.validateForm2;
+    } else if( i === 3) {
+      return this.validateForm3;
+    } else if( i === 4) {
+      return this.validateForm4;
+    }
+  }
   // 获取灰度状态详情
   getGrayDetail(detailID) {
     this.getGrayDetailRX(detailID).subscribe((data) => {
-        this.hostIpArray = '';
+      // 构造表单长度下表数组
+      /*for (let i = 0;i<data.length; i++) {
+
+      }
+      this.formLength = data.length;*/
+      // 每次重新调用get方法，重置清空存储Ip的数组
+        this.hostIpArray = [];
         this.eqIpArray = [];
         this.rangeIpArray = [];
-        this.grayDetailDataset = data[0];
-        // console.log(this.grayDetailDataset);
+        this.formLength = [];
+        for(let i = 0; i < data.length; i++) {
+          this.eqIpArrayTemp = [];
+          this.rangeIpArrayTemp = [];
+          this.formLength.push(i);
 
-        this.oldServiceName = this.grayDetailDataset.microservice1.microserviceName;
-        this.newServiceName = this.grayDetailDataset.microservice2.microserviceName;
-        this.lbName = this.grayDetailDataset.lbName;
-        this.portName = this.grayDetailDataset.port;
-        if (this.grayDetailDataset.dsl && this.grayDetailDataset.dsl.length > 0) {
-          // 去掉最后一个字符）
-          console.log(this.grayDetailDataset.dsl.substring(0, this.grayDetailDataset.dsl.length - 1));
-          // 按照（字符 拆分
-          let grayIpArray = this.grayDetailDataset.dsl.substring(0, this.grayDetailDataset.dsl.length - 1).split('(');
-          for (let i = 0; i < grayIpArray.length; i++) {
-            if (grayIpArray[i].indexOf('IN') >= 0) {
-              let HOSTTemp = grayIpArray[i].replace(')', '').split(' ');
-              // console.log('HOSTTemp: ' + HOSTTemp[2]);
-              this.hostIpArray = (HOSTTemp[2]);
-              console.log('hostIpArray: ' + this.hostIpArray);
-            } else if (grayIpArray[i].indexOf('EQ') >= 0) {
-              let EQTemp = grayIpArray[i].replace(')', '').split(' ');
-              // console.log('EQTemp: ' + EQTemp[2]);
-              this.eqIpArray.push(EQTemp[2]);
-              console.log('eqIpArray: ' + this.eqIpArray);
-            } else if (grayIpArray[i].indexOf('RANGE') >= 0) {
-              let RANGETemp = grayIpArray[i].replace(')', '').split(' ');
-              // console.log('RANGETemp: ' + RANGETemp[2] + ',' + RANGETemp[3]);
-              this.rangeIpArray.push(RANGETemp[2] + ' ~ ' + RANGETemp[3]);
-              console.log('rangeIpArray: ' + this.rangeIpArray);
+          this.grayDetailDataset = data[i];
+          this.oldServiceName = this.grayDetailDataset.microservice1.microserviceName;
+          this.newServiceName = this.grayDetailDataset.microservice2.microserviceName;
+          this.lbName = this.grayDetailDataset.lbName;
+          this.portName = this.grayDetailDataset.port;
+          // 处理详情中的lsb，解析出对应的ip段
+          if (this.grayDetailDataset.dsl && this.grayDetailDataset.dsl.length > 0) {
+            // 去掉最后一个字符）
+            console.log(this.grayDetailDataset.dsl.substring(0, this.grayDetailDataset.dsl.length - 1));
+            // 按照（字符 拆分
+            let grayIpArray = this.grayDetailDataset.dsl.substring(0, this.grayDetailDataset.dsl.length - 1).split('(');
+            for (let i = 0; i < grayIpArray.length; i++) {
+              if (grayIpArray[i].indexOf('IN') >= 0) {
+                let HOSTTemp = grayIpArray[i].replace(')', '').split(' ');
+                this.hostIpArray.push(HOSTTemp[2]);
+              } else if (grayIpArray[i].indexOf('EQ') >= 0) {
+                let EQTemp = grayIpArray[i].replace(')', '').split(' ');
+                this.eqIpArrayTemp.push(EQTemp[2]);
+              } else if (grayIpArray[i].indexOf('RANGE') >= 0) {
+                let RANGETemp = grayIpArray[i].replace(')', '').split(' ');
+                this.rangeIpArrayTemp.push(RANGETemp[2] + ' ~ ' + RANGETemp[3]);
+              }
             }
+            console.log('hostIpArray: ' + this.hostIpArray);
+            this.eqIpArray[i] = this.eqIpArrayTemp;
+            console.log('eqIpArray: ' + this.eqIpArray);
+            console.log('eqIpArray: ' + this.eqIpArray.length);
+            this.rangeIpArray[i] = this.rangeIpArrayTemp;
+            console.log('rangeIpArray: ' + this.rangeIpArray);
+            console.log('eqIpArrayTemp: ' + this.eqIpArrayTemp);
+            console.log('rangeIpArrayTemp: ' + this.rangeIpArrayTemp);
+          }
+          // 通过下角标获取当前的valideForm[i]，给valideForm[i]赋上获取的灰度策略的值
+         /*
+         let tempForm = this.getValideForm(i);
+          tempForm.value['oldServiceName'] = this.oldServiceName;
+          tempForm.value['lbName'] = this.lbName;
+          tempForm.value['newServiceName'] = this.newServiceName;
+          */
+          if( i === 0) {
+            this.validateForm0 = this.fb.group({
+              oldServiceName: [this.oldServiceName],
+              lbName: [this.lbName],
+              newServiceName: [this.newServiceName],
+              portName: [this.portName],
+              select1: ['固定IP'],
+              select2: ['IP段限制'],
+            });
+          } else if( i === 1) {
+            this.validateForm1 = this.fb.group({
+              oldServiceName: [this.oldServiceName],
+              lbName: [this.lbName],
+              newServiceName: [this.newServiceName],
+              portName: [this.portName],
+              select1: ['固定IP'],
+              select2: ['IP段限制'],
+            });
+          } else if( i === 2) {
+            this.validateForm2 = this.fb.group({
+              oldServiceName: [this.oldServiceName],
+              lbName: [this.lbName],
+              newServiceName: [this.newServiceName],
+              portName: [this.portName],
+              select1: ['固定IP'],
+              select2: ['IP段限制'],
+            });
+          } else if( i === 3) {
+            this.validateForm3 = this.fb.group({
+              oldServiceName: [this.oldServiceName],
+              lbName: [this.lbName],
+              newServiceName: [this.newServiceName],
+              portName: [this.portName],
+              select1: ['固定IP'],
+              select2: ['IP段限制'],
+            });
+          } else if( i === 4) {
+            this.validateForm4 = this.fb.group({
+              oldServiceName: [this.oldServiceName],
+              lbName: [this.lbName],
+              newServiceName: [this.newServiceName],
+              portName: [this.portName],
+              select1: ['固定IP'],
+              select2: ['IP段限制'],
+            });
           }
         }
-
-        this.validateForm = this.fb.group({
-          oldServiceName: this.oldServiceName,
-          lbName: this.lbName,
-          newServiceName: this.newServiceName,
-          portName: [this.portName, [Validators.required]],
-          select1: ['固定IP'],
-          select2: ['IP段限制'],
-          value1: this.eqIpArray,
-          value2: this.rangeIpArray
-        });
       },
       err => {
         console.log(err._body);
@@ -324,7 +400,7 @@ export class AppOverviewDetailComponent implements OnInit {
         this.selectedOption = [];
         this.controlArray = [];
 
-        this.hostIpArray = '';
+        this.hostIpArray = [];
         this.grayDetailDataset = data[0];
 
         // request body中不在表单显示的值
@@ -468,11 +544,11 @@ export class AppOverviewDetailComponent implements OnInit {
 
   // 提交更新灰度策略
   postUpdate(dsl) {
-    for (const i of Object.keys(this.validateForm.controls)) {
-      this.validateForm.controls[i].markAsDirty();
+    for (const i of Object.keys(this.updateForm.controls)) {
+      this.updateForm.controls[i].markAsDirty();
     }
     let isValid = true;
-    for (const value of Object.values(this.validateForm.value)) {
+    for (const value of Object.values(this.updateForm.value)) {
       if (value === '') {
         isValid = false;
       }
@@ -530,8 +606,8 @@ export class AppOverviewDetailComponent implements OnInit {
   }
 
   // 获取详情表单内对应name的formcontrol
-  getFormControl(name) {
-    return this.validateForm.controls[name];
+  getFormControl(name, i) {
+    return this.getValideForm(i).controls[name];
   }
 
   // 获取更新表单内对应name的formcontrol
@@ -559,16 +635,59 @@ export class AppOverviewDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.validateForm = this.fb.group({
+    // 详情表单最多有五个，分别定义五个validateForm
+    this.validateForm0 = this.fb.group({
       oldServiceName: null,
       lbName: null,
       newServiceName: null,
-      portName: [null, [Validators.required]],
+      portName: '8080',
+      select1: ['固定IP'],
+      select2: ['IP段限制'],
+      value1: null,
+      value2: null,
+    });
+
+    this.validateForm1 = this.fb.group({
+      oldServiceName: null,
+      lbName: null,
+      newServiceName: null,
+      portName: '8080',
       select1: null,
       select2: null,
       value1: null,
       value2: null,
     });
+    this.validateForm2 = this.fb.group({
+      oldServiceName: null,
+      lbName: null,
+      newServiceName: null,
+      portName: '8080',
+      select1: null,
+      select2: null,
+      value1: null,
+      value2: null,
+    });
+    this.validateForm3 = this.fb.group({
+      oldServiceName: null,
+      lbName: null,
+      newServiceName: null,
+      portName: '8080',
+      select1: null,
+      select2: null,
+      value1: null,
+      value2: null,
+    });
+    this.validateForm4 = this.fb.group({
+      oldServiceName: null,
+      lbName: null,
+      newServiceName: null,
+      portName: '8080',
+      select1: null,
+      select2: null,
+      value1: null,
+      value2: null,
+    });
+
     this.updateForm = this.fb.group({
       oldServiceName: null,
       lbName: null,
