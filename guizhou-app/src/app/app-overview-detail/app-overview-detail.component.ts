@@ -15,6 +15,7 @@ import {Http} from "@angular/http";
   styleUrls: ['./app-overview-detail.component.css']
 })
 export class AppOverviewDetailComponent implements OnInit {
+  isSubmitLoading = false;
   _grayDataSet: GrayListDetail[];
   validateForm0: FormGroup;
   validateForm1: FormGroup;
@@ -774,11 +775,12 @@ export class AppOverviewDetailComponent implements OnInit {
 
   // 获取灰度状态tab中的列表数据
   putGrayDataSet(reqBody) {
+    this.isSubmitLoading = true;
     this.putGrayDataSetRX(reqBody).subscribe((data) => {
         console.log(data);
         this.isUpdateModalVisible = false;
         this.createNotification('success', '更新灰度策略成功', '更新灰度策略成功');
-
+        this.isSubmitLoading = false;
       },
       err => {
         console.log(err._body);
