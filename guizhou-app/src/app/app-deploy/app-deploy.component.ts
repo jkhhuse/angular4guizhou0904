@@ -1955,14 +1955,18 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
               this.networkOptionsEnv[key] = value['loadBalancer'];
             }
           });
+          const networkOptionsHttp$ = [];
+          const networkOptionsEnvHttp$ = [];
           _.map(data, (value, key) => {
             if (value['status'] === 2) {
-              const networkOptionsHttp$ = value['loadBalancer']['lbType'] + ':'
+              networkOptionsHttp$[key] = value['loadBalancer']['lbType'] + ':'
                 + value['loadBalancer']['lbAddress'] + ':' + value['port'];
-              this.networkOptionsHttp = _.concat(this.networkOptions, networkOptionsHttp$);
               console.log(this.networkOptionsHttp);
+              networkOptionsEnvHttp$[key] = value['loadBalancer'];
             }
           });
+          this.networkOptionsHttp = _.concat(this.networkOptions, networkOptionsHttp$);
+          this.networkOptionsEnv = _.concat(this.networkOptionsEnv, networkOptionsEnvHttp$);
           this.networkOptions = _.compact(this.networkOptions);
           this.networkOptionsEnv = _.compact(this.networkOptionsEnv);
           this.networkOptionsHttp = _.compact(this.networkOptionsHttp);

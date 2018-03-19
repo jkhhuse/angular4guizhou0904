@@ -145,6 +145,7 @@
             <button nz-button [nzType]="'primary'" (click)="showUpdateModal(data.id)"><span>更新</span></button>
             <button [disabled]="data.status === 0 || data.status === -1 || data.status === 100 " nz-button [nzType]="'primary'" (click)="showRealUpdateModal(data.id)"><span>正式升级</span></button>
             <button [disabled]="data.status === 0 || data.status === -1 || data.status === 100 " nz-button [nzType]="'primary'" (click)="showCancelModal(data.id)"><span>回滚</span></button>
+            <button [disabled]="!(data.status === 0 || data.status === -1 || data.status === 100) " nz-button [nzType]="'primary'" (click)="showModal_delete(data.id)"><span>删除</span></button>
           </td>
         </tr>
         </tbody>
@@ -893,8 +894,8 @@ copy form template: -->
   </ng-template>
 </nz-modal>
 
-<nz-modal [nzVisible]="isRealUpdateVisible" [nzTitle]="'正式升级'" [nzContent]="modalContent" (nzOnCancel)="handleRealCancel($event)" (nzOnOk)="handleRealUpdateOk($event)">
-  <ng-template #modalContent>
+<nz-modal [nzVisible]="isRealUpdateVisible" [nzTitle]="'正式升级'" [nzContent]="modalContent1" (nzOnCancel)="handleRealCancel($event)" (nzOnOk)="handleRealUpdateOk($event)">
+  <ng-template #modalContent1>
     <p>是否确认正式升级？</p>
   </ng-template>
 </nz-modal>
