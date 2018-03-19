@@ -15,6 +15,9 @@ import {Http} from "@angular/http";
   styleUrls: ['./app-overview-detail.component.css']
 })
 export class AppOverviewDetailComponent implements OnInit {
+  isRealUpdateVisible = false;
+  isRealCancelVisible = false;
+  isCancelVisible = false;
   isSubmitLoading = false;
   _grayDataSet: GrayListDetail[];
   validateForm0: FormGroup;
@@ -836,6 +839,77 @@ export class AppOverviewDetailComponent implements OnInit {
     }
   }
 
+  // 打开版本升级的modal
+  showRealUpdateModal(detailID) {
+    this.isRealUpdateVisible = true;
+    if (detailID == '' || detailID == 'undefined') {
+      this.createNotification('error', '获取灰度详情ID错误', '获取灰度详情ID错误');
+    } else {
+      this.detailID = detailID;
+    }
+  }
+
+  // 打开回滚的modal
+  showCancelModal(detailID) {
+    this.isRealCancelVisible = true;
+    if (detailID == '' || detailID == 'undefined') {
+      this.createNotification('error', '获取灰度详情ID错误', '获取灰度详情ID错误');
+    } else {
+      this.detailID = detailID;
+    }
+  }
+
+  // 发送正式升级的post流
+  putRealUpdateRX() {
+    return this.http.put(environment.apiApp + '/apiApp' + '/gray-updates/' + this.detailID + '/progress/100', '').map(res => res.json());
+  }
+
+  // 发送回滚的post流
+  putRealCancelRX() {
+    return this.http.put(environment.apiApp + '/apiApp' + '/gray-updates/' + this.detailID + '/progress/-1', '').map(res => res.json());
+  }
+
+  // 订阅正式升级
+  getRealUpdateData() {
+    this.putRealUpdateRX().subscribe((data) => {
+        console.log(data);
+        this.createNotification('success', '正式升级成功', '正式升级成功');
+        this.isRealUpdateVisible = false;
+      },
+      err => {
+        console.log(err._body);
+        this.createNotification('error', '正式升级失败', err._body);
+      }
+    );
+  }
+
+  // 订阅回滚操作
+  getRealCancelData() {
+    this.putRealCancelRX().subscribe((data) => {
+        console.log(data);
+        this.createNotification('success', '回滚成功', '回滚成功');
+        this.isRealCancelVisible = false;
+      },
+      err => {
+        console.log(err._body);
+        this.createNotification('error', '回滚失败', err._body);
+      }
+    );
+  }
+
+  // 正式升级
+  handleRealUpdateOk() {
+    this.getRealUpdateData();
+  }
+  // 回滚
+  handleRealCancelOk() {
+    this.getRealCancelData();
+  }
+  // 取消正式升级和回滚
+  handleRealCancel() {
+    this.isRealUpdateVisible = false;
+    this.isRealCancelVisible = false;
+  }
   constructor(private fb: FormBuilder, private servicesService: ServicesService, private _notification: NzNotificationService, private _randomUser: RandomUserService, private routeInfo: ActivatedRoute, private http: Http) {
   }
 
