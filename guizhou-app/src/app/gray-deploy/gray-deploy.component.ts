@@ -26,23 +26,24 @@ import { ContainerInstanceComponent } from '../container-instance/container-inst
 import { ComponentServiceService } from '../dynamic-form/services/component-service.service';
 import { ServicesService } from '../shared/services.service';
 import { ConfigFileComponent } from '../config-file/config-file.component';
-// import { NameValidator } from '../util/reg-pattern/reg-name.directive';
 
 @Component({
-  selector: 'app-app-deploy',
-  templateUrl: './app-deploy.component.html',
-  styleUrls: ['./app-deploy.component.scss']
+  selector: 'app-gray-deploy',
+  templateUrl: './gray-deploy.component.html',
+  styleUrls: ['./gray-deploy.component.scss']
 })
-export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
+export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
   AfterContentInit, AfterContentChecked,
   AfterViewInit, AfterViewChecked,
   OnDestroy {
+
   isLoadingDone = false;
   configFileRadio;
   testCluster;
   prodCluster;
   selectValueSub: Subscription;
   appId = '';
+  appName = '';
   formData: object = {
     createUserId: this.servicesService.getUserId(),
     groupId: this.servicesService.getCookie('groupID'),
@@ -61,13 +62,39 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   };
   current = 0;
   // 第一个表单
+  appInstance1Options;
+  appVersionOptions;
   @ViewChild('formFirstProject') formFirstProject: DynamicFormComponent;
   formFirst: FieldConfig[] = [
     {
+      type: 'select',
+      label: '当前实例名称',
+      name: 'appInstance1Name',
+      options: [],
+      placeholder: '请选择',
+      validation: [Validators.required],
+      // notNecessary: true,
+      styles: {
+        'width': '400px'
+      },
+    },
+    {
+      type: 'select',
+      label: '灰度部署版本',
+      name: 'appVersion',
+      options: [],
+      placeholder: '请选择',
+      validation: [Validators.required],
+      // notNecessary: true,
+      styles: {
+        'width': '400px'
+      },
+    },
+    {
       type: 'input',
-      label: '应用名称',
+      label: '实例名称',
       name: 'instanceName',
-      placeholder: '请输入应用名称',
+      placeholder: '请输入实例名称',
       validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
       styles: {
         'width': '400px'
@@ -159,7 +186,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       }
     },
   ];
-  images: string[] = [];
+  images = [];
   imageTabs: string[] = [];
   choosedImageName = '';
   imageData = [];
@@ -242,21 +269,6 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   configFileData = [];
   configKeyValue1;
   configKeyValue2;
-  // configFileData = [
-  //   {
-  //     key    : '1',
-  //     name   : 'John Brown',
-  //     age    : 32,
-  //   }, {
-  //     key    : '2',
-  //     name   : 'Jim Green',
-  //     age    : 42,
-  //   }, {
-  //     key    : '3',
-  //     name   : 'Joe Black',
-  //     age    : 32,
-  //   }
-  // ];
   configFile: FieldConfig[] = [
     {
       type: 'input',
@@ -316,58 +328,12 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         'width': '400px'
       }
     },
-    // {
-    //   type: 'input',
-    //   label: '集群节点数',
-    //   name: 'instancesCount',
-    //   placeholder: '请输入集群节点数',
-    //   validation: [Validators.required],
-    //   inputType: 'number',
-    //   styles: {
-    //     'width': '400px'
-    //   }
-    // },
-    // {
-    //   type: 'select',
-    //   label: '服务版本',
-    //   name: 'version',
-    //   options: this.serviceVersion$,
-    //   placeholder: '选择服务版本',
-    //   validation: [Validators.required],
-    //   styles: {
-    //     'width': '400px'
-    //   },
-    //   // ifTags: 'true'
-    // },
-    // {
-    //   type: 'select',
-    //   label: '主机标签',
-    //   name: 'ip_tag',
-    //   options: this.ipTag$,
-    //   placeholder: '选择主机标签',
-    //   // validation: [Validators.required, Validators.minLength(3)],
-    //   styles: {
-    //     'width': '400px'
-    //   },
-    //   ifTags: 'true'
-    // },
   ];
   serviceTabs: string[] = [];
   services: string[] = [];
   choosedServiceName = '';
   serviceId = '';
   instancesCount$: number;
-  // tabs = [
-  //   {
-  //     index: 1
-  //   },
-  //   {
-  //     index: 2
-  //   },
-  //   {
-  //     index: 3
-  //   }
-  // ];
 
   // 第三个表单2里的高级配置
   @ViewChild('formThird2Project') formThird2Project: DynamicFormComponent;
@@ -455,22 +421,38 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   ifServiceInstance = false;
   ifOninitCompleted = false;
 
-  // async toggleButton() {
-  //   await this.getIpTag();
-  //   this.formThird[3] = {
-  //     type: 'select',
-  //     label: '主机标签',
-  //     name: 'ip_tag',
-  //     options: this.ipTag$,
-  //     placeholder: '选择主机标签',
-  //     // validation: [Validators.required, Validators.minLength(3)],
-  //     styles: {
-  //       'width': '400px'
-  //     },
-  //     ifTags: 'true'
-  //   },
-  //     this.formThirdProject.setValue('ip_tag', this.formThird[3]);
-  // }
+  // 灰度策略
+  grayRules;
+  grayRulesServiceForm: FormGroup;
+  grayRulesServiceForm0: FormGroup;
+  grayRulesServiceForm1: FormGroup;
+  grayRulesServiceForm2: FormGroup;
+  grayRulesServiceForm3: FormGroup;
+  grayRulesServiceForm4: FormGroup;
+  grayRulesServiceArr = [];
+  grayRulesServiceOps = [];
+  updateForm: FormGroup;
+  updateForm0: FormGroup;
+  updateForm1: FormGroup;
+  updateForm2: FormGroup;
+  updateForm3: FormGroup;
+  updateForm4: FormGroup;
+  controlArray0 = [];
+  controlArray1 = [];
+  controlArray2 = [];
+  controlArray3 = [];
+  controlArray4 = [];
+  selectedOption0 = [];
+  selectedOption1 = [];
+  selectedOption2 = [];
+  selectedOption3 = [];
+  selectedOption4 = [];
+  grayRulesData;
+  checked0;
+  checked1;
+  checked2;
+  checked3;
+  checked4;
 
   buttonDisabled() {
     switch (this.current) {
@@ -487,20 +469,253 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           return false;
         } else {
           return !this.formThird5Project.valid;
-          // let ThirdValid;
-          // if (this.choosedServiceName === 'redis' && this.formThird3Project !== undefined) {
-          //   if (this.formThird3Project.config.length > 0 && this.formThird3Project['config'][0]['label'] === '发布') {
-          //     ThirdValid = false;
-          //   } else {
-          //     ThirdValid = !this.formThird3Project.valid;
-          //   }
-          // }
-          // return !this.formThirdProject.valid || !this.formThird2Project.valid ||
-          //   !this.formThird1Project.valid || ThirdValid;
         }
         // return  !this.formThird2Project.valid || !this.formThird1Project.valid;
       }
+      case 3: {
+        // console.log();
+      }
     }
+  }
+
+  judgeFunc(i, type, j?) {
+    if (type === 'control') {
+      if (i === 0) {
+        return this.controlArray0;
+      } else if (i === 1) {
+        return this.controlArray1;
+      } else if (i === 2) {
+        return this.controlArray2;
+      } else if (i === 3) {
+        return this.controlArray3;
+      } else if (i === 4) {
+        return this.controlArray4;
+      }
+    } else if (type === 'ipform') {
+      if (i === 0) {
+        return this.updateForm0;
+      } else if (i === 1) {
+        return this.updateForm1;
+      } else if (i === 2) {
+        return this.updateForm2;
+      } else if (i === 3) {
+        return this.updateForm3;
+      } else if (i === 4) {
+        return this.updateForm4;
+      }
+    } else if (type === 'id') {
+      if (i === 0) {
+        return (this.controlArray0.length > 0) ? this.controlArray0[this.controlArray0.length - 1].id + 1 : 0;
+      } else if (i === 1) {
+        return (this.controlArray1.length > 0) ? this.controlArray1[this.controlArray1.length - 1].id + 1 : 0;
+      } else if (i === 2) {
+        return (this.controlArray2.length > 0) ? this.controlArray2[this.controlArray2.length - 1].id + 1 : 0;
+      } else if (i === 3) {
+        return (this.controlArray3.length > 0) ? this.controlArray3[this.controlArray3.length - 1].id + 1 : 0;
+      } else if (i === 4) {
+        return (this.controlArray4.length > 0) ? this.controlArray4[this.controlArray4.length - 1].id + 1 : 0;
+      }
+    } else if (type === 'selectedOption') {
+      if (i === 0) {
+        return this.selectedOption0[j];
+      } else if (i === 1) {
+        return this.selectedOption1[j];
+      } else if (i === 2) {
+        return this.selectedOption2[j];
+      } else if (i === 3) {
+        return this.selectedOption3[j];
+      } else if (i === 4) {
+        return this.selectedOption4[j];
+      }
+    } else if (type === 'grayRulesForm') {
+      if (i === 0) {
+        return this.grayRulesServiceForm0;
+      } else if (i === 1) {
+        return this.grayRulesServiceForm1;
+      } else if (i === 2) {
+        return this.grayRulesServiceForm2;
+      } else if (i === 3) {
+        return this.grayRulesServiceForm3;
+      } else if (i === 4) {
+        return this.grayRulesServiceForm4;
+      }
+    }
+  }
+
+  // 点击按钮删除IP
+  removeIP(control, e: MouseEvent, i) {
+    e.preventDefault();
+    if (i === 0) {
+      this.removeControlFun(this.controlArray0, this.updateForm0, control, this.selectedOption0);
+    } else if (i === 1) {
+      this.removeControlFun(this.controlArray1, this.updateForm1, control, this.selectedOption1);
+    } else if (i === 2) {
+      this.removeControlFun(this.controlArray2, this.updateForm2, control, this.selectedOption2);
+    } else if (i === 3) {
+      this.removeControlFun(this.controlArray3, this.updateForm3, control, this.selectedOption3);
+    } else if (i === 4) {
+      this.removeControlFun(this.controlArray4, this.updateForm4, control, this.selectedOption4);
+    }
+  }
+
+  removeControlFun(controlArray$, form$: FormGroup, control$, selectOption$) {
+    if (controlArray$.length > 1) {
+      const index = controlArray$.indexOf(control$);
+      controlArray$.splice(index, 1);
+      form$.removeControl(control$.controlInstance1);
+      form$.removeControl(control$.controlInstance2);
+      form$.removeControl(control$.controlName);
+
+      selectOption$.splice(index, 1);
+    }
+  }
+
+  addIP(e: MouseEvent, i, firstIP, secondIP, name) {
+    if (e) {
+      e.preventDefault();
+    }
+    console.log(i);
+    // 如果一进来ip数组为空，则赋值id为0
+    // 否则，id为长度减去1
+    const id = this.judgeFunc(i, 'id');
+    const control = {
+      id,
+      controlInstance1: `firstIP${id}`,
+      controlInstance2: `secondIP${id}`,
+      controlName: `name${id}`,
+    };
+    // const index = this.controlArray.push(control);
+    // 给表单form添加formcontrol,名称为ip0，ip1，ip2...
+    // 给表单form添加formcontrol,名称为name0，name1，name2...
+    if (i === 0) {
+      const index = this.controlArray0.push(control);
+      this.addControlFun(this.updateForm0, index, firstIP, secondIP, name, this.controlArray0);
+      this.selectedOption0[this.controlArray0.length - 1] = name;
+    } else if (i === 1) {
+      const index = this.controlArray1.push(control);
+      this.addControlFun(this.updateForm1, index, firstIP, secondIP, name, this.controlArray1);
+      this.selectedOption1[this.controlArray1.length - 1] = name;
+    } else if (i === 2) {
+      const index = this.controlArray2.push(control);
+      this.addControlFun(this.updateForm2, index, firstIP, secondIP, name, this.controlArray2);
+      this.selectedOption2[this.controlArray2.length - 1] = name;
+    } else if (i === 3) {
+      const index = this.controlArray3.push(control);
+      this.addControlFun(this.updateForm3, index, firstIP, secondIP, name, this.controlArray3);
+      this.selectedOption3[this.controlArray3.length - 1] = name;
+    } else if (i === 4) {
+      const index = this.controlArray4.push(control);
+      this.addControlFun(this.updateForm4, index, firstIP, secondIP, name, this.controlArray4);
+      this.selectedOption4[this.controlArray4.length - 1] = name;
+    }
+    // this.updateForm.addControl(this.controlArray[index - 1].controlInstance1, new FormControl(firstIP, Validators.required));
+    // this.updateForm.addControl(this.controlArray[index - 1].controlInstance2, new FormControl(secondIP, Validators.required));
+    // this.updateForm.addControl(this.controlArray[index - 1].controlName, new FormControl(name, Validators.required));
+    // this.selectedOption[this.controlArray.length - 1] = name;
+
+    // console.log('this.selectedOption: ' + this.selectedOption);
+  }
+
+  addControlFun(form: FormGroup, index, firstIP, secondIP, name, controlArray$) {
+    form.addControl(controlArray$[index - 1].controlInstance1, new FormControl(firstIP, Validators.required));
+    form.addControl(controlArray$[index - 1].controlInstance2, new FormControl(secondIP, Validators.required));
+    form.addControl(controlArray$[index - 1].controlName, new FormControl(name, Validators.required));
+  }
+
+  getGrayRulesServiceForm() {
+    return new Promise((resolve, reject) => {
+      this.grayRulesServiceForm = this.fb.group({});
+      this.grayRulesServiceForm0 = this.fb.group({});
+      this.grayRulesServiceForm1 = this.fb.group({});
+      this.grayRulesServiceForm2 = this.fb.group({});
+      this.grayRulesServiceForm3 = this.fb.group({});
+      this.grayRulesServiceForm4 = this.fb.group({});
+      console.log(this.grayRules, this.formSecondProject);
+      _.map(this.images, (value1, key1) => {
+        console.log(this.formSecondProject);
+      });
+      _.map(this.grayRules, (value, key) => {
+        this.grayRulesServiceArr[key] = [
+          {
+            type: 'select',
+            name: 'microservice2Name' + key,
+            placeholder: '请选择',
+            options: this.grayRulesServiceOps
+          },
+          {
+            type: 'input',
+            inputType: 'number',
+            name: 'containerPort2' + key,
+            placeholder: '请输入端口地址'
+          }
+        ];
+      });
+      this.grayRulesServiceArr = [[
+        {
+          type: 'select',
+          name: 'microservice2Name',
+          placeholder: '请选择',
+          options: this.grayRulesServiceOps
+        },
+        {
+          type: 'input',
+          inputType: 'number',
+          name: 'containerPort2',
+          placeholder: '请输入端口地址'
+        }
+      ]];
+      _.map(this.grayRulesServiceArr, (value1, key1) => {
+        _.map(value1, (value2, key2) => {
+          this.grayRulesServiceForm.addControl(value2['name'], new FormControl());
+          this.grayRulesServiceForm0.addControl(value2['name'], new FormControl());
+          this.grayRulesServiceForm1.addControl(value2['name'], new FormControl());
+          this.grayRulesServiceForm2.addControl(value2['name'], new FormControl());
+          this.grayRulesServiceForm3.addControl(value2['name'], new FormControl());
+          this.grayRulesServiceForm4.addControl(value2['name'], new FormControl());
+        });
+      });
+      console.log(this.grayRulesServiceArr);
+      resolve();
+    });
+  }
+
+  getGrayRules(id) {
+    return new Promise((resolve, reject) => {
+      this.http.get(environment.apiApp + '/apiApp/application-instances/' + id + '/potential-rules').subscribe(data => {
+        console.log('grayRules', data);
+        this.grayRules = data;
+        resolve();
+      });
+    });
+  }
+
+  getInsAndVersion() {
+    return new Promise((resolve, reject) => {
+      const url$ = Observable.forkJoin(
+        this.http.get(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID')
+          + '/applications/' + this.appName + '/instances'
+        ),
+        this.http.get(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID')
+          + '/applications/' + this.appName + '/versions'
+        )
+      );
+      url$.subscribe(values => {
+        console.log(values);
+        this.appInstance1Options = values[0];
+        this.appVersionOptions = values[1];
+        const appInstance1Options$ = _.map(values[0], (value, key) => {
+          return value['instanceName'];
+        });
+        const appVersionOptions$ = _.map(values[1], (value, key) => {
+          return value['version'];
+        });
+        this.formFirst[0]['options'] = appInstance1Options$;
+        this.formFirst[1]['options'] = appVersionOptions$;
+        this.formFirstProject.setConfig(this.formFirst);
+        console.log(this.appInstance1Options, this.appVersionOptions);
+        resolve();
+      });
+    });
   }
 
   getIpTag() {
@@ -931,150 +1146,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         });
         await this.choosedImageFunc(lastImage);
         console.log(this.imageData);
-        // const keyList = ['', 1, 11, 111, 1111];
-        // const lbArr = [];
-        // const lbPorts = [];
-        // _.map(keyList, (value, key) => {
-        //   if (this.env1Form.value['value' + value] !== undefined) {
-        //     this.env1Enty[this.env1Form.value['key'] + value] = this.env1Form.value['value' + value];
-        //   }
-        //   if (this.logFormProject1.value['logPath' + value] !== undefined) {
-        //     if (key === 0) {
-        //       this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] = this.logFormProject1.value['logPath' + value];
-        //     } else {
-        //       this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] = this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] + ',' +
-        //         this.logFormProject1.value['logPath' + value];
-        //     }
-        //   }
-        //   // container_port undefined?
-        //   // https://stackoverflow.com/questions/7479520/javascript-cannot-set-property-of-undefined
-        //   if (this.loadBanlancerForm.value['container_port' + value] !== undefined) {
-        //     lbArr[key] = {
-        //       container_port: this.loadBanlancerForm.value['container_port' + value],
-        //       listener_port: this.loadBanlancerForm.value['listener_port' + value],
-        //       protocol: this.loadBanlancerForm.value['protocol' + value]
-        //     };
-        //     lbPorts[key] = parseInt(this.loadBanlancerForm.value['container_port' + value]);
-        //   }
-        //   // lbArr[key]['container_port'] = this.loadBanlancerForm.value['container_port' + value];
-        // });
-        // this.configFileData = _.map(this.configFileData, (value, key) => {
-        //   delete value.valueKey;
-        //   return value;
-        // });
-        // // this.env1Enty[this.env1Form.value['key']] = this.env1Form.value['value'];
-        // // todo next
-        // // 这里logPath好像接口上没注明，需要立果确认
-        // // 还有配置文件，传参和灵雀云不太一样，看下飞信聊天以及实例接口文档
-        // // this.env1Enty['__ALAUDA_FILE_LOG_PATH__'] = this.logFormProject1.value['logPath'] + ',' + this.logFormProject1.value['logPath1'];
-        // // 下面是对object假值的处理：https://stackoverflow.com/questions/30812765/how-to-remove-undefined-and-null-values-from-an-object-using-lodash
-        // this.env1Enty = _.pickBy(this.env1Enty, _.identity);
-        // _.map(this.configKeyValueArr, (value, key) => {
-        //   if (value['key'] === this.configFileForm.value['key']) {
-        //     this.configKeyValue1 = value['id'];
-        //   }
-        // });
-        // console.log('form333', this.formThirdProject);
-        // todo next
-        // _.map(this.repositoryId, (value1, key1) => {
-        //   this.formData['microservices'][key1] = {
-        //     storageSize: 0,
-        //     scaling_mode: 'MANUAL',
-        //     space_name: 'admin',
-        //     microserviceName: this.formSecondProject.value['microserviceName'],
-        //     podsCount: parseInt(this.formSecondProject.value['podsCount']),
-        //     repositoryId: value1,
-        //     instance_size: this.instanceSecond.value['instance_size'],
-        //     // 这里由于线上可用的集群就两个：cmss和ebd，所以先暂时写死
-        //     clusterName: this.radioValue === 'prodDomain' ? 'cmss' : 'ebd'
-        //   }
-        // });
         this.formData['microservices'] = this.imageData;
-        // this.formData['microservices'][0] = {
-        //   storageSize: 0,
-        //   scaling_mode: 'MANUAL',
-        //   space_name: 'admin',
-        //   microserviceName: this.formSecondProject.value['microserviceName'],
-        //   podsCount: parseInt(this.formSecondProject.value['podsCount']),
-        //   repositoryId: this.repositoryId,
-        //   instance_size: this.instanceSecond.value['instance_size'],
-        //   // 这里由于线上可用的集群就两个：cmss和ebd，所以先暂时写死
-        //   clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
-        //   network_mode: this.networkConfig,
-        //   ports: lbPorts.length > 0 ? lbPorts : undefined,
-        //   load_balancers: lbArr.length > 0 ? [{
-        //     listeners: lbArr
-        //   }] : undefined,
-        //   // 对object {} 空对象的比较：http://www.zuojj.com/archives/775.html
-        //   instance_envvars: _.isEqual(this.env1Enty, {}) ? undefined : this.env1Enty,
-        //   microserviceConfigs: this.configFileData.length > 0 ? this.configFileData : undefined
-        //   // clusterName: this.radioValue === 'prodDomain' ? this.networkRadioValue : 'testDomain'
-        // }
         if (this.serviceId) {
-          // console.log('这是seriveId', this.serviceId);
-          // await this.getServiceVersion();
-          // this.formThird[2] = {
-          //   type: 'select',
-          //   label: '服务版本',
-          //   name: 'version',
-          //   options: this.serviceVersion$,
-          //   placeholder: '选择服务版本',
-          //   validation: [Validators.required],
-          //   styles: {
-          //     'width': '400px'
-          //   },
-          //   // ifTags: 'true'
-          // };
-          // this.formThirdProject.setValue('version', this.formThird[2]);
-          // todo 这里把服务配置给清除掉
-          // await this.getIpTag();
-          // await this.getServiceBasic();
-          // this.formThird1Project.setConfig(this.formThird1);
-          // await this.getServiceAdvanced();
-          // this.formThird2Project.setConfig(this.formThird2);
-          // todo 这里把服务配置给清除掉
-          // if (this.choosedServiceName === 'redis') {
-          //   await this.getOperateMode();
-          //   _.map(this.operateMode['replication'], (value1, key1) => {
-          //     if (value1['type'] === 'int') {
-          //       this.formThird3[key1] = {
-          //         type: 'input',
-          //         inputType: 'number',
-          //         label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
-          //         name: value1['attribute_name'],
-          //         placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-          //           value1['description']['zh'] : value1['attribute_name'],
-          //         validation: [Validators.required, Validators.min(1)],
-          //         styles: {
-          //           'width': '400px'
-          //         }
-          //       };
-          //     } else if (value1['type'] === 'single_ip_tag') {
-          //       // const options$ = this.formThird1Project.value['ip_tag'] || [];
-          //       const options$ = [];
-          //       // const options$ = ['11', '22'];
-          //       this.formThird3[key1] = {
-          //         type: 'select',
-          //         label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
-          //         name: value1['attribute_name'],
-          //         options: options$,
-          //         placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-          //           value1['description']['zh'] : value1['attribute_name'],
-          //         validation: [Validators.required],
-          //         styles: {
-          //           'width': '400px'
-          //         },
-          //       };
-          //     }
-          //   });
-          //   // this.formThird3Project.setConfig(this.formThird3);
-          // }
-          // this.formThird3Project.setConfig(this.formThird3);
-          // todo 这里把服务配置给清除掉
-          // if (this.choosedServiceName === 'zookeeper') {
-          //   this.formThird4Project.setConfig(this.formThird4);
-          // }
-          // todo 这里把服务配置给清除掉
         }
         console.log('formData', this.formData);
         // this.formData['microserviceName'] = this.formSecondProject.value['microserviceName'];
@@ -1082,16 +1155,40 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
 
         break;
       }
-      // case 2: {
-      //   console.log('form333', this.formThirdProject);
-      //   this.formData['serviceInstances'][0] = {
-      //     storageSize: 0,
-      //     serviceId: this.serviceId,
-      //     instanceName: this.formThirdProject.value['instanceName']
-      //   }
-      //   console.log('formData', this.formData);
-      //   break;
-      // }
+      case 2: {
+        if (this.serviceTabs.length > 0) {
+          const serviceIdData = [];
+          console.log('打印formThird5', this.formThird5Project);
+          // if (this.formThird5Project.value['service_mysql'] !== undefined) {
+          _.map(this.formThird5Map, (value, key) => {
+            if (value['instanceName'] === this.formThird5Project.value['service_mysql']) {
+              serviceIdData[key] = value['id'];
+            } else if (value['instanceName'] === this.formThird5Project.value['service_redis']) {
+              serviceIdData[key] = value['id'];
+            } else if (value['instanceName'] === this.formThird5Project.value['service_zookeeper']) {
+              serviceIdData[key] = value['id'];
+            }
+          });
+          console.log('这是serviceIdData', serviceIdData);
+          // }
+          // _.map(this.formThird5Project.value, ())
+          // const serviceInstanceData;
+          this.formData['serviceInstances'] = _.compact(serviceIdData);
+        }
+        console.log(this.formFirstProject, this.appInstance1Options);
+        let appInstance1Id$;
+        _.map(this.appInstance1Options, (value, key) => {
+          if (value['instanceName'] === this.formFirstProject.value['appInstance1Name']) {
+            appInstance1Id$ = value['id'];
+          }
+        });
+        await this.getGrayRules(appInstance1Id$);
+        // // mock 多负载均衡的数据
+        // console.log(this.grayRules);
+        // this.grayRules[1] = this.grayRules[0];
+        //  // mock 多负载均衡的数据
+        await this.getGrayRulesServiceForm();
+      }
     }
     if (this.ifOninitCompleted === true) {
       this.current += 1;
@@ -1100,86 +1197,106 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   }
 
   done() {
-    // 这里，需要复习一下object[变量]和object['常量']的区别
-    // todo 这里把服务配置给清除掉
-    // if (this.choosedServiceName === 'zookeeper') {
-    //   if (this.formThird2Radios) {
-    //     _.map(this.formThird2Radios, (value, key) => {
-    //       // console.log('打印radio', value);
-    //       const valueName$ = value.name;
-    //       this.formThird2RadioEntity[valueName$] = value.defaultValue;
-    //       // this.formThird2RadioEntity[key] = {
-    //       //   [valueName$]: value.defaultValue
-    //       // }
-    //     });
-    //   }
-    // } else {
-    //   this.formThird2RadioEntity['mode'] = 'replication';
-    // }
-    // if (this.formThird3Project) {
-    //   _.mapKeys(this.formThird3Project['value'], (value, key) => {
-    //     this.formThird3Entity[key] = value;
-    //   });
-    // } else {
-    //   this.formThird3Entity = {};
-    // }
-    // if (this.formThird4Project) {
-    //   if (this.formThird4Project['config'].length !== 0) {
-    //     _.mapKeys(this.formThird4Project['value'], (value, key) => {
-    //       this.formThird4Entity[key] = value;
-    //     });
-    //   } else {
-    //     this.formThird4Entity = {};
-    //   }
-    // }
-    // this.formThird1RadioEntity[this.instanceThird.value['name']] = this.instanceThird.value['instance_size']
-    // if (this.choosedServiceName === 'zookeeper') {
-    //   this.formThird1Project.value['num_of_nodes'] = parseInt(this.formThird1Project.value['num_of_nodes']);
-    // }
-    // this.formData['serviceInstances'][0] = {
-    //   storageSize: 0,
-    //   serviceId: this.serviceId,
-    //   instanceName: this.formThirdProject.value['instanceName'],
-    //   instancesCount: parseInt(this.formThird1Project.value['num_of_nodes']),
-    //   cpuSize: this.instanceThird.value['cpuSize'] * this.formThird1Project.value['num_of_nodes'],
-    //   memSize: this.instanceThird.value['memSize'] * this.formThird1Project.value['num_of_nodes'],
-    //   clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
-    //   info: {
-    //     basic_config: _.assign(this.formThird1Project.value, this.formThird1RadioEntity,
-    //       this.choosedServiceName === 'redis' ? this.formThird2RadioEntity : {},
-    //       this.formThird3Entity),
-    //     advanced_config: _.assign(this.formThird2Project.value, this.choosedServiceName === 'zookeeper' ?
-    //       this.formThird2RadioEntity : {}, this.formThird4Entity)
-    //   }
-    // }
-    // todo 这里把服务配置给清除掉
-    if (this.serviceTabs.length > 0) {
-      const serviceIdData = [];
-      console.log('打印formThird5', this.formThird5Project);
-      // if (this.formThird5Project.value['service_mysql'] !== undefined) {
-      _.map(this.formThird5Map, (value, key) => {
-        if (value['instanceName'] === this.formThird5Project.value['service_mysql']) {
-          serviceIdData[key] = value['id'];
-        } else if (value['instanceName'] === this.formThird5Project.value['service_redis']) {
-          serviceIdData[key] = value['id'];
-        } else if (value['instanceName'] === this.formThird5Project.value['service_zookeeper']) {
-          serviceIdData[key] = value['id'];
+    // 灰度策略数据
+    let appInstance1Id$;
+    _.map(this.appInstance1Options, (value, key) => {
+      if (value['instanceName'] === this.formFirstProject.value['appInstance1Name']) {
+        appInstance1Id$ = value['id'];
+      }
+    });
+    const rules$ = [];
+    const rulesIp$ = [];
+    const rulesIp$$ = [];
+    const rulesService$ = [];
+    const rulesIpLen$ = [1, 2, 3, 4, 5];
+    _.map(this.grayRules, (value1, key1) => {
+      rulesIp$[key1] = `(AND (IN HOST ` + value1['domain'] + `)`;
+      _.map(rulesIpLen$, (value, key) => {
+        const tempName = 'name' + key;
+        const firstIP = 'firstIP' + key;
+        const secondIP = 'secondIP' + key;
+        if (key1 === 0) {
+          if (typeof (this.updateForm0.value[tempName]) === 'undefined') {
+            // 如果对应的key的值是undefined，说明这个值曾经存在，但是被remove掉了
+          } else {
+            // 只有有value的值才会被拼接到lbname中
+            if (this.updateForm0.value[tempName] === 'equal') {
+              const temp = ` (EQ SRC_IP ` + this.updateForm0.value[firstIP] + `)`;
+              rulesIp$[key1] += temp;
+            } else {
+              const temp = ` (RANGE SRC_IP ` + this.updateForm0.value[firstIP] + ' ' + this.updateForm0.value[secondIP] + `)`;
+              rulesIp$[key1] += temp;
+            }
+          }
+        } else if (key1 === 1) {
+          if (typeof (this.updateForm1.value[tempName]) === 'undefined') {
+            // 如果对应的key的值是undefined，说明这个值曾经存在，但是被remove掉了
+          } else {
+            // 只有有value的值才会被拼接到lbname中
+            if (this.updateForm1.value[tempName] === 'equal') {
+              const temp = ` (EQ SRC_IP ` + this.updateForm1.value[firstIP] + `)`;
+              rulesIp$[key1] += temp;
+            } else {
+              const temp = ` (RANGE SRC_IP ` + this.updateForm1.value[firstIP] + ' ' + this.updateForm1.value[secondIP] + `)`;
+              rulesIp$[key1] += temp;
+            }
+          }
         }
       });
-      console.log('这是serviceIdData', serviceIdData);
-      // }
-      // _.map(this.formThird5Project.value, ())
-      // const serviceInstanceData;
-      this.formData['serviceInstances'] = _.compact(serviceIdData);
+      rulesIp$[key1] += `)`;
+    });
+    _.map(rulesIp$, (value, key) => {
+      rulesIp$$[key] = {
+        dsl: value
+      };
+    });
+    const microservice$ = [];
+    _.map(this.grayRules, (value, key) => {
+      if (key === 0) {
+        rulesService$[key] = this.grayRulesServiceForm0.value;
+      } else if (key === 1) {
+        rulesService$[key] = this.grayRulesServiceForm1.value;
+      } else if (key === 2) {
+        rulesService$[key] = this.grayRulesServiceForm2.value;
+      } else if (key === 3) {
+        rulesService$[key] = this.grayRulesServiceForm3.value;
+      } else if (key === 4) {
+        rulesService$[key] = this.grayRulesServiceForm4.value;
+      }
+      microservice$[key] = {
+        microservice1Id: this.grayRules[key]['microservice1']['id'],
+        portId: this.grayRules[key]['portId']
+      };
+    });
+    _.map(this.grayRules, (value, key) => {
+      rules$[key] = _.assign({}, rulesIp$$[key], rulesService$[key], microservice$[key]);
+    });
+    this.grayRulesData = {
+      grayUpdate: {
+        appInstance1Id: appInstance1Id$,
+        rules: rules$
+      }
+    };
+    // 数据拼接
+    if (this.checked0 === undefined || this.checked0 === false) {
+      this.grayRulesData['grayUpdate']['rules'][0] = undefined;
     }
-    // todo next button 一秒钟最多点击一次
-    // const button = document.querySelector('button');
-    // Observable.fromEvent(button, 'click')
-    //   .throttleTime(1000);
-    // const httpEvent = this.http.post(environment.apiApp + '/apiApp/applications/' + this.appId + '/instances', this.formData);
-    // Observable.from(httpEvent).throttleTime(1000)
-    // const httpDone = this.http.post(environment.apiApp + '/apiApp/applications/' + this.appId +
-    //   '/instances', this.formData).throttleTime(1000);
+    if (this.checked1 === undefined || this.checked1 === false) {
+      this.grayRulesData['grayUpdate']['rules'][1] = undefined;
+    }
+    if (this.checked2 === undefined || this.checked2 === false) {
+      this.grayRulesData['grayUpdate']['rules'][2] = undefined;
+    }
+    if (this.checked3 === undefined || this.checked3 === false) {
+      this.grayRulesData['grayUpdate']['rules'][3] = undefined;
+    }
+    if (this.checked4 === undefined || this.checked4 === false) {
+      this.grayRulesData['grayUpdate']['rules'][4] = undefined;
+    }
+    this.grayRulesData['grayUpdate']['rules'] = _.compact(this.grayRulesData['grayUpdate']['rules']);
+    this.formData = _.assign({}, this.formData, this.grayRulesData);
+    console.log(this.grayRulesData);
+    console.log(this.grayRules);
     this.isLoadingDone = true;
     this.http.post(environment.apiApp + '/apiApp/applications/' + this.appId + '/instances', this.formData).throttleTime(1000).
       subscribe(data => {
@@ -1204,22 +1321,6 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         console.log(err);
         this.isLoadingDone = false;
       });
-    // if (this.formThird1Radios) {
-    //   _.map(this.formThird1Radios, (value, key) => {
-    //     const valueName$ = value.name;
-    //     this.formThird1RadioEntity[valueName$] = value.instance_size;
-    //   })
-    // }
-
-    // if (this.formThird1Project.value['ip_tag'].length === 1) {
-    //   const arr = [];
-    //   arr[0] = this.formThird1Project.value['ip_tag'];
-    //   this.formThird1Project.value['ip_tag'] = arr;
-    // }
-    // console.log('formThird2', this.formThird2Project);
-    // console.log('instance', this.instanceThird);
-    // this._message.success('done');
-    // console.log('formData', this.formData);
   }
   // todo 这里两个choosed函数可以优化
   choosedImageFunc(tab) {
@@ -1243,6 +1344,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     });
     _.map(this.images, (value1, key1) => {
       if (value1['repositoryName'] === this.choosedImageName) {
+        // 灰度策略，新版本微服务下拉列表的数据
+        this.grayRulesServiceOps[key1] = this.formSecondProject.value['microserviceName'];
         _.map(keyList, (value, key) => {
           if (this.env1Form.value['value' + value] !== undefined) {
             this.env1Enty[key1] = _.assign({}, this.env1Enty[key1], {
@@ -1350,69 +1453,6 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         this.serviceId = value['id'];
       }
     });
-    // await this.getServiceVersion();
-    // this.formThird[2] = {
-    //   type: 'select',
-    //   label: '服务版本',
-    //   name: 'version',
-    //   options: this.serviceVersion$,
-    //   placeholder: '选择服务版本',
-    //   validation: [Validators.required],
-    //   styles: {
-    //     'width': '400px'
-
-    //   },
-    //   // ifTags: 'true'
-    // };
-    // this.formThirdProject.setValue('version', this.formThird[2]);
-    // todo 这里把服务配置给清除掉
-    // await this.getIpTag();
-    // await this.getServiceBasic();
-    // // this.formThird1Project.setFormValue('image_tag', undefined);
-    // // 这里获取服务的advanced_config
-    // await this.getServiceAdvanced();
-    // console.log('这是formThird2', this.formThird2);
-    // this.formThird1Project.setConfig(this.formThird1);
-    // this.formThird2Project.setConfig(this.formThird2);
-    // if (this.choosedServiceName === 'zookeeper') {
-    //   this.formThird4Project.setConfig(this.formThird4);
-    // }
-    // if (this.choosedServiceName === 'redis') {
-    //   await this.getOperateMode();
-    //   _.map(this.operateMode['replication'], (value1, key1) => {
-    //     if (value1['type'] === 'int') {
-    //       this.formThird3[key1] = {
-    //         type: 'input',
-    //         inputType: 'number',
-    //         label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
-    //         name: value1['attribute_name'],
-    //         placeholder: '请先选择主机标签地址!',
-    //         validation: [Validators.required, Validators.min(1)],
-    //         styles: {
-    //           'width': '400px'
-    //         }
-    //       };
-    //     } else if (value1['type'] === 'single_ip_tag') {
-    //       // const options$ = this.formThird1Project.value['ip_tag'] || [];
-    //       const options$ = [];
-    //       // const options$ = ['11', '22'];
-    //       this.formThird3[key1] = {
-    //         type: 'select',
-    //         label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
-    //         name: value1['attribute_name'],
-    //         options: options$,
-    //         placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-    //           value1['description']['zh'] : value1['attribute_name'],
-    //         validation: [Validators.required],
-    //         styles: {
-    //           'width': '400px'
-    //         },
-    //       };
-    //     }
-    //   });
-    //   this.formThird3Project.setConfig(this.formThird3);
-    // }
-    // todo 这里把服务配置给清除掉
     this.buttonDisabled();
     console.log('service-id', this.serviceId);
   }
@@ -1453,12 +1493,6 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       );
       url$.subscribe(values => {
         console.log('这里是所有数据', values);
-        // this.images = _.map(values[0]['images'], (value, key) => {
-        //   return value;
-        // });
-        // this.services = _.map(values[1], (value, key) => {
-        //   return value;
-        // });
         this.images = values[2]['repositories'];
         this.services = values[2]['services'];
         this.imageTabs = _.map(values[2]['repositories'], (value, key) => {
@@ -1467,26 +1501,27 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         this.serviceTabs = _.map(values[2]['services'], (value, key) => {
           return value['serviceName'];
         });
+        // // mock 多镜像
+        // this.images[1] = {
+        //   createTime: 1520956951000,
+        //   createUserId: 0,
+        //   deleted: 0,
+        //   description: '',
+        //   groupId: 61,
+        //   id: 'e5ba5451-a88c-495f-829f-95b3e3c6e931',
+        //   isApp: 0,
+        //   isEnable: 1,
+        //   epositoryName: 'images1',
+        //   repositorySrvId: 0,
+        //   size: 1,
+        //   updateTime: 1520956952000,
+        //   updateUserId: 0,
+        //   version: 'version0.0.5'
+        // };
+        // this.imageTabs[1] = 'images1';
+        // // mock 多镜像
         resolve();
       });
-      // this.http.get(environment.api + '/api/2/warehouse/repository').subscribe(data => {
-      //   this.images = _.map(data['images'], (value, key) => {
-      //     return value;
-      //   });
-      // });
-      // this.http.get(environment.apiService + '/apiService/groups/2/services?isPublic=1').subscribe(data => {
-      //   this.services = _.map(data, (value, key) => {
-      //     return value;
-      //   });
-      // });
-      // this.http.get(environment.apiApp + '/apiApp/groups/2/applications/' + this.appId).subscribe(data => {
-      //   this.imageTabs = _.map(data['repositories'], (value, key) => {
-      //     return value['repositoryName'];
-      //   });
-      //   this.serviceTabs = _.map(data['services'], (value, key) => {
-      //     return value['serviceName'];
-      //   });
-      // });
     });
   }
 
@@ -1661,23 +1696,6 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   addConfigFile() {
     console.log('addClick3');
     this.isVisible = true;
-    // 弹出框component方式
-    // const subscription = this.confirmServ.open({
-    //   title          : '添加配置文件',
-    //   content        : ConfigFileComponent,
-    //   onOk() {
-    //   },
-    //   onCancel() {
-    //     console.log('Click cancel');
-    //   },
-    //   footer         : false,
-    //   componentParams: {
-    //     name: '测试渲染Component'
-    //   }
-    // });
-    // subscription.subscribe(result => {
-    //   console.log(result);
-    // });
   }
 
   handleOkConfig = (e) => {
@@ -1961,8 +1979,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
             if (value['status'] === 2) {
               networkOptionsHttp$[key] = value['loadBalancer']['lbType'] + ':'
                 + value['loadBalancer']['lbAddress'] + ':' + value['port'];
-              console.log(this.networkOptionsHttp);
-              networkOptionsEnvHttp$[key] = value['loadBalancer'];
+                console.log(this.networkOptionsHttp);
+                networkOptionsEnvHttp$[key] = value['loadBalancer'];
             }
           });
           this.networkOptionsHttp = _.concat(this.networkOptions, networkOptionsHttp$);
@@ -1970,7 +1988,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           this.networkOptions = _.compact(this.networkOptions);
           this.networkOptionsEnv = _.compact(this.networkOptionsEnv);
           this.networkOptionsHttp = _.compact(this.networkOptionsHttp);
-          console.log(this.networkOptions);
+          console.log('http', this.networkOptionsHttp);
+          console.log('tcp', this.networkOptionsEnv);
           resolve();
         });
     });
@@ -1996,73 +2015,23 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   async ngOnInit() {
     // 这里this.getnetworkAdvanced();需要在networkOptions前后调用两次，不然会报错，可以优化
     // await this.getServiceBasic();
+    this.appId = this.routeInfo.snapshot.params['appId'];
+    this.appName = this.routeInfo.snapshot.params['appName'];
     await this.getnetworkAdvanced();
     // await this.getNetworkOptions();
     await this.getImgAdvanced();
-    this.appId = this.routeInfo.snapshot.params['appId'];
     // this.getServiceVersion();
     // this.toggleButton();
+    await this.getInsAndVersion();
     await this.getServiceInit();
     await this.getServiceDepend();
     console.log('依赖的服务', this.serviceTabs);
-    // await this.getOperateMode();
-    // if (this.choosedServiceName === 'redis') {
-    //   await this.getOperateMode();
-    //   _.map(this.operateMode['replication'], (value1, key1) => {
-    //     if (value1['type'] === 'int') {
-    //       this.formThird3[key1] = {
-    //         type: 'input',
-    //         inputType: 'number',
-    //         label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
-    //         name: value1['attribute_name'],
-    //         placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-    //           value1['description']['zh'] : value1['attribute_name'],
-    //         validation: [Validators.required, Validators.min(1)],
-    //         styles: {
-    //           'width': '400px'
-    //         }
-    //       };
-    //     } else if (value1['type'] === 'single_ip_tag') {
-    //       // const options$ = this.formThird1Project.value['ip_tag'] || [];
-    //       const options$ = [];
-    //       // const options$ = ['11', '22'];
-    //       this.formThird3[key1] = {
-    //         type: 'select',
-    //         label: value1['display_name'] ? value1['display_name']['zh'] : value1['attribute_name'],
-    //         name: value1['attribute_name'],
-    //         options: options$,
-    //         placeholder: (value1['description'] && value1['description']['zh'] !== '') ?
-    //           value1['description']['zh'] : value1['attribute_name'],
-    //         validation: [Validators.required],
-    //         styles: {
-    //           'width': '400px'
-    //         },
-    //       };
-    //     }
-    //   });
-    //   this.formThird3Project.setConfig(this.formThird3);
-    // }
-    // 这里要手动调用一下，渲染service的basic和advanced配置，不然到服务配置会出不来数据
     await this.getCluster();
     await this.getIpTag();
     await this.choosedImageFunc(this.imageTabs[0]);
     await this.choosedServiceFunc(this.serviceTabs[0]);
     this.selectValueSub = this.componentSer.componentValue$.subscribe(
       value => {
-        // const selectConfig = {
-        //   // selectedOption: undefined,
-        //   // ifTags: 'true',
-        //   type: 'select',
-        //   label: 'Favourite2 Food',
-        //   name: 'food2',
-        //   options: value,
-        //   placeholder: 'Select an option',
-        //   validation: [Validators.required],
-        //   styles: {
-        //     'width': '400px',
-        //   },
-        // };
-        // const formConfig3 = [];
         if (value !== undefined && _.indexOf(this.ipTag$, value) >= 0) {
           _.map(this.formThird3, (value3, key3) => {
             console.log(value3);
@@ -2131,15 +2100,6 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         }
       }
     );
-    // this.lbSub = this.componentSer.componentValue.subscribe(
-    //   value => {
-    //     console.log(value);
-    //   }
-    // );
-    // 这里后面新加的需要await的数据请求，需要加到后面，不然会报错controls undefined
-    // todo next 环境变量文件
-    // await this.getEnvFile();
-    // this.envFormProject1.setConfig(this.envFormConfig);
     console.log('测试服务Init', this.imageTabs, this.images, this.services, this.serviceTabs);
     // todo next 应用部署，依赖服务没实例
     // 先获取http://10.132.49.122:18032/apiService/groups/2/service-instances下的name列表，然后判断
@@ -2150,15 +2110,15 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         }
       });
     });
+    this.updateForm0 = this.fb.group({});
+    this.updateForm1 = this.fb.group({});
+    this.updateForm2 = this.fb.group({});
+    this.updateForm3 = this.fb.group({});
+    this.updateForm4 = this.fb.group({});
     // this.ifServiceInstance
   }
 
   ngAfterViewInit() {
-    // 不同的表单，但是确实同一个实例，这个要怎么解决呢？todo//
-    // <dynamic-form #form1></dynamic-form>
-    // <dynamic-form #form2></dynamic-form>
-    // @ViewChild('form1') form1: DynamicFormComponent;
-    // @ViewChild('form2') form2: DynamicFormComponent;
     console.log('form111', this.formFirstProject);
     console.log('form222', this.formSecondProject);
     // console.log('form333', this.formThirdProject);
@@ -2168,17 +2128,6 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   }
 
   ngDoCheck() {
-    // if (this.formThirdProject['value'] !== undefined) {
-    //   console.log(this.formThirdProject['value']);
-    // }
-    // var test = this.formThirdProject;
-    // console.log('监测第三个表单Docheck', this.formThirdProject);
-    // var ipTagCount = this.formThirdProject;
-    // if (ipTagCount) {
-    //   this.formThird[3].validation = [
-    //     Validators.required, Validators.minLength(ipTagCount)
-    //   ]
-    // }
   }
 
   ngOnChanges() {
@@ -2195,21 +2144,6 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   }
 
   ngAfterViewChecked() {
-    // todo 这里需要规定主机标签的数量限制，不好解决
-    // console.log('AfterViewChecked');
-    // if (this.formThirdProject.value['instancesCount']) {
-    //   this.instancesCount$ = this.formThirdProject.value['instancesCount'];
-    //   // todo这里修改placeholder是可以的，但是修改validation却不行
-    //   this.formThird[3].placeholder = this.instancesCount$ + 's';
-    //   this.formThird[3].validation = [
-    //     Validators.required, Validators.minLength(this.instancesCount$)
-    //   ];
-    //   console.log('这是instanceConut', this.formThirdProject.value['instancesCount']);
-    //   console.log('这是formThird3', this.formThird[3]);
-    //   this.formThirdProject.setValue('ip_tag', this.formThird[3]);
-    // }
-    // console.log('formThird', this.formThird);
-    // console.log('监测第三个表单Docheck', this.formThirdProject.value['instancesCount']);
   }
 
   ngOnDestroy() {
