@@ -201,7 +201,10 @@ export class BuildImageComponent implements OnInit {
   async loadImage(formValue) {
     const fileArr = _.map(this._dataSet, (value, key) => {
       if (value['isSuccess'] === true) {
-        return value['file']['name'];
+        return {
+          name: value['file']['name'],
+          size: value['file']['size']
+        };
       }
     });
     const fileArrErr = _.map(_.compact(fileArr), (value, key) => {
@@ -221,10 +224,11 @@ export class BuildImageComponent implements OnInit {
         _.map(_.compact(fileArr), (value, key) => {
           // const repositoryName = this.radioValue === 'newImage' ? formValue.imageName + '-' +
           // _.replace(value, '.', '') : formValue.imageName
-          this.http.post(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository?module=image', {
+          this.http.post(environment.api + '/api/' + this.servicesService.getCookie('groupID') +
+           '/warehouse/repository?module=image&size=' + value.size, {
             // "description": formValue.description,
             'description': '',
-            'fileName': value,
+            'fileName': value.name,
             'isApp': false,
             'registryId': this.imageOriginId,
             // "description": formValue.description,
