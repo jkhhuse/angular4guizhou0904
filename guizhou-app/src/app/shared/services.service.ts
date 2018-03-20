@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';
-import { Http } from '@angular/http';
+import { Http, RequestOptionsArgs, RequestOptions, Headers } from '@angular/http';
 import { environment } from '../../environments/environment';
 import { CookieService } from 'angular2-cookie';
 import { NzNotificationService } from 'ng-zorro-antd';
@@ -10,25 +10,52 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable()
 export class ServicesService {
 
+    option: RequestOptionsArgs;
+
     constructor(private _notification: NzNotificationService, private http: Http, private httpClient: HttpClient, private _cookieService: CookieService) {
+      this.option = {
+        headers: new Headers({
+          'BDOC-User': this.getUserName()
+        })
+      };
+    }
+
+    getHeaderOption(): RequestOptionsArgs {
+      return this.option;
+    }
+
+    getCookieUserName(): string {
+      return this._cookieService().get('userName');
     }
 
     getServices(tabName, moduleName): Observable<any[]> {
         // console.log('tabName: ' + tabName);
         // console.log('moduleName: ' + moduleName);
+
+        // const option = {
+        //   headers: new Headers().append('BDOC-User', this.getUserName()),
+        // };
+
+        const headers = new Headers({
+             'BDOC-User': this.getUserName()
+        });
+
+        const option: RequestOptionsArgs = {
+          headers: headers
+        };
+
         if (moduleName === 'repository') {
             console.log('getService repository cookie: ' + this.getCookie('groupID'));
-
-            return this.http.get(environment.api + '/api/' + this.getCookie('groupID') + '/warehouse/dir?region=' + tabName).map(res => res.json());
+            return this.http.get(environment.api + '/api/' + this.getCookie('groupID') + '/warehouse/dir?region=' + tabName, this.option).map(res => res.json());
         } else if (moduleName === 'service') {
             console.log('getService service cookie: ' + this.getCookie('groupID'));
             //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());
             // isPubilc 传1，默认是共有的服务，现在没有私有服务
-            return this.http.get(environment.apiService + '/apiService' + '/groups/' + this.getCookie('groupID') + '/services?isPublic=1').map(res => res.json());
+            return this.http.get(environment.apiService + '/apiService' + '/groups/' + this.getCookie('groupID') + '/services?isPublic=1', this.option).map(res => res.json());
         } else if (moduleName === 'app') {
             console.log('getService app cookie: ' + this.getCookie('groupID'));
             //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());
-            return this.http.get(environment.apiApp + '/apiApp' + '/groups/' + this.getCookie('groupID') + '/applications').map(res => res.json());
+            return this.http.get(environment.apiApp + '/apiApp' + '/groups/' + this.getCookie('groupID') + '/applications', this.option).map(res => res.json());
         }
         /* else if (moduleName === 'serviceDetail') {
             //  服务详情里面，tabName字段传入的是服务id，serviceId
@@ -37,11 +64,12 @@ export class ServicesService {
     }
 
     getCateServices(tabName, moduleName, cateID): Observable<any[]> {
-        return this.http.get(environment.api + '/api/' + this.getCookie('groupID') + '/warehouse/dir/' + cateID + '?region=' + tabName).map(res => res.json());
+
+        return this.http.get(environment.api + '/api/' + this.getCookie('groupID') + '/warehouse/dir/' + cateID + '?region=' + tabName, this.option).map(res => res.json());
     }
 
     getHeroes(): Promise<Services[]> {
-        return this.http.get(environment.api + '/api/services')
+        return this.http.get(environment.api + '/api/services', this.option)
             .toPromise()
             .then(response => response.json().data as Services[]);
     }
