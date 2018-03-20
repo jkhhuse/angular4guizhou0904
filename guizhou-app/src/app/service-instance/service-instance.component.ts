@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {RandomUserService} from '../shared/random-user.service';
-import {FormControl} from "@angular/forms";
-import {NzNotificationService} from 'ng-zorro-antd';
-import {Http} from "@angular/http";
-import {environment} from "../../environments/environment";
-import {ServicesService} from "../shared/services.service";
+import { Component, OnInit } from '@angular/core';
+import { RandomUserService } from '../shared/random-user.service';
+import { FormControl } from "@angular/forms";
+import { NzNotificationService } from 'ng-zorro-antd';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { environment } from "../../environments/environment";
+import { ServicesService } from "../shared/services.service";
 
 @Component({
   selector: 'app-service-instance',
@@ -12,7 +12,7 @@ import {ServicesService} from "../shared/services.service";
   styleUrls: ['./service-instance.component.css']
 })
 export class ServiceInstanceComponent implements OnInit {
-// 标签名
+  // 标签名
   title: String = '服务实例';
   public groupid: any;
 
@@ -90,7 +90,8 @@ export class ServiceInstanceComponent implements OnInit {
 
   // 删除服务实例接口
   deleteServiceInstance(instanceID, instanceName) {
-    this.http.delete(environment.apiService + '/apiService/' + 'groups/' + this.servicesService.getCookie('groupID') + '/service-instances/' + instanceID).subscribe((data) => {
+    this.http.delete(environment.apiService + '/apiService/' + 'groups/' +
+      this.servicesService.getCookie('groupID') + '/service-instances/' + instanceID).subscribe((data) => {
         console.log('data: ' + data);
         if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
           setTimeout(() => {
@@ -103,15 +104,16 @@ export class ServiceInstanceComponent implements OnInit {
           this.createNotification('error', '删除服务实例失败', '删除服务实例调用接口失败');
         }
       },
-      err => {
-        console.log(err._body);
-        this.createNotification('error', '删除服务实例失败', err._body);
-      });
+        err => {
+          console.log(err._body);
+          this.createNotification('error', '删除服务实例失败', err._body);
+        });
   }
 
   // 停止应用实例接口
   stopServiceInstance(instanceID, instanceName) {
-    this.http.put(environment.apiService + '/apiService/' + 'groups/' + this.servicesService.getCookie('groupID') + '/service-instances/' + instanceID + '/action?op_type=stop',{}).subscribe((data) => {
+    this.http.put(environment.apiService + '/apiService/' + 'groups/' +
+      this.servicesService.getCookie('groupID') + '/service-instances/' + instanceID + '/action?op_type=stop', {}).subscribe((data) => {
         if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
           setTimeout(() => {
             this.isVisible_stop = false;
@@ -123,15 +125,16 @@ export class ServiceInstanceComponent implements OnInit {
           this.createNotification('error', '停止服务实例失败', '停止服务实例调用接口失败');
         }
       },
-      err => {
-        console.log(err._body);
-        this.createNotification('error', '停止服务实例失败', err._body);
-      });
+        err => {
+          console.log(err._body);
+          this.createNotification('error', '停止服务实例失败', err._body);
+        });
   }
 
   // 停止应用实例接口
   startServiceInstance(instanceID, instanceName) {
-    this.http.put(environment.apiService + '/apiService/' + 'groups/' + this.servicesService.getCookie('groupID') + '/service-instances/' + instanceID + '/action?op_type=start',{}).subscribe((data) => {
+    this.http.put(environment.apiService + '/apiService/' + 'groups/' +
+      this.servicesService.getCookie('groupID') + '/service-instances/' + instanceID + '/action?op_type=start', {}).subscribe((data) => {
         if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
           setTimeout(() => {
             this.isVisible_start = false;
@@ -143,10 +146,10 @@ export class ServiceInstanceComponent implements OnInit {
           this.createNotification('error', '停止服务实例失败', '停止服务实例调用接口失败');
         }
       },
-      err => {
-        console.log(err._body);
-        this.createNotification('error', '停止服务实例失败', err._body);
-      });
+        err => {
+          console.log(err._body);
+          this.createNotification('error', '停止服务实例失败', err._body);
+        });
   }
 
   groupidHandler(event: any) {
@@ -211,10 +214,10 @@ export class ServiceInstanceComponent implements OnInit {
     console.log(value);
   }
 
-  constructor(private http: Http,
-              private _randomUser: RandomUserService,
-              private servicesService: ServicesService,
-              private _notification: NzNotificationService) {
+  constructor(private http: HttpClient,
+    private _randomUser: RandomUserService,
+    private servicesService: ServicesService,
+    private _notification: NzNotificationService) {
   }
 
   ngOnInit() {

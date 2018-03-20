@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
-import {Http} from '@angular/http';
-import {isUndefined} from "util";
-import {environment} from "../../environments/environment";
-import {RandomUserService} from "../shared/random-user.service";
-import {ServicesService} from "../shared/services.service";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { isUndefined } from "util";
+import { environment } from "../../environments/environment";
+import { RandomUserService } from "../shared/random-user.service";
+import { ServicesService } from "../shared/services.service";
 
 @Component({
   selector: 'app-repository-detail',
@@ -107,28 +107,34 @@ export class RepositoryDetailComponent implements OnInit {
     }
   ];
   // 获取流
-  getServiceDetail() {
-    return this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + this.name + '?region=' + this.tabName).map(res => res.json());
+  getServiceDetail(): Observable<any> {
+    return this.http.get(environment.api + '/api/' +
+      this.servicesService.getCookie('groupID') + '/warehouse/repository/' + this.name + '?region=' + this.tabName);
   }
 
   // 获取流
-  getAppVersions() {
-    return this.http.get(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + this.name + '/versions').map(res => res.json());
+  getAppVersions(): Observable<any> {
+    return this.http.get(environment.apiApp +
+      '/apiApp' + '/groups/' +
+      this.servicesService.getCookie('groupID') + '/applications/' + this.name + '/versions');
   }
 
   // 获取流
-  getAppDetail(firstVersionId) {
-    return this.http.get(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + firstVersionId).map(res => res.json());
+  getAppDetail(firstVersionId): Observable<any> {
+    return this.http.get(environment.apiApp +
+      '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + firstVersionId);
   }
 
-  constructor(private routeInfo: ActivatedRoute, private http: Http, private _randomUser: RandomUserService, private servicesService: ServicesService) {
+  constructor(private routeInfo: ActivatedRoute,
+    private http: HttpClient, private _randomUser: RandomUserService, private servicesService: ServicesService) {
   }
 
   deleteVersion(name, versionId) {
     status = '';
     console.log('删除版本：' + name + '  ' + versionId);
-    this.http.delete(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + versionId).subscribe((data1) => {
-      status = data1.status.toString();
+    this.http.delete(environment.apiApp +
+       '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + versionId).subscribe((data1) => {
+      status = data1['status'].toString();
       console.log('调用后status：' + status);
       if (status === '204') {
         this._isSpinning = true;
@@ -191,17 +197,17 @@ export class RepositoryDetailComponent implements OnInit {
       this.getServiceDetail().subscribe((data) => {
         this.mirrorDetail = data;
         console.log("mirrorDetail: " + data.categoryId);
-        for(let i=0;i<this.mirror_tabs.length;i++){
-         if(data.categoryId === this.mirror_tabs[i].index) {
-           this.mirrorDetailCateName = this.mirror_tabs[i].name;
-         }
+        for (let i = 0; i < this.mirror_tabs.length; i++) {
+          if (data.categoryId === this.mirror_tabs[i].index) {
+            this.mirrorDetailCateName = this.mirror_tabs[i].name;
+          }
         }
       });
       // 订阅流
       this.getServiceDetail().subscribe((data) => {
-        if(data.images == '' || data.images == null) {
+        if (data.images == '' || data.images == null) {
 
-        } else{
+        } else {
           this.mirrorVersions = data.images.opRepository;
           this.firstVersionId = data.images.opRepository[0].id;
           this.firstVersionVersion = data.images.opRepository[0].version;

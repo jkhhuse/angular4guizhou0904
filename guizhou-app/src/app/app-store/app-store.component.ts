@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AppOutput} from '../shared/header/header.component';
 import {FormControl} from '@angular/forms';
 import {Http} from '@angular/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import {ServicesService} from '../shared/services.service';
 
 @Component({

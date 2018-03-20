@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {environment} from "../../../environments/environment";
-import {Http} from "@angular/http";
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import {Observable} from "rxjs/Observable";
 import {ServicesService} from "../../shared/services.service";
 import {NzNotificationService} from 'ng-zorro-antd';
@@ -20,7 +20,7 @@ export class ConfigControlComponent implements OnInit {
   _isSpinning = false;
   isConfirmLoading = false;
 
-  //表格6thead
+  // 表格6thead
   table6Title = [
     {
       index: 1,
@@ -52,7 +52,7 @@ export class ConfigControlComponent implements OnInit {
   }
 
   getConfigsObservable(): Observable<any> {
-    return this.http.get(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') + '/configs').map(res => res.json());
+    return this.http.get(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') + '/configs');
   }
   getConfigs():any {
     // 订阅流
@@ -67,7 +67,8 @@ export class ConfigControlComponent implements OnInit {
     status = '';
     console.log('删除配置：' + configName);
     // 返回是string 不是json
-    this.http.delete(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') + '/configs/' + configID).subscribe((data) => {
+    this.http.delete(environment.apiConfig +
+       '/configCenter/' + this.servicesService.getCookie('groupID') + '/configs/' + configID).subscribe((data) => {
       console.log('data2: ' + data);
       status = data.toString();
       console.log('data: ' + data);
@@ -108,7 +109,7 @@ export class ConfigControlComponent implements OnInit {
 
   createNotification = (type, title, content) => {
     this._notification.create(type, title, content);
-  };
+  }
 
 
   handleCancel = (e) => {
@@ -117,7 +118,7 @@ export class ConfigControlComponent implements OnInit {
     this.isConfirmLoading = false;
   }
 
-  constructor(private http: Http,
+  constructor(private http: HttpClient,
               private servicesService: ServicesService,
               private _notification: NzNotificationService) {
   }

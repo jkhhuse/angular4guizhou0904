@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { RandomUserService } from "../shared/random-user.service";
+import { RandomUserService } from '../shared/random-user.service';
 import { NzNotificationService, NzModalService } from 'ng-zorro-antd';
 import { ServicesService } from "../shared/services.service";
 import { environment } from "../../environments/environment";
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { GrayListDetail, GrayUpdateReqBody } from './app-overview-detail.model';
-import { Http } from "@angular/http";
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-app-overview-detail',
@@ -203,7 +203,8 @@ export class AppOverviewDetailComponent implements OnInit {
   putNewVersion() {
     this.userId = this.servicesService.getUserId();
     console.log('选择userId：' + this.userId);
-    this.http.put(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/application-instances/' + this.instanceId, {
+    this.http.put(environment.apiApp + '/apiApp' +
+     '/groups/' + this.servicesService.getCookie('groupID') + '/application-instances/' + this.instanceId, {
       'applicationVersion': this.selectedVersion,
       'updateUserId': this.userId
     }).subscribe(response => {
@@ -225,8 +226,9 @@ export class AppOverviewDetailComponent implements OnInit {
   };
 
   // 获取流
-  getAppVersions(appName) {
-    return this.http.get(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + appName + '/versions').map(res => res.json());
+  getAppVersions(appName): Observable<any> {
+    return this.http.get(environment.apiApp + '/apiApp'
+     + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + appName + '/versions');
   }
 
   // 获取初始数据
@@ -244,7 +246,7 @@ export class AppOverviewDetailComponent implements OnInit {
             // 每次拼接版本值之前，清空版本数据
             this.versionOptions = [];
             for (let j = 0; j < this.instanceVersions.length; j++) {
-              let temp = this.instanceVersions[j].version;
+              const temp = this.instanceVersions[j].version;
               this.versionOptions.push(temp);
             }
             // 如果版本option里面有数据，把第一个值赋值为初始版本值
@@ -293,8 +295,8 @@ export class AppOverviewDetailComponent implements OnInit {
   }
 
   // 获取灰度状态tab中的列表流
-  getGrayDataSetRX(instanceId) {
-    return this.http.get(environment.apiApp + '/apiApp' + '/application-instances/' + instanceId + '/gray-updates').map(res => res.json());
+  getGrayDataSetRX(instanceId): Observable<any> {
+    return this.http.get(environment.apiApp + '/apiApp' + '/application-instances/' + instanceId + '/gray-updates');
   }
 
   // 获取灰度状态tab中的列表数据
@@ -311,8 +313,8 @@ export class AppOverviewDetailComponent implements OnInit {
   }
 
   // 获取灰度状态详情流
-  getGrayDetailRX(detailID) {
-    return this.http.get(environment.apiApp + '/apiApp' + '/gray-updates/' + detailID + '/rules').map(res => res.json());
+  getGrayDetailRX(detailID): Observable<any> {
+    return this.http.get(environment.apiApp + '/apiApp' + '/gray-updates/' + detailID + '/rules');
   }
 
   // 根据下标，返回对应的form对象
@@ -379,10 +381,10 @@ export class AppOverviewDetailComponent implements OnInit {
               let HOSTTemp = grayIpArray[i].replace(')', '').split(' ');
               this.hostIpArray.push(HOSTTemp[2]);
             } else if (grayIpArray[i].indexOf('EQ') >= 0) {
-              let EQTemp = grayIpArray[i].replace(')', '').split(' ');
+              const EQTemp = grayIpArray[i].replace(')', '').split(' ');
               this.eqIpArrayTemp.push(EQTemp[2]);
             } else if (grayIpArray[i].indexOf('RANGE') >= 0) {
-              let RANGETemp = grayIpArray[i].replace(')', '').split(' ');
+              const RANGETemp = grayIpArray[i].replace(')', '').split(' ');
               this.rangeIpArrayTemp.push(RANGETemp[2] + ' ~ ' + RANGETemp[3]);
             }
           }
@@ -541,13 +543,13 @@ export class AppOverviewDetailComponent implements OnInit {
           let grayIpArray = this.grayDetailDataset.dsl.substring(0, this.grayDetailDataset.dsl.length - 1).split('(');
           for (let j = 0; j < grayIpArray.length; j++) {
             if (grayIpArray[j].indexOf('IN') >= 0) {
-              let HOSTTemp = grayIpArray[j].replace(')', '').split(' ');
+              const HOSTTemp = grayIpArray[j].replace(')', '').split(' ');
               this.hostIpArray[i] = (HOSTTemp[2]);
             } else if (grayIpArray[j].indexOf('EQ') >= 0) {
-              let EQTemp = grayIpArray[j].replace(')', '').split(' ');
+              const EQTemp = grayIpArray[j].replace(')', '').split(' ');
               this.addIP(this.mockE, i, EQTemp[2], '', 'equal');
             } else if (grayIpArray[j].indexOf('RANGE') >= 0) {
-              let RANGETemp = grayIpArray[j].replace(')', '').split(' ');
+              const RANGETemp = grayIpArray[j].replace(')', '').split(' ');
               this.addIP(this.mockE, i, RANGETemp[2], RANGETemp[3], 'range');
             }
           }
@@ -732,10 +734,10 @@ export class AppOverviewDetailComponent implements OnInit {
     for (let len = 0; len < this.formLength.length; len++) {
       let lbString = `(AND (IN HOST ` + this.hostIpArray[len] + `)`;
       for (let i = 0; i < this.maxControlArray; i++) {
-        let tempName = 'name' + i;
-        let firstIP = 'firstIP' + i;
+        const tempName = 'name' + i;
+        const firstIP = 'firstIP' + i;
         const secondIP = 'secondIP' + i;
-        if (typeof (this.getUpdateForm(len).value[tempName]) == 'undefined') {
+        if (typeof (this.getUpdateForm(len).value[tempName]) === 'undefined') {
           // 如果对应的key的值是undefined，说明这个值曾经存在，但是被remove掉了
         } else {
           // 只有有value的值才会被拼接到lbname中
@@ -801,9 +803,9 @@ export class AppOverviewDetailComponent implements OnInit {
   }
 
   // 发送更新策略的post流
-  putGrayDataSetRX(reqBody) {
+  putGrayDataSetRX(reqBody): Observable<any> {
     const options = reqBody;
-    return this.http.put(environment.apiApp + '/apiApp' + '/gray-updates/' + this.detailID + '/rules', reqBody).map(res => res.json());
+    return this.http.put(environment.apiApp + '/apiApp' + '/gray-updates/' + this.detailID + '/rules', reqBody);
   }
 
   // 获取灰度状态tab中的列表数据
@@ -890,13 +892,13 @@ export class AppOverviewDetailComponent implements OnInit {
   }
 
   // 发送正式升级的post流
-  putRealUpdateRX() {
-    return this.http.put(environment.apiApp + '/apiApp' + '/gray-updates/' + this.detailID + '/progress/100', '').map(res => res.json());
+  putRealUpdateRX(): Observable<any> {
+    return this.http.put(environment.apiApp + '/apiApp' + '/gray-updates/' + this.detailID + '/progress/100', '');
   }
 
   // 发送回滚的post流
-  putRealCancelRX() {
-    return this.http.put(environment.apiApp + '/apiApp' + '/gray-updates/' + this.detailID + '/progress/-1', '').map(res => res.json());
+  putRealCancelRX(): Observable<any> {
+    return this.http.put(environment.apiApp + '/apiApp' + '/gray-updates/' + this.detailID + '/progress/-1', '');
   }
 
   // 订阅正式升级
@@ -942,7 +944,7 @@ export class AppOverviewDetailComponent implements OnInit {
   }
   constructor(private fb: FormBuilder, private servicesService: ServicesService,
     private _notification: NzNotificationService, private _randomUser: RandomUserService,
-    private routeInfo: ActivatedRoute, private http: Http, private confirmServ: NzModalService) {
+    private routeInfo: ActivatedRoute, private http: HttpClient, private confirmServ: NzModalService) {
   }
 
   ngOnInit() {
