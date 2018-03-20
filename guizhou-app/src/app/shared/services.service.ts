@@ -172,7 +172,7 @@ export class ServicesService {
             return '';
         } else {
             // return '';
-            return this.httpClient.get(environment.apiOP + '/renter/users/' + this.getUserId() + '/groups?groupQuery=basic&roleName=alls', {
+            return this.httpClient.get(environment.apiOP + '/renter/users/' + this.getUserId() + '/groups?groupQuery=basic&roleName=all', {
                 headers: new HttpHeaders().set('BDOC-User', this.getUserName()),
             });
         }
