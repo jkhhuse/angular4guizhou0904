@@ -2,7 +2,7 @@ import {Component, Input, OnInit, SimpleChanges, OnChanges} from '@angular/core'
 import {Observable} from 'rxjs';
 import {Services, ServicesService} from '../shared/services.service';
 import 'rxjs/Rx';
-import {Http} from '@angular/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import {FormControl} from '@angular/forms';
 import {environment} from "../../environments/environment";
 import {NzModalService} from "ng-zorro-antd";
@@ -93,7 +93,9 @@ export class ServiceListComponent implements OnInit, OnChanges {
     status = '';
     console.log('删除镜像：' + mirrorName + '  ' + this.tabName);
     // 返回是string 不是json
-    this.http.delete(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + mirrorName + '?region=' + this.tabName).subscribe((data) => {
+    this.http.delete(environment.api + '/api/' +
+     this.servicesService.getCookie('groupID') + '/warehouse/repository/' +
+      mirrorName + '?region=' + this.tabName).subscribe((data) => {
       status = data.toString();
     });
     return status;
@@ -103,8 +105,9 @@ export class ServiceListComponent implements OnInit, OnChanges {
   deleteApp(appId, appName): string {
     status = '';
     console.log('删除应用：' + appName + '  ' + appId);
-    this.http.delete(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + appId).subscribe((data) => {
-      console.log(data.status); // 删除成功是204
+    this.http.delete(environment.apiApp + '/apiApp' +
+     '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + appId).subscribe((data) => {
+      console.log(data['status']); // 删除成功是204
     });
     return status;
   }
@@ -133,7 +136,7 @@ export class ServiceListComponent implements OnInit, OnChanges {
       });
   }*/
 
-  constructor(private servicesService: ServicesService, private http: Http) {
+  constructor(private servicesService: ServicesService, private http: HttpClient) {
   }
 
   ngOnChanges(changes: SimpleChanges) {

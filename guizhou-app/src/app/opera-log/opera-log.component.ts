@@ -7,12 +7,12 @@ import {
   ChangeDetectorRef,
   OnDestroy
 } from '@angular/core';
-import {environment} from "../../environments/environment";
-import {ActivatedRoute} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
-import {Http} from '@angular/http';
-import {DatePipe} from '@angular/common';
-import {ConsoleData} from './opera-log.model';
+import { environment } from '../../environments/environment';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
+import { ConsoleData } from './opera-log.model';
 
 declare var echarts: any;
 
@@ -55,7 +55,7 @@ export class OperaLogComponent implements OnInit {
   xAxisData = [];
   yAxisData = [];
 
-  constructor(private http: Http, private datePipe: DatePipe) {
+  constructor(private http: HttpClient, private datePipe: DatePipe) {
   }
 
   // 获取真实的表格数据
@@ -64,15 +64,15 @@ export class OperaLogComponent implements OnInit {
     this.yAxisData = [];
     for (let i = 0; i < logData.length; i++) {
       // 使用DatePipe格式化时间戳，需要*1000解决时间戳都是从1970年开始的问题
-      let tempDate = new Date(logData[i].time * 1000);
-      this.xAxisData.push(this.datePipe.transform(tempDate,'yyyy-MM-dd HH:mm:ss'));
+      const tempDate = new Date(logData[i].time * 1000);
+      this.xAxisData.push(this.datePipe.transform(tempDate, 'yyyy-MM-dd HH:mm:ss'));
 
       this.yAxisData.push(logData[i].count);
     }
     // console.log('this.xAxisData: ' + this.xAxisData);
     // console.log('this.yAxisData: ' + this.yAxisData);
     // 处理好数据后，加载chart，取消loading模式
-    if(this.xAxisData.length > 0) {
+    if (this.xAxisData.length > 0) {
       this.getLogOption();
       this.showloading = false;
     }
@@ -110,72 +110,90 @@ export class OperaLogComponent implements OnInit {
   }
 
   getChartData(nzPageIndex) {
-    console.log("getChartData nzPageIndex: " + nzPageIndex);
+    console.log('getChartData nzPageIndex: ' + nzPageIndex);
     console.log('selectedOption: ' + this.selectedOption.value);
-    this.http.get(environment.apiAlauda + '/logs/' + environment.namespace + '/aggregations',
-      {
-        'params': {
-          'end_time': this.end_time/1000,
-          // 开始时间是当前时间往前推 选中的间隔时间
-          'start_time': (this.end_time - this.selectedOption.value)/1000,
-          'namespace': environment.namespace,
-          'pageno': nzPageIndex,
-          'paths': this.paths,
-          'read_log_source_name': this.read_log_source_name,
-          'size': this.size,
-        },
-      }).subscribe(response => {
-        if(response.json() && response.json().buckets) {
-          // console.log('这是response', response.json());
-          // console.log('这是buckets', response.json().buckets);
-          this.chartData = response.json().buckets;
-          // 处理日志数据，分离time和count
-          this.getLogData(this.chartData);
-        }
-    })
+    const params = new HttpParams()
+      .append('end_time', (this.end_time / 1000).toString())
+      .append('start_time', ((this.end_time - this.selectedOption.value) / 1000).toString())
+      .append('namespace', (environment.namespace).toString())
+      .append('pageno', (nzPageIndex).toString())
+      .append('paths', (this.paths).toString())
+      .append('read_log_source_name', (this.read_log_source_name).toString())
+      .append('size', (this.size).toString());
+    this.http.get(environment.apiAlauda + '/logs/' + environment.namespace + '/aggregations', { params }
+      // {
+      //   'params': {
+      //     'end_time': this.end_time/1000,
+      //     // 开始时间是当前时间往前推 选中的间隔时间
+      //     'start_time': (this.end_time - this.selectedOption.value)/ 1000,
+      //     'namespace': environment.namespace,
+      //     'pageno': nzPageIndex,
+      //     'paths': this.paths,
+      //     'read_log_source_name': this.read_log_source_name,
+      //     'size': this.size,
+      //   },
+      // }
+    ).subscribe(response => {
+      if (response && response['buckets']) {
+        // console.log('这是response', response.json());
+        // console.log('这是buckets', response.json().buckets);
+        this.chartData = response['buckets'];
+        // 处理日志数据，分离time和count
+        this.getLogData(this.chartData);
+      }
+    });
   }
 
   getConsoleData(nzPageIndex) {
-    console.log("getConsoleData nzPageIndex: " + nzPageIndex);
-    this.http.get(environment.apiAlauda + '/logs/' + environment.namespace + '/search',
-      {
-        'params': {
-          'end_time': this.end_time/1000,
-          // 开始时间是当前时间往前推 选中的间隔时间
-          'start_time': (this.end_time - this.selectedOption.value)/1000,
-          'namespace': environment.namespace,
-          'pageno': nzPageIndex,
-          'paths': this.paths,
-          'read_log_source_name': this.read_log_source_name,
-          'size': this.size,
-        },
-      }).subscribe(response => {
-      if(response.json() && response.json().logs) {
+    console.log('getConsoleData nzPageIndex: ' + nzPageIndex);
+    const params = new HttpParams()
+      .append('end_time', (this.end_time / 1000).toString())
+      .append('start_time', ((this.end_time - this.selectedOption.value) / 1000).toString())
+      .append('namespace', (environment.namespace).toString())
+      .append('pageno', (nzPageIndex).toString())
+      .append('paths', (this.paths).toString())
+      .append('read_log_source_name', (this.read_log_source_name).toString())
+      .append('size', (this.size).toString());
+    this.http.get(environment.apiAlauda + '/logs/' + environment.namespace + '/search', { params }
+      // {
+      //   'params': {
+      //     'end_time': this.end_time / 1000,
+      //     // 开始时间是当前时间往前推 选中的间隔时间
+      //     'start_time': (this.end_time - this.selectedOption.value) / 1000,
+      //     'namespace': environment.namespace,
+      //     'pageno': nzPageIndex,
+      //     'paths': this.paths,
+      //     'read_log_source_name': this.read_log_source_name,
+      //     'size': this.size,
+      //   },
+      // }
+    ).subscribe(response => {
+      if (response && response['logs']) {
         // 处理控制台数据
-        this.consoleDatas = response.json().logs;
-        this.consolePageNum = response.json().total_page;
+        this.consoleDatas = response['logs'];
+        this.consolePageNum = response['total_page'];
         // console.log(this.consoleDatas);
       }
-    })
+    });
   }
 
   ngOnInit() {
-      // 加载选择器的内容
-      this.options = [
-        {value: 1800000, label: '最近三十分钟'},
-        {value: 3600000, label: '最近一小时'},
-        {value: 21600000, label: '最近6小时'},
-        {value: 43200000, label: '最近12小时'},
-        {value: 86400000, label: '最近1天'},
-        {value: 172800000, label: '最近2天'},
-        {value: 259200000, label: '最近3天'}
-      ];
-      // 默认值为最近三十分钟
-      this.selectedOption = this.options[0];
-      // 延迟加载获取顶部表格数据
-      setTimeout(_ => {
-        this.getChartData(this.nzPageIndex);
-        this.getConsoleData(this.nzPageIndex);
-      },0);
+    // 加载选择器的内容
+    this.options = [
+      { value: 1800000, label: '最近三十分钟' },
+      { value: 3600000, label: '最近一小时' },
+      { value: 21600000, label: '最近6小时' },
+      { value: 43200000, label: '最近12小时' },
+      { value: 86400000, label: '最近1天' },
+      { value: 172800000, label: '最近2天' },
+      { value: 259200000, label: '最近3天' }
+    ];
+    // 默认值为最近三十分钟
+    this.selectedOption = this.options[0];
+    // 延迟加载获取顶部表格数据
+    setTimeout(_ => {
+      this.getChartData(this.nzPageIndex);
+      this.getConsoleData(this.nzPageIndex);
+    }, 0);
   }
 }

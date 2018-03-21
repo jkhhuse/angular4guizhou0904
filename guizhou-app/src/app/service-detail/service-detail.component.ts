@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { ServicesService } from "../shared/services.service";
-import { Http } from "@angular/http";
 import { HttpClient, HttpParams, HttpErrorResponse } from "@angular/common/http";
 import { FormControl } from "@angular/forms";
 import { environment } from "../../environments/environment";
@@ -20,7 +19,7 @@ export class ServiceDetailComponent implements OnInit {
     private serviceId: string;
     private tabName: string;
     private subscribeID: string; // 服务订阅审批状态ID
-  //表格3thead
+  // 表格3thead
   table3Title = [
     {
       index: 1,
@@ -135,10 +134,12 @@ export class ServiceDetailComponent implements OnInit {
     }
 
     getServiceDetail(serviceId): Observable<any> {
-        return this.http.get(environment.apiService + '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + serviceId);
+        return this.http.get(environment.apiService +
+             '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + serviceId);
     }
     getServiceInstances(serviceName): Observable<any> {
-        return this.http.get(environment.apiService + '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' +
+        return this.http.get(environment.apiService +
+             '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' +
         serviceName + '/instances');
     }
     // 删除服务接口
@@ -159,7 +160,7 @@ export class ServiceDetailComponent implements OnInit {
     ngOnInit() {
         this.serviceInfo = this.routeInfo.snapshot.params['serviceId'];
         if (this.serviceInfo.split('@')) {
-            let temp = this.serviceInfo.split('@');
+            const temp = this.serviceInfo.split('@');
             this.serviceName = temp[0];
             this.serviceId = temp[1];
              console.log(this.serviceId);

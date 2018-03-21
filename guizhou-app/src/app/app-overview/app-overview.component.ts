@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {RandomUserService} from '../shared/random-user.service';
-import {FormControl} from "@angular/forms";
-import {ServicesService} from "../shared/services.service";
-import {environment} from "../../environments/environment";
-import {Http} from "@angular/http";
+import {FormControl} from '@angular/forms';
+import {ServicesService} from '../shared/services.service';
+import {environment} from '../../environments/environment';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import {NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
@@ -137,7 +137,7 @@ export class AppOverviewComponent implements OnInit {
 
   // 停止应用实例接口
   stopAppInstance(instanceID, instanceName) {
-    this.http.put(environment.apiApp + '/apiApp/' + 'groups/' + this.servicesService.getCookie('groupID') + '/application-instances/' + instanceID + '/action?op_type=stop',{}).subscribe((data) => {
+    this.http.put(environment.apiApp + '/apiApp/' + 'groups/' + this.servicesService.getCookie('groupID') + '/application-instances/' + instanceID + '/action?op_type=stop', {}).subscribe((data) => {
       if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
           setTimeout(() => {
             this.isVisible_stop = false;
@@ -157,7 +157,7 @@ export class AppOverviewComponent implements OnInit {
 
   // 启动应用实例接口
   startAppInstance(instanceID, instanceName) {
-    this.http.put(environment.apiApp + '/apiApp/' + 'groups/' + this.servicesService.getCookie('groupID') + '/application-instances/' + instanceID + '/action?op_type=start',{}).subscribe((data) => {
+    this.http.put(environment.apiApp + '/apiApp/' + 'groups/' + this.servicesService.getCookie('groupID') + '/application-instances/' + instanceID + '/action?op_type=start', {}).subscribe((data) => {
         if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
           setTimeout(() => {
             this.isVisible_start = false;
@@ -263,7 +263,7 @@ export class AppOverviewComponent implements OnInit {
     });
   }
 
-  constructor(private http: Http,
+  constructor(private http: HttpClient,
               private _randomUser: RandomUserService,
               private servicesService: ServicesService,
               private _notification: NzNotificationService) {

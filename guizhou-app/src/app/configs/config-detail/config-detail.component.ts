@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
 import {ActivatedRoute} from '@angular/router';
-import {Http} from "@angular/http";
-import {environment} from "../../../environments/environment";
-import {ServicesService} from "../../shared/services.service";
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import {environment} from '../../../environments/environment';
+import {ServicesService} from '../../shared/services.service';
 import {NzNotificationService} from 'ng-zorro-antd';
 import set = Reflect.set;
 
@@ -26,11 +26,11 @@ export class ConfigDetailComponent implements OnInit {
   content = [];
 
   getConfigsObservable(): Observable<any> {
-    return this.http.get(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') + '/configs').map(res => res.json());
+    return this.http.get(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') + '/configs');
   }
 
   getConfigDetail(configID): Observable<any> {
-    return this.http.get(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') + '/configs/' + configID).map(res => res.json());
+    return this.http.get(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') + '/configs/' + configID);
   }
 
   showModal = (key, value) => {
@@ -71,7 +71,7 @@ export class ConfigDetailComponent implements OnInit {
       }).subscribe(data => {
           console.log('这是content', this.content);
           console.log('这是response', data);
-          if (data.status = 204) {
+          if (data['status'] = 204) {
             this._isSpinning = true;
             setTimeout(() => {
               this.isVisible = false;
@@ -112,7 +112,7 @@ export class ConfigDetailComponent implements OnInit {
   }
 
   constructor(private routeInfo: ActivatedRoute,
-              private http: Http,
+              private http: HttpClient,
               private servicesService: ServicesService,
               private _notification: NzNotificationService) {
   }
