@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute } from '@angular/router';
-import { Http } from '@angular/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { NzNotificationService } from 'ng-zorro-antd';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ServicesService } from '../shared/services.service';
 
 
@@ -158,7 +157,7 @@ export class AppInstanceDetailDetailComponent implements OnInit {
 
     // 发送请求更新版本
     this.putNewMode();
-    if(this.putModeStatus) {
+    if (this.putModeStatus) {
       this._isSpinning = true;
       // 如果更新版本通过了表单验证，则执行loading并刷新数据。
       setTimeout(() => {
@@ -184,7 +183,7 @@ export class AppInstanceDetailDetailComponent implements OnInit {
     // 实例数量最大值 autoInput_3
     // 减少量 autoInput_1
     // 增加量 autoInput_2
-    if(this.autoInput_2 > (this.autoInput_3 - this.autoInput_4)) {
+    if (this.autoInput_2 > (this.autoInput_3 - this.autoInput_4)) {
       // 如果增加量的值 大于 实例数量最大值和最小值的差值。
       this.putModeStatus = false;
       this.createNotification('error', '更新模式失败', '增加量的值应小于实例数量最大值和最小值的差值');
@@ -265,11 +264,12 @@ export class AppInstanceDetailDetailComponent implements OnInit {
     this._notification.create(type, title, content);
   }
 
-  getServiceInstanceDetail(instanceDetailID): Observable<any[]> {
-    return this.http.get(environment.apiApp + '/apiApp' + '/application-instance-microservices/' + instanceDetailID).map(res => res.json());
+  getServiceInstanceDetail(instanceDetailID): Observable<any> {
+    return this.http.get(environment.apiApp + '/apiApp' + '/application-instance-microservices/' + instanceDetailID);
   }
 
-  constructor(private servicesService: ServicesService, private _notification: NzNotificationService, private routeInfo: ActivatedRoute, private http: Http) {
+  constructor(private servicesService: ServicesService, private _notification: NzNotificationService,
+     private routeInfo: ActivatedRoute, private http: HttpClient) {
   }
 
   ngOnInit() {

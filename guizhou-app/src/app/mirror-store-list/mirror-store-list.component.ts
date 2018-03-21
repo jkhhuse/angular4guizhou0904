@@ -2,7 +2,7 @@ import {Component, Input, OnInit, SimpleChanges, OnChanges} from '@angular/core'
 import {Observable} from 'rxjs';
 import {Services, ServicesService} from '../shared/services.service';
 import 'rxjs/Rx';
-import {Http} from '@angular/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import {FormControl} from '@angular/forms';
 import {environment} from "../../environments/environment";
 import {NzNotificationService} from 'ng-zorro-antd';
@@ -76,7 +76,8 @@ export class MirrorStoreListComponent implements OnInit {
     status = '';
     console.log('删除镜像：' + mirrorName + '  ' + this.tabName);
     // 返回是string 不是json
-    this.http.delete(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/dir/' + mirrorName).subscribe((data) => {
+    this.http.delete(environment.api +
+       '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/dir/' + mirrorName).subscribe((data) => {
       status = data.toString();
       console.log('status: ' + status);
     });
@@ -125,7 +126,7 @@ export class MirrorStoreListComponent implements OnInit {
   };
 
   constructor(private servicesService: ServicesService,
-              private http: Http,
+              private http: HttpClient,
               private _notification: NzNotificationService) {
 
   }
