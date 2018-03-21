@@ -1,9 +1,9 @@
 <app-header [title]="title"></app-header>
 <div class="config-control-wrapper">
-  <app-group-select (groupidHandler)="groupidHandler($event)"></app-group-select>
+    <app-group-select (groupidHandler)="groupidHandler($event)"></app-group-select>
 </div>
 <div class="ea-container">
-  <div class="ea-header">
+    <div class="ea-header">
         <div>
             <button nz-button [nzType]="'primary'" (click)="showCreateModal()"><span>创建环境变量</span></button>
             <button nz-button [nzType]="'default'" [disabled]="!hasChecked" (click)="showDeleteModal()"><span>删除</span></button>
@@ -151,7 +151,7 @@
                     <label nz-form-item-required>环境变量内容</label>
                 </div>
                 <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
-                    <nz-input formControlName="content" [nzRows]="4" [nzType]="'textarea'" [nzPlaceHolder]="'请输入文件内容...'" [nzSize]="'large'">
+                    <nz-input formControlName="content" [nzRows]="4" [nzType]="'textarea'" [nzPlaceHolder]="'请输入文件内容,格式为:A=B...'" [nzSize]="'large'">
                     </nz-input>
                     <div nz-form-explain class="hasError" *ngIf="getFormControl('content').dirty&&getFormControl('content').hasError('required')">请输入环境变量内容!</div>
                 </div>
