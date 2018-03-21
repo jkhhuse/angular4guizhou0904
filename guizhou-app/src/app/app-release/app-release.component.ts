@@ -24,7 +24,7 @@ export class AppReleaseComponent implements OnInit {
   testValue = '111';
   tempRadioValue;
   // 控制layout是否可见
-  public contentControl: boolean = false;
+  public contentControl = false;
   // 文件上传
   fileName: string;
   public url: string = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/upload/app/fileName/';
@@ -35,7 +35,7 @@ export class AppReleaseComponent implements OnInit {
   });
 
   public hasBaseDropZoneOver = false;
-  public urlIcon: string = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/upload/app/fileName/';
+  public urlIcon: string = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/uploadPic/app/fileName/';
   public uploaderIcon: FileUploader = new FileUploader({
     url: this.urlIcon,
     allowedMimeType: ['image/png', 'image/jpg', 'image/jpeg'],
@@ -499,7 +499,7 @@ export class AppReleaseComponent implements OnInit {
     // 1.根据应用名字获取应用的版本
     this.http.get(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + this.appName + '/versions').subscribe(
       res => {
-        let firstVersionId = res[0].id;
+        const firstVersionId = res[0].id;
         // 2.根据应用版本id获取该应用下的镜像和选中的镜像版本
         this.http.get(environment.apiApp + '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + firstVersionId).subscribe(
           res => {
