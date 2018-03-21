@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {ActivatedRoute} from '@angular/router';
-import {Http} from "@angular/http";
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import {environment} from "../../environments/environment";
 
 @Component({
@@ -35,11 +35,12 @@ export class ServiceInstanceDetailComponent implements OnInit {
     }
   ];
 
-  getServiceInstanceDetail(instanceId): Observable<any[]> {
-    return this.http.get(environment.apiService + '/apiService' + '/service-instances/' + instanceId).map(res => res.json());
+  getServiceInstanceDetail(instanceId): Observable<any> {
+    return this.http.get(environment.apiService +
+       '/apiService' + '/service-instances/' + instanceId);
   }
 
-    constructor(private routeInfo: ActivatedRoute, private http: Http) {
+    constructor(private routeInfo: ActivatedRoute, private http: HttpClient) {
     }
 
     ngOnInit() {
