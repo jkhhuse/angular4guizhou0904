@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
-import {Http} from '@angular/http';
-import {ServicesService} from "../shared/services.service";
+import { ServicesService } from "../shared/services.service";
 
 @Component({
   selector: 'app-app-nztable',
@@ -20,8 +19,7 @@ export class AppNztableComponent implements OnInit, OnChanges {
   _dataSet = [];
 
 
-  constructor(private http: Http,
-              private servicesService: ServicesService) {
+  constructor(private servicesService: ServicesService) {
 
   }
 

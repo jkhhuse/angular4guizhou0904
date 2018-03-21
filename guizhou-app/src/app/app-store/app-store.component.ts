@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AppOutput} from '../shared/header/header.component';
 import {FormControl} from '@angular/forms';
-import {Http} from '@angular/http';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import {ServicesService} from '../shared/services.service';
 
@@ -57,7 +56,7 @@ export class AppStoreComponent implements OnInit {
         console.log('changeAppName');
     }
 
-    constructor(private servicesService: ServicesService, private http: Http) {
+    constructor(private servicesService: ServicesService) {
     }
 
     ngOnInit() {
