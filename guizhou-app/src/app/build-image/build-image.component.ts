@@ -260,9 +260,9 @@ export class BuildImageComponent implements OnInit {
             resolve();
           },
             err => {
-                console.log(err);
-                this._isSpinning2 = false;
-                this.createNotification('error', '创建失败', err.error.message);
+                // console.log(err);
+                // this._isSpinning2 = false;
+                // this.createNotification('error', '创建失败', err.error.message);
             });
         });
         // resolve();
