@@ -170,9 +170,9 @@
                   </div>
                   <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
                     <div nz-row>
-                      <div nz-col [nzMd]="20">
+                      <div nz-col [nzMd]="24">
                         <div nz-row [nzGutter]="16">
-                          <div nz-col [nzSpan]="label.value === '监听端口' ? '8' : '3'" *ngFor="let label of lbControlLabel">
+                          <div nz-col [nzSpan]="label.value === '监听端口' ? '8' : '4'" *ngFor="let label of lbControlLabel">
                             <span>{{ label.value }}</span>
                           </div>
                         </div>
@@ -194,10 +194,10 @@
                   </div>
                   <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
                     <div nz-row>
-                      <div nz-col [nzMd]="20">
+                      <div nz-col [nzMd]="24">
                         <form nz-form class="dynamic-form" [formGroup]="loadBanlancerForm">
                           <div nz-row [nzGutter]="16" *ngFor="let control1 of lbControlArray;let i=index">
-                            <div nz-col [nzSpan]="control.placeholder === '1~65535' ? '8' : '3'" *ngFor="let control of control1" [class.d-none]="!control.show">
+                            <div nz-col [nzSpan]="control.placeholder === '1~65535' ? '8' : '4'" *ngFor="let control of control1" [class.d-none]="!control.show">
                               <div nz-form-item nz-row>
                                 <!-- <div nz-form-label nz-col>
                                         <label [attr.for]="'field' + control.index">Field {{control.index}}</label>
