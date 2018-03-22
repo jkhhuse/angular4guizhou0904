@@ -159,7 +159,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       }
     },
   ];
-  images: string[] = [];
+  images = [];
   imageTabs: string[] = [];
   choosedImageName = '';
   imageData = [];
@@ -1279,12 +1279,10 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
             });
             console.log('lbId', lbId);
             // lbId[key] = _.s
-            const rules$ = _.map(this.loadBanlancerForm.value['rules' + value], (value2, key2) => {
-              return {
-                domain: value2,
-                url: ''
-              };
-            });
+            const rules$ = [{
+              domain: this.loadBanlancerForm.value['rules' + value],
+              url: ''
+            }];
             lbArr[key] = {
               container_port: this.loadBanlancerForm.value['container_port' + value],
               listener_port: listener_port$,
@@ -1467,6 +1465,25 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         this.serviceTabs = _.map(values[2]['services'], (value, key) => {
           return value['serviceName'];
         });
+        // // mock 多镜像
+        // this.images[1] = {
+        //   createTime: 1520956951000,
+        //   createUserId: 0,
+        //   deleted: 0,
+        //   description: '',
+        //   groupId: 61,
+        //   id: 'e5ba5451-a88c-495f-829f-95b3e3c6e931',
+        //   isApp: 0,
+        //   isEnable: 1,
+        //   epositoryName: 'images1',
+        //   repositorySrvId: 0,
+        //   size: 1,
+        //   updateTime: 1520956952000,
+        //   updateUserId: 0,
+        //   version: 'version0.0.5'
+        // };
+        // this.imageTabs[1] = 'images1';
+        // // mock 多镜像
         resolve();
       });
       // this.http.get(environment.api + '/api/2/warehouse/repository').subscribe(data => {
@@ -1624,12 +1641,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         options: ['tcp', 'http'],
       },
       {
-        type: 'select',
-        placeholder: '回车或空格确定',
-        options: [],
+        type: 'input',
+        placeholder: '请输入域名地址',
         name: this.lbControlArray[this.lbControlArray.length - 1][3]['name'] + 1,
         disabled: true,
-        ifTags: true
+        // ifTags: true
       },
       {
         type: 'select',
@@ -1777,12 +1793,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
             options: ['tcp', 'http'],
           },
           {
-            type: 'select',
-            placeholder: '回车或空格确定',
-            options: [],
+            type: 'input',
+            placeholder: '请输入域名地址',
             name: 'rules',
             disabled: true,
-            ifTags: true
+            // ifTags: true
           },
           {
             type: 'select',

@@ -44,14 +44,12 @@
                                   <div class="card-content" *ngIf="repoTypeArray[i]">
                                     <div>
                                       <p style="font-size: 12px;">镜像版本：</p>
-                                      <nz-radio-group [(ngModel)]="repoVersionRadioValue[i]"
-                                                      *ngFor="let repoVersion of repoTypeArray[i].opRepository;">
+                                      <nz-radio-group [(ngModel)]="repoVersionRadioValue[i]" *ngFor="let repoVersion of repoTypeArray[i].opRepository;">
                                         <label nz-radio [nzValue]="repoVersion.id">
                                           <span>{{repoVersion.version}}</span>
                                         </label>
                                       </nz-radio-group>
-                                      <span
-                                        *ngIf="(repoVersionRadioValue[i] !== undefined) && (repoVersionRadioValue[i] !== '')">
+                                      <span *ngIf="(repoVersionRadioValue[i] !== undefined) && (repoVersionRadioValue[i] !== '')">
                                         <i class="anticon anticon-check-circle" (click)="removeSelect(i)"></i>
                                       </span>
                                     </div>
@@ -90,9 +88,8 @@
             text-align:right;
             color: rgba(0, 0, 0, 0.9);">图标上传</span>
               </div>
-              <div style="margin-left: 10px; margin-top: 4px" nz-col [nzSpan]="10" ng2FileDrop
-                   [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
-                   (fileOver)="fileOverBase($event)" [uploader]="uploaderIcon" class="well my-drop-zone">
+              <div style="margin-left: 10px; margin-top: 4px" nz-col [nzSpan]="10" ng2FileDrop [ngClass]="{'nv-file-over': hasBaseDropZoneOver}"
+                (fileOver)="fileOverBase($event)" [uploader]="uploaderIcon" class="well my-drop-zone">
                 <div nz-col [nzSpan]="6">
                   <i class="anticon anticon-cloud-upload-o"></i>
                   <span>拖拽图片到此处或者</span>
@@ -116,52 +113,48 @@
               <div nz-col [nzSpan]="10">
                 <!-- 这里先把分页去掉，nzAjaxData方式，获取分页有点问题，有想法是把uploader.queue的队列，放到一个服务器上，
                 然后在这里实现分页，最后在我这里进行nzAjaxData远程异步获取，可以看nzAjaxData在官网的实例 -->
-                <nz-table #nzTable [nzScroll]="{ y: 240 }" [nzShowSizeChanger]="true" [nzAjaxData]="_dataSetIcon"
-                          [nzIsPagination]="false">
+                <nz-table #nzTable [nzScroll]="{ y: 240 }" [nzShowSizeChanger]="true" [nzAjaxData]="_dataSetIcon" [nzIsPagination]="false">
                   <ng-template #nzFixedHeader>
                     <thead nz-thead>
-                    <tr>
-                      <th nz-th>
-                        <span>图标上传</span>
-                      </th>
-                    </tr>
+                      <tr>
+                        <th nz-th>
+                          <span>图标上传</span>
+                        </th>
+                      </tr>
                     </thead>
                   </ng-template>
                   <tbody nz-tbody>
-                  <tr nz-tbody-tr *ngFor="let item of nzTable.data">
-                    <td nz-td>
-                      <i class="anticon anticon-paper-clip"></i>
-                      <strong>{{ item?.file?.name }}</strong>
+                    <tr nz-tbody-tr *ngFor="let item of nzTable.data">
+                      <td nz-td>
+                        <i class="anticon anticon-paper-clip"></i>
+                        <strong>{{ item?.file?.name }}</strong>
 
-                    </td>
-                    <td nz-td>
-                      <button nz-button [nzType]="'default'" type="button" (click)="item.upload()"
-                              [disabled]="nameVerify(item) || form.value['appName'] === undefined || form.value['appName'] === '' || item.isReady || item.isUploading || item.isSuccess">
-                        上传
-                      </button>
-                      <button nz-button [nzType]="'default'" type="button" (click)="item.cancel()"
-                              [disabled]="!item.isUploading">
-                        取消
-                      </button>
-                      <button nz-button [nzType]="'default'" type="button" (click)="item.remove()"
-                              [disabled]="item.isSuccess">
-                        删除
-                      </button>
-                      <nz-tooltip [nzPlacement]="'rightTop'">
-                        <i nz-tooltip class="anticon anticon-question-circle-o"></i>
-                        <ng-template #nzTemplate>
-                          <div>
-                            <p>请先填写应用名称，然后进行上传操作!</p>
-                          </div>
-                        </ng-template>
-                      </nz-tooltip>
-                    </td>
-                    <td nz-td>
-                      <span *ngIf="item.isSuccess">上传成功</span>
-                      <span *ngIf="item.isCancel">取消上传</span>
-                      <span *ngIf="item.isError">上传失败</span>
-                    </td>
-                  </tr>
+                      </td>
+                      <td nz-td>
+                        <button nz-button [nzType]="'default'" type="button" (click)="item.upload()" [disabled]="nameVerify(item) || form.value['appName'] === undefined || form.value['appName'] === '' || item.isReady || item.isUploading || item.isSuccess">
+                          上传
+                        </button>
+                        <button nz-button [nzType]="'default'" type="button" (click)="item.cancel()" [disabled]="!item.isUploading">
+                          取消
+                        </button>
+                        <button nz-button [nzType]="'default'" type="button" (click)="item.remove()" [disabled]="item.isSuccess">
+                          删除
+                        </button>
+                        <nz-tooltip [nzPlacement]="'rightTop'">
+                          <i nz-tooltip class="anticon anticon-question-circle-o"></i>
+                          <ng-template #nzTemplate>
+                            <div>
+                              <p>请先填写应用名称，然后进行上传操作!</p>
+                            </div>
+                          </ng-template>
+                        </nz-tooltip>
+                      </td>
+                      <td nz-td>
+                        <span *ngIf="item.isSuccess">上传成功</span>
+                        <span *ngIf="item.isCancel">取消上传</span>
+                        <span *ngIf="item.isError">上传失败</span>
+                      </td>
+                    </tr>
                   </tbody>
                 </nz-table>
               </div>

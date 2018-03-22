@@ -1382,12 +1382,10 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
             });
             console.log('lbId', lbId);
             // lbId[key] = _.s
-            const rules$ = _.map(this.loadBanlancerForm.value['rules' + value], (value2, key2) => {
-              return {
-                domain: value2,
-                url: ''
-              };
-            });
+            const rules$ = [{
+              domain: this.loadBanlancerForm.value['rules' + value],
+              url: ''
+            }];
             lbArr[key] = {
               container_port: this.loadBanlancerForm.value['container_port' + value],
               listener_port: listener_port$,
@@ -1659,12 +1657,10 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
         options: ['tcp', 'http'],
       },
       {
-        type: 'select',
-        placeholder: '回车或空格确定',
-        options: [],
+        type: 'input',
+        placeholder: '请输入域名地址',
         name: this.lbControlArray[this.lbControlArray.length - 1][3]['name'] + 1,
         disabled: true,
-        ifTags: true
       },
       {
         type: 'select',
@@ -1795,12 +1791,10 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
             options: ['tcp', 'http'],
           },
           {
-            type: 'select',
-            placeholder: '回车或空格确定',
-            options: [],
+            type: 'input',
+            placeholder: '请输入域名地址',
             name: 'rules',
             disabled: true,
-            ifTags: true
           },
           {
             type: 'select',

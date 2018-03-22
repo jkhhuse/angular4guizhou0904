@@ -35,8 +35,9 @@ export class BuildImageComponent implements OnInit {
     url: this.url,
     queueLimit: 1,
     // todo next这里限制文件格式，tar，有问题
+    // https://github.com/valor-software/ng2-file-upload/issues/661
     // 还有一个是allowedMimeType可以限制图片格式
-    // allowedFileType: ['tar'],
+    // allowedMimeType: ['application/zip'],
   });
   _dataSet = this.uploader.queue;
 
@@ -260,9 +261,9 @@ export class BuildImageComponent implements OnInit {
             resolve();
           },
             err => {
-                console.log(err);
-                this._isSpinning2 = false;
-                this.createNotification('error', '创建失败', err.error.message);
+                // console.log(err);
+                // this._isSpinning2 = false;
+                // this.createNotification('error', '创建失败', err.error.message);
             });
         });
         // resolve();
