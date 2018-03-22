@@ -5,6 +5,7 @@ import { NzNotificationService } from 'ng-zorro-antd';
 import 'rxjs/add/operator/catch';
 import { TranslateService } from '@ngx-translate/core';
 import { ServiceTestService } from '../../service-test/service-test.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-error-interceptor',
@@ -53,9 +54,9 @@ export class ErrorInterceptorComponent implements HttpInterceptor, OnInit {
           // translateService.setDefaultLang("zh");
           let errCode, errMsg, errMsg2;
           const chinaReg = new RegExp('[\\u4E00-\\u9FFF]+', 'g');
-
+          const status$ = [400, 403, 404, 409];
        /* 镜像后端只能返回403问题，暂时注释 */
-       if (err.status === 400 || err.status === 403) {
+       if (_.indexOf(status$, err.status) > -1) {
             if (err.error.errorMsg !== undefined) {
               errMsg2 = err.error.errorMsg;
               errCode = 'others';
