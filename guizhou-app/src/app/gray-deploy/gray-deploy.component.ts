@@ -1125,6 +1125,16 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
         } else {
           this.createNotification('warning', '需要获取集群列表', '请耐心等待2-3秒，集群列表获取成功之后即可正常部署!');
         }
+        let appInstance1Id$;
+        _.map(this.appInstance1Options, (value, key) => {
+          if (value['instanceName'] === this.formFirstProject.value['appInstance1Name']) {
+            appInstance1Id$ = value['id'];
+          }
+        });
+        await this.getGrayRules(appInstance1Id$);
+        if (this.grayRules.length === 0) {
+          this.createNotification('warning', '缺少灰度策略', '当前实例对应灰度策略为空，请选择其他实例!');
+        }
         break;
         // if(this.formFirst.disabled) {
 
@@ -1176,13 +1186,13 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
           this.formData['serviceInstances'] = _.compact(serviceIdData);
         }
         console.log(this.formFirstProject, this.appInstance1Options);
-        let appInstance1Id$;
-        _.map(this.appInstance1Options, (value, key) => {
-          if (value['instanceName'] === this.formFirstProject.value['appInstance1Name']) {
-            appInstance1Id$ = value['id'];
-          }
-        });
-        await this.getGrayRules(appInstance1Id$);
+        // let appInstance1Id$;
+        // _.map(this.appInstance1Options, (value, key) => {
+        //   if (value['instanceName'] === this.formFirstProject.value['appInstance1Name']) {
+        //     appInstance1Id$ = value['id'];
+        //   }
+        // });
+        // await this.getGrayRules(appInstance1Id$);
         // // mock 多负载均衡的数据
         // console.log(this.grayRules);
         // this.grayRules[1] = this.grayRules[0];
@@ -1190,7 +1200,7 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
         await this.getGrayRulesServiceForm();
       }
     }
-    if (this.ifOninitCompleted === true) {
+    if (this.ifOninitCompleted === true && this.grayRules.length > 0) {
       this.current += 1;
       this.changeContent();
     }
@@ -1973,8 +1983,8 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
             if (value['status'] === 2) {
               networkOptionsHttp$[key] = value['loadBalancer']['lbType'] + ':'
                 + value['loadBalancer']['lbAddress'] + ':' + value['port'];
-                console.log(this.networkOptionsHttp);
-                networkOptionsEnvHttp$[key] = value['loadBalancer'];
+              console.log(this.networkOptionsHttp);
+              networkOptionsEnvHttp$[key] = value['loadBalancer'];
             }
           });
           this.networkOptionsHttp = _.concat(this.networkOptions, networkOptionsHttp$);
