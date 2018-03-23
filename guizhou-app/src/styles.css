@@ -1,12 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
-body, html{
+
+body,
+html {
     height: 100%;
-    font-size: 13px !important;
+    font-size: 14px !important;
     font-family: SourceHanSans-Light, sans-serif;
 }
-.ant-layout-has-sider, .ant-layout{
+
+.ant-layout-has-sider,
+.ant-layout {
     height: 100%;
 }
+
+
 /*@font-face {
     font-family: SourceHanSans-Light;
     src: url("assets/font/SourceHanSans-Light.otf");
@@ -27,12 +33,13 @@ body, html{
 .marginTop20 {
     margin-bottom: 20px;
 }
-.dashboard-li em{
-  font-style: normal;
-  background-color: #f7e8ac;
-  color: #1a282f;
-}
-.ant-card-body{
-  overflow-y: scroll;
+
+.dashboard-li em {
+    font-style: normal;
+    background-color: #f7e8ac;
+    color: #1a282f;
 }
 
+.ant-card-body {
+    overflow-y: scroll;
+}

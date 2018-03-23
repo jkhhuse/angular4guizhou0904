@@ -71,7 +71,7 @@ export class AppEnvArgComponent implements OnInit {
   }
 
   routerToDetail(name) {
-    this.router.navigate(['/envArgDetail/' + name]);
+    this.router.navigate(['/envArgDetail/' + name + '/' + this.groupId]);
   }
 
   showCreateModal() {
