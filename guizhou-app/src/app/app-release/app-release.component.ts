@@ -1,13 +1,13 @@
-import {Component, OnInit, ViewChild, AfterViewInit} from '@angular/core';
-import {Validators, FormControl} from '@angular/forms';
-import {NzModalService, NzNotificationService} from 'ng-zorro-antd';
-import {FileUploader, FileSelectDirective} from 'ng2-file-upload';
-import {Observable} from "rxjs/Observable";
-import {HttpClient, HttpParams, HttpErrorResponse} from "@angular/common/http";
-import {ActivatedRoute, Router, RouterModule} from '@angular/router';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Validators, FormControl } from '@angular/forms';
+import { NzModalService, NzNotificationService } from 'ng-zorro-antd';
+import { FileUploader, FileSelectDirective } from 'ng2-file-upload';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import * as _ from 'lodash';
 
-import { environment } from "../../environments/environment";
+import { environment } from '../../environments/environment';
 import { FieldConfig } from '../dynamic-form/models/field-config.interface';
 import { DynamicFormComponent } from '../dynamic-form/containers/dynamic-form/dynamic-form.component';
 import { ServicesService } from '../shared/services.service';
@@ -193,24 +193,27 @@ export class AppReleaseComponent implements OnInit {
     };
   }
 
-   FileSelected(uploaderType: any) {
-     if (uploaderType === 'image') {
-       console.log('文件上传完了', this.uploader);
-       this.uploader.onBeforeUploadItem = (item) => {
-         item.file.name = item.file.name.replace(/\s/g, '');
-         item.withCredentials = false;
-         item.url = this.url + item.file.name;
-       };
-     } else {
-       console.log('Icon文件上传完了', this.uploaderIcon);
-       console.log('这里打印form', this.form);
-       this.uploaderIcon.onBeforeUploadItem = (item) => {
-         item.file.name = item.file.name.replace(/\s/g, '');
-         item.withCredentials = false;
-         item.url = this.urlIcon + this.form.value['appName'] + '.png';
-       };
-     }
-   }
+  FileSelected($event, uploaderType: any) {
+    // 解决如下问题: http://223.105.0.132:8088/browse/BDPAAS-218
+    // 上传一个镜像，删除之后再次上传然后不行的bug
+    $event.target.value = '';
+    if (uploaderType === 'image') {
+      console.log('文件上传完了', this.uploader);
+      this.uploader.onBeforeUploadItem = (item) => {
+        item.file.name = item.file.name.replace(/\s/g, '');
+        item.withCredentials = false;
+        item.url = this.url + item.file.name;
+      };
+    } else {
+      console.log('Icon文件上传完了', this.uploaderIcon);
+      console.log('这里打印form', this.form);
+      this.uploaderIcon.onBeforeUploadItem = (item) => {
+        item.file.name = item.file.name.replace(/\s/g, '');
+        item.withCredentials = false;
+        item.url = this.urlIcon + this.form.value['appName'] + '.png';
+      };
+    }
+  }
 
   getApplications() {
     this.http.get(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') + '/applications').subscribe(data => {
@@ -323,10 +326,10 @@ export class AppReleaseComponent implements OnInit {
     }
     console.log(this.repoVersionRadioValue);
     // 如果当前是第一步，并且是添加版本功能
-    if (this.moduleValue == 'addVersion' && this.current == 0) {
+    if (this.moduleValue === 'addVersion' && this.current === 0) {
       this.tempRadioValue = this.repoVersionRadioValue;
       // 如果应用原有的镜像个数，符合当前选择的镜像个数，则通过校验，可以进行下一步
-      if(this.appRepoList.length === this.getCleanedRadioLength(this.tempRadioValue)) {
+      if (this.appRepoList.length === this.getCleanedRadioLength(this.tempRadioValue)) {
         this.current += 1;
         this.changeContent();
       } else {
@@ -404,21 +407,21 @@ export class AppReleaseComponent implements OnInit {
     this.form.value.createUserId = this.servicesService.getUserId();
     this.form.value.containerSrvId = 1;
     this.http.post(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') + '/applications', this.form.value).subscribe(data => {
-        const thisParent = this;
-        console.log('发布应用成功', data);
-        // this.createNotification('success', '发布应用成功', '正在跳转到应用商城页面', {nzDuration: 0});
-        this.confirmServ.success({
-          maskClosable: false,
-          title: '应用发布成功!',
-          content: '点确认按钮跳转到应用商城',
-          okText: '确定',
-          onOk() {
-            thisParent.router.navigate(['appStore']);
-          },
-          onCancel() {
-          }
-        });
-      },
+      const thisParent = this;
+      console.log('发布应用成功', data);
+      // this.createNotification('success', '发布应用成功', '正在跳转到应用商城页面', {nzDuration: 0});
+      this.confirmServ.success({
+        maskClosable: false,
+        title: '应用发布成功!',
+        content: '点确认按钮跳转到应用商城',
+        okText: '确定',
+        onOk() {
+          thisParent.router.navigate(['appStore']);
+        },
+        onCancel() {
+        }
+      });
+    },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
           console.log('An error occurred:', err.error.message);
@@ -449,7 +452,7 @@ export class AppReleaseComponent implements OnInit {
   }
 
   constructor(private router: Router, private routeInfo: ActivatedRoute,
-              private confirmServ: NzModalService, private http: HttpClient, private _notification: NzNotificationService, private servicesService: ServicesService) {
+    private confirmServ: NzModalService, private http: HttpClient, private _notification: NzNotificationService, private servicesService: ServicesService) {
   }
 
   nameVerify(item) {
@@ -507,7 +510,7 @@ export class AppReleaseComponent implements OnInit {
               this.appRepoList = res['repositories'];
               console.log('this.appRepoList: ' + this.appRepoList);
               if (this.appRepoList.length > 0) {
-               // 3.分别调用接口，获取应用下镜像的版本列表
+                // 3.分别调用接口，获取应用下镜像的版本列表
                 for (let i = 0; i < this.appRepoList.length; i++) {
                   this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/repository/' + this.appRepoList[i].repositoryName + '?region=' + this.tabName).subscribe((data) => {
                     // 判断镜像仓库的images内部是否为空null，如果不判断，for循环会空值 跳过

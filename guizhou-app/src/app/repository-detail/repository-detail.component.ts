@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { isUndefined } from "util";
-import { environment } from "../../environments/environment";
-import { RandomUserService } from "../shared/random-user.service";
-import { ServicesService } from "../shared/services.service";
+import { isUndefined } from 'util';
+import { environment } from '../../environments/environment';
+import { RandomUserService } from '../shared/random-user.service';
+import { ServicesService } from '../shared/services.service';
 
 @Component({
   selector: 'app-repository-detail',
@@ -34,7 +34,7 @@ export class RepositoryDetailComponent implements OnInit {
   deleteID = '';
   deleteName = '';
   _isSpinning = false;
-  //表格1thead
+  // 表格1thead
   table1Title = [
     {
       index: 1,
@@ -49,7 +49,7 @@ export class RepositoryDetailComponent implements OnInit {
       name: '创建时间',
     }
   ];
-  //表格2thead
+  // 表格2thead
   table2Title = [
     {
       index: 1,
@@ -106,6 +106,17 @@ export class RepositoryDetailComponent implements OnInit {
       name: '应用'
     }
   ];
+
+  grayDisabled(i) {
+    // console.log(i);
+    let judge$;
+    if (this.subInstances !== undefined) {
+      const judge1$ = (i === this.mirrorVersions.length - 1) ? true : false;
+      judge$ = this.subInstances.length === 0 || judge1$;
+    }
+    return judge$;
+  }
+
   // 获取流
   getServiceDetail(): Observable<any> {
     return this.http.get(environment.api + '/api/' +
@@ -188,15 +199,15 @@ export class RepositoryDetailComponent implements OnInit {
     this.name = this.routeInfo.snapshot.params['name'];
     this.tabName = this.routeInfo.snapshot.params['tabName'];
     this.module = this.routeInfo.snapshot.params['module'];
-    console.log("name: " + this.name);
-    console.log("tabName: " + this.tabName);
-    console.log("module: " + this.module);
+    console.log('name: ' + this.name);
+    console.log('tabName: ' + this.tabName);
+    console.log('module: ' + this.module);
     if (this.module === 'repository') {
       this.mirrorDetail = this.getServiceDetail();
       // 订阅流
       this.getServiceDetail().subscribe((data) => {
         this.mirrorDetail = data;
-        console.log("mirrorDetail: " + data.categoryId);
+        console.log('mirrorDetail: ' + data.categoryId);
         for (let i = 0; i < this.mirror_tabs.length; i++) {
           if (data.categoryId === this.mirror_tabs[i].index) {
             this.mirrorDetailCateName = this.mirror_tabs[i].name;
@@ -205,7 +216,7 @@ export class RepositoryDetailComponent implements OnInit {
       });
       // 订阅流
       this.getServiceDetail().subscribe((data) => {
-        if (data.images == '' || data.images == null) {
+        if (data.images === '' || data.images == null) {
 
         } else {
           this.mirrorVersions = data.images.opRepository;
@@ -217,7 +228,7 @@ export class RepositoryDetailComponent implements OnInit {
       // this.mirrorVersions = this.getAppVersions();
       // 订阅流
       this.getAppVersions().subscribe((data) => {
-        //先获取当前应用的所有版本，后取得最新版本id作为firstVersion
+        // 先获取当前应用的所有版本，后取得最新版本id作为firstVersion
         this.mirrorVersions = data;
         this.firstVersionId = data[0].id;
         this.firstVersionVersion = data[0].version;
@@ -229,17 +240,17 @@ export class RepositoryDetailComponent implements OnInit {
           this.mirrorDetail = this.getAppDetail(this.firstVersionId);
           this.getAppDetail(this.firstVersionId).subscribe((data) => {
             this.mirrorDetail = data;
-            //获取应用名称字段
+            // 获取应用名称字段
             this.appName = data.appName;
-            console.log("this.mirrorDetail: " + this.mirrorDetail);
-            console.log("repositories: " + this.mirrorDetail.repositories);
-            console.log("appName: " + this.appName);
+            console.log('this.mirrorDetail: ' + this.mirrorDetail);
+            console.log('repositories: ' + this.mirrorDetail.repositories);
+            console.log('appName: ' + this.appName);
             // 通过appName应用名，调用GET /groups/{group_id}/applications/{app_name}/instances
             // 查询指定名称应用在组织中的部署实例
             this._randomUser.getSubInstanceDetail(this.appName).subscribe((data: any) => {
               this.subInstances = data;
               console.log('this.subInstances: ' + this.subInstances);
-            })
+            });
           });
         }
       });

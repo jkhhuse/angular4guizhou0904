@@ -30,7 +30,7 @@
             <p>文件格式: tar</p>
           </ng-template>
         <div nz-tooltip nz-col [nzSpan]="18" class="file">选择镜像
-          <input #fileInput type="file" ng2FileSelect [uploader]="uploader" (change)="FileSelected('image')">
+          <input #fileInput type="file" ng2FileSelect [uploader]="uploader" (change)="FileSelected($event, 'image')">
         </div>
         </nz-tooltip>
       </div>
