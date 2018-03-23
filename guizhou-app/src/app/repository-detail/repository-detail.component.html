@@ -67,7 +67,7 @@
       </tr>
       </thead>
       <tbody nz-tbody>
-      <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+      <tr nz-tbody-tr *ngFor="let data of nzTable.data; let i=index">
         <td nz-td>
           <div *ngIf="data.version">
             {{data.version}}
@@ -88,7 +88,7 @@
         <td nz-td>
           <a href="" *ngIf="module === 'repository'" disabled="disabled">启动</a>
           <a href="" *ngIf="module === 'app'" [routerLink]="['/appDeploy', data.id]">普通部署</a>
-          <a href="" *ngIf="module === 'app'" [routerLink]="['/grayDeploy', data.id, data.appName]">灰度部署</a>
+          <a [class.disabled]="grayDisabled(i)" href="" *ngIf="module === 'app'" [routerLink]="['/grayDeploy', data.id, data.appName]">灰度部署</a>
           <a href="" disabled="disabled">同步</a>
           <!--
                               <a *ngIf="module === 'app'" (click)="deleteVersion(module, data.id)">删除</a>

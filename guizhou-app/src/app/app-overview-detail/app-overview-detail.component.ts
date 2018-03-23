@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { RandomUserService } from '../shared/random-user.service';
 import { NzNotificationService, NzModalService } from 'ng-zorro-antd';
-import { ServicesService } from "../shared/services.service";
-import { environment } from "../../environments/environment";
+import { ServicesService } from '../shared/services.service';
+import { environment } from '../../environments/environment';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { GrayListDetail, GrayUpdateReqBody } from './app-overview-detail.model';
 import { Observable } from 'rxjs/Observable';
+import { DISABLED } from '@angular/forms/src/model';
 
 @Component({
   selector: 'app-app-overview-detail',
@@ -176,7 +177,7 @@ export class AppOverviewDetailComponent implements OnInit {
 
   createNotification = (type, title, content) => {
     this._notification.create(type, title, content);
-  };
+  }
 
   alertModel($event) {
     console.log('selectedVersion: ' + this.selectedVersion);
@@ -198,23 +199,23 @@ export class AppOverviewDetailComponent implements OnInit {
       this._isSpinning = false;
       this.isVisible = false;
     }, 3000);
-  };
+  }
 
   putNewVersion() {
     this.userId = this.servicesService.getUserId();
     console.log('选择userId：' + this.userId);
     this.http.put(environment.apiApp + '/apiApp' +
-     '/groups/' + this.servicesService.getCookie('groupID') + '/application-instances/' + this.instanceId, {
-      'applicationVersion': this.selectedVersion,
-      'updateUserId': this.userId
-    }).subscribe(response => {
-      console.log('这是response', response);
+      '/groups/' + this.servicesService.getCookie('groupID') + '/application-instances/' + this.instanceId, {
+        'applicationVersion': this.selectedVersion,
+        'updateUserId': this.userId
+      }).subscribe(response => {
+        console.log('这是response', response);
 
-    },
-      err => {
-        console.log(err._body);
-        this.createNotification('error', '升级应用失败', err._body);
-      });
+      },
+        err => {
+          console.log(err._body);
+          this.createNotification('error', '升级应用失败', err._body);
+        });
   }
 
   handleCancel = (e) => {
@@ -223,12 +224,12 @@ export class AppOverviewDetailComponent implements OnInit {
     console.log('选择userName：' + this.servicesService.getUserName());*/
     console.log(e);
     this.isVisible = false;
-  };
+  }
 
   // 获取流
   getAppVersions(appName): Observable<any> {
     return this.http.get(environment.apiApp + '/apiApp'
-     + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + appName + '/versions');
+      + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + appName + '/versions');
   }
 
   // 获取初始数据
@@ -371,20 +372,29 @@ export class AppOverviewDetailComponent implements OnInit {
         this.lbName = this.grayDetailDataset.lbName;
         this.portName = this.grayDetailDataset.port;
         // 处理详情中的lsb，解析出对应的ip段
+        // mock Dsl
+        // this.grayDetailDataset.dsl = '(AND (IN HOST tet3.baidu.com) (OR (EQ SRC_IP 10.111.111.11) (RANGE SRC_IP 10.222.222.22 10.222.222.25)))';
+        // mock Dsl
         if (this.grayDetailDataset.dsl && this.grayDetailDataset.dsl.length > 0) {
           // 去掉最后一个字符）
           console.log(this.grayDetailDataset.dsl.substring(0, this.grayDetailDataset.dsl.length - 1));
           // 按照（字符 拆分
-          let grayIpArray = this.grayDetailDataset.dsl.substring(0, this.grayDetailDataset.dsl.length - 1).split('(');
+          const grayIpArray = this.grayDetailDataset.dsl.substring(0, this.grayDetailDataset.dsl.length - 1).split('(');
           for (let i = 0; i < grayIpArray.length; i++) {
             if (grayIpArray[i].indexOf('IN') >= 0) {
-              let HOSTTemp = grayIpArray[i].replace(')', '').split(' ');
+              const HOSTTemp = grayIpArray[i].replace(')', '').split(' ');
               this.hostIpArray.push(HOSTTemp[2]);
             } else if (grayIpArray[i].indexOf('EQ') >= 0) {
               const EQTemp = grayIpArray[i].replace(')', '').split(' ');
+              if (i === grayIpArray.length - 1) {
+                EQTemp[2] = EQTemp[2].replace(')', '');
+              }
               this.eqIpArrayTemp.push(EQTemp[2]);
             } else if (grayIpArray[i].indexOf('RANGE') >= 0) {
               const RANGETemp = grayIpArray[i].replace(')', '').split(' ');
+              if (i === grayIpArray.length - 1) {
+                RANGETemp[3] = RANGETemp[3].replace(')', '');
+              }
               this.rangeIpArrayTemp.push(RANGETemp[2] + ' ~ ' + RANGETemp[3]);
             }
           }
@@ -479,7 +489,7 @@ export class AppOverviewDetailComponent implements OnInit {
       this.hostIpArray = [];
       for (let i = 0; i < data.length; i++) {
         this.formLength.push(i);
-        console.log("formLength: " + this.formLength);
+        console.log('formLength: ' + this.formLength);
         this.grayDetailDataset = data[i];
         // request body中不在表单显示的值
         // 服务1的id
@@ -540,16 +550,22 @@ export class AppOverviewDetailComponent implements OnInit {
           // 去掉最后一个字符）
           console.log(this.grayDetailDataset.dsl.substring(0, this.grayDetailDataset.dsl.length - 1));
           // 按照（字符 拆分
-          let grayIpArray = this.grayDetailDataset.dsl.substring(0, this.grayDetailDataset.dsl.length - 1).split('(');
+          const grayIpArray = this.grayDetailDataset.dsl.substring(0, this.grayDetailDataset.dsl.length - 1).split('(');
           for (let j = 0; j < grayIpArray.length; j++) {
             if (grayIpArray[j].indexOf('IN') >= 0) {
               const HOSTTemp = grayIpArray[j].replace(')', '').split(' ');
               this.hostIpArray[i] = (HOSTTemp[2]);
             } else if (grayIpArray[j].indexOf('EQ') >= 0) {
               const EQTemp = grayIpArray[j].replace(')', '').split(' ');
+              if (j === grayIpArray.length - 1) {
+                EQTemp[2] = EQTemp[2].replace(')', '');
+              }
               this.addIP(this.mockE, i, EQTemp[2], '', 'equal');
             } else if (grayIpArray[j].indexOf('RANGE') >= 0) {
               const RANGETemp = grayIpArray[j].replace(')', '').split(' ');
+              if (j === grayIpArray.length - 1) {
+                RANGETemp[3] = RANGETemp[3].replace(')', '');
+              }
               this.addIP(this.mockE, i, RANGETemp[2], RANGETemp[3], 'range');
             }
           }
@@ -566,7 +582,7 @@ export class AppOverviewDetailComponent implements OnInit {
   showUpdateModal(detailID) {
     this.isUpdateModalVisible = true;
     this.isFormDisabled = false;
-    if (detailID == '' || detailID == 'undefined') {
+    if (detailID === '' || detailID === 'undefined') {
       this.createNotification('error', '获取灰度详情ID错误', '获取灰度详情ID错误');
     } else {
       this.detailID = detailID;
@@ -717,7 +733,7 @@ export class AppOverviewDetailComponent implements OnInit {
 
   // 提交更新策略表单
   _submitUpdateForm() {
-    console.log("submit form length: " + this.formLength);
+    console.log('submit form length: ' + this.formLength);
     for (let len = 0; len < this.formLength.length; len++) {
       for (const i in this.getUpdateForm(len).controls) {
         this.getUpdateForm(len).controls[i].markAsDirty();
@@ -732,7 +748,7 @@ export class AppOverviewDetailComponent implements OnInit {
     // 现在controlArray.length长度为2，只有name2和name3
     // 若for循环使用controlArray.length为最大长度，无法取到大于length长度2的name值，无法取到name3
     for (let len = 0; len < this.formLength.length; len++) {
-      let lbString = `(AND (IN HOST ` + this.hostIpArray[len] + `)`;
+      let lbString = `(AND (IN HOST ` + this.hostIpArray[len] + `)` + ` (OR`;
       for (let i = 0; i < this.maxControlArray; i++) {
         const tempName = 'name' + i;
         const firstIP = 'firstIP' + i;
@@ -750,7 +766,7 @@ export class AppOverviewDetailComponent implements OnInit {
           }
         }
       }
-      lbString += `)`;
+      lbString += `))`;
       console.log('lbString: ' + lbString);
       this.lbStringArray[len] = lbString;
       console.log('lbStringArray: ' + this.lbStringArray);

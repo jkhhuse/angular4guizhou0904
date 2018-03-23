@@ -1125,6 +1125,16 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
         } else {
           this.createNotification('warning', '需要获取集群列表', '请耐心等待2-3秒，集群列表获取成功之后即可正常部署!');
         }
+        let appInstance1Id$;
+        _.map(this.appInstance1Options, (value, key) => {
+          if (value['instanceName'] === this.formFirstProject.value['appInstance1Name']) {
+            appInstance1Id$ = value['id'];
+          }
+        });
+        await this.getGrayRules(appInstance1Id$);
+        if (this.grayRules.length === 0) {
+          this.createNotification('warning', '缺少灰度策略', '当前实例对应灰度策略为空，请选择其他实例!');
+        }
         break;
         // if(this.formFirst.disabled) {
 
@@ -1176,13 +1186,13 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
           this.formData['serviceInstances'] = _.compact(serviceIdData);
         }
         console.log(this.formFirstProject, this.appInstance1Options);
-        let appInstance1Id$;
-        _.map(this.appInstance1Options, (value, key) => {
-          if (value['instanceName'] === this.formFirstProject.value['appInstance1Name']) {
-            appInstance1Id$ = value['id'];
-          }
-        });
-        await this.getGrayRules(appInstance1Id$);
+        // let appInstance1Id$;
+        // _.map(this.appInstance1Options, (value, key) => {
+        //   if (value['instanceName'] === this.formFirstProject.value['appInstance1Name']) {
+        //     appInstance1Id$ = value['id'];
+        //   }
+        // });
+        // await this.getGrayRules(appInstance1Id$);
         // // mock 多负载均衡的数据
         // console.log(this.grayRules);
         // this.grayRules[1] = this.grayRules[0];
@@ -1190,7 +1200,7 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
         await this.getGrayRulesServiceForm();
       }
     }
-    if (this.ifOninitCompleted === true) {
+    if (this.ifOninitCompleted === true && this.grayRules.length > 0) {
       this.current += 1;
       this.changeContent();
     }
@@ -1210,40 +1220,26 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
     const rulesService$ = [];
     const rulesIpLen$ = [1, 2, 3, 4, 5];
     _.map(this.grayRules, (value1, key1) => {
-      rulesIp$[key1] = `(AND (IN HOST ` + value1['domain'] + `)`;
+      rulesIp$[key1] = `(AND (IN HOST ` + value1['domain'] + `)` + ` (OR`;
       _.map(rulesIpLen$, (value, key) => {
         const tempName = 'name' + key;
         const firstIP = 'firstIP' + key;
         const secondIP = 'secondIP' + key;
-        if (key1 === 0) {
-          if (typeof (this.updateForm0.value[tempName]) === 'undefined') {
-            // 如果对应的key的值是undefined，说明这个值曾经存在，但是被remove掉了
+        if (typeof (this.judgeFunc(key1, 'ipform').value[tempName]) === 'undefined') {
+          // 如果对应的key的值是undefined，说明这个值曾经存在，但是被remove掉了
+        } else {
+          // 只有有value的值才会被拼接到lbname中
+          if (this.judgeFunc(key1, 'ipform').value[tempName] === 'equal') {
+            const temp = ` (EQ SRC_IP ` + this.judgeFunc(key1, 'ipform').value[firstIP] + `)`;
+            rulesIp$[key1] += temp;
           } else {
-            // 只有有value的值才会被拼接到lbname中
-            if (this.updateForm0.value[tempName] === 'equal') {
-              const temp = ` (EQ SRC_IP ` + this.updateForm0.value[firstIP] + `)`;
-              rulesIp$[key1] += temp;
-            } else {
-              const temp = ` (RANGE SRC_IP ` + this.updateForm0.value[firstIP] + ' ' + this.updateForm0.value[secondIP] + `)`;
-              rulesIp$[key1] += temp;
-            }
-          }
-        } else if (key1 === 1) {
-          if (typeof (this.updateForm1.value[tempName]) === 'undefined') {
-            // 如果对应的key的值是undefined，说明这个值曾经存在，但是被remove掉了
-          } else {
-            // 只有有value的值才会被拼接到lbname中
-            if (this.updateForm1.value[tempName] === 'equal') {
-              const temp = ` (EQ SRC_IP ` + this.updateForm1.value[firstIP] + `)`;
-              rulesIp$[key1] += temp;
-            } else {
-              const temp = ` (RANGE SRC_IP ` + this.updateForm1.value[firstIP] + ' ' + this.updateForm1.value[secondIP] + `)`;
-              rulesIp$[key1] += temp;
-            }
+            const temp = ` (RANGE SRC_IP ` + this.judgeFunc(key1, 'ipform').value[firstIP] +
+              ' ' + this.judgeFunc(key1, 'ipform').value[secondIP] + `)`;
+            rulesIp$[key1] += temp;
           }
         }
       });
-      rulesIp$[key1] += `)`;
+      rulesIp$[key1] += `))`;
     });
     _.map(rulesIp$, (value, key) => {
       rulesIp$$[key] = {
@@ -1973,8 +1969,8 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
             if (value['status'] === 2) {
               networkOptionsHttp$[key] = value['loadBalancer']['lbType'] + ':'
                 + value['loadBalancer']['lbAddress'] + ':' + value['port'];
-                console.log(this.networkOptionsHttp);
-                networkOptionsEnvHttp$[key] = value['loadBalancer'];
+              console.log(this.networkOptionsHttp);
+              networkOptionsEnvHttp$[key] = value['loadBalancer'];
             }
           });
           this.networkOptionsHttp = _.concat(this.networkOptions, networkOptionsHttp$);

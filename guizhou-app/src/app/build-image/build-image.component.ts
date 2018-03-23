@@ -132,7 +132,10 @@ export class BuildImageComponent implements OnInit {
     this._notification.create(type, title, content);
   }
 
-  FileSelected(uploaderType: any) {
+  FileSelected($event, uploaderType: any) {
+    // 解决如下问题: http://223.105.0.132:8088/browse/BDPAAS-218
+    // 上传一个镜像，删除之后再次上传然后不行的bug
+    $event.target.value = '';
     console.log('文件选择完了', this.uploader);
     if (uploaderType === 'image') {
       this.uploader.onBeforeUploadItem = (item) => {
