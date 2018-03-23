@@ -12,16 +12,15 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 export class AppEnvArgDetailComponent implements OnInit {
 
   detailView: BackendReturn; // 详情视图
-  groupId: string;
   cmdLine: string;
 
   constructor(private _http: HttpClient, private router: Router, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
     // this.groupId = this._service.getCookie('groupID');
-    this.groupId = '8';
+    // this.groupId = '8';
     this.activatedRoute.params.subscribe((params: Params) => {
-      this.getEnvFileDetail(params['name']);
+      this.getEnvFileDetail(params['name'], params['groupId']);
     });
   }
 
@@ -30,12 +29,12 @@ export class AppEnvArgDetailComponent implements OnInit {
   }
 
   // 获取环境变量文件详情
-  getEnvFileDetail(envfileName: string) {
+  getEnvFileDetail(envfileName: string, groupId: string) {
     const options = {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
       responseType: 'json' as 'json'
     };
-    this._http.get<EnvFileDetail>(environment.apiConfig + '/configCenter/' + this.groupId + '/env-files/' + envfileName, options)
+    this._http.get<EnvFileDetail>(environment.apiConfig + '/configCenter/' + groupId + '/env-files/' + envfileName, options)
     .subscribe(
       (res) => {
         this.detailView = res.backend_return;

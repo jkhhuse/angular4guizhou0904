@@ -78,7 +78,7 @@ const routes: Routes = [
   { path: 'operaEvent', component: OperaEventComponent },
   { path: 'operaLog', component: OperaLogComponent },
   { path: 'envArg', component: AppEnvArgComponent },
-  { path: 'envArgDetail/:name', component: AppEnvArgDetailComponent },
+  { path: 'envArgDetail/:name/:groupId', component: AppEnvArgDetailComponent },
   { path: '**', component: Code404Component }
 ];
 
