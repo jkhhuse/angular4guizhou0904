@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {RandomUserService} from '../shared/random-user.service';
-import {FormControl} from '@angular/forms';
-import {ServicesService} from '../shared/services.service';
-import {environment} from '../../environments/environment';
+import { Component, OnInit } from '@angular/core';
+import { RandomUserService } from '../shared/random-user.service';
+import { FormControl } from '@angular/forms';
+import { ServicesService } from '../shared/services.service';
+import { environment } from '../../environments/environment';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import {NzNotificationService} from 'ng-zorro-antd';
+import { NzNotificationService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-app-overview',
@@ -117,18 +117,18 @@ export class AppOverviewComponent implements OnInit {
   // 删除应用实例接口
   deleteAppInstance(instanceID, instanceName) {
     this.http.delete(environment.apiApp + '/apiApp/' + 'groups/' + this.servicesService.getCookie('groupID') + '/application-instances/' + instanceID).subscribe((data) => {
-        console.log('delete data: ' + data);
-        if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
-          setTimeout(() => {
-            this.isVisible_delete = false;
-            console.log('删除成功，更新列表');
-            this.refreshData();
-            this._isSpinning_delete = false;
-          }, 3000);
-        } else {
-          this.createNotification('error', '删除应用实例失败', '删除应用实例调用接口失败');
-        }
-      },
+      console.log('delete data: ' + data);
+      // if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
+      setTimeout(() => {
+        this.isVisible_delete = false;
+        console.log('删除成功，更新列表');
+        this.refreshData();
+        this._isSpinning_delete = false;
+      }, 3000);
+      // } else {
+      // this.createNotification('error', '删除应用实例失败', '删除应用实例调用接口失败');
+      // }
+    },
       err => {
         console.log(err._body);
         this.createNotification('error', '删除应用实例失败', err._body);
@@ -138,17 +138,17 @@ export class AppOverviewComponent implements OnInit {
   // 停止应用实例接口
   stopAppInstance(instanceID, instanceName) {
     this.http.put(environment.apiApp + '/apiApp/' + 'groups/' + this.servicesService.getCookie('groupID') + '/application-instances/' + instanceID + '/action?op_type=stop', {}).subscribe((data) => {
-      if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
-          setTimeout(() => {
-            this.isVisible_stop = false;
-            console.log('停止成功，更新列表');
-            this.refreshData();
-            this._isSpinning_stop = false;
-          }, 3000);
-        } else {
-          this.createNotification('error', '停止应用实例失败', '停止应用实例调用接口失败');
-        }
-      },
+      // if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
+      setTimeout(() => {
+        this.isVisible_stop = false;
+        console.log('停止成功，更新列表');
+        this.refreshData();
+        this._isSpinning_stop = false;
+      }, 3000);
+      // } else {
+      // this.createNotification('error', '停止应用实例失败', '停止应用实例调用接口失败');
+      // }
+    },
       err => {
         console.log(err._body);
         this.createNotification('error', '停止应用实例失败', err._body);
@@ -158,17 +158,17 @@ export class AppOverviewComponent implements OnInit {
   // 启动应用实例接口
   startAppInstance(instanceID, instanceName) {
     this.http.put(environment.apiApp + '/apiApp/' + 'groups/' + this.servicesService.getCookie('groupID') + '/application-instances/' + instanceID + '/action?op_type=start', {}).subscribe((data) => {
-        if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
-          setTimeout(() => {
-            this.isVisible_start = false;
-            console.log('启动成功，更新列表');
-            this.refreshData();
-            this._isSpinning_start = false;
-          }, 3000);
-        } else {
-          this.createNotification('error', '启动应用实例失败', '启动应用实例调用接口失败');
-        }
-      },
+      // if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
+      setTimeout(() => {
+        this.isVisible_start = false;
+        console.log('启动成功，更新列表');
+        this.refreshData();
+        this._isSpinning_start = false;
+      }, 3000);
+      // } else {
+      // this.createNotification('error', '启动应用实例失败', '启动应用实例调用接口失败');
+      // }
+    },
       err => {
         console.log(err._body);
         this.createNotification('error', '启动应用实例失败', err._body);
@@ -264,9 +264,9 @@ export class AppOverviewComponent implements OnInit {
   }
 
   constructor(private http: HttpClient,
-              private _randomUser: RandomUserService,
-              private servicesService: ServicesService,
-              private _notification: NzNotificationService) {
+    private _randomUser: RandomUserService,
+    private servicesService: ServicesService,
+    private _notification: NzNotificationService) {
   }
 
   ngOnInit() {
@@ -280,7 +280,7 @@ export class AppOverviewComponent implements OnInit {
 
 export class AppTotalsClass {
   constructor(public appTotalNum: number,
-              public dockerTotalNum: number,
-              public projectTotalNum: number) {
+    public dockerTotalNum: number,
+    public projectTotalNum: number) {
   }
 }

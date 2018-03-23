@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { RandomUserService } from '../shared/random-user.service';
-import { FormControl } from "@angular/forms";
+import { FormControl } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { environment } from "../../environments/environment";
-import { ServicesService } from "../shared/services.service";
+import { environment } from '../../environments/environment';
+import { ServicesService } from '../shared/services.service';
 
 @Component({
   selector: 'app-service-instance',
@@ -78,7 +78,7 @@ export class ServiceInstanceComponent implements OnInit {
 
   createNotification = (type, title, content) => {
     this._notification.create(type, title, content);
-  };
+  }
 
 
   handleCancel = (e) => {
@@ -93,16 +93,16 @@ export class ServiceInstanceComponent implements OnInit {
     this.http.delete(environment.apiService + '/apiService/' + 'groups/' +
       this.servicesService.getCookie('groupID') + '/service-instances/' + instanceID).subscribe((data) => {
         console.log('data: ' + data);
-        if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
-          setTimeout(() => {
-            this.isVisible_delete = false;
-            console.log('删除成功，更新列表');
-            this.refreshData();
-            this._isSpinning_delete = false;
-          }, 3000);
-        } else {
-          this.createNotification('error', '删除服务实例失败', '删除服务实例调用接口失败');
-        }
+        // if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
+        setTimeout(() => {
+          this.isVisible_delete = false;
+          console.log('删除成功，更新列表');
+          this.refreshData();
+          this._isSpinning_delete = false;
+        }, 3000);
+        // } else {
+        // this.createNotification('error', '删除服务实例失败', '删除服务实例调用接口失败');
+        // }
       },
         err => {
           console.log(err._body);
@@ -114,16 +114,16 @@ export class ServiceInstanceComponent implements OnInit {
   stopServiceInstance(instanceID, instanceName) {
     this.http.put(environment.apiService + '/apiService/' + 'groups/' +
       this.servicesService.getCookie('groupID') + '/service-instances/' + instanceID + '/action?op_type=stop', {}).subscribe((data) => {
-        if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
-          setTimeout(() => {
-            this.isVisible_stop = false;
-            console.log('停止成功，更新列表');
-            this.refreshData();
-            this._isSpinning_stop = false;
-          }, 3000);
-        } else {
-          this.createNotification('error', '停止服务实例失败', '停止服务实例调用接口失败');
-        }
+        // if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
+        setTimeout(() => {
+          this.isVisible_stop = false;
+          console.log('停止成功，更新列表');
+          this.refreshData();
+          this._isSpinning_stop = false;
+        }, 3000);
+        // } else {
+        // this.createNotification('error', '停止服务实例失败', '停止服务实例调用接口失败');
+        // }
       },
         err => {
           console.log(err._body);
@@ -131,20 +131,20 @@ export class ServiceInstanceComponent implements OnInit {
         });
   }
 
-  // 停止应用实例接口
+  // 启动应用实例接口
   startServiceInstance(instanceID, instanceName) {
     this.http.put(environment.apiService + '/apiService/' + 'groups/' +
       this.servicesService.getCookie('groupID') + '/service-instances/' + instanceID + '/action?op_type=start', {}).subscribe((data) => {
-        if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
-          setTimeout(() => {
-            this.isVisible_start = false;
-            console.log('停止成功，更新列表');
-            this.refreshData();
-            this._isSpinning_start = false;
-          }, 3000);
-        } else {
-          this.createNotification('error', '停止服务实例失败', '停止服务实例调用接口失败');
-        }
+        // if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
+        setTimeout(() => {
+          this.isVisible_start = false;
+          console.log('停止成功，更新列表');
+          this.refreshData();
+          this._isSpinning_start = false;
+        }, 3000);
+        // } else {
+        // this.createNotification('error', '停止服务实例失败', '停止服务实例调用接口失败');
+        // }
       },
         err => {
           console.log(err._body);
