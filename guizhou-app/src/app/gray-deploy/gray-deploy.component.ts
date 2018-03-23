@@ -1220,40 +1220,26 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
     const rulesService$ = [];
     const rulesIpLen$ = [1, 2, 3, 4, 5];
     _.map(this.grayRules, (value1, key1) => {
-      rulesIp$[key1] = `(AND (IN HOST ` + value1['domain'] + `)`;
+      rulesIp$[key1] = `(AND (IN HOST ` + value1['domain'] + `)` + ` (OR`;
       _.map(rulesIpLen$, (value, key) => {
         const tempName = 'name' + key;
         const firstIP = 'firstIP' + key;
         const secondIP = 'secondIP' + key;
-        if (key1 === 0) {
-          if (typeof (this.updateForm0.value[tempName]) === 'undefined') {
-            // 如果对应的key的值是undefined，说明这个值曾经存在，但是被remove掉了
+        if (typeof (this.judgeFunc(key1, 'ipform').value[tempName]) === 'undefined') {
+          // 如果对应的key的值是undefined，说明这个值曾经存在，但是被remove掉了
+        } else {
+          // 只有有value的值才会被拼接到lbname中
+          if (this.judgeFunc(key1, 'ipform').value[tempName] === 'equal') {
+            const temp = ` (EQ SRC_IP ` + this.judgeFunc(key1, 'ipform').value[firstIP] + `)`;
+            rulesIp$[key1] += temp;
           } else {
-            // 只有有value的值才会被拼接到lbname中
-            if (this.updateForm0.value[tempName] === 'equal') {
-              const temp = ` (EQ SRC_IP ` + this.updateForm0.value[firstIP] + `)`;
-              rulesIp$[key1] += temp;
-            } else {
-              const temp = ` (RANGE SRC_IP ` + this.updateForm0.value[firstIP] + ' ' + this.updateForm0.value[secondIP] + `)`;
-              rulesIp$[key1] += temp;
-            }
-          }
-        } else if (key1 === 1) {
-          if (typeof (this.updateForm1.value[tempName]) === 'undefined') {
-            // 如果对应的key的值是undefined，说明这个值曾经存在，但是被remove掉了
-          } else {
-            // 只有有value的值才会被拼接到lbname中
-            if (this.updateForm1.value[tempName] === 'equal') {
-              const temp = ` (EQ SRC_IP ` + this.updateForm1.value[firstIP] + `)`;
-              rulesIp$[key1] += temp;
-            } else {
-              const temp = ` (RANGE SRC_IP ` + this.updateForm1.value[firstIP] + ' ' + this.updateForm1.value[secondIP] + `)`;
-              rulesIp$[key1] += temp;
-            }
+            const temp = ` (RANGE SRC_IP ` + this.judgeFunc(key1, 'ipform').value[firstIP] +
+              ' ' + this.judgeFunc(key1, 'ipform').value[secondIP] + `)`;
+            rulesIp$[key1] += temp;
           }
         }
       });
-      rulesIp$[key1] += `)`;
+      rulesIp$[key1] += `))`;
     });
     _.map(rulesIp$, (value, key) => {
       rulesIp$$[key] = {

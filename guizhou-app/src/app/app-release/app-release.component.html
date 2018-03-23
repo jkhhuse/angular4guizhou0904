@@ -100,7 +100,7 @@
                     <p>图片格式: jpg、jpeg、png</p>
                   </ng-template>
                   <div nz-tooltip nz-col class="file">图标上传
-                    <input type="file" ng2FileSelect [uploader]="uploaderIcon" (change)="FileSelected('icon')">
+                    <input type="file" ng2FileSelect [uploader]="uploaderIcon" (change)="FileSelected($event, 'icon')">
                   </div>
                 </nz-tooltip>
               </div>
