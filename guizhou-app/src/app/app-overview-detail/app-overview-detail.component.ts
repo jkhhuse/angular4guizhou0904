@@ -277,13 +277,13 @@ export class AppOverviewDetailComponent implements OnInit {
         return new Promise((resolve, reject) => {
           thisParent.http.delete(environment.apiApp + '/apiApp/gray-updates/' + id).subscribe(data => {
             console.log(data);
-            if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
-              // thisParent.refreshData();
-              thisParent.createNotification('success', '删除成功', '删除灰度策略成功');
-              thisParent.getGrayDataSet();
-            } else {
-              thisParent.createNotification('error', '删除失败', '删除灰度策略调用接口失败');
-            }
+            // if (data.toString().indexOf('200') > 0 || data.toString().indexOf('204') > 0) {
+            // thisParent.refreshData();
+            thisParent.createNotification('success', '删除成功', '删除灰度策略成功');
+            thisParent.getGrayDataSet();
+            // } else {
+            // thisParent.createNotification('error', '删除失败', '删除灰度策略调用接口失败');
+            // }
             resolve();
           }, err => {
             thisParent.createNotification('error', '删除灰度策略失败', err._body);
@@ -370,7 +370,7 @@ export class AppOverviewDetailComponent implements OnInit {
         this.oldServiceName = this.grayDetailDataset.microservice1.microserviceName;
         this.newServiceName = this.grayDetailDataset.microservice2.microserviceName;
         this.lbName = this.grayDetailDataset.lbName;
-        this.portName = this.grayDetailDataset.port;
+        this.portName = this.grayDetailDataset.containerPort2;
         // 处理详情中的lsb，解析出对应的ip段
         // mock Dsl
         // this.grayDetailDataset.dsl = '(AND (IN HOST tet3.baidu.com) (OR (EQ SRC_IP 10.111.111.11) (RANGE SRC_IP 10.222.222.22 10.222.222.25)))';
@@ -502,7 +502,7 @@ export class AppOverviewDetailComponent implements OnInit {
         this.oldServiceName = this.grayDetailDataset.microservice1.microserviceName;
         this.newServiceName = this.grayDetailDataset.microservice2.microserviceName;
         this.lbName = this.grayDetailDataset.lbName;
-        this.portName = this.grayDetailDataset.port;
+        this.portName = this.grayDetailDataset.containerPort2;
 
         if (i === 0) {
           // 渲染表格初始值
