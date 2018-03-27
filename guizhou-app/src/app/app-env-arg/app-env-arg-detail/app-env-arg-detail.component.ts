@@ -13,6 +13,7 @@ export class AppEnvArgDetailComponent implements OnInit {
 
   detailView: BackendReturn; // 详情视图
   cmdLine: string;
+  groupId: string;
 
   constructor(private _http: HttpClient, private router: Router, private activatedRoute: ActivatedRoute) {}
 
@@ -20,6 +21,7 @@ export class AppEnvArgDetailComponent implements OnInit {
     // this.groupId = this._service.getCookie('groupID');
     // this.groupId = '8';
     this.activatedRoute.params.subscribe((params: Params) => {
+      this.groupId = params['groupId'];
       this.getEnvFileDetail(params['name'], params['groupId']);
     });
   }
