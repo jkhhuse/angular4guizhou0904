@@ -94,7 +94,7 @@ export class AppInstanceDetailEnvFileComponent implements OnInit {
 
   // 处理添加配置
   updateConfig(body) {
-    this.http.put(environment.apiConfig + '/apiApp/groups/' + this.servicesService.getCookie('groupID') +
+    this.http.put(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') +
     '/application-instance-microservices/' + this.appId, body)
       .subscribe((data) => {
         console.log(data);
@@ -112,6 +112,7 @@ export class AppInstanceDetailEnvFileComponent implements OnInit {
   refreshConfig() {
     this.http.get<any>(environment.apiApp + '/apiApp' + '/application-instance-microservices/' + this.instanceId)
       .subscribe((data) => {
+        this._dataSet = [];
         for (const key in this.mirrorDetail.info.instance_envvars) {
           // 后端对__ALAUDA_FILE_LOG_PATH__值做了特殊要求：
           // 1. 不可以在界面中显示 2. 提交时回传值
@@ -136,7 +137,7 @@ export class AppInstanceDetailEnvFileComponent implements OnInit {
     this._dataSet.splice(+this.removeIndex, 1);
 
     const body = {
-      microserviceConfigs: JSON.stringify(this._dataSet),
+      instance_envvars: this._dataSet,
       updateUserId: this.servicesService.getUserId()
     };
 
