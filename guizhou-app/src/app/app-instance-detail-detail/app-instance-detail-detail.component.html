@@ -210,10 +210,15 @@
                         <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="9" [tableTitle]="table9Title"></app-app-nztable>
                     </div>
                 </div>
-                <div class="detail-tab-div" *ngIf="tab.index === 5"></div>
+                <div class="detail-tab-div" *ngIf="tab.index === 5">
+                    <div class="detail-instance-wrapper" *ngIf="instanceDetail">
+                        <app-instance-detail-env-file [mirrorDetail]="instanceDetail" [instanceId]="instanceDetailID"></app-instance-detail-env-file>
+                    </div>
+                </div>
                 <div class="detail-tab-div" *ngIf="tab.index === 6">
                     <div class="detail-instance-wrapper" *ngIf="instanceDetail">
-                        <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="7" [tableTitle]="table7Title"></app-app-nztable>
+                        <app-instance-detail-config-file [mirrorDetail]="instanceDetail" [instanceId]="instanceDetailID"></app-instance-detail-config-file>
+                        <!-- <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="7" [tableTitle]="table7Title"></app-app-nztable> -->
                     </div>
                 </div>
                 <div class="detail-tab-div" *ngIf="tab.index === 7">

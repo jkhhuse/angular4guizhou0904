@@ -1,0 +1,74 @@
+<div class="env-operation">
+    <button nz-button [nzType]="'primary'" (click)="showModal()">
+      <span>添加环境变量</span>
+    </button>
+</div>
+<nz-table #nzTable [nzScroll]="_fixHeader?{ y: 240 }:null" [nzDataSource]="_dataSet" [nzPageSize]="10" [nzBordered]="_bordered" [nzLoading]="_loading" [nzIsPagination]="_pagination" [nzShowFooter]="_footer" [nzShowTitle]="_title" [nzSize]="_size">
+    <span nz-table-title>Here is Title</span>
+    <ng-template #nzFixedHeader [ngIf]="_header&&!_fixHeader">
+        <thead nz-thead>
+            <tr>
+                <th nz-th [nzWidth]="'150px'"><span>配置名称</span></th>
+                <th nz-th [nzWidth]="'70px'"><span>键</span></th>
+                <th nz-th [nzWidth]="'360px'"><span>值</span></th>
+                <th nz-th><span>操作</span></th>
+            </tr>
+        </thead>
+    </ng-template>
+    <tbody nz-tbody>
+        <tr nz-tbody-tr *ngFor="let data of nzTable.data; index as i">
+            <td nz-td>{{data.configName}}</td>
+            <td nz-td>{{data.key}}</td>
+            <td nz-td>{{data.value}}</td>
+            <td nz-td>
+                <span><a (click)="removeEnvFile(i)">删除</a></span>
+            </td>
+        </tr>
+    </tbody>
+    <span nz-table-footer>Here is footer</span>
+</nz-table>
+<nz-modal [nzVisible]="isAddVisible" [nzTitle]="'添加配置项'" [nzContent]="modalContent" (nzOnCancel)="handleAddCancel($event)" (nzOnOk)="handleAddOk($event)">
+    <ng-template #modalContent>
+        <form nz-form [formGroup]="validateForm" (ngSubmit)="_submitForm()">
+            <div nz-form-item nz-row>
+                <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                    <label for="config" nz-form-item-required>配置</label>
+                </div>
+                <div nz-form-control nz-col [nzSm]="14" [nzXs]="24">
+                    <nz-select formControlName="configs" [nzPlaceHolder]="'请选择配置...'" nzAllowClear>
+                        <nz-option *ngFor="let option of configOptions" [nzLabel]="option.config" [nzValue]="option.config">
+                        </nz-option>
+                    </nz-select>
+                    <div nz-form-explain *ngIf="getFormControl('configs').dirty&&getFormControl('configs').hasError('required')">请选择配置!</div>
+                </div>
+            </div>
+            <div nz-form-item nz-row>
+                <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                    <label for="key" nz-form-item-required>键</label>
+                </div>
+                <div nz-form-control nz-col [nzSm]="14" [nzXs]="24">
+                    <nz-select formControlName="keys" [nzPlaceHolder]="'请选择键...'" nzAllowClear>
+                        <nz-option *ngFor="let option of keyOptions" [nzLabel]="option.key" [nzValue]="option.key">
+                        </nz-option>
+                    </nz-select>
+                    <div nz-form-explain *ngIf="getFormControl('keys').dirty&&getFormControl('keys').hasError('required')">请选择键!</div>
+                </div>
+            </div>
+            <div nz-form-item nz-row>
+                <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
+                    <label for="key" nz-form-item-required>路径</label>
+                </div>
+                <div nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+                    <nz-input formControlName="path" [nzType]="'text'" [nzPlaceHolder]="'请填写路径...'" [nzSize]="'large'">
+                    </nz-input>
+                    <div nz-form-explain *ngIf="getFormControl('path').dirty&&getFormControl('path').hasError('required')">路径不可以为空!</div>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+</nz-modal>
+<nz-modal [nzVisible]="isRemoveVisible" [nzTitle]="'删除配置项'" [nzContent]="modalContentRemove" (nzOnCancel)="handleRemoveCancel($event)" (nzOnOk)="handleRemoveOk($event)">
+    <ng-template #modalContentRemove>
+        <div>是否删除该配置?</div>
+    </ng-template>
+</nz-modal>
