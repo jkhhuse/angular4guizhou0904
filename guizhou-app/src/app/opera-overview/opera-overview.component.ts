@@ -264,8 +264,8 @@ export class OperaOverviewComponent implements OnInit, OnDestroy {
       .subscribe(
         res => {
           this.viewCountBark.imageCount = res.imageCount;
-          this.viewCountBark.serviceCount = res.app.serviceCount;
-          this.viewCountBark.appCount = res.service.appCount;
+          this.viewCountBark.serviceCount = res.service.serviceCount;
+          this.viewCountBark.appCount = res.app.appCount;
           this.serviceAndAppChart.abnormalApp = res.app.abnormalApp;
           this.serviceAndAppChart.normalApp = res.app.normalApp;
           this.serviceAndAppChart.serviceDeploying = res.service.serviceDeploying;

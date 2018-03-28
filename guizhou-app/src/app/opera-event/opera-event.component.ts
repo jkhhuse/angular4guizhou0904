@@ -137,7 +137,8 @@ export class OperaEventComponent implements OnInit {
       }
     });
 
-    const params: HttpParams = new HttpParams()
+    if (checkedArray.length > 0) {
+      const params: HttpParams = new HttpParams()
       .append('opObj', checkedArray.join(','))
       .append('timeRanges', this.selectedTime.value);
 
@@ -162,6 +163,35 @@ export class OperaEventComponent implements OnInit {
         },
         () => { }
       );
+    } else {
+      this.countsData = [];
+      this.operateTimeData = [];
+      for (let i = -29; i <= 0; i++) {
+        this.countsData.push(0);
+        this.operateTimeData.push(this.getDay(i));
+        this.getEventOption();
+      }
+    }
+  }
+
+  getDay(day) {
+    const today = new Date();
+    const targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
+    today.setTime(targetday_milliseconds);
+    const tYear = today.getFullYear();
+    let tMonth = today.getMonth();
+    let tDate = today.getDate();
+    tMonth = this.doHandleMonth(tMonth + 1);
+    tDate = this.doHandleMonth(tDate);
+    return tYear + '-' + tMonth + '-' + tDate;
+  }
+
+  doHandleMonth(month) {
+    let m = month;
+    if (month.toString().length === 1) {
+        m = '0' + month;
+    }
+    return m;
   }
 
   updateAllChecked() {

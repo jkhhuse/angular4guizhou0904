@@ -28,6 +28,7 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
 
   appId = ''; // 应用ID
   configId = ''; // 配置对应ID
+  keyId = ''; // 选中的键对应的ID
 
   removeIndex = '';
 
@@ -44,6 +45,7 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
       path              : [ '', [ Validators.required ] ]
     });
     this.configsChange();
+    this.keysChange();
   }
 
   ngOnInit() {
@@ -93,6 +95,22 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
     );
   }
 
+  // 获得键返回值的ID，由键的selector触发
+  keysChange() {
+    const configsControl = this.validateForm.get('keys');
+    configsControl.valueChanges.forEach(
+      (key: any) => {
+        // 根据configName获取configId
+        this.keyId = '';
+        this.keyOptions.forEach((value, index) => {
+          if (value.key === key) {
+            this.keyId = value.id;
+          }
+        });
+      }
+    );
+  }
+
   getFormControl(name) {
     return this.validateForm.controls[ name ];
   }
@@ -115,7 +133,7 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
       const createdConfig: any = {
         path: this.validateForm.get('path').value,
         type: 'config',
-        value: this.configId
+        value: this.keyId
       };
       mcArray.push(createdConfig);
 
@@ -147,7 +165,7 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
 
   // 处理添加配置
   updateConfig(body) {
-    this.http.put(environment.apiConfig + '/apiApp/groups/' + this.servicesService.getCookie('groupID') +
+    this.http.put(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') +
     '/application-instance-microservices/' + this.appId, body)
       .subscribe((data) => {
         console.log(data);
