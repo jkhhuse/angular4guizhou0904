@@ -45,14 +45,14 @@ export class AppEnvArgComponent implements OnInit {
   ngOnInit() {
     this.searchOptions = [];
     this.validateForm = this.fb.group({
-      name       : [ null, [ Validators.required, Validators.minLength(4), Validators.maxLength(24), Validators.pattern('\\w+')] ],
+      name       : [ null, [ Validators.required, Validators.minLength(4), Validators.maxLength(25), Validators.pattern('\\w+')] ],
       desc       : [ null, [ Validators.required, Validators.maxLength(80) ] ],
       content    : [ null, [ Validators.required ] ],
       // selectedOption: [ this.selectedOption ]
     });
     this.currentPage = 1;
     this.updateValidateForm = this.fb.group({
-      name       : [ null, [ Validators.required, Validators.minLength(4), Validators.maxLength(24)] ],
+      name       : [ null, [ Validators.required, Validators.minLength(4), Validators.maxLength(25)] ],
       desc       : [ null, [ Validators.required, Validators.maxLength(80) ] ],
       content    : [ null, [ Validators.required ] ],
     });
@@ -248,7 +248,7 @@ export class AppEnvArgComponent implements OnInit {
           }
         });
         this.updateValidateForm = this.fb.group({
-          name       : [ envfileName, [ Validators.required, Validators.minLength(4), Validators.maxLength(24)] ],
+          name       : [ envfileName, [ Validators.required, Validators.minLength(4), Validators.maxLength(25)] ],
           desc       : [ res.backend_return.description, [ Validators.required, Validators.maxLength(80) ] ],
           content    : [ tempContent, [ Validators.required ] ],
         });
@@ -292,7 +292,7 @@ export class AppEnvArgComponent implements OnInit {
         this.isCreateModalVisible = false;
         // 重置创建变量创建模态框数据
         this.validateForm = this.fb.group({
-          name       : [ null, [ Validators.required, Validators.minLength(4), Validators.maxLength(24)] ],
+          name       : [ null, [ Validators.required, Validators.minLength(4), Validators.maxLength(25)] ],
           desc       : [ null, [ Validators.required, Validators.maxLength(80) ] ],
           content    : [ null, [ Validators.required ] ],
           // selectedOption: [ this.selectedOption ]
@@ -317,7 +317,7 @@ export class AppEnvArgComponent implements OnInit {
       (res) => {
         this.isUpdateModalVisible = false;
         this.updateValidateForm = this.fb.group({
-          name       : [ null, [ Validators.required, Validators.minLength(4), Validators.maxLength(24)] ],
+          name       : [ null, [ Validators.required, Validators.minLength(4), Validators.maxLength(25)] ],
           desc       : [ null, [ Validators.required, Validators.maxLength(80) ] ],
           content    : [ null, [ Validators.required ] ],
         });
