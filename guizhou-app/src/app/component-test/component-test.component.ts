@@ -101,7 +101,11 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
 
   _dataSet = [];
 
-  @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
+  @ViewChild('form') form: DynamicFormComponent;
+  // @ViewChild('form10') form10: DynamicFormComponent;
+  // @ViewChild('form20') form20: DynamicFormComponent;
+  // @ViewChild('form30') form30: DynamicFormComponent;
+  @ViewChildren(DynamicFormComponent) forms: QueryList<DynamicFormComponent>;
   @ViewChild(DynamicFormComponent) form11: DynamicFormComponent;
   config1: FieldConfig[] = [];
   config: FieldConfig[] = [
@@ -111,7 +115,6 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
       name: 'Fname',
       placeholder: 'Enter your Fname',
       validation: [Validators.required, NameValidator('name', /^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
-      // [null, Validators.compose([Validators.required, Validators.minLength(6)]), nicknameValidator.bind(this)]
       styles: {
         'width': '400px',
       },
@@ -134,6 +137,68 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
       type: 'select',
       label: 'Favourite Food',
       name: 'food',
+      options: ['Pizza', 'Hot Dogs', 'Knakworstje', 'Coffee'],
+      placeholder: 'Select an option111',
+      validation: [Validators.required],
+      styles: {
+        'width': '400px',
+      },
+      valueUpdate: true
+    },
+  ];
+  config10: FieldConfig[] = [
+    {
+      type: 'input',
+      label: 'Full name',
+      name: 'Fname10',
+      placeholder: 'Enter your Fname',
+      validation: [Validators.required, NameValidator('name', /^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
+      styles: {
+        'width': '400px',
+      }
+    },
+    {
+      type: 'input',
+      label: 'Last name',
+      name: 'Lname10',
+      placeholder: 'Enter your Lname',
+      validation: [Validators.required, Validators.minLength(4)],
+      styles: {
+        'width': '400px',
+      }
+    },
+    {
+      selectedOption: undefined,
+      ifTags: 'true',
+      type: 'select',
+      label: 'Favourite Food',
+      name: 'food10',
+      options: ['Pizza', 'Hot Dogs', 'Knakworstje', 'Coffee'],
+      placeholder: 'Select an option111',
+      validation: [Validators.required],
+      styles: {
+        'width': '400px',
+      },
+      valueUpdate: true
+    },
+  ];
+  config20: FieldConfig[] = [
+    {
+      type: 'input',
+      label: 'Full name',
+      name: 'Fname20',
+      placeholder: 'Enter your Fname',
+      validation: [Validators.required, NameValidator('name', /^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
+      styles: {
+        'width': '400px',
+      }
+    },
+    {
+      selectedOption: undefined,
+      ifTags: 'true',
+      type: 'select',
+      label: 'Favourite Food',
+      name: 'food20',
       options: ['Pizza', 'Hot Dogs', 'Knakworstje', 'Coffee'],
       placeholder: 'Select an option111',
       validation: [Validators.required],
@@ -175,14 +240,14 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   ];
   name = 'Semlinker';
   @ViewChild('greet') greetDiv: ElementRef;
-  imageTabs = ['name1', 'name2'];
+  imageTabs = ['name1', 'name2', 'name3'];
   arrData = [];
   choosedImageName;
   inputValue: string;
   searchOptions = [
 
   ];
-  selectedMultipleOption = [ this.searchOptions[ 0 ] ];
+  selectedMultipleOption = '';
   // @ViewChildren(DynamicFormComponent) formArr: QueryList<DynamicFormComponent>;
   // configArr = [];
   //  测试viewChildren：https://angular.io/api/core/ViewChildren
@@ -192,7 +257,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   // show() { this.shouldShow = true; }
 
   selectTest1() {
-    console.log(this.selectedMultipleOption);
+    // console.log(this.selectedMultipleOption);
   }
 
   toggleRadio() {
@@ -240,6 +305,8 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
 
   choosedImageFunc(tab) {
     this.choosedImageName = tab;
+    // console.log(this.form, this.form10, this.form20, this.forms);
+    console.log(this.form, this.forms);
     // if (this.choosedImageName === 'name1') {
     //   this.form.setConfig(this.config);
     //   this.arrData[0] = this.form.value;
@@ -394,23 +461,23 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   // }
 
   ngAfterViewInit() {
-    this.choosedImageName = 'name1';
-    let previousValid = this.form.valid;
-    this.form.changes.subscribe(() => {
-      if (this.form.valid !== previousValid) {
-        previousValid = this.form.valid;
-        this.form.setDisabled('submit', !previousValid);
-      }
-    });
-
-    this.form.setDisabled('submit', true);
-    // this.calculateSerializedPanes();
-    // this.panes.changes.subscribe((r) => {
-    //   this.calculateSerializedPanes();
+    // this.choosedImageName = 'name1';
+    // let previousValid = this.form.valid;
+    // this.form.changes.subscribe(() => {
+    //   if (this.form.valid !== previousValid) {
+    //     previousValid = this.form.valid;
+    //     this.form.setDisabled('submit', !previousValid);
+    //   }
     // });
-    console.dir(this.greetDiv);
-    console.log('form', this.form);
-    console.log('form2', this.form2);
+
+    // this.form.setDisabled('submit', true);
+    // // this.calculateSerializedPanes();
+    // // this.panes.changes.subscribe((r) => {
+    // //   this.calculateSerializedPanes();
+    // // });
+    // console.dir(this.greetDiv);
+    // console.log('form', this.form);
+    // console.log('form2', this.form2);
     // console.dir(this.formArr);
     // this.form.setValue({})
     // this.form.setValue('name', '');
@@ -457,9 +524,9 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     // });
   }
   ngOnInit() {
-    setTimeout(_ => {
-      this.selectedMultipleOption = [];
-    }, 2000);
+    // setTimeout(_ => {
+    //   this.selectedMultipleOption;
+    // }, 2000);
     const clickEvent = Observable.fromEvent(document, 'click');
     const result = clickEvent.throttleTime(1000);
     result.subscribe(x => {

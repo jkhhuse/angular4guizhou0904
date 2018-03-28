@@ -11,20 +11,23 @@
 .steps-action {
     border-top: 1px solid #ddd;
     width: 80%;
-    padding-top: 20px;
-    // margin-top: 24px;
+    padding-top: 20px; // margin-top: 24px;
 }
 
-nz-header, nz-content, nz-footer {
+nz-header,
+nz-content,
+nz-footer {
     background: #fff
 }
 
 nz-content {
     padding: 0px;
 }
+
 p {
     font-size: 16px;
 }
+
 .service-tips {
     p {
         font-weight: bold;
@@ -33,13 +36,13 @@ p {
 
 .borderTop80 {
     border-top: 1px solid #ddd;
-    padding-top: 20px; 
+    padding-top: 20px;
     width: 80%
 }
 
 .borderBottom80 {
     border-bottom: 1px solid #ddd;
-    margin-bottom: 20px; 
+    margin-bottom: 20px;
     width: 80%
 }
 
