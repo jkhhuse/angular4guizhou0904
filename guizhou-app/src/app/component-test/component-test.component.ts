@@ -247,7 +247,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   searchOptions = [
 
   ];
-  selectedMultipleOption = [ this.searchOptions[ 0 ] ];
+  selectedMultipleOption = '';
   // @ViewChildren(DynamicFormComponent) formArr: QueryList<DynamicFormComponent>;
   // configArr = [];
   //  测试viewChildren：https://angular.io/api/core/ViewChildren
@@ -257,7 +257,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   // show() { this.shouldShow = true; }
 
   selectTest1() {
-    console.log(this.selectedMultipleOption);
+    // console.log(this.selectedMultipleOption);
   }
 
   toggleRadio() {
@@ -461,23 +461,23 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   // }
 
   ngAfterViewInit() {
-    this.choosedImageName = 'name1';
-    let previousValid = this.form.valid;
-    this.form.changes.subscribe(() => {
-      if (this.form.valid !== previousValid) {
-        previousValid = this.form.valid;
-        this.form.setDisabled('submit', !previousValid);
-      }
-    });
-
-    this.form.setDisabled('submit', true);
-    // this.calculateSerializedPanes();
-    // this.panes.changes.subscribe((r) => {
-    //   this.calculateSerializedPanes();
+    // this.choosedImageName = 'name1';
+    // let previousValid = this.form.valid;
+    // this.form.changes.subscribe(() => {
+    //   if (this.form.valid !== previousValid) {
+    //     previousValid = this.form.valid;
+    //     this.form.setDisabled('submit', !previousValid);
+    //   }
     // });
-    console.dir(this.greetDiv);
-    console.log('form', this.form);
-    console.log('form2', this.form2);
+
+    // this.form.setDisabled('submit', true);
+    // // this.calculateSerializedPanes();
+    // // this.panes.changes.subscribe((r) => {
+    // //   this.calculateSerializedPanes();
+    // // });
+    // console.dir(this.greetDiv);
+    // console.log('form', this.form);
+    // console.log('form2', this.form2);
     // console.dir(this.formArr);
     // this.form.setValue({})
     // this.form.setValue('name', '');
@@ -524,9 +524,9 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     // });
   }
   ngOnInit() {
-    setTimeout(_ => {
-      this.selectedMultipleOption = [];
-    }, 2000);
+    // setTimeout(_ => {
+    //   this.selectedMultipleOption;
+    // }, 2000);
     const clickEvent = Observable.fromEvent(document, 'click');
     const result = clickEvent.throttleTime(1000);
     result.subscribe(x => {

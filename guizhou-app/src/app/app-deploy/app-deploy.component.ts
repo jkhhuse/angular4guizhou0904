@@ -78,14 +78,25 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   private modelValue = 'replication';
   // 第二个表单
   @ViewChild('formSecondProject') formSecondProject: DynamicFormComponent;
+  @ViewChild('formSecondProject0') formSecondProject0: DynamicFormComponent;
+  @ViewChild('formSecondProject1') formSecondProject1: DynamicFormComponent;
+  @ViewChild('formSecondProject2') formSecondProject2: DynamicFormComponent;
+  @ViewChild('formSecondProject3') formSecondProject3: DynamicFormComponent;
+  @ViewChild('formSecondProject4') formSecondProject4: DynamicFormComponent;
   @ViewChild('instanceSecond') instanceSecond: ContainerInstanceComponent;
+  @ViewChild('instanceSecond0') instanceSecond0: ContainerInstanceComponent;
+  @ViewChild('instanceSecond1') instanceSecond1: ContainerInstanceComponent;
+  @ViewChild('instanceSecond2') instanceSecond2: ContainerInstanceComponent;
+  @ViewChild('instanceSecond3') instanceSecond3: ContainerInstanceComponent;
+  @ViewChild('instanceSecond4') instanceSecond4: ContainerInstanceComponent;
   formSecond: FieldConfig[] = [
     {
       type: 'input',
       label: '实例名称',
       name: 'microserviceName',
       placeholder: '请输入实例名称',
-      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
+      // validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
+      notNecessary: true,
       styles: {
         'width': '400px'
       }
@@ -168,13 +179,33 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   // repositoryId: string[] = [];
   repositoryId = '';
   networkRadioValue = '';
+  networkRadioValue0 = '';
+  networkRadioValue1 = '';
   networkRadioValue2 = '';
+  networkRadioValue3 = '';
+  networkRadioValue4 = '';
+  // networkRadioValue2 = '';
+  networkRadioValue20 = '';
+  networkRadioValue21 = '';
+  networkRadioValue22 = '';
+  networkRadioValue23 = '';
+  networkRadioValue24 = '';
   // 镜像配置里的网络配置
   networkConfig = 'FLANNEL';
   loadBanlancer$ = [];
   loadBanlancerForm: FormGroup;
+  loadBanlancerForm0: FormGroup;
+  loadBanlancerForm1: FormGroup;
+  loadBanlancerForm2: FormGroup;
+  loadBanlancerForm3: FormGroup;
+  loadBanlancerForm4: FormGroup;
   lbControlLabel = [];
   lbControlArray = [];
+  lbControlArray0 = [];
+  lbControlArray1 = [];
+  lbControlArray2 = [];
+  lbControlArray3 = [];
+  lbControlArray4 = [];
   lbSub: Subscription;
   networkOptions = [];
   networkOptionsEnv = [];
@@ -199,11 +230,86 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   ];
   // 镜像配置里的高级配置
   serviceType = 'stateless';
+  serviceType0 = 'stateless';
+  serviceType1 = 'stateless';
+  serviceType2 = 'stateless';
+  serviceType3 = 'stateless';
+  serviceType4 = 'stateless';
   serviceAdvancedLabel = [];
   logForm: FormGroup;
   env$ = [];
+  // @ViewChild('logFormProject1') logFormProject1: DynamicFormComponent;
+  @ViewChild('logFormProject0') logFormProject0: DynamicFormComponent;
   @ViewChild('logFormProject1') logFormProject1: DynamicFormComponent;
+  @ViewChild('logFormProject2') logFormProject2: DynamicFormComponent;
+  @ViewChild('logFormProject3') logFormProject3: DynamicFormComponent;
+  @ViewChild('logFormProject4') logFormProject4: DynamicFormComponent;
   logFormConfig: FieldConfig[] = [
+    {
+      type: 'input',
+      label: '日志文件',
+      placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
+      name: 'logPath',
+      // validation: [Validators.required],
+      styles: {
+        'width': '400px'
+      },
+      notNecessary: true
+    },
+  ];
+  logFormConfig0: FieldConfig[] = [
+    {
+      type: 'input',
+      label: '日志文件',
+      placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
+      name: 'logPath',
+      // validation: [Validators.required],
+      styles: {
+        'width': '400px'
+      },
+      notNecessary: true
+    },
+  ];
+  logFormConfig1: FieldConfig[] = [
+    {
+      type: 'input',
+      label: '日志文件',
+      placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
+      name: 'logPath',
+      // validation: [Validators.required],
+      styles: {
+        'width': '400px'
+      },
+      notNecessary: true
+    },
+  ];
+  logFormConfig2: FieldConfig[] = [
+    {
+      type: 'input',
+      label: '日志文件',
+      placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
+      name: 'logPath',
+      // validation: [Validators.required],
+      styles: {
+        'width': '400px'
+      },
+      notNecessary: true
+    },
+  ];
+  logFormConfig3: FieldConfig[] = [
+    {
+      type: 'input',
+      label: '日志文件',
+      placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
+      name: 'logPath',
+      // validation: [Validators.required],
+      styles: {
+        'width': '400px'
+      },
+      notNecessary: true
+    },
+  ];
+  logFormConfig4: FieldConfig[] = [
     {
       type: 'input',
       label: '日志文件',
@@ -230,16 +336,32 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   }];
   env1 = [];
   env1Form: FormGroup;
+  env1Form0: FormGroup;
+  env1Form1: FormGroup;
+  env1Form2: FormGroup;
+  env1Form3: FormGroup;
+  env1Form4: FormGroup;
   env1Enty = [];
   env1Array = [];
+  env1Array0 = [];
+  env1Array1 = [];
+  env1Array2 = [];
+  env1Array3 = [];
+  env1Array4 = [];
   // 镜像配置里的配置文件设置
   @ViewChild('configFileForm') configFileForm: DynamicFormComponent;
   isVisible = false;
+  isVisibleStateful = false;
   configFileArr;
   configFileArr1;
   configFileSub: Subscription;
   configKeyValueArr;
   configFileData = [];
+  configFileData0 = [];
+  configFileData1 = [];
+  configFileData2 = [];
+  configFileData3 = [];
+  configFileData4 = [];
   configKeyValue1;
   configKeyValue2;
   // configFileData = [
@@ -295,6 +417,58 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       notNecessary: true
     }
   ];
+  // 有状态服务
+  @ViewChild('statefulForm') statefulForm: DynamicFormComponent;
+  statefulConfig: FieldConfig[] = [
+    {
+      type: 'input',
+      label: '镜像路径',
+      placeholder: '',
+      name: 'app_volume_dir',
+      // validation: [Validators.required],
+      styles: {
+        'width': '400px'
+      },
+      notNecessary: true
+    },
+    {
+      type: 'select',
+      label: '存储卷',
+      placeholder: '请选择存储卷',
+      options: [],
+      name: 'volume_id',
+      // validation: [Validators.required],
+      styles: {
+        'width': '400px'
+      },
+      notNecessary: true,
+      valueUpdate: true
+    },
+    {
+      type: 'input',
+      label: '主机路径',
+      placeholder: '',
+      name: 'volume_name',
+      // validation: [Validators.required],
+      styles: {
+        'width': '400px'
+      },
+      notNecessary: true,
+      // divStyles: {
+      //   display
+      // }
+    }
+  ];
+  statefulSub: Subscription;
+  statefulData = [];
+  statefulData0 = [];
+  statefulData1 = [];
+  statefulData2 = [];
+  statefulData3 = [];
+  statefulData4 = [];
+  statefulStorage = [];
+  statefulStorageName = [];
+  volume_id$;
   // 第三个表单
   @ViewChild('formThirdProject') formThirdProject: DynamicFormComponent;
   @ViewChild('instanceThird') instanceThird: ContainerInstanceComponent;
@@ -471,6 +645,197 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   //   },
   //     this.formThirdProject.setValue('ip_tag', this.formThird[3]);
   // }
+  judgeFuncStateful(i, type): any {
+    if (type === 'data') {
+      if (i === 0) {
+        return this.statefulData0;
+      } else if (i === 1) {
+        return this.statefulData1;
+      } else if (i === 2) {
+        return this.statefulData2;
+      } else if (i === 3) {
+        return this.statefulData3;
+      } else if (i === 4) {
+        return this.statefulData4;
+      }
+    } else if (type === 'radio') {
+      if (i === 0) {
+        return this.serviceType0;
+      } else if (i === 1) {
+        return this.serviceType1;
+      } else if (i === 2) {
+        return this.serviceType2;
+      } else if (i === 3) {
+        return this.serviceType3;
+      } else if (i === 4) {
+        return this.serviceType4;
+      }
+    }
+  }
+  judgeFuncConfigFile(i, type): any {
+    if (type === 'data') {
+      if (i === 0) {
+        return this.configFileData0;
+      } else if (i === 1) {
+        return this.configFileData1;
+      } else if (i === 2) {
+        return this.configFileData2;
+      } else if (i === 3) {
+        return this.configFileData3;
+      } else if (i === 4) {
+        return this.configFileData4;
+      }
+    }
+  }
+
+  judgeFuncEnv(i, type): any {
+    if (type === 'env') {
+      if (i === 0) {
+        return this.env1Form0;
+      } else if (i === 1) {
+        return this.env1Form1;
+      } else if (i === 2) {
+        return this.env1Form2;
+      } else if (i === 3) {
+        return this.env1Form3;
+      } else if (i === 4) {
+        return this.env1Form4;
+      }
+    } else if (type === 'config') {
+      if (i === 0) {
+        return this.env1Array0;
+      } else if (i === 1) {
+        return this.env1Array1;
+      } else if (i === 2) {
+        return this.env1Array2;
+      } else if (i === 3) {
+        return this.env1Array3;
+      } else if (i === 4) {
+        return this.env1Array4;
+      }
+    }
+  }
+
+  judgeFuncLog(i, type?): any {
+    if (type === undefined) {
+      if (i === 0) {
+        return this.logFormProject0;
+      } else if (i === 1) {
+        return this.logFormProject1;
+      } else if (i === 2) {
+        return this.logFormProject2;
+      } else if (i === 3) {
+        return this.logFormProject3;
+      } else if (i === 4) {
+        return this.logFormProject4;
+      }
+    } else if (type === 'config') {
+      if (i === 0) {
+        return this.logFormConfig0;
+      } else if (i === 1) {
+        return this.logFormConfig1;
+      } else if (i === 2) {
+        return this.logFormConfig2;
+      } else if (i === 3) {
+        return this.logFormConfig3;
+      } else if (i === 4) {
+        return this.logFormConfig4;
+      }
+    }
+  }
+
+  judgeFuncLbControl(i) {
+    if (i === 0) {
+      return this.lbControlArray0;
+    } else if (i === 1) {
+      return this.lbControlArray1;
+    } else if (i === 2) {
+      return this.lbControlArray2;
+    } else if (i === 3) {
+      return this.lbControlArray3;
+    } else if (i === 4) {
+      return this.lbControlArray4;
+    }
+  }
+
+  judgeFuncLb(i) {
+    if (i === 0) {
+      return this.loadBanlancerForm0;
+    } else if (i === 1) {
+      return this.loadBanlancerForm1;
+    } else if (i === 2) {
+      return this.loadBanlancerForm2;
+    } else if (i === 3) {
+      return this.loadBanlancerForm3;
+    } else if (i === 4) {
+      return this.loadBanlancerForm4;
+    }
+  }
+
+  judgeFunc(i, type) {
+    if (type === 'formSecond') {
+      if (i === 0) {
+        return this.formSecondProject0;
+      } else if (i === 1) {
+        return this.formSecondProject1;
+      } else if (i === 2) {
+        return this.formSecondProject2;
+      } else if (i === 3) {
+        return this.formSecondProject3;
+      } else if (i === 4) {
+        return this.formSecondProject4;
+      }
+    } else if (type === 'instanceSecond') {
+      if (i === 0) {
+        return this.instanceSecond0;
+      } else if (i === 1) {
+        return this.instanceSecond1;
+      } else if (i === 2) {
+        return this.instanceSecond2;
+      } else if (i === 3) {
+        return this.instanceSecond3;
+      } else if (i === 4) {
+        return this.instanceSecond4;
+      }
+    } else if (type === 'loadBanlancerForm') {
+      if (i === 0) {
+        return this.loadBanlancerForm0;
+      } else if (i === 1) {
+        return this.loadBanlancerForm1;
+      } else if (i === 2) {
+        return this.loadBanlancerForm2;
+      } else if (i === 3) {
+        return this.loadBanlancerForm3;
+      } else if (i === 4) {
+        return this.loadBanlancerForm4;
+      }
+    }
+    //  else if (type === 'networkRadioValue') {
+    //   if (i === 0) {
+    //     return this.networkRadioValue0;
+    //   } else if (i === 1) {
+    //     return this.networkRadioValue1;
+    //   } else if (i === 2) {
+    //     return this.networkRadioValue2;
+    //   } else if (i === 3) {
+    //     return this.networkRadioValue3;
+    //   } else if (i === 4) {
+    //     return this.networkRadioValue4;
+    //   }
+    // } else if (type === 'networkRadioValue2') {
+    //   if (i === 0) {
+    //     return this.networkRadioValue20;
+    //   } else if (i === 1) {
+    //     return this.networkRadioValue21;
+    //   } else if (i === 2) {
+    //     return this.networkRadioValue22;
+    //   } else if (i === 3) {
+    //     return this.networkRadioValue23;
+    //   } else if (i === 4) {
+    //     return this.networkRadioValue24;
+    //   }
+    // }
+  }
 
   buttonDisabled() {
     switch (this.current) {
@@ -478,7 +843,23 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         return !this.formFirstProject.valid;
       }
       case 1: {
-        return !this.formSecondProject.valid;
+        if (this.images !== undefined) {
+          if (this.images.length === 1) {
+            return !this.formSecondProject0.valid;
+          } else if (this.images.length === 2) {
+            // console.log(!this.judgeFunc(0, 'formSecond').valid || !this.judgeFunc(1, 'formSecond').valid);
+            return !this.formSecondProject0.valid || !this.formSecondProject1.valid;
+          } else if (this.images.length === 3) {
+            return !this.formSecondProject0.valid || !this.formSecondProject1.valid ||
+              !this.formSecondProject2.valid;
+          } else if (this.images.length === 4) {
+            return !this.formSecondProject0.valid || !this.formSecondProject1.valid ||
+              !this.formSecondProject2.valid || !this.formSecondProject3.valid;
+          } else if (this.images.length === 5) {
+            return !this.formSecondProject0.valid || !this.formSecondProject1.valid ||
+              !this.formSecondProject2.valid || !this.formSecondProject3.valid || !this.formSecondProject4.valid;
+          }
+        }
         // todo next
         // !this.logFormProject1.valid || !this.envFormProject1.valid;
       }
@@ -871,9 +1252,15 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     if (radioValue === 'product') {
       await this.getNetworkOptions(this.networkRadioValue);
       await this.getnetworkAdvanced();
+      await this.getStateful(this.networkRadioValue);
+      this.statefulConfig[1]['options'] = this.statefulStorageName;
+      this.statefulForm.setConfig(this.statefulConfig);
     } else {
       await this.getNetworkOptions(this.networkRadioValue2);
       await this.getnetworkAdvanced();
+      await this.getStateful(this.networkRadioValue2);
+      this.statefulConfig[1]['options'] = this.statefulStorageName;
+      this.statefulForm.setConfig(this.statefulConfig);
     }
   }
   // region pre
@@ -903,9 +1290,15 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           if (this.radioValue === 'product') {
             await this.getNetworkOptions(this.networkRadioValue);
             await this.getnetworkAdvanced();
+            await this.getStateful(this.networkRadioValue);
+            this.statefulConfig[1]['options'] = this.statefulStorageName;
+            this.statefulForm.setConfig(this.statefulConfig);
           } else {
             await this.getNetworkOptions(this.networkRadioValue2);
             await this.getnetworkAdvanced();
+            await this.getStateful(this.networkRadioValue2);
+            this.statefulConfig[1]['options'] = this.statefulStorageName;
+            this.statefulForm.setConfig(this.statefulConfig);
           }
         } else {
           this.createNotification('warning', '需要获取集群列表', '请耐心等待2-3秒，集群列表获取成功之后即可正常部署!');
@@ -928,8 +1321,29 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           if (this.activeImage === key) {
             lastImage = value['repositoryName'];
           }
+          // await this.choosedImageFunc(value['repositoryName']);
         });
-        await this.choosedImageFunc(lastImage);
+        if (this.images.length === 1) {
+          await this.choosedImageFunc(this.images[0]['repositoryName']);
+        } else if (this.images.length === 2) {
+          await this.choosedImageFunc(this.images[0]['repositoryName']);
+          await this.choosedImageFunc(this.images[1]['repositoryName']);
+        } else if (this.images.length === 3) {
+          await this.choosedImageFunc(this.images[0]['repositoryName']);
+          await this.choosedImageFunc(this.images[1]['repositoryName']);
+          await this.choosedImageFunc(this.images[2]['repositoryName']);
+        } else if (this.images.length === 4) {
+          await this.choosedImageFunc(this.images[0]['repositoryName']);
+          await this.choosedImageFunc(this.images[1]['repositoryName']);
+          await this.choosedImageFunc(this.images[2]['repositoryName']);
+          await this.choosedImageFunc(this.images[3]['repositoryName']);
+        } else if (this.images.length === 5) {
+          await this.choosedImageFunc(this.images[0]['repositoryName']);
+          await this.choosedImageFunc(this.images[1]['repositoryName']);
+          await this.choosedImageFunc(this.images[2]['repositoryName']);
+          await this.choosedImageFunc(this.images[3]['repositoryName']);
+          await this.choosedImageFunc(this.images[4]['repositoryName']);
+        }
         console.log(this.imageData);
         // const keyList = ['', 1, 11, 111, 1111];
         // const lbArr = [];
@@ -1232,7 +1646,23 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     const lbId = [];
     const lbPorts = [];
     const lbAddress$ = [];
-    this.configFileData = _.map(this.configFileData, (value, key) => {
+    this.configFileData0 = _.map(this.configFileData0, (value, key) => {
+      delete value.valueKey;
+      return value;
+    });
+    this.configFileData1 = _.map(this.configFileData1, (value, key) => {
+      delete value.valueKey;
+      return value;
+    });
+    this.configFileData2 = _.map(this.configFileData2, (value, key) => {
+      delete value.valueKey;
+      return value;
+    });
+    this.configFileData3 = _.map(this.configFileData3, (value, key) => {
+      delete value.valueKey;
+      return value;
+    });
+    this.configFileData4 = _.map(this.configFileData4, (value, key) => {
       delete value.valueKey;
       return value;
     });
@@ -1244,21 +1674,43 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     });
     _.map(this.images, (value1, key1) => {
       if (value1['repositoryName'] === this.choosedImageName) {
+        this.env1Enty[key1] = {};
         _.map(keyList, (value, key) => {
-          if (this.env1Form.value['value' + value] !== undefined) {
-            this.env1Enty[key1] = _.assign({}, this.env1Enty[key1], {
-              [this.env1Form.value['key'] + value]: this.env1Form.value['value' + value]
-            });
+          if (this.judgeFuncEnv(key1, 'env').value['value' + value] !== undefined) {
+            if (value === '') {
+              this.env1Enty[key1] = _.assign({}, this.env1Enty[key1], {
+                [this.judgeFuncEnv(key1, 'env').value['key']]: this.judgeFuncEnv(key1, 'env').value['value']
+              });
+            } else if (value === 1) {
+              this.env1Enty[key1] = _.assign({}, this.env1Enty[key1], {
+                [this.judgeFuncEnv(key1, 'env').value['key1']]: this.judgeFuncEnv(key1, 'env').value['value1']
+              });
+            } else if (value === 11) {
+              this.env1Enty[key1] = _.assign({}, this.env1Enty[key1], {
+                [this.judgeFuncEnv(key1, 'env').value['key11']]: this.judgeFuncEnv(key1, 'env').value['value11']
+              });
+            } else if (value === 111) {
+              this.env1Enty[key1] = _.assign({}, this.env1Enty[key1], {
+                [this.judgeFuncEnv(key1, 'env').value['key111']]: this.judgeFuncEnv(key1, 'env').value['value111']
+              });
+            } else if (value === 1111) {
+              this.env1Enty[key1] = _.assign({}, this.env1Enty[key1], {
+                [this.judgeFuncEnv(key1, 'env').value['key1111']]: this.judgeFuncEnv(key1, 'env').value['value1111']
+              });
+            }
+            // this.env1Enty[key1] = _.assign({}, this.env1Enty[key1], {
+            //   [this.env1Form.value['key'] + value]: this.env1Form.value['value' + value]
+            // });
           }
-          if (this.logFormProject1.value['logPath' + value] !== undefined) {
+          if (this.judgeFuncLog(key1).value['logPath' + value] !== undefined) {
             if (key === 0) {
               this.env1Enty[key1] = _.assign({}, this.env1Enty[key1], {
-                ['__ALAUDA_FILE_LOG_PATH__']: this.logFormProject1.value['logPath' + value]
+                ['__ALAUDA_FILE_LOG_PATH__']: this.judgeFuncLog(key1).value['logPath' + value]
               });
             } else {
               this.env1Enty[key1] = _.assign({}, this.env1Enty[key1], {
                 ['__ALAUDA_FILE_LOG_PATH__']: this.env1Enty[key1]['__ALAUDA_FILE_LOG_PATH__'] + ',' +
-                  this.logFormProject1.value['logPath' + value]
+                  this.judgeFuncLog(key1).value['logPath' + value]
               });
             }
           }
@@ -1266,9 +1718,9 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           // console.log(this.imageData);
           // container_port undefined?
           // https://stackoverflow.com/questions/7479520/javascript-cannot-set-property-of-undefined
-          if (this.loadBanlancerForm.value['container_port' + value] !== undefined) {
-            const listener_port$ = _.split(this.loadBanlancerForm.value['listener_port' + value], ':')[2];
-            lbAddress$[key] = _.split(this.loadBanlancerForm.value['listener_port' + value], ':')[1];
+          if (this.judgeFunc(key1, 'loadBanlancerForm').value['container_port' + value] !== undefined) {
+            const listener_port$ = _.split(this.judgeFunc(key1, 'loadBanlancerForm').value['listener_port' + value], ':')[2];
+            lbAddress$[key] = _.split(this.judgeFunc(key1, 'loadBanlancerForm').value['listener_port' + value], ':')[1];
             console.log(this.networkOptionsEnv, lbAddress$);
             console.log('lbAdd', lbAddress$);
             _.map(lbAddress$, (value2, key2) => {
@@ -1281,17 +1733,17 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
             console.log('lbId', lbId);
             // lbId[key] = _.s
             const rules$ = [{
-              domain: this.loadBanlancerForm.value['rules' + value],
+              domain: this.judgeFunc(key1, 'loadBanlancerForm').value['rules' + value],
               url: ''
             }];
             lbArr[key] = {
-              container_port: this.loadBanlancerForm.value['container_port' + value],
+              container_port: this.judgeFunc(key1, 'loadBanlancerForm').value['container_port' + value],
               listener_port: listener_port$,
-              protocol: this.loadBanlancerForm.value['protocol' + value],
-              rules: this.loadBanlancerForm.value['protocol' + value] === 'tcp' ? []
+              protocol: this.judgeFunc(key1, 'loadBanlancerForm').value['protocol' + value],
+              rules: this.judgeFunc(key1, 'loadBanlancerForm').value['protocol' + value] === 'tcp' ? []
                 : rules$
             };
-            lbPorts[key] = parseInt(this.loadBanlancerForm.value['container_port' + value]);
+            lbPorts[key] = parseInt(this.judgeFunc(key1, 'loadBanlancerForm').value['container_port' + value]);
           }
           console.log(lbArr, lbPorts);
           // lbArr[key]['container_port'] = this.loadBanlancerForm.value['container_port' + value];
@@ -1318,12 +1770,26 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
             listeners: [lbArr[key3]]
           };
         });
+        console.log(this.judgeFuncStateful(key1, 'data'));
+        _.map(this.judgeFuncStateful(key1, 'data'), (value, key) => {
+          if (value['volume_id'] === '<主机路径>') {
+            value['volume_id'] = 'host_path';
+          } else {
+            _.map(this.statefulStorage, (value5, key5) => {
+              if (value['volume_id'] === value5['volumeName']) {
+                value['volume_id'] = value5['id'];
+                value['volume_name'] = value5['volumeName'];
+              }
+            });
+          }
+        });
+        console.log(this.judgeFuncStateful(key1, 'data'));
         this.imageData[key1] = {
           storageSize: 0,
           scaling_mode: 'MANUAL',
           space_name: 'admin',
-          microserviceName: this.formSecondProject.value['microserviceName'],
-          podsCount: parseInt(this.formSecondProject.value['podsCount']),
+          microserviceName: this.judgeFunc(key1, 'formSecond').value['microserviceName'],
+          podsCount: parseInt(this.judgeFunc(key1, 'formSecond').value['podsCount']),
           repositoryId: this.repositoryId,
           instance_size: this.instanceSecond.value['instance_size'],
           clusterName: this.radioValue === 'product' ? this.networkRadioValue : this.networkRadioValue2,
@@ -1333,7 +1799,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           // 对object {} 空对象的比较：http://www.zuojj.com/archives/775.html
           // todo instance这里数据有问题
           instance_envvars: _.isEqual(this.env1Enty[key1], {}) ? undefined : this.env1Enty[key1],
-          microserviceConfigs: this.configFileData.length > 0 ? this.configFileData : undefined
+          microserviceConfigs: this.judgeFuncConfigFile(key1, 'data').length > 0 ? this.judgeFuncConfigFile(key1, 'data') : undefined,
+          volumes: this.judgeFuncStateful(key1, 'data').length > 0 ? this.judgeFuncStateful(key1, 'data') : undefined
         };
       }
     });
@@ -1467,6 +1934,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           return value['serviceName'];
         });
         // // mock 多镜像
+        // TODO: ttest
         // this.images[1] = {
         //   createTime: 1520956951000,
         //   createUserId: 0,
@@ -1583,68 +2051,90 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     });
   }
 
-  addLogFile() {
+  addLogFile(k) {
     console.log('addclick', this.logFormConfig);
     const logInput = [{
       type: 'input',
       label: '日志文件',
       placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
-      name: this.logFormConfig[this.logFormConfig.length - 1]['name'] + 1,
+      name: this.judgeFuncLog(k, 'config')[this.judgeFuncLog(k, 'config').length - 1]['name'] + 1,
       styles: {
         'width': '400px'
       },
       notNecessary: true
     }];
-    this.logFormConfig = _.concat(this.logFormConfig, logInput);
-    this.logFormProject1.setConfig(this.logFormConfig);
+    if (k === 0) {
+      this.logFormConfig0 = _.concat(this.logFormConfig0, logInput);
+    } else if (k === 1) {
+      this.logFormConfig1 = _.concat(this.logFormConfig1, logInput);
+    } else if (k === 2) {
+      this.logFormConfig2 = _.concat(this.logFormConfig2, logInput);
+    } else if (k === 3) {
+      this.logFormConfig3 = _.concat(this.logFormConfig3, logInput);
+    } else if (k === 4) {
+      this.logFormConfig4 = _.concat(this.logFormConfig4, logInput);
+    }
+    // this.logFormConfig = _.concat(this.logFormConfig, logInput);
+    this.judgeFuncLog(k).setConfig(this.judgeFuncLog(k, 'config'));
   }
 
-  addEnv() {
+  addEnv(k) {
     console.log('addclick', this.env1Array);
     const envInput = [[
       {
         type: 'input',
-        name: this.env1Array[this.env1Array.length - 1][0]['name'] + 1
+        name: this.judgeFuncEnv(k, 'config')[this.judgeFuncEnv(k, 'config').length - 1][0]['name'] + 1
       },
       {
         type: 'input',
-        name: this.env1Array[this.env1Array.length - 1][1]['name'] + 1
+        name: this.judgeFuncEnv(k, 'config')[this.judgeFuncEnv(k, 'config').length - 1][1]['name'] + 1
       },
     ]];
-    this.env1Array = _.concat(this.env1Array, envInput);
-    _.map(this.env1Array, (value2, key2) => {
+    if (k === 0) {
+      this.env1Array0 = _.concat(this.env1Array0, envInput);
+    } else if (k === 1) {
+      this.env1Array1 = _.concat(this.env1Array1, envInput);
+    } else if (k === 2) {
+      this.env1Array2 = _.concat(this.env1Array2, envInput);
+    } else if (k === 3) {
+      this.env1Array3 = _.concat(this.env1Array3, envInput);
+    } else if (k === 4) {
+      this.env1Array4 = _.concat(this.env1Array4, envInput);
+    }
+    // this.env1Array = _.concat(this.env1Array, envInput);
+    _.map(this.judgeFuncEnv(k, 'config'), (value2, key2) => {
       _.map(value2, (value3, key3) => {
-        this.env1Form.addControl(value3['name'], new FormControl());
+        this.judgeFuncEnv(k, 'env').addControl(value3['name'], new FormControl());
       });
     });
     console.log('env1', envInput);
   }
 
-  addLb() {
+  addLb(k) {
     // 这里存在换行的问题
     const lbControlInput = [[
       {
         type: 'select',
-        name: this.lbControlArray[this.lbControlArray.length - 1][0]['name'] + 1,
+        name: this.judgeFuncLbControl(k)[this.judgeFuncLbControl(k).length - 1][0]['name'] + 1,
         placeholder: '1~65535',
         options: this.networkOptions,
       },
       {
         type: 'input',
         inputType: 'number',
-        name: this.lbControlArray[this.lbControlArray.length - 1][1]['name'] + 1,
+        name: this.judgeFuncLbControl(k)[this.judgeFuncLbControl(k).length - 1][1]['name'] + 1,
         placeholder: '容器暴露端口',
       },
       {
         type: 'select',
-        name: this.lbControlArray[this.lbControlArray.length - 1][2]['name'] + 1,
+        name: this.judgeFuncLbControl(k)[this.judgeFuncLbControl(k).length - 1][2]['name'] + 1,
         placeholder: '协议',
         options: ['tcp', 'http'],
       },
       {
         type: 'input',
         placeholder: '请输入域名地址',
-        name: this.lbControlArray[this.lbControlArray.length - 1][3]['name'] + 1,
+        name: this.judgeFuncLbControl(k)[this.judgeFuncLbControl(k).length - 1][3]['name'] + 1,
         disabled: true,
         // ifTags: true
       },
@@ -1658,21 +2148,60 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         // disabled:
       },
     ]];
-    this.lbControlArray = _.concat(this.lbControlArray, lbControlInput);
+    if (k === 0) {
+      this.lbControlArray0 = _.concat(this.lbControlArray0, lbControlInput);
+    } else if (k === 1) {
+      this.lbControlArray1 = _.concat(this.lbControlArray1, lbControlInput);
+    } else if (k === 2) {
+      this.lbControlArray2 = _.concat(this.lbControlArray2, lbControlInput);
+    } else if (k === 3) {
+      this.lbControlArray3 = _.concat(this.lbControlArray3, lbControlInput);
+    } else if (k === 4) {
+      this.lbControlArray4 = _.concat(this.lbControlArray4, lbControlInput);
+    }
+    // this.lbControlArray = _.concat(this.lbControlArray, lbControlInput);
     console.log(this.lbControlArray);
     // _.map(lbControlInput, (value3, key3) => {
     //   this.loadBanlancerForm.addControl(value2['name'], new FormControl());
     // })
-    _.map(this.lbControlArray, (value1, key1) => {
-      if (key1 === this.lbControlArray.length - 1) {
+    _.map(this.judgeFuncLbControl(k), (value1, key1) => {
+      if (key1 === this.judgeFuncLbControl(k).length - 1) {
         _.map(value1, (value2, key2) => {
-          this.loadBanlancerForm.addControl(value2['name'], new FormControl());
+          console.log(this.judgeFuncLb(k));
+          this.judgeFuncLb(k).addControl(value2['name'], new FormControl());
           // if (value2['type'] === 'select') {
           //   value2['selectedOption'] = value2['options'][0];
           // }
         });
       }
     });
+    // if (k === 0) {
+    //   _.map(this.lbControlArray, (value1, key1) => {
+    //     if (key1 === this.lbControlArray.length - 1) {
+    //       _.map(value1, (value2, key2) => {
+    //         console.log(this.judgeFuncLb(k));
+    //         this.loadBanlancerForm0.addControl(value2['name'], new FormControl());
+    //         // if (value2['type'] === 'select') {
+    //         //   value2['selectedOption'] = value2['options'][0];
+    //         // }
+    //       });
+    //     }
+    //   });
+    //   console.log(this.loadBanlancerForm0, this.loadBanlancerForm1);
+    // } else if (k === 1) {
+    //   _.map(this.lbControlArray, (value1, key1) => {
+    //     if (key1 === this.lbControlArray.length - 1) {
+    //       _.map(value1, (value2, key2) => {
+    //         console.log(this.judgeFuncLb(k));
+    //         this.loadBanlancerForm1.addControl(value2['name'], new FormControl());
+    //         // if (value2['type'] === 'select') {
+    //         //   value2['selectedOption'] = value2['options'][0];
+    //         // }
+    //       });
+    //     }
+    //   });
+    // }
+    // await this.getnetworkAdvanced();
   }
 
   addConfigFile() {
@@ -1697,9 +2226,13 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     // });
   }
 
+  addStateful() {
+    this.isVisibleStateful = true;
+  }
+
   handleOkConfig = (e) => {
     // 这里缺少同名校验、错误校验、按钮disabled
-    console.log('点击了确定');
+    console.log('点击了确定', this.activeImage);
     this.isVisible = false;
     _.map(this.configKeyValueArr, (value, key) => {
       if (value['key'] === this.configFileForm.value['key']) {
@@ -1707,7 +2240,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         this.configKeyValue2 = value['key'];
       }
     });
-    this.configFileData[this.configFileData.length] = {
+    this.judgeFuncConfigFile(this.activeImage, 'data')[this.judgeFuncConfigFile(this.activeImage, 'data').length] = {
       type: this.configFileRadio,
       path: this.configFileForm.value['path'],
       value: this.configKeyValue1,
@@ -1719,6 +2252,31 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   handleCancelConfig = (e) => {
     console.log(e);
     this.isVisible = false;
+  }
+
+  handleOkStateful = (e) => {
+    // 这里缺少同名校验、错误校验、按钮disabled
+    console.log('点击了确定', this.activeImage, this.statefulForm);
+    this.isVisibleStateful = false;
+    // if (this.statefulForm.value['volume_name'] !== undefined) {
+    //   _.map(this.statefulStorage, (value, key) => {
+    //     if (value['volumeName'] === this.statefulForm.value['']) {
+
+    //     }
+    //   })
+    // }
+    this.judgeFuncStateful(this.activeImage, 'data')[this.judgeFuncStateful(this.activeImage, 'data').length] = {
+      app_volume_dir: this.statefulForm.value['app_volume_dir'],
+      volume_id: this.statefulForm.value['volume_id'],
+      volume_name: this.statefulForm.value['volume_name'],
+      // valueKey: this.configKeyValue2
+    };
+    console.log(this.configFileData, this.statefulData0);
+  }
+
+  handleCancelStateful = (e) => {
+    console.log(e);
+    this.isVisibleStateful = false;
   }
 
   getEnvFile() {
@@ -1749,7 +2307,17 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   getnetworkAdvanced() {
     return new Promise((resolve, reject) => {
       this.loadBanlancerForm = this.fb.group({});
+      this.loadBanlancerForm0 = this.fb.group({});
+      this.loadBanlancerForm1 = this.fb.group({});
+      this.loadBanlancerForm2 = this.fb.group({});
+      this.loadBanlancerForm3 = this.fb.group({});
+      this.loadBanlancerForm4 = this.fb.group({});
       this.env1Form = this.fb.group({});
+      this.env1Form0 = this.fb.group({});
+      this.env1Form1 = this.fb.group({});
+      this.env1Form2 = this.fb.group({});
+      this.env1Form3 = this.fb.group({});
+      this.env1Form4 = this.fb.group({});
       // for (let i = 0; i < 5; i++) {
       //     this.lbControlArray.push({ index: i, show: i < 6 });
       //     // this.loadBanlancerForm.addControl(`field${i}`, new FormControl());
@@ -1771,8 +2339,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           value: '证书'
         },
       ];
-
-      this.lbControlArray = [
+      const lbControlArray$ = [
         // 这里需要替换成真实数据
         [
           {
@@ -1811,6 +2378,50 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           },
         ]
       ];
+      this.lbControlArray0 = lbControlArray$;
+      this.lbControlArray1 = lbControlArray$;
+      this.lbControlArray2 = lbControlArray$;
+      this.lbControlArray3 = lbControlArray$;
+      this.lbControlArray4 = lbControlArray$;
+      // this.lbControlArray = [
+      //   // 这里需要替换成真实数据
+      //   [
+      //     {
+      //       type: 'select',
+      //       name: 'listener_port',
+      //       placeholder: '1~65535',
+      //       options: this.networkOptions,
+      //     },
+      //     {
+      //       type: 'input',
+      //       inputType: 'number',
+      //       name: 'container_port',
+      //       placeholder: '容器暴露端口',
+      //     },
+      //     {
+      //       type: 'select',
+      //       name: 'protocol',
+      //       placeholder: '协议',
+      //       options: ['tcp', 'http'],
+      //     },
+      //     {
+      //       type: 'input',
+      //       placeholder: '请输入域名地址',
+      //       name: 'rules',
+      //       disabled: true,
+      //       // ifTags: true
+      //     },
+      //     {
+      //       type: 'select',
+      //       name: 'select1',
+      //       // placeholder: 'select1213',
+      //       options: [],
+      //       // selectedOption: undefined,
+      //       disabled: true
+      //       // disabled:
+      //     },
+      //   ]
+      // ];
       this.env1 = [
         {
           value: '名称'
@@ -1819,7 +2430,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           value: '值'
         },
       ];
-      this.env1Array = [
+      const env1Array$ = [
         [
           {
             type: 'input',
@@ -1831,15 +2442,53 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           },
         ]
       ];
+      this.env1Array = env1Array$;
+      this.env1Array0 = env1Array$;
+      this.env1Array1 = env1Array$;
+      this.env1Array2 = env1Array$;
+      this.env1Array3 = env1Array$;
+      this.env1Array4 = env1Array$;
       this.testOptions = [
         { value: 'jack', label: 'Jack' },
         { value: 'lucy', label: 'Lucy' },
         { value: 'disabled', label: 'Disabled', disabled: true }
       ];
       // this.testSelectedOption = undefined;
-      _.map(this.lbControlArray, (value1, key1) => {
+      _.map(this.lbControlArray0, (value1, key1) => {
         _.map(value1, (value2, key2) => {
-          this.loadBanlancerForm.addControl(value2['name'], new FormControl());
+          this.loadBanlancerForm0.addControl(value2['name'], new FormControl());
+          if (value2['type'] === 'select') {
+            value2['selectedOption'] = value2['options'][0];
+          }
+        });
+      });
+      _.map(this.lbControlArray1, (value1, key1) => {
+        _.map(value1, (value2, key2) => {
+          this.loadBanlancerForm1.addControl(value2['name'], new FormControl());
+          if (value2['type'] === 'select') {
+            value2['selectedOption'] = value2['options'][0];
+          }
+        });
+      });
+      _.map(this.lbControlArray2, (value1, key1) => {
+        _.map(value1, (value2, key2) => {
+          this.loadBanlancerForm2.addControl(value2['name'], new FormControl());
+          if (value2['type'] === 'select') {
+            value2['selectedOption'] = value2['options'][0];
+          }
+        });
+      });
+      _.map(this.lbControlArray3, (value1, key1) => {
+        _.map(value1, (value2, key2) => {
+          this.loadBanlancerForm3.addControl(value2['name'], new FormControl());
+          if (value2['type'] === 'select') {
+            value2['selectedOption'] = value2['options'][0];
+          }
+        });
+      });
+      _.map(this.lbControlArray4, (value1, key1) => {
+        _.map(value1, (value2, key2) => {
+          this.loadBanlancerForm4.addControl(value2['name'], new FormControl());
           if (value2['type'] === 'select') {
             value2['selectedOption'] = value2['options'][0];
           }
@@ -1850,12 +2499,92 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           this.env1Form.addControl(value3['name'], new FormControl());
         });
       });
+      _.map(this.env1Array0, (value2, key2) => {
+        _.map(value2, (value3, key3) => {
+          this.env1Form0.addControl(value3['name'], new FormControl());
+        });
+      });
+      _.map(this.env1Array1, (value2, key2) => {
+        _.map(value2, (value3, key3) => {
+          this.env1Form1.addControl(value3['name'], new FormControl());
+        });
+      });
+      _.map(this.env1Array2, (value2, key2) => {
+        _.map(value2, (value3, key3) => {
+          this.env1Form2.addControl(value3['name'], new FormControl());
+        });
+      });
+      _.map(this.env1Array3, (value2, key2) => {
+        _.map(value2, (value3, key3) => {
+          this.env1Form3.addControl(value3['name'], new FormControl());
+        });
+      });
+      _.map(this.env1Array4, (value2, key2) => {
+        _.map(value2, (value3, key3) => {
+          this.env1Form4.addControl(value3['name'], new FormControl());
+        });
+      });
       this.serviceAdvancedLabel = [
         {
           value: '文件路径'
         }
       ];
       resolve();
+    });
+  }
+
+  getStateful(networkRadioValue) {
+    return new Promise((resolve, reject) => {
+      this.http.get<any>(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') + '/volumes').subscribe(data => {
+        console.log('存储卷', data);
+        const data$ = [
+          {
+            'clusterName': 'ebd',
+            'createTime': '2018-03-28T01:18:10.814Z',
+            'groupId': 0,
+            'id': '1',
+            'size': 0,
+            'state': 'available',
+            'volumeName': 'vol1'
+          },
+          {
+            'clusterName': 'ebd2',
+            'createTime': '2018-03-28T01:18:10.815Z',
+            'groupId': 0,
+            'id': '2',
+            'size': 0,
+            'state': 'string',
+            'volumeName': 'vol2'
+          },
+          {
+            'clusterName': 'ebd3',
+            'createTime': '2018-03-28T01:18:10.814Z',
+            'groupId': 0,
+            'id': '1',
+            'size': 0,
+            'state': 'available',
+            'volumeName': 'vol1'
+          },
+        ];
+        data = _.map(data$, (value, key) => {
+          if (value['state'] === 'available') {
+            return value;
+          }
+        });
+        data = _.compact(data);
+        data = _.map(data, (value, key) => {
+          if (value['clusterName'] === networkRadioValue) {
+            return value;
+          }
+        });
+        data = _.compact(data);
+        this.statefulStorage = data;
+        this.statefulStorageName = _.map(data, (value, key) => {
+          return value['volumeName'];
+        });
+        this.statefulStorageName.unshift('<主机路径>');
+        resolve();
+      });
     });
   }
 
@@ -1992,15 +2721,15 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     });
   }
 
-  lbEmit(lbName, index) {
-    console.log(lbName, index, this.lbControlArray, this.loadBanlancerForm);
-    if (this.loadBanlancerForm.value[lbName] === 'http') {
+  lbEmit(lbName, index, k) {
+    console.log(lbName, index, this.judgeFuncLbControl(k), this.loadBanlancerForm);
+    if (this.judgeFunc(k, 'loadBanlancerForm').value[lbName] === 'http') {
       // todo next 这里有bug，切换http，增加status = 2的值时，本来下拉框的值不会被清除掉，要想办法清除掉
-      this.lbControlArray[index][0]['options'] = this.networkOptionsHttp;
-      this.lbControlArray[index][3]['disabled'] = false;
-    } else if (this.loadBanlancerForm.value[lbName] === 'tcp') {
-      this.lbControlArray[index][0]['options'] = this.networkOptions;
-      this.lbControlArray[index][3]['disabled'] = true;
+      this.judgeFuncLbControl(k)[index][0]['options'] = this.networkOptionsHttp;
+      this.judgeFuncLbControl(k)[index][3]['disabled'] = false;
+    } else if (this.judgeFunc(k, 'loadBanlancerForm').value[lbName] === 'tcp') {
+      this.judgeFuncLbControl(k)[index][0]['options'] = this.networkOptions;
+      this.judgeFuncLbControl(k)[index][3]['disabled'] = true;
     }
   }
 
@@ -2060,6 +2789,12 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     // }
     // 这里要手动调用一下，渲染service的basic和advanced配置，不然到服务配置会出不来数据
     await this.getCluster();
+    // if (this.radioValue === 'product') {
+
+    // } else {
+
+    // }
+    // await this.getStateful();
     await this.getIpTag();
     await this.choosedImageFunc(this.imageTabs[0]);
     await this.choosedServiceFunc(this.serviceTabs[0]);
@@ -2147,6 +2882,22 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         }
       }
     );
+    this.statefulSub = this.componentSer.componentValue$.subscribe(value => {
+      if (value !== undefined && _.indexOf(this.statefulStorageName, value) >= 0) {
+        const statefulConfig$ = this.statefulConfig;
+        if (value === '<主机路径>') {
+          this.statefulConfig[2]['divStyles'] = {
+            display: 'block'
+          };
+        } else {
+          this.statefulConfig[2]['divStyles'] = {
+            display: 'none'
+          };
+          this.statefulForm.value['volume_name'] = undefined;
+        }
+        this.statefulForm.setConfig(this.statefulConfig);
+      }
+    });
     // this.lbSub = this.componentSer.componentValue.subscribe(
     //   value => {
     //     console.log(value);
