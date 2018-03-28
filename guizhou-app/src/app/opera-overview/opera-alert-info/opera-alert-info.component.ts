@@ -95,7 +95,20 @@ export class OperaAlertInfoComponent implements OnInit, AfterViewChecked {
         ]
       };
       this.cdr.detectChanges();
+    } else {
+      if (this.alertState.alertingState === null) {
+        this.alertState.alertingState = 0;
+      }
+
+      if (this.alertState.nodataState === null) {
+        this.alertState.nodataState = 0;
+      }
+
+      if (this.alertState.okState === null) {
+        this.alertState.okState = 0;
+      }
     }
+
   }
 
 }
