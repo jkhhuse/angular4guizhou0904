@@ -80,6 +80,8 @@ import { RequestInterceptor } from './util/request/request.interceptor';
 import { AppEnvArgComponent } from './app-env-arg/app-env-arg.component';
 import { AppEnvArgDetailComponent } from './app-env-arg/app-env-arg-detail/app-env-arg-detail.component';
 import { GrayDeployComponent } from './gray-deploy/gray-deploy.component';
+import { AppInstanceDetailEnvFileComponent } from './app-instance-detail-detail/app-env-file/app-env-file.component';
+import { AppInstanceDetailConfigFileComponent } from './app-instance-detail-detail/app-config-file/app-config-file.component';
 
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -141,7 +143,9 @@ export function createTranslateHttpLoader(http: HttpClient) {
         ConfigFileComponent,
         AppEnvArgComponent,
         AppEnvArgDetailComponent,
-        GrayDeployComponent
+        GrayDeployComponent,
+        AppInstanceDetailEnvFileComponent,
+        AppInstanceDetailConfigFileComponent
     ],
     imports: [
         BrowserModule,
