@@ -45,17 +45,17 @@ export class AppEnvArgComponent implements OnInit {
   ngOnInit() {
     this.searchOptions = [];
     this.validateForm = this.fb.group({
-      name       : [ null, [ Validators.required ] ],
-      desc       : [ null, [ Validators.required ] ],
+      name       : [ null, [ Validators.required, Validators.minLength(4), Validators.maxLength(24), Validators.pattern('\\w+')] ],
+      desc       : [ null, [ Validators.required, Validators.maxLength(80) ] ],
       content    : [ null, [ Validators.required ] ],
       // selectedOption: [ this.selectedOption ]
     });
-    this.updateValidateForm = this.fb.group({
-      name       : [ null, [ Validators.required ] ],
-      desc       : [ null, [ Validators.required ] ],
-      content    : [ null, [ Validators.required ] ]
-    });
     this.currentPage = 1;
+    this.updateValidateForm = this.fb.group({
+      name       : [ null, [ Validators.required, Validators.minLength(4), Validators.maxLength(24)] ],
+      desc       : [ null, [ Validators.required, Validators.maxLength(80) ] ],
+      content    : [ null, [ Validators.required ] ],
+    });
     this.pageSize = 10;
     this.dataSet = [];
     this.total = 0;
@@ -112,13 +112,8 @@ export class AppEnvArgComponent implements OnInit {
     for (const i of Object.keys(this.validateForm.controls)) {
       this.validateForm.controls[ i ].markAsDirty();
     }
-    let isValid = true;
-    for (const value of Object.values(this.validateForm.value)) {
-      if (value === '') {
-        isValid = false;
-      }
-    }
-    if (isValid) {
+
+    if (this.validateForm.valid) {
       // 验证通过, 组装reqbody
       const name = this.validateForm.value['name'];
       const tempContent = this.validateForm.value['content'];
@@ -136,8 +131,9 @@ export class AppEnvArgComponent implements OnInit {
       reqbody.description = desc;
       reqbody.name = name;
       reqbody.content = content;
-
       this.createEnvFile(reqbody);
+    } else {
+      return;
     }
   }
 
@@ -150,13 +146,7 @@ export class AppEnvArgComponent implements OnInit {
     for (const i of Object.keys(this.updateValidateForm.controls)) {
       this.updateValidateForm.controls[ i ].markAsDirty();
     }
-    let isValid = true;
-    for (const value of Object.values(this.updateValidateForm.value)) {
-      if (value === '') {
-        isValid = false;
-      }
-    }
-    if (isValid) {
+    if (this.updateValidateForm.valid) {
       // 验证通过, 组装reqbody
       const name = this.updateValidateForm.value['name'];
       const tempContent = this.updateValidateForm.value['content'];
@@ -175,6 +165,8 @@ export class AppEnvArgComponent implements OnInit {
       reqbody.content = content;
 
       this.updateEnvFile(name, reqbody);
+    } else {
+      return;
     }
   }
 
@@ -190,6 +182,10 @@ export class AppEnvArgComponent implements OnInit {
 
   getFormControl(name) {
     return this.validateForm.controls[ name ];
+  }
+
+  getUpdateFormControl(name) {
+    return this.updateValidateForm.controls[ name ];
   }
 
   // 选择环境变量模板填入到环境变量内容中
@@ -252,9 +248,9 @@ export class AppEnvArgComponent implements OnInit {
           }
         });
         this.updateValidateForm = this.fb.group({
-          name       : [ envfileName, [ Validators.required ] ],
-          desc       : [ res.backend_return.description, [ Validators.required ] ],
-          content    : [ tempContent, [ Validators.required ] ]
+          name       : [ envfileName, [ Validators.required, Validators.minLength(4), Validators.maxLength(24)] ],
+          desc       : [ res.backend_return.description, [ Validators.required, Validators.maxLength(80) ] ],
+          content    : [ tempContent, [ Validators.required ] ],
         });
         this.isUpdateModalVisible = true;
       },
@@ -294,6 +290,13 @@ export class AppEnvArgComponent implements OnInit {
     .subscribe(
       (res) => {
         this.isCreateModalVisible = false;
+        // 重置创建变量创建模态框数据
+        this.validateForm = this.fb.group({
+          name       : [ null, [ Validators.required, Validators.minLength(4), Validators.maxLength(24)] ],
+          desc       : [ null, [ Validators.required, Validators.maxLength(80) ] ],
+          content    : [ null, [ Validators.required ] ],
+          // selectedOption: [ this.selectedOption ]
+        });
         this.getEnvFiles(this.searchValue);
       },
       error => {
@@ -313,6 +316,11 @@ export class AppEnvArgComponent implements OnInit {
     .subscribe(
       (res) => {
         this.isUpdateModalVisible = false;
+        this.updateValidateForm = this.fb.group({
+          name       : [ null, [ Validators.required, Validators.minLength(4), Validators.maxLength(24)] ],
+          desc       : [ null, [ Validators.required, Validators.maxLength(80) ] ],
+          content    : [ null, [ Validators.required ] ],
+        });
       },
       error => {
         console.log(error);
