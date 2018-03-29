@@ -166,10 +166,20 @@ export class OperaEventComponent implements OnInit {
     } else {
       this.countsData = [];
       this.operateTimeData = [];
-      for (let i = -29; i <= 0; i++) {
-        this.countsData.push(0);
-        this.operateTimeData.push(this.getDay(i));
-        this.getEventOption();
+      // 月
+      if (this.selectedTime.value === 'month') {
+        for (let i = -29; i <= 0; i++) {
+          this.countsData.push(0);
+          this.operateTimeData.push(this.getDay(i));
+          this.getEventOption();
+        }
+      } else {
+        // 周
+        for (let i = -6; i <= 0; i++) {
+          this.countsData.push(0);
+          this.operateTimeData.push(this.getDay(i));
+          this.getEventOption();
+        }
       }
     }
   }
