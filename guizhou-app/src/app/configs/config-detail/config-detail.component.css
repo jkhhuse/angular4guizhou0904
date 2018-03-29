@@ -58,3 +58,7 @@
 .addConfigBtn{
   margin: 10px 0px;
 }
+pre {
+  background: #fff;
+  color: rgba(0, 0, 0, 0.65);
+}

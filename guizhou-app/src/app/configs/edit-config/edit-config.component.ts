@@ -34,10 +34,11 @@ export class EditConfigComponent implements OnInit {
       inputType: 'textarea',
       rows: 8,
       styles: {
-        'width': '400px',
-        'height': '400px',
-        'min-height': '400px'
+        // 'width': '400px',
+        // 'height': '400px',
+        // 'min-height': '400px'
       },
+      nzStyles: 12
     },
     {
       label: '确定',
@@ -62,7 +63,10 @@ export class EditConfigComponent implements OnInit {
   ngAfterViewInit() {
     // setTimeout(() => {
     console.log('form11', this.form.controls);
-    this.form.setDisabled('submit', true);
+    // if (this.form.value['configValue'] !== undefined || this.form.value['configValue'] !== '') {
+    //   this.form.setDisabled('submit', false);
+    // }
+    // this.form.setDisabled('submit', true);
     // }, 0);
     let previousValid = this.form.valid;
     this.form.changes.subscribe(() => {

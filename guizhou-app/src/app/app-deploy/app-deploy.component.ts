@@ -1644,7 +1644,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     const keyList = ['', 1, 11, 111, 1111];
     const lbArr = [];
     const lbId = [];
-    const lbPorts = [];
+    let lbPorts = [];
     const lbAddress$ = [];
     this.configFileData0 = _.map(this.configFileData0, (value, key) => {
       delete value.valueKey;
@@ -1746,6 +1746,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
             lbPorts[key] = parseInt(this.judgeFunc(key1, 'loadBanlancerForm').value['container_port' + value]);
           }
           console.log(lbArr, lbPorts);
+          lbPorts = _.compact(lbPorts);
           // lbArr[key]['container_port'] = this.loadBanlancerForm.value['container_port' + value];
         });
         console.log(this.env1Enty);
@@ -1763,13 +1764,19 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         // tab1，填配置，tab2，填配置，然后直接下一步
         console.log(this.env1Enty, this.imageData);
         this.repositoryId = value1['id'];
-        const lbArr$ = [];
+        let lbArr$ = [];
         _.map(lbId, (value3, key3) => {
           lbArr$[key3] = {
             load_balancer_id: value3,
             listeners: [lbArr[key3]]
           };
         });
+        _.map(lbArr$, (value5, key5) => {
+          if (value5['load_balancer_id'] === undefined) {
+            delete lbArr$[key5];
+          }
+        });
+        lbArr$ = _.compact(lbArr$);
         console.log(this.judgeFuncStateful(key1, 'data'));
         _.map(this.judgeFuncStateful(key1, 'data'), (value, key) => {
           if (value['volume_id'] === '<主机路径>') {

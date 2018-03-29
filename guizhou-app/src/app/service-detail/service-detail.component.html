@@ -228,7 +228,7 @@
 <nz-modal [nzVisible]="isVisible" [nzTitle]="'操作确认'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
     <ng-template #modalContent>
         <p>您是否确定删除{{deleteName}}</p>
-        <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="text-align: center;">
+        <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="display: block">
         </nz-spin>
 
     </ng-template>

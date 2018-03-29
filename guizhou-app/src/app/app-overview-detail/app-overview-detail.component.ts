@@ -922,6 +922,7 @@ export class AppOverviewDetailComponent implements OnInit {
     this.putRealUpdateRX().subscribe((data) => {
       console.log(data);
       this.createNotification('success', '正式升级成功', '正式升级成功');
+      this.getGrayDataSet();
       this.isRealUpdateVisible = false;
     },
       err => {
@@ -936,6 +937,7 @@ export class AppOverviewDetailComponent implements OnInit {
     this.putRealCancelRX().subscribe((data) => {
       console.log(data);
       this.createNotification('success', '回滚成功', '回滚成功');
+      this.getGrayDataSet();
       this.isRealCancelVisible = false;
     },
       err => {

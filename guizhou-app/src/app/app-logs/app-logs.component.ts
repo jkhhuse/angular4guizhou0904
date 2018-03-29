@@ -45,10 +45,21 @@ export class AppLogsComponent implements OnInit {
   }
   refreshConsoleData() {
     // 没有实例名称，是应用详情的日志/apiApp
-    const params = new HttpParams()
+    let params;
+    if (this.query_string === undefined) {
+      params = new HttpParams()
+        .append('end_time', (this.end_time / 1000).toString())
+        .append('start_time', ((this.end_time - this.selectedOption.value) / 1000).toString());
+    } else {
+      params = new HttpParams()
         .append('end_time', (this.end_time / 1000).toString())
         .append('start_time', ((this.end_time - this.selectedOption.value) / 1000).toString())
         .append('query_string', this.query_string);
+    }
+    // const params = new HttpParams()
+    //     .append('end_time', (this.end_time / 1000).toString())
+    //     .append('start_time', ((this.end_time - this.selectedOption.value) / 1000).toString())
+    //     .append('query_string', this.query_string);
     if (this.moduleName === 'apiApp') {
       this.consoleDatas = [];
       this.http.get<any>(environment.apiApp + '/apiApp' + '/application-instance-microservices/' + this.appId + '/logs',
@@ -87,11 +98,17 @@ export class AppLogsComponent implements OnInit {
 
   getConsoleData() {
     // 没有实例名称，是应用详情的日志/apiApp
-    const params = new HttpParams()
+    let params;
+    if (this.query_string === undefined) {
+      params = new HttpParams()
+        .append('end_time', (this.end_time / 1000).toString())
+        .append('start_time', ((this.end_time - this.selectedOption.value) / 1000).toString());
+    } else {
+      params = new HttpParams()
         .append('end_time', (this.end_time / 1000).toString())
         .append('start_time', ((this.end_time - this.selectedOption.value) / 1000).toString())
-        .append('query_string', this.query_string)
-        .append('limit', (this.limit).toString());
+        .append('query_string', this.query_string);
+    }
     if (this.moduleName === 'apiApp') {
       this.consoleDatas = [];
       this.http.get<any>(environment.apiApp + '/apiApp' + '/application-instance-microservices/' + this.appId + '/logs',
