@@ -86,10 +86,10 @@
           </div>
         </td>
         <td nz-td>
-          <a href="" *ngIf="module === 'repository'" [class.disabled]="data.isEnable === 0">启动</a>
+          <a href="" *ngIf="module === 'repository'" disabled="disabled">启动</a>
           <a href="" *ngIf="module === 'app'" [routerLink]="['/appDeploy', data.id]" [class.disabled]="data.isEnable === 0">普通部署</a>
           <a [class.disabled]="grayDisabled(i) || data.isEnable === 0 || data.grayEnabled === 0" href="" *ngIf="module === 'app'" [routerLink]="['/grayDeploy', data.id, data.appName]">灰度部署</a>
-          <a href="" [class.disabled]="data.isEnable === 0">同步</a>
+          <a href="" disabled="disabled">同步</a>
           <!--
                               <a *ngIf="module === 'app'" (click)="deleteVersion(module, data.id)">删除</a>
           -->
@@ -132,7 +132,7 @@
           (nzOnOk)="handleOk($event)" [nzConfirmLoading]="isConfirmLoading">
   <ng-template #modalContent>
     <p>您是否确定删除{{name}}的{{deleteName}}版本？</p>
-    <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="text-align: center;">
+    <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="display: block">
     </nz-spin>
 
   </ng-template>

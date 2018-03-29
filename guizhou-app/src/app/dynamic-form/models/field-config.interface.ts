@@ -20,5 +20,6 @@ export interface FieldConfig {
     buttonDis?: any,
     selectedOption?: any,
     valueUpdate?: boolean
-    rows?: number
+    rows?: number,
+    nzStyles?: any
 }

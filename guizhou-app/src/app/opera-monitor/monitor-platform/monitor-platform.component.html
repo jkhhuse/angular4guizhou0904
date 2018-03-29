@@ -45,7 +45,7 @@
 <nz-modal [nzVisible]="isDeletePanelVisible" [nzTitle]="'删除监控面板'" [nzContent]="deletePanel" (nzOnCancel)="cancelDeletePanel($event)" (nzOnOk)="agreeDeletePanel($event)">
     <ng-template #deletePanel>
         <p>已选择监控面板实例：{{deleteName}}，是否确定删除？</p>
-        <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中...'" style="text-align: center;">
+        <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中...'" style="display: block">
         </nz-spin>
     </ng-template>
 </nz-modal>

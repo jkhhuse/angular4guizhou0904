@@ -57,7 +57,7 @@ export class RepositoryDetailComponent implements OnInit {
     },
     {
       index: 2,
-      name: '项目名称',
+      name: '项目',
     },
     {
       index: 3,
@@ -144,10 +144,10 @@ export class RepositoryDetailComponent implements OnInit {
     status = '';
     console.log('删除版本：' + name + '  ' + versionId);
     this.http.delete(environment.apiApp +
-       '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + versionId).subscribe((data1) => {
-      status = data1['status'].toString();
-      console.log('调用后status：' + status);
-      if (status === '204') {
+      '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + versionId).subscribe((data1) => {
+        // status = data1['status'].toString();
+        // console.log('调用后status：' + status);
+        // if (status === '204') {
         this._isSpinning = true;
         setTimeout(() => {
           this.isVisible = false;
@@ -168,11 +168,14 @@ export class RepositoryDetailComponent implements OnInit {
           });
           this._isSpinning = false;
         }, 3000);
-      } else {
+        // } else {
+        //   this.isVisible = false;
+        //   alert('删除失败');
+        // }
+      }, err => {
         this.isVisible = false;
         alert('删除失败');
-      }
-    });
+      });
   }
 
   showModal = (name, id) => {
@@ -221,7 +224,7 @@ export class RepositoryDetailComponent implements OnInit {
         } else {
           this.mirrorVersions = data.images.opRepository;
           this.firstVersionId = data.images.opRepository[0].id;
-          this.firstVersionVersion = data.images.opRepository[0].version;
+          this.firstVersionVersion = data.imageUrl;
         }
       });
     } else if (this.module === 'app') {

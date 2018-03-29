@@ -265,6 +265,7 @@ export class AppReleaseComponent implements OnInit {
         label: '应用名称',
         name: 'appName',
         placeholder: '请输入应用名称',
+        validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
         styles: {
           'width': '400px'
         }
@@ -276,6 +277,7 @@ export class AppReleaseComponent implements OnInit {
         label: '应用名称',
         name: 'appName',
         defaultValue: this.appName,
+        validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/), Validators.maxLength(20)],
         inputDisabled: true,
         styles: {
           'width': '400px'
