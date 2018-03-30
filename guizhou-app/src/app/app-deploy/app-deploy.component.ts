@@ -842,7 +842,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     }
   }
 
-  judgeFunc(i, type) {
+  judgeFunc(i, type): any {
     if (type === 'formSecond') {
       if (i === 0) {
         return this.formSecondProject0;
@@ -2043,23 +2043,23 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         });
         // // mock 多镜像
         // TODO: ttest
-        // this.images[1] = {
-        //   createTime: 1520956951000,
-        //   createUserId: 0,
-        //   deleted: 0,
-        //   description: '',
-        //   groupId: 61,
-        //   id: 'e5ba5451-a88c-495f-829f-95b3e3c6e931',
-        //   isApp: 0,
-        //   isEnable: 1,
-        //   epositoryName: 'images1',
-        //   repositorySrvId: 0,
-        //   size: 1,
-        //   updateTime: 1520956952000,
-        //   updateUserId: 0,
-        //   version: 'version0.0.5'
-        // };
-        // this.imageTabs[1] = 'images1';
+        this.images[1] = {
+          createTime: 1520956951000,
+          createUserId: 0,
+          deleted: 0,
+          description: '',
+          groupId: 61,
+          id: 'e5ba5451-a88c-495f-829f-95b3e3c6e931',
+          isApp: 0,
+          isEnable: 1,
+          epositoryName: 'images1',
+          repositorySrvId: 0,
+          size: 1,
+          updateTime: 1520956952000,
+          updateUserId: 0,
+          version: 'version0.0.5'
+        };
+        this.imageTabs[1] = 'images1';
         // // mock 多镜像
         resolve();
       });
@@ -2312,19 +2312,26 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     // await this.getnetworkAdvanced();
   }
 
-  deleteClick1(type, i) {
+  deleteFunc(type, i, k) {
     if (type === 'lb') {
       console.log(i, this.lbControlArray, this.loadBanlancerForm);
-      const deleteArr = _.pullAt(this.lbControlArray, i);
+      const deleteArr = _.pullAt(this.judgeFuncLbControl(k), i);
       console.log(this.lbControlArray, this.loadBanlancerForm);
       _.map(deleteArr, (value1, key1) => {
         _.map(value1, (value2, key2) => {
-          this.loadBanlancerForm.removeControl(value2['name']);
+          this.judgeFuncLb(k).removeControl(value2['name']);
         });
       });
       console.log(this.loadBanlancerForm);
-    } else if (type === 'log') {
-      console.log('deleteclick', this.logFormConfig);
+    } else if (type === 'env') {
+      // console.log('deleteclick', this.logFormConfig);
+      console.log('环境变量');
+      const deleteArr = _.pullAt(this.judgeFuncEnv(k, 'config'), i);
+      _.map(deleteArr, (value1, key1) => {
+        _.map(value1, (value2, key2) => {
+          this.judgeFuncEnv(k, 'env').removeControl(value2['name']);
+        });
+      });
     }
   }
 
