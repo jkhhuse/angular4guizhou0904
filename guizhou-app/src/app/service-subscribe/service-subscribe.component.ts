@@ -1365,7 +1365,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     console.log('服务订购成功', data);
                     this.confirmServ.success({
                         maskClosable: false,
-                        title: '服务订购成功!',
+                        title: '服务启动成功!',
                         content: '点确认按钮跳转到服务实例',
                         okText: '确定',
                         onOk() {
