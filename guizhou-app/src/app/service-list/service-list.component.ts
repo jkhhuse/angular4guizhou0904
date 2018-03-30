@@ -4,8 +4,8 @@ import {Services, ServicesService} from '../shared/services.service';
 import 'rxjs/Rx';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import {FormControl} from '@angular/forms';
-import {environment} from "../../environments/environment";
-import {NzModalService} from "ng-zorro-antd";
+import {environment} from '../../environments/environment';
+import {NzModalService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-service-list',
@@ -151,6 +151,10 @@ export class ServiceListComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    setTimeout(() => {
+      this.services = this.servicesService.getServices(this.tabName, this.moduleName);
+    }, 2000);
+    // this.services = this.servicesService.getServices(this.tabName, this.moduleName);
     this.appimgUrl = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/files/app/fileName/';
 
     /* this.servicesService.getServices().subscribe((data) => {
