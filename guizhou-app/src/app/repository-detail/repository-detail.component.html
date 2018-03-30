@@ -20,7 +20,8 @@
   <div nz-row class="detail-desc-wrapper">
     <div nz-col [nzSpan]="12" class="detail-12col  first-line">
       <div class="detail-line">
-        <span>版本编号</span>
+        <span *ngIf='module === "app"'>版本编号</span>
+        <span *ngIf='module === "repository"'>镜像地址</span>
         <span *ngIf="mirrorDetail" class="detail-line-value">{{firstVersionVersion}}</span></div>
     </div>
     <div nz-col [nzSpan]="12" class="detail-12col first-line">

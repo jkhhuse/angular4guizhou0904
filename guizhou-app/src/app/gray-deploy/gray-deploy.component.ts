@@ -2048,23 +2048,23 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
           return value['serviceName'];
         });
         // // mock 多镜像
-        this.images[1] = {
-          createTime: 1520956951000,
-          createUserId: 0,
-          deleted: 0,
-          description: '',
-          groupId: 61,
-          id: 'e5ba5451-a88c-495f-829f-95b3e3c6e931',
-          isApp: 0,
-          isEnable: 1,
-          epositoryName: 'images1',
-          repositorySrvId: 0,
-          size: 1,
-          updateTime: 1520956952000,
-          updateUserId: 0,
-          version: 'version0.0.5'
-        };
-        this.imageTabs[1] = 'images1';
+        // this.images[1] = {
+        //   createTime: 1520956951000,
+        //   createUserId: 0,
+        //   deleted: 0,
+        //   description: '',
+        //   groupId: 61,
+        //   id: 'e5ba5451-a88c-495f-829f-95b3e3c6e931',
+        //   isApp: 0,
+        //   isEnable: 1,
+        //   epositoryName: 'images1',
+        //   repositorySrvId: 0,
+        //   size: 1,
+        //   updateTime: 1520956952000,
+        //   updateUserId: 0,
+        //   version: 'version0.0.5'
+        // };
+        // this.imageTabs[1] = 'images1';
         // // mock 多镜像
         resolve();
       });
