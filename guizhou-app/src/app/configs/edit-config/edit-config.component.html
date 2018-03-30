@@ -3,20 +3,20 @@
     <nz-header style="line-height:32px">
       <a style="font-size: 16px" [routerLink]="['/configDetail', configID]">
         <返回</a>
-      <p style="font-size: 16px">编辑配置项</p>
+          <p style="font-size: 16px">编辑配置项</p>
     </nz-header>
     <nz-content>
       <div nz-row>
-        <div _ngcontent-c12="" nz-col="" style="text-align: right;" class="ant-col-4" ng-reflect-nz-span="4">
+        <div _ngcontent-c12="" nz-col [nzSpan]="4" style="text-align: right;" class="ant-col-4" ng-reflect-nz-span="4">
           <label class="edit-config-label">
             键
             <span _ngcontent-c12="" style="color: red">*</span>
           </label>
         </div>
-        <div style="margin-left: 10px;margin-bottom: 10px;" class="ant-col-18 ant-form-item-control-wrapper">
+        <div nz-col [nzSpan]="12" style="margin-left: 10px;margin-bottom: 10px;" class="ant-col-18 ant-form-item-control-wrapper">
           <div class="ant-form-item-control">
             <div nz-col="" class="ant-col-8" style="color: #555">
-               {{configKey}}
+              {{configKey}}
             </div>
           </div>
         </div>
@@ -24,13 +24,15 @@
           <label>键</label>
           <input type="text" class="form-control" disabled value='configID'>{{configID}}
         </div>-->
-        <dynamic-form [config]="formConfig" (submit)="submit($event)">
-        </dynamic-form>
         <!-- <span>
           <button nz-button [nzType]="'default'" (click)="pre()">
             <span>取消</span>
           </button>
         </span> -->
+      </div>
+      <div nz-row>
+        <dynamic-form [config]="formConfig" (submit)="submit($event)">
+        </dynamic-form>
       </div>
     </nz-content>
     <nz-footer>
