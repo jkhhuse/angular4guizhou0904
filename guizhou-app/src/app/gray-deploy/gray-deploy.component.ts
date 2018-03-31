@@ -1869,7 +1869,7 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
         console.log('应用部署成功', data);
         this.confirmServ.success({
           maskClosable: false,
-          title: '应用部署成功!',
+          title: '灰度部署成功!',
           content: '点确认按钮跳转到应用商城',
           okText: '确定',
           onOk() {
