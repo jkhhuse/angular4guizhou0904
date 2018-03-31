@@ -466,6 +466,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   statefulData2 = [];
   statefulData3 = [];
   statefulData4 = [];
+  statefulDataEnt0 = [];
+  statefulDataEnt1 = [];
+  statefulDataEnt2 = [];
+  statefulDataEnt3 = [];
+  statefulDataEnt4 = [];
   statefulStorage = [];
   statefulStorageName = [];
   volume_id$;
@@ -586,6 +591,10 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   mysqlOption = [];
   redisOption = [];
   zookeeperOption = [];
+  dubboOption = [];
+  spring_eurekaOption = [];
+  memcachedOption = [];
+  mongodbOption = [];
   formThird5Map;
   formThird5Data: object = {};
   formThird5: object[] = [
@@ -619,6 +628,54 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       name: 'service_zookeeper',
       options: [],
       placeholder: '请选择依赖的zookeeper服务!',
+      // validation: [Validators.required],
+      notNecessary: true,
+      styles: {
+        'width': '400px'
+      },
+    },
+    {
+      type: 'select',
+      label: 'dubbo服务',
+      name: 'service_dubbo',
+      options: [],
+      placeholder: '请选择依赖的dubbo服务!',
+      // validation: [Validators.required],
+      notNecessary: true,
+      styles: {
+        'width': '400px'
+      },
+    },
+    {
+      type: 'select',
+      label: 'spring_eureka服务',
+      name: 'service_spring_eureka',
+      options: [],
+      placeholder: '请选择依赖的spring_eureka服务!',
+      // validation: [Validators.required],
+      notNecessary: true,
+      styles: {
+        'width': '400px'
+      },
+    },
+    {
+      type: 'select',
+      label: 'memcached服务',
+      name: 'service_memcached',
+      options: [],
+      placeholder: '请选择依赖的memcached服务!',
+      // validation: [Validators.required],
+      notNecessary: true,
+      styles: {
+        'width': '400px'
+      },
+    },
+    {
+      type: 'select',
+      label: 'mongodb服务',
+      name: 'service_mongodb',
+      options: [],
+      placeholder: '请选择依赖的mongodb服务!',
       // validation: [Validators.required],
       notNecessary: true,
       styles: {
@@ -669,6 +726,18 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         return this.serviceType3;
       } else if (i === 4) {
         return this.serviceType4;
+      }
+    } else if (type === 'dataEnt') {
+      if (i === 0) {
+        return this.statefulDataEnt0;
+      } else if (i === 1) {
+        return this.statefulDataEnt1;
+      } else if (i === 2) {
+        return this.statefulDataEnt2;
+      } else if (i === 3) {
+        return this.statefulDataEnt3;
+      } else if (i === 4) {
+        return this.statefulDataEnt4;
       }
     }
   }
@@ -1578,6 +1647,14 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           serviceIdData[key] = value['id'];
         } else if (value['instanceName'] === this.formThird5Project.value['service_zookeeper']) {
           serviceIdData[key] = value['id'];
+        } else if (value['instanceName'] === this.formThird5Project.value['service_dubbo']) {
+          serviceIdData[key] = value['id'];
+        } else if (value['instanceName'] === this.formThird5Project.value['service_spring_eureka']) {
+          serviceIdData[key] = value['id'];
+        } else if (value['instanceName'] === this.formThird5Project.value['service_memcached']) {
+          serviceIdData[key] = value['id'];
+        } else if (value['instanceName'] === this.formThird5Project.value['service_mongodb']) {
+          serviceIdData[key] = value['id'];
         }
       });
       console.log('这是serviceIdData', serviceIdData);
@@ -1778,7 +1855,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         });
         lbArr$ = _.compact(lbArr$);
         console.log(this.judgeFuncStateful(key1, 'data'));
-        _.map(this.judgeFuncStateful(key1, 'data'), (value, key) => {
+        _.map(this.judgeFuncStateful(key1, 'dataEnt'), (value, key) => {
           if (value['volume_id'] === '<主机路径>') {
             value['volume_id'] = 'host_path';
           } else {
@@ -1790,6 +1867,19 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
             });
           }
         });
+        if (this.judgeFuncStateful(key1, 'radio') === 'stateless') {
+          if (key1 === 0) {
+            this.statefulDataEnt0 = [];
+          } else if (key1 === 1) {
+            this.statefulDataEnt1 = [];
+          } else if (key1 === 2) {
+            this.statefulDataEnt2 = [];
+          } else if (key1 === 3) {
+            this.statefulDataEnt3 = [];
+          } else if (key1 === 4) {
+            this.statefulDataEnt4 = [];
+          }
+        }
         console.log(this.judgeFuncStateful(key1, 'data'));
         this.imageData[key1] = {
           storageSize: 0,
@@ -1807,7 +1897,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           // todo instance这里数据有问题
           instance_envvars: _.isEqual(this.env1Enty[key1], {}) ? undefined : this.env1Enty[key1],
           microserviceConfigs: this.judgeFuncConfigFile(key1, 'data').length > 0 ? this.judgeFuncConfigFile(key1, 'data') : undefined,
-          volumes: this.judgeFuncStateful(key1, 'data').length > 0 ? this.judgeFuncStateful(key1, 'data') : undefined
+          volumes: this.judgeFuncStateful(key1, 'dataEnt').length > 0 ? this.judgeFuncStateful(key1, 'dataEnt') : undefined
         };
       }
     });
@@ -2278,6 +2368,12 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       volume_name: this.statefulForm.value['volume_name'],
       // valueKey: this.configKeyValue2
     };
+    this.judgeFuncStateful(this.activeImage, 'dataEnt')[this.judgeFuncStateful(this.activeImage, 'dataEnt').length] = {
+      app_volume_dir: this.statefulForm.value['app_volume_dir'],
+      volume_id: this.statefulForm.value['volume_id'],
+      volume_name: this.statefulForm.value['volume_name'],
+      // valueKey: this.configKeyValue2
+    };
     console.log(this.configFileData, this.statefulData0);
   }
 
@@ -2544,36 +2640,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     return new Promise((resolve, reject) => {
       this.http.get<any>(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') + '/volumes').subscribe(data => {
         console.log('存储卷', data);
-        const data$ = [
-          {
-            'clusterName': 'ebd',
-            'createTime': '2018-03-28T01:18:10.814Z',
-            'groupId': 0,
-            'id': '1',
-            'size': 0,
-            'state': 'available',
-            'volumeName': 'vol1'
-          },
-          {
-            'clusterName': 'ebd2',
-            'createTime': '2018-03-28T01:18:10.815Z',
-            'groupId': 0,
-            'id': '2',
-            'size': 0,
-            'state': 'string',
-            'volumeName': 'vol2'
-          },
-          {
-            'clusterName': 'ebd3',
-            'createTime': '2018-03-28T01:18:10.814Z',
-            'groupId': 0,
-            'id': '1',
-            'size': 0,
-            'state': 'available',
-            'volumeName': 'vol1'
-          },
-        ];
-        data = _.map(data$, (value, key) => {
+        data = _.map(data, (value, key) => {
           if (value['state'] === 'available') {
             return value;
           }
@@ -2589,7 +2656,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         this.statefulStorageName = _.map(data, (value, key) => {
           return value['volumeName'];
         });
-        this.statefulStorageName.unshift('<主机路径>');
+        // 暂时不支持这种模式，以后支持了再加上
+        // this.statefulStorageName.unshift('<主机路径>');
         resolve();
       });
     });
@@ -2661,32 +2729,56 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
             });
             // this.zookeeperOption[key] = value['instanceName'];
             // console.log(this.zookeeperOption);
+          } else if (value['serviceName'] === 'dubbo') {
+            _.map(values[1], (value1, key1) => {
+              if (value1['serviceName'] === 'dubbo') {
+                this.dubboOption[key1] = value1['instanceName'];
+              }
+            });
+          } else if (value['serviceName'] === 'spring_eureka') {
+            _.map(values[1], (value1, key1) => {
+              if (value1['serviceName'] === 'spring_eureka') {
+                this.spring_eurekaOption[key1] = value1['instanceName'];
+              }
+            });
+          } else if (value['serviceName'] === 'memcached') {
+            _.map(values[1], (value1, key1) => {
+              if (value1['serviceName'] === 'memcached') {
+                this.memcachedOption[key1] = value1['instanceName'];
+              }
+            });
+          } else if (value['serviceName'] === 'mongodb') {
+            _.map(values[1], (value1, key1) => {
+              if (value1['serviceName'] === 'mongodb') {
+                this.mongodbOption[key1] = value1['instanceName'];
+              }
+            });
           }
         });
         // this.mysqlOption = _.compact(this.mysqlOption);
         // this.redisOption = _.compact(this.redisOption);
         // this.zookeeperOption = _.compact(this.zookeeperOption);
-        this.formThird5[0]['options'] = _.compact(this.mysqlOption);
-        this.formThird5[1]['options'] = _.compact(this.redisOption);
-        this.formThird5[2]['options'] = _.compact(this.zookeeperOption);
-        if (this.formThird5[0]['options'].length === 0) {
-          this.formThird5[0]['divStyles'] = {
-            'display': 'none'
-          };
-          this.formThird5[0]['validation'] = [];
-        }
-        if (this.formThird5[1]['options'].length === 0) {
-          this.formThird5[1]['divStyles'] = {
-            'display': 'none'
-          };
-          this.formThird5[0]['validation'] = [];
-        }
-        if (this.formThird5[2]['options'].length === 0) {
-          this.formThird5[2]['divStyles'] = {
-            'display': 'none'
-          };
-          this.formThird5[0]['validation'] = [];
-        }
+        const serviceOptions$ = [this.mysqlOption, this.redisOption, this.zookeeperOption, this.dubboOption, this.spring_eurekaOption,
+        this.memcachedOption, this.mongodbOption];
+        _.map(serviceOptions$, (value6, key6) => {
+          this.formThird5[key6]['options'] = _.compact(value6);
+        });
+        // this.formThird5[0]['options'] = _.compact(this.mysqlOption);
+        // this.formThird5[1]['options'] = _.compact(this.redisOption);
+        // this.formThird5[2]['options'] = _.compact(this.zookeeperOption);
+        // this.formThird5[3]['options'] = _.compact(this.dubboOption);
+        // this.formThird5[4]['options'] = _.compact(this.eurekaOption);
+        // this.formThird5[5]['options'] = _.compact(this.memcachedOption);
+        // this.formThird5[6]['options'] = _.compact(this.mongodbOption);
+        const serviceList$ = ['mysql', 'redis', 'zookeeper', 'dubbo', 'spring_eureka', 'memcached', 'mongodb'];
+        _.map(serviceList$, (value6, key6) => {
+          if (this.formThird5[key6]['options'].length === 0) {
+            this.formThird5[key6]['divStyles'] = {
+              'display': 'none'
+            };
+            this.formThird5[key6]['validation'] = [];
+          }
+        });
         this.formThird5Project.setConfig(this.formThird5);
         resolve();
         console.log('formThird5', this.formThird5);
