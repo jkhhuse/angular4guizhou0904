@@ -54,9 +54,9 @@ export class BuildImageCategoryComponent implements OnInit {
     }
   ];
   mirror_tabs2 = [
-     '其他','操作系统','运行环境','中间件','数据库','微服务框架','大数据','应用'
+     '其他', '操作系统','运行环境', '中间件', '数据库','微服务框架','大数据','应用'
   ];
-  radioValue: string = 'newImage';
+  radioValue = 'newImage';
   images: string[] = [];
   imageOriginId: string;
   imageCatelogyID: any;
@@ -68,7 +68,7 @@ export class BuildImageCategoryComponent implements OnInit {
       label: '镜像名称',
       name: 'imageName',
       placeholder: '请输入镜像名称',
-      validation: [Validators.required, Validators.pattern(/^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/i), Validators.maxLength(20)],
+      validation: [Validators.required, Validators.pattern(/^[a-z]([-a-z0-9]*[a-z0-9])?$/), Validators.maxLength(20)],
       styles: {
         'width': '400px'
       }
@@ -129,16 +129,16 @@ export class BuildImageCategoryComponent implements OnInit {
       const dataValue = data;
       this.imageOriginId = dataValue['id'];
       // this.imageOriginId = dataValue.id;
-    })
+    });
   }
 
   getImageCateGoryID(cateName) {
-    if(cateName == '' || cateName == null) {
+    if(cateName === '' || cateName == null) {
       return 0;
     }
     else{
-      for(let i=0; i<this.mirror_tabs.length; i++) {
-        if(this.mirror_tabs[i].name == cateName) {
+      for(let i =0; i < this.mirror_tabs.length; i++) {
+        if (this.mirror_tabs[i].name === cateName) {
           return this.mirror_tabs[i].index;
         }
       }
@@ -147,7 +147,7 @@ export class BuildImageCategoryComponent implements OnInit {
 
   createNotification = (type, title, content) => {
     this._notification.create(type, title, content);
-  };
+  }
 
   async submit(value: { [name: string]: any }) {
     await this.loadImage(value);
@@ -160,10 +160,10 @@ export class BuildImageCategoryComponent implements OnInit {
       return new Promise((resolve, reject) => {
         console.log('测试promise', this);
           this.http.post(environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/warehouse/dir/' + formValue.imageName, {
-            "categoryId": this.imageCatelogyID,
-            "description": formValue.description,
-            "isApp": false,
-            "registryId": this.imageOriginId,
+            'categoryId': this.imageCatelogyID,
+            'description': formValue.description,
+            'isApp': false,
+            'registryId': this.imageOriginId,
           }).subscribe(response => {
             console.log('这是response', response);
             const thisParent = this;
