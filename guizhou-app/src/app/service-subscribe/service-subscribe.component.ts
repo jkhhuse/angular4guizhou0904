@@ -371,7 +371,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         // mock iptag
         // this.ipTag$ = [1, 2, 3];
         _.map(this.formThird1, (value, key) => {
-            if (value['name'] === 'ip_tag') {
+            if (value['name'] === 'ip_tag' || value['name'] === 'node_tag') {
                 value['options'] = this.ipTag$;
             }
         });
