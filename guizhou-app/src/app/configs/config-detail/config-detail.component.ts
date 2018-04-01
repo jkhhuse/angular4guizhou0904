@@ -10,7 +10,7 @@ import set = Reflect.set;
 @Component({
   selector: 'app-config-detail',
   templateUrl: './config-detail.component.html',
-  styleUrls: ['./config-detail.component.css']
+  styleUrls: ['./config-detail.component.scss']
 })
 export class ConfigDetailComponent implements OnInit {
   // 标签名

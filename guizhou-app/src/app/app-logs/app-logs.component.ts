@@ -74,8 +74,7 @@ export class AppLogsComponent implements OnInit {
             this.consoleDatas['message'] = this.sanitizer.bypassSecurityTrustHtml(this.consoleDatas['message']);
           }
         }, err => {
-          console.log(err._body);
-          this.createNotification('error', '灰度状态详情失败', err._body);
+          this.createNotification('error', '获取日志信息失败', err._body);
         });
       // 有实例名称，是实例详情的日志/apiService
     } else {
@@ -91,7 +90,7 @@ export class AppLogsComponent implements OnInit {
           }
         }, err => {
           console.log(err._body);
-          this.createNotification('error', '灰度状态详情失败', err._body);
+          this.createNotification('error', '获取日志信息失败', err._body);
         });
     }
   }
@@ -122,7 +121,7 @@ export class AppLogsComponent implements OnInit {
           }
         }, err => {
           console.log(err._body);
-          this.createNotification('error', '灰度状态详情失败', err._body);
+          this.createNotification('error', '获取日志信息失败', err._body);
         });
       // 有实例名称，是实例详情的日志/apiService
     } else {
@@ -138,7 +137,7 @@ export class AppLogsComponent implements OnInit {
           }
         }, err => {
           console.log(err._body);
-          this.createNotification('error', '灰度状态详情失败', err._body);
+          this.createNotification('error', '获取日志信息失败', err._body);
         });
     }
   }

@@ -1,0 +1,8 @@
+.env-operation {
+    margin: 5px 0px 12px 0px;
+}
+
+:host ::ng-deep nz-table table {
+    table-layout: fixed;
+    word-break: break-all;
+}
