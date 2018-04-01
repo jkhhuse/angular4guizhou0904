@@ -3,24 +3,24 @@
       <span>添加配置文件</span>
     </button>
 </div>
-<nz-table #nzTable [nzScroll]="_fixHeader?{ y: 240 }:null" [nzDataSource]="_dataSet" [nzPageSize]="10" [nzBordered]="_bordered" [nzLoading]="_loading" [nzIsPagination]="_pagination" [nzShowFooter]="_footer" [nzShowTitle]="_title" [nzSize]="_size">
+<nz-table class="table1" #nzTable [nzScroll]="_fixHeader?{ y: 240 }:null" [nzDataSource]="_dataSet" [nzPageSize]="10" [nzBordered]="_bordered" [nzLoading]="_loading" [nzIsPagination]="_pagination" [nzShowFooter]="_footer" [nzShowTitle]="_title" [nzSize]="_size">
     <span nz-table-title>Here is Title</span>
     <ng-template #nzFixedHeader [ngIf]="_header&&!_fixHeader">
         <thead nz-thead>
             <tr>
-                <th nz-th [nzWidth]="'150px'"><span>配置名称</span></th>
-                <th nz-th [nzWidth]="'70px'"><span>键</span></th>
-                <th nz-th [nzWidth]="'360px'"><span>值</span></th>
-                <th nz-th><span>操作</span></th>
+                <th nz-th style="width: 10%"><span>配置名称</span></th>
+                <th nz-th style="width: 10%"><span>键</span></th>
+                <th nz-th style="width: 70%"><span>值</span></th>
+                <th nz-th style="width: 10%"><span>操作</span></th>
             </tr>
         </thead>
     </ng-template>
     <tbody nz-tbody>
         <tr nz-tbody-tr *ngFor="let data of nzTable.data; index as i">
-            <td nz-td>{{data.configName}}</td>
-            <td nz-td>{{data.key}}</td>
-            <td nz-td>{{data.value}}</td>
-            <td nz-td>
+            <td nz-td style="width: 10%">{{data.configName}}</td>
+            <td nz-td style="width: 10%">{{data.key}}</td>
+            <td nz-td style="width: 70%"><pre>{{data.value}}</pre></td>
+            <td nz-td style="width: 10%">
                 <span><a (click)="removeEnvFile(i)">删除</a></span>
             </td>
         </tr>
