@@ -62,6 +62,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   current = 0;
   // 第一个表单
   @ViewChild('formFirstProject') formFirstProject: DynamicFormComponent;
+  insNameValid$;
   formFirst: FieldConfig[] = [
     {
       type: 'input',
@@ -1357,17 +1358,27 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
         console.log('form222', this.formSecondProject);
         if (this.ifOninitCompleted === true) {
           if (this.radioValue === 'product') {
-            await this.getNetworkOptions(this.networkRadioValue);
-            await this.getnetworkAdvanced();
-            await this.getStateful(this.networkRadioValue);
-            this.statefulConfig[1]['options'] = this.statefulStorageName;
-            this.statefulForm.setConfig(this.statefulConfig);
+            await this.insNameValid(this.formFirstProject.value['instanceName']);
+            if (this.insNameValid$ === false) {
+              this.createNotification('error', '应用名称重复', '应用名称重复,请输入其他应用名称!');
+            } else {
+              await this.getNetworkOptions(this.networkRadioValue);
+              await this.getnetworkAdvanced();
+              await this.getStateful(this.networkRadioValue);
+              this.statefulConfig[1]['options'] = this.statefulStorageName;
+              this.statefulForm.setConfig(this.statefulConfig);
+            }
           } else {
-            await this.getNetworkOptions(this.networkRadioValue2);
-            await this.getnetworkAdvanced();
-            await this.getStateful(this.networkRadioValue2);
-            this.statefulConfig[1]['options'] = this.statefulStorageName;
-            this.statefulForm.setConfig(this.statefulConfig);
+            await this.insNameValid(this.formFirstProject.value['instanceName']);
+            if (this.insNameValid$ === false) {
+              this.createNotification('error', '应用名称重复', '应用名称重复,请输入其他应用名称!');
+            } else {
+              await this.getNetworkOptions(this.networkRadioValue2);
+              await this.getnetworkAdvanced();
+              await this.getStateful(this.networkRadioValue2);
+              this.statefulConfig[1]['options'] = this.statefulStorageName;
+              this.statefulForm.setConfig(this.statefulConfig);
+            }
           }
         } else {
           this.createNotification('warning', '需要获取集群列表', '请耐心等待2-3秒，集群列表获取成功之后即可正常部署!');
@@ -1576,7 +1587,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       //   break;
       // }
     }
-    if (this.ifOninitCompleted === true) {
+    if (this.ifOninitCompleted === true && this.insNameValid$ === true) {
       this.current += 1;
       this.changeContent();
     }
@@ -2837,6 +2848,16 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     private componentSer: ComponentServiceService, private servicesService: ServicesService, private _notification: NzNotificationService) {
   }
 
+  insNameValid(instanceName) {
+    return new Promise((resolve, reject) => {
+      this.http.get(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID')
+        + '/instance-name/' + instanceName + '/query').subscribe(data => {
+          console.log(data);
+          this.insNameValid$ = data['available'];
+          resolve();
+        });
+    });
+  }
   async ngOnInit() {
     // 这里this.getnetworkAdvanced();需要在networkOptions前后调用两次，不然会报错，可以优化
     // await this.getServiceBasic();

@@ -57,7 +57,7 @@
       </a>
                 </td>
                 <td nz-td>{{data.current_status}}</td>
-                <td nz-td>{{data.custom_instance_size.cpu}} 核 {{data.custom_instance_size.mem}} MB</td>
+                <td nz-td>{{data?.custom_instance_size?.cpu}} 核 {{data?.custom_instance_size?.mem}} MB</td>
                 <td nz-td>{{data.healthy_num_instances? data.healthy_num_instances : 0}} 个</td>
             </tr>
         </tbody>
