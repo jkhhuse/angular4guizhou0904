@@ -5,7 +5,7 @@ import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http'
 import { environment } from '../../../environments/environment';
 import { NzNotificationService } from 'ng-zorro-antd';
 import { ServicesService } from '../../shared/services.service';
-import { FormBuilder, FormGroup,  FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { create } from 'domain';
 
 @Component({
@@ -34,22 +34,24 @@ export class AppInstanceDetailEnvFileComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private http: HttpClient, private servicesService: ServicesService) {
     this.validateForm = this.fb.group({
-      key            : [ '', [ Validators.required ] ],
-      value          : [ '', [ Validators.required ] ]
+      key: ['', [Validators.required]],
+      value: ['', [Validators.required]]
     });
   }
 
   ngOnInit() {
     this.appId = this.mirrorDetail.id;
-    for (const key in this.mirrorDetail.info.instance_envvars) {
-      // 后端对__ALAUDA_FILE_LOG_PATH__值做了特殊要求：
-      // 1. 不可以在界面中显示 2. 提交时回传值
-      if (key !== '__ALAUDA_FILE_LOG_PATH__') {
-        const _obj = {
-          key: key,
-          value: this.mirrorDetail.info.instance_envvars[key]
-        };
-        this._dataSet.push(_obj);
+    if (this.mirrorDetail.info !== undefined) {
+      for (const key in this.mirrorDetail.info.instance_envvars) {
+        // 后端对__ALAUDA_FILE_LOG_PATH__值做了特殊要求：
+        // 1. 不可以在界面中显示 2. 提交时回传值
+        if (key !== '__ALAUDA_FILE_LOG_PATH__') {
+          const _obj = {
+            key: key,
+            value: this.mirrorDetail.info.instance_envvars[key]
+          };
+          this._dataSet.push(_obj);
+        }
       }
     }
   }
@@ -64,7 +66,7 @@ export class AppInstanceDetailEnvFileComponent implements OnInit {
   }
 
   getFormControl(name) {
-    return this.validateForm.controls[ name ];
+    return this.validateForm.controls[name];
   }
 
   // 添加环境变量
@@ -95,14 +97,14 @@ export class AppInstanceDetailEnvFileComponent implements OnInit {
   // 处理添加配置
   updateConfig(body) {
     this.http.put(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') +
-    '/application-instance-microservices/' + this.appId, body)
+      '/application-instance-microservices/' + this.appId, body)
       .subscribe((data) => {
         console.log(data);
         this.isAddVisible = false;
         this.isRemoveVisible = false;
         this.validateForm = this.fb.group({
-          key            : [ '', [ Validators.required ] ],
-          value          : [ '', [ Validators.required ] ]
+          key: ['', [Validators.required]],
+          value: ['', [Validators.required]]
         });
         this.refreshConfig();
       });
@@ -125,10 +127,10 @@ export class AppInstanceDetailEnvFileComponent implements OnInit {
           }
         }
       },
-      err => {
-        console.log(err._body);
-      }
-    );
+        err => {
+          console.log(err._body);
+        }
+      );
   }
 
   // 删除环境变量
