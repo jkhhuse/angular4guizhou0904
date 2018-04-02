@@ -25,20 +25,20 @@ export class FormInputComponent implements Field, OnInit {
         return this.group.controls[this.config.name];
     }
 
-    // get food() {
-    //     return this.group.get('food');
-    // }
-    
     ngOnInit() {
         // console.log('111',this.config.validation);
         // // console.log(this.group.get('name'));
         // console.log('22',this.group.get(this.config.name))
         // console.log('33',this.validation)
     }
+    deleteClick1(i) {
+        console.log(this.group, i);
+        this.group.removeControl(this.config.name);
+    }
 
     constructor(private translate: TranslateService, private component: ComponentServiceService) {
-        translate.addLangs(["zh", "en"]);
-        translate.setDefaultLang("zh");
+        translate.addLangs(['zh', 'en']);
+        translate.setDefaultLang('zh');
         const browserLang = translate.getBrowserLang();
         translate.use(browserLang.match(/zh|en/) ? browserLang : 'zh');
     }

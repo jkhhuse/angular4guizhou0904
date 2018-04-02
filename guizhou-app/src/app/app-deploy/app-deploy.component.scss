@@ -59,3 +59,9 @@ p {
 .ant-col-sm-20 {
     width: 100%;
 }
+
+.anticon {
+    &:hover {
+        cursor: pointer;
+    }
+}

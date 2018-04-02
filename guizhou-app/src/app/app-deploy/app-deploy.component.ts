@@ -238,91 +238,88 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   serviceType4 = 'stateless';
   serviceAdvancedLabel = [];
   logForm: FormGroup;
+  logFormProject0: FormGroup;
+  logFormProject1: FormGroup;
+  logFormProject2: FormGroup;
+  logFormProject3: FormGroup;
+  logFormProject4: FormGroup;
   env$ = [];
   // @ViewChild('logFormProject1') logFormProject1: DynamicFormComponent;
-  @ViewChild('logFormProject0') logFormProject0: DynamicFormComponent;
-  @ViewChild('logFormProject1') logFormProject1: DynamicFormComponent;
-  @ViewChild('logFormProject2') logFormProject2: DynamicFormComponent;
-  @ViewChild('logFormProject3') logFormProject3: DynamicFormComponent;
-  @ViewChild('logFormProject4') logFormProject4: DynamicFormComponent;
-  logFormConfig: FieldConfig[] = [
-    {
-      type: 'input',
-      label: '日志文件',
-      placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
-      name: 'logPath',
-      // validation: [Validators.required],
-      styles: {
-        'width': '400px'
-      },
-      notNecessary: true
-    },
-  ];
-  logFormConfig0: FieldConfig[] = [
-    {
-      type: 'input',
-      label: '日志文件',
-      placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
-      name: 'logPath',
-      // validation: [Validators.required],
-      styles: {
-        'width': '400px'
-      },
-      notNecessary: true
-    },
-  ];
-  logFormConfig1: FieldConfig[] = [
-    {
-      type: 'input',
-      label: '日志文件',
-      placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
-      name: 'logPath',
-      // validation: [Validators.required],
-      styles: {
-        'width': '400px'
-      },
-      notNecessary: true
-    },
-  ];
-  logFormConfig2: FieldConfig[] = [
-    {
-      type: 'input',
-      label: '日志文件',
-      placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
-      name: 'logPath',
-      // validation: [Validators.required],
-      styles: {
-        'width': '400px'
-      },
-      notNecessary: true
-    },
-  ];
-  logFormConfig3: FieldConfig[] = [
-    {
-      type: 'input',
-      label: '日志文件',
-      placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
-      name: 'logPath',
-      // validation: [Validators.required],
-      styles: {
-        'width': '400px'
-      },
-      notNecessary: true
-    },
-  ];
-  logFormConfig4: FieldConfig[] = [
-    {
-      type: 'input',
-      label: '日志文件',
-      placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
-      name: 'logPath',
-      // validation: [Validators.required],
-      styles: {
-        'width': '400px'
-      },
-      notNecessary: true
-    },
-  ];
+  // @ViewChild('logFormProject0') logFormProject0: DynamicFormComponent;
+  // @ViewChild('logFormProject1') logFormProject1: DynamicFormComponent;
+  // @ViewChild('logFormProject2') logFormProject2: DynamicFormComponent;
+  // @ViewChild('logFormProject3') logFormProject3: DynamicFormComponent;
+  // @ViewChild('logFormProject4') logFormProject4: DynamicFormComponent;
+  logFormConfig0 = [];
+  logFormConfig1 = [];
+  logFormConfig2 = [];
+  logFormConfig3 = [];
+  logFormConfig4 = [];
+  // logFormConfig0: FieldConfig[] = [
+  //   {
+  //     type: 'input',
+  //     label: '日志文件',
+  //     placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
+  //     name: 'logPath',
+  //     // validation: [Validators.required],
+  //     styles: {
+  //       'width': '400px'
+  //     },
+  //     notNecessary: true
+  //   },
+  // ];
+  // logFormConfig1: FieldConfig[] = [
+  //   {
+  //     type: 'input',
+  //     label: '日志文件',
+  //     placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
+  //     name: 'logPath',
+  //     // validation: [Validators.required],
+  //     styles: {
+  //       'width': '400px'
+  //     },
+  //     notNecessary: true
+  //   },
+  // ];
+  // logFormConfig2: FieldConfig[] = [
+  //   {
+  //     type: 'input',
+  //     label: '日志文件',
+  //     placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
+  //     name: 'logPath',
+  //     // validation: [Validators.required],
+  //     styles: {
+  //       'width': '400px'
+  //     },
+  //     notNecessary: true
+  //   },
+  // ];
+  // logFormConfig3: FieldConfig[] = [
+  //   {
+  //     type: 'input',
+  //     label: '日志文件',
+  //     placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
+  //     name: 'logPath',
+  //     // validation: [Validators.required],
+  //     styles: {
+  //       'width': '400px'
+  //     },
+  //     notNecessary: true
+  //   },
+  // ];
+  // logFormConfig4: FieldConfig[] = [
+  //   {
+  //     type: 'input',
+  //     label: '日志文件',
+  //     placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
+  //     name: 'logPath',
+  //     // validation: [Validators.required],
+  //     styles: {
+  //       'width': '400px'
+  //     },
+  //     notNecessary: true
+  //   },
+  // ];
   @ViewChild('envFormProject1') envFormProject1: DynamicFormComponent;
   envFormConfig: FieldConfig[] = [{
     type: 'select',
@@ -363,6 +360,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   configFileData2 = [];
   configFileData3 = [];
   configFileData4 = [];
+  configFileDataEnt0 = [];
+  configFileDataEnt1 = [];
+  configFileDataEnt2 = [];
+  configFileDataEnt3 = [];
+  configFileDataEnt4 = [];
   configKeyValue1;
   configKeyValue2;
   // configFileData = [
@@ -755,6 +757,18 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       } else if (i === 4) {
         return this.configFileData4;
       }
+    } else if (type === 'dataEnt') {
+      if (i === 0) {
+        return this.configFileDataEnt0;
+      } else if (i === 1) {
+        return this.configFileDataEnt1;
+      } else if (i === 2) {
+        return this.configFileDataEnt2;
+      } else if (i === 3) {
+        return this.configFileDataEnt3;
+      } else if (i === 4) {
+        return this.configFileDataEnt4;
+      }
     }
   }
 
@@ -842,7 +856,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     }
   }
 
-  judgeFunc(i, type) {
+  judgeFunc(i, type): any {
     if (type === 'formSecond') {
       if (i === 0) {
         return this.formSecondProject0;
@@ -1734,23 +1748,23 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     const lbId = [];
     let lbPorts = [];
     const lbAddress$ = [];
-    this.configFileData0 = _.map(this.configFileData0, (value, key) => {
+    this.configFileDataEnt0 = _.map(this.configFileDataEnt0, (value, key) => {
       delete value.valueKey;
       return value;
     });
-    this.configFileData1 = _.map(this.configFileData1, (value, key) => {
+    this.configFileDataEnt1 = _.map(this.configFileDataEnt1, (value, key) => {
       delete value.valueKey;
       return value;
     });
-    this.configFileData2 = _.map(this.configFileData2, (value, key) => {
+    this.configFileDataEnt2 = _.map(this.configFileDataEnt2, (value, key) => {
       delete value.valueKey;
       return value;
     });
-    this.configFileData3 = _.map(this.configFileData3, (value, key) => {
+    this.configFileDataEnt3 = _.map(this.configFileDataEnt3, (value, key) => {
       delete value.valueKey;
       return value;
     });
-    this.configFileData4 = _.map(this.configFileData4, (value, key) => {
+    this.configFileDataEnt4 = _.map(this.configFileDataEnt4, (value, key) => {
       delete value.valueKey;
       return value;
     });
@@ -1790,7 +1804,8 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
             //   [this.env1Form.value['key'] + value]: this.env1Form.value['value' + value]
             // });
           }
-          if (this.judgeFuncLog(key1).value['logPath' + value] !== undefined) {
+          if (this.judgeFuncLog(key1).value['logPath' + value] !== undefined &&
+            this.judgeFuncLog(key1).value['logPath' + value] !== null) {
             if (key === 0) {
               this.env1Enty[key1] = _.assign({}, this.env1Enty[key1], {
                 ['__ALAUDA_FILE_LOG_PATH__']: this.judgeFuncLog(key1).value['logPath' + value]
@@ -1802,6 +1817,12 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
               });
             }
           }
+          _.map(this.env1Enty, (value9, key9) => {
+            const env1Enty$ = _.split(value9['__ALAUDA_FILE_LOG_PATH__'], 'undefined,');
+            if (env1Enty$.length > 1) {
+              value9['__ALAUDA_FILE_LOG_PATH__'] = env1Enty$[1];
+            }
+          });
           // console.log(this.env1Enty);
           // console.log(this.imageData);
           // container_port undefined?
@@ -1907,7 +1928,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
           // 对object {} 空对象的比较：http://www.zuojj.com/archives/775.html
           // todo instance这里数据有问题
           instance_envvars: _.isEqual(this.env1Enty[key1], {}) ? undefined : this.env1Enty[key1],
-          microserviceConfigs: this.judgeFuncConfigFile(key1, 'data').length > 0 ? this.judgeFuncConfigFile(key1, 'data') : undefined,
+          microserviceConfigs: this.judgeFuncConfigFile(key1, 'dataEnt').length > 0 ? this.judgeFuncConfigFile(key1, 'dataEnt') : undefined,
           volumes: this.judgeFuncStateful(key1, 'dataEnt').length > 0 ? this.judgeFuncStateful(key1, 'dataEnt') : undefined
         };
       }
@@ -2160,17 +2181,13 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   }
 
   addLogFile(k) {
-    console.log('addclick', this.logFormConfig);
-    const logInput = [{
-      type: 'input',
-      label: '日志文件',
-      placeholder: '文件路径，支持文件名通配符，如/var/logo/*.log',
-      name: this.judgeFuncLog(k, 'config')[this.judgeFuncLog(k, 'config').length - 1]['name'] + 1,
-      styles: {
-        'width': '400px'
-      },
-      notNecessary: true
-    }];
+    // console.log('addclick', this.logFormConfig);
+    const logInput = [[
+      {
+        type: 'input',
+        name: this.judgeFuncLog(k, 'config')[this.judgeFuncLog(k, 'config').length - 1][0]['name'] + 1,
+      }
+    ]];
     if (k === 0) {
       this.logFormConfig0 = _.concat(this.logFormConfig0, logInput);
     } else if (k === 1) {
@@ -2183,7 +2200,12 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       this.logFormConfig4 = _.concat(this.logFormConfig4, logInput);
     }
     // this.logFormConfig = _.concat(this.logFormConfig, logInput);
-    this.judgeFuncLog(k).setConfig(this.judgeFuncLog(k, 'config'));
+    // this.judgeFuncLog(k).setConfig(this.judgeFuncLog(k, 'config'));
+    _.map(this.judgeFuncLog(k, 'config'), (value2, key2) => {
+      _.map(value2, (value3, key3) => {
+        this.judgeFuncLog(k).addControl(value3['name'], new FormControl());
+      });
+    });
   }
 
   addEnv(k) {
@@ -2312,6 +2334,51 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
     // await this.getnetworkAdvanced();
   }
 
+  deleteFunc(type, i, k) {
+    if (type === 'lb') {
+      if (this.judgeFuncLbControl(k).length > 1) {
+        console.log(i, this.lbControlArray, this.loadBanlancerForm);
+        const deleteArr = _.pullAt(this.judgeFuncLbControl(k), i);
+        console.log(this.lbControlArray, this.loadBanlancerForm);
+        _.map(deleteArr, (value1, key1) => {
+          _.map(value1, (value2, key2) => {
+            this.judgeFuncLb(k).removeControl(value2['name']);
+          });
+        });
+        console.log(this.loadBanlancerForm);
+      }
+    } else if (type === 'env') {
+      // console.log('deleteclick', this.logFormConfig);
+      console.log('环境变量');
+      if (this.judgeFuncEnv(k, 'config').length > 1) {
+        const deleteArr = _.pullAt(this.judgeFuncEnv(k, 'config'), i);
+        _.map(deleteArr, (value1, key1) => {
+          _.map(value1, (value2, key2) => {
+            this.judgeFuncEnv(k, 'env').removeControl(value2['name']);
+          });
+        });
+      }
+    } else if (type === 'config') {
+      console.log(this.judgeFuncConfigFile(k, 'data'));
+      _.pullAt(this.judgeFuncConfigFile(k, 'data'), i);
+      _.pullAt(this.judgeFuncConfigFile(k, 'dataEnt'), i);
+      console.log(this.judgeFuncConfigFile(k, 'data'));
+    } else if (type === 'stateful') {
+      _.pullAt(this.judgeFuncStateful(k, 'data'), i);
+      _.pullAt(this.judgeFuncStateful(k, 'dataEnt'), i);
+    } else if (type === 'log') {
+      if (this.judgeFuncLog(k, 'config').length > 1) {
+        console.log('日志文件');
+        const deleteArr = _.pullAt(this.judgeFuncLog(k, 'config'), i);
+        _.map(deleteArr, (value1, key1) => {
+          _.map(value1, (value2, key2) => {
+            this.judgeFuncLog(k).removeControl(value2['name']);
+          });
+        });
+      }
+    }
+  }
+
   addConfigFile() {
     console.log('addClick3');
     this.isVisible = true;
@@ -2349,6 +2416,12 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       }
     });
     this.judgeFuncConfigFile(this.activeImage, 'data')[this.judgeFuncConfigFile(this.activeImage, 'data').length] = {
+      type: this.configFileRadio,
+      path: this.configFileForm.value['path'],
+      value: this.configKeyValue1,
+      valueKey: this.configKeyValue2
+    };
+    this.judgeFuncConfigFile(this.activeImage, 'dataEnt')[this.judgeFuncConfigFile(this.activeImage, 'dataEnt').length] = {
       type: this.configFileRadio,
       path: this.configFileForm.value['path'],
       value: this.configKeyValue1,
@@ -2432,6 +2505,11 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       this.env1Form2 = this.fb.group({});
       this.env1Form3 = this.fb.group({});
       this.env1Form4 = this.fb.group({});
+      this.logFormProject0 = this.fb.group({});
+      this.logFormProject1 = this.fb.group({});
+      this.logFormProject2 = this.fb.group({});
+      this.logFormProject3 = this.fb.group({});
+      this.logFormProject4 = this.fb.group({});
       // for (let i = 0; i < 5; i++) {
       //     this.lbControlArray.push({ index: i, show: i < 6 });
       //     // this.loadBanlancerForm.addControl(`field${i}`, new FormControl());
@@ -2562,6 +2640,17 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       this.env1Array2 = env1Array$;
       this.env1Array3 = env1Array$;
       this.env1Array4 = env1Array$;
+      const logFormConfig$ = [
+        [{
+          type: 'input',
+          name: 'logPath',
+        }],
+      ];
+      this.logFormConfig0 = logFormConfig$;
+      this.logFormConfig1 = logFormConfig$;
+      this.logFormConfig2 = logFormConfig$;
+      this.logFormConfig3 = logFormConfig$;
+      this.logFormConfig4 = logFormConfig$;
       this.testOptions = [
         { value: 'jack', label: 'Jack' },
         { value: 'lucy', label: 'Lucy' },
@@ -2636,6 +2725,31 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
       _.map(this.env1Array4, (value2, key2) => {
         _.map(value2, (value3, key3) => {
           this.env1Form4.addControl(value3['name'], new FormControl());
+        });
+      });
+      _.map(this.logFormConfig0, (value2, key2) => {
+        _.map(value2, (value3, key3) => {
+          this.logFormProject0.addControl(value3['name'], new FormControl());
+        });
+      });
+      _.map(this.logFormConfig1, (value2, key2) => {
+        _.map(value2, (value3, key3) => {
+          this.logFormProject1.addControl(value3['name'], new FormControl());
+        });
+      });
+      _.map(this.logFormConfig2, (value2, key2) => {
+        _.map(value2, (value3, key3) => {
+          this.logFormProject2.addControl(value3['name'], new FormControl());
+        });
+      });
+      _.map(this.logFormConfig3, (value2, key2) => {
+        _.map(value2, (value3, key3) => {
+          this.logFormProject3.addControl(value3['name'], new FormControl());
+        });
+      });
+      _.map(this.logFormConfig4, (value2, key2) => {
+        _.map(value2, (value3, key3) => {
+          this.logFormProject4.addControl(value3['name'], new FormControl());
         });
       });
       this.serviceAdvancedLabel = [
@@ -3041,17 +3155,7 @@ export class AppDeployComponent implements OnChanges, OnInit, DoCheck,
   }
 
   ngAfterViewInit() {
-    // 不同的表单，但是确实同一个实例，这个要怎么解决呢？todo//
-    // <dynamic-form #form1></dynamic-form>
-    // <dynamic-form #form2></dynamic-form>
-    // @ViewChild('form1') form1: DynamicFormComponent;
-    // @ViewChild('form2') form2: DynamicFormComponent;
-    console.log('form111', this.formFirstProject);
-    console.log('form222', this.formSecondProject);
-    // console.log('form333', this.formThirdProject);
-    console.log('instance2', this.instanceSecond);
-    console.log('instance3', this.instanceThird);
-    // console.log('form111', this.formFirstProject);
+    console.log('新的表单页面渲染');
   }
 
   ngDoCheck() {
