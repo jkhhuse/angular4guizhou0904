@@ -2183,7 +2183,7 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
           return value['serviceName'];
         });
         // // mock 多镜像
-        this.images[1] = {
+        /*this.images[1] = {
           createTime: 1520956951000,
           createUserId: 0,
           deleted: 0,
@@ -2199,7 +2199,7 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
           updateUserId: 0,
           version: 'version0.0.5'
         };
-        this.imageTabs[1] = 'images1';
+        this.imageTabs[1] = 'images1';*/
         // // mock 多镜像
         resolve();
       });
