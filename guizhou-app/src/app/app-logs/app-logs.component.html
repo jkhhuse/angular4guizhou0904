@@ -3,7 +3,8 @@
 </button>-->
 <div class="opera-log-selects">
   <br/>
-  <button nz-button class="group-name"><span>时间</span> </button>
+
+  <button nz-button class="group-name"><span>时间</span></button>
 
   <nz-select class="time-select"
              [(ngModel)]="selectedOption"
@@ -16,6 +17,18 @@
       [nzDisabled]="option.disabled">
     </nz-option>
   </nz-select>
+
+  <nz-select class="time-select"
+             [(ngModel)]="selectedMod"
+             [nzPlaceHolder]="'choose option'"
+  >
+    <nz-option
+      *ngFor="let modOption of ModOptions"
+      [nzLabel]="modOption.label"
+      [nzValue]="modOption">
+    </nz-option>
+  </nz-select>
+
   <nz-input [(ngModel)]="query_string" style="width: 400px;" [nzPlaceHolder]="'日志正文关键字搜索..'"></nz-input>
   <button nz-button [nzType]="'primary'" (click)="getConsoleData()">
     <i class="anticon anticon-search"></i><span>搜索</span>

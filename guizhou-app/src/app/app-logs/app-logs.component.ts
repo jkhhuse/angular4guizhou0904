@@ -24,8 +24,22 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class AppLogsComponent implements OnInit {
   // 下拉选择框
-  options = [];
+  // 加载选择器的内容
+  options = [
+    { value: 1800000, label: '最近三十分钟' },
+    { value: 3600000, label: '最近一小时' },
+    { value: 21600000, label: '最近6小时' },
+    { value: 43200000, label: '最近12小时' },
+    { value: 86400000, label: '最近1天' },
+    { value: 172800000, label: '最近2天' },
+    { value: 259200000, label: '最近3天' }
+  ];
+  // 加载选择器的内容
+  ModOptions = [
+    { value: 'alauda_stdout', label: '标准输出' }
+  ];
   selectedOption;
+  selectedMod;
   query_string: string;
   // get应用ID
   @Input()
@@ -48,10 +62,12 @@ export class AppLogsComponent implements OnInit {
     let params;
     if (this.query_string === undefined) {
       params = new HttpParams()
+        .append('log_source', this.selectedMod.value)
         .append('end_time', (this.end_time / 1000).toString())
         .append('start_time', ((this.end_time - this.selectedOption.value) / 1000).toString());
     } else {
       params = new HttpParams()
+        .append('log_source', this.selectedMod.value)
         .append('end_time', (this.end_time / 1000).toString())
         .append('start_time', ((this.end_time - this.selectedOption.value) / 1000).toString())
         .append('query_string', this.query_string);
@@ -100,10 +116,12 @@ export class AppLogsComponent implements OnInit {
     let params;
     if (this.query_string === undefined) {
       params = new HttpParams()
+        .append('log_source', this.selectedMod.value)
         .append('end_time', (this.end_time / 1000).toString())
         .append('start_time', ((this.end_time - this.selectedOption.value) / 1000).toString());
     } else {
       params = new HttpParams()
+        .append('log_source', this.selectedMod.value)
         .append('end_time', (this.end_time / 1000).toString())
         .append('start_time', ((this.end_time - this.selectedOption.value) / 1000).toString())
         .append('query_string', this.query_string);
@@ -142,20 +160,42 @@ export class AppLogsComponent implements OnInit {
     }
   }
 
+  // GET /application-instance-microservices/{id}/log-sources
+  // 获取应用微服务的日志数据来源列表
+  getOutMod() {
+    let modArray = [];
+    this.http.get<any>(environment.apiApp + '/apiApp' + '/application-instance-microservices/' + this.appId + '/log-sources',
+      {
+      }).subscribe(response => {
+      if (response) {
+        // 处理控制台数据
+        // 测试数据 modArray = ["alauda_stdout", "stdout", "log.output"];
+        modArray = response;
+        for(let i=0;i<modArray.length;i++){
+          if(modArray[i] === 'alauda_stdout' || modArray[i] === 'stdout') {
+            // 如果是标准输出什么都不做
+          } else {
+            this.ModOptions.push({
+                value: modArray[i],
+                label: modArray[i]
+              })
+          }
+        }
+      }
+    }, err => {
+      console.log(err._body);
+      this.createNotification('error', '获取应用微服务的日志数据来源列表失败', err._body);
+    });
+  }
+
   constructor(private http: HttpClient, private datePipe: DatePipe, private _notification: NzNotificationService, private sanitizer: DomSanitizer) {
   }
 
   ngOnInit() {
-    // 加载选择器的内容
-    this.options = [
-      { value: 1800000, label: '最近三十分钟' },
-      { value: 3600000, label: '最近一小时' },
-      { value: 21600000, label: '最近6小时' },
-      { value: 43200000, label: '最近12小时' },
-      { value: 86400000, label: '最近1天' },
-      { value: 172800000, label: '最近2天' },
-      { value: 259200000, label: '最近3天' }
-    ];
+    // 获取日志数据来源列表
+    this.getOutMod();
+    // 默认值为标准输出
+    this.selectedMod = this.ModOptions[0];
     // 默认值为最近三十分钟
     this.selectedOption = this.options[4];
     console.log('appId: ' + this.appId);
@@ -163,11 +203,6 @@ export class AppLogsComponent implements OnInit {
     setTimeout(_ => {
       this.refreshConsoleData();
     }, 0);
-    /*  setInterval(()=>{
-
-        this.getConsoleData()
-
-      },5000);*/
   }
 
 }
