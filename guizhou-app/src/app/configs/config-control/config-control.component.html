@@ -2,7 +2,7 @@
 <div class="config-control-wrapper" *ngIf="configs">
   <app-group-select (groupidHandler)="groupidHandler($event)"></app-group-select>
 
-  <button nz-button class="buildConfig" [nzType]="'primary'" [routerLink]="['/buildConfig']">构建
+  <button nz-button [disabled]="!authConfigAdd" class="buildConfig" [nzType]="'primary'" [routerLink]="['/buildConfig']">构建
   </button>
 </div>
 
@@ -20,7 +20,7 @@
       <tbody nz-tbody>
       <tr nz-tbody-tr *ngFor="let data of nzTable.data">
         <td nz-td>
-          <a [routerLink]="['/configDetail', data.id]">
+          <a [class.disabled]="!authConfigDetail" [routerLink]="['/configDetail', data.id]">
             {{data.configName}}
           </a>
         </td>
@@ -30,7 +30,7 @@
         <td nz-td>{{data.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
         <td nz-td>{{data.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
         <td nz-td>
-          <button nz-button [nzType]="'primary'" nzSize="small" (click)="showModal(data.id, data.configName);">
+          <button nz-button [nzType]="'primary'" [disabled]="!authConfigDelete" nzSize="small" (click)="showModal(data.id, data.configName);">
             <span>删除</span>
           </button>
         </td>

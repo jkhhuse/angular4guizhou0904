@@ -76,7 +76,7 @@
           <tbody nz-tbody>
           <tr nz-tbody-tr *ngFor="let data of nzTable.data  | appFilter: 'instanceName' : keyword">
             <td nz-td>
-              <a disabled="!authAppInsDetail" [routerLink]="['/appOverviewDetail', data.id]">
+              <a [class.disabled]="!authAppInsDetail" [routerLink]="['/appOverviewDetail', data.id]">
                 {{data.instanceName}}
               </a>
             </td>
