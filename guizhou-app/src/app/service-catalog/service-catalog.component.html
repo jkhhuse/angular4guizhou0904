@@ -24,7 +24,7 @@
             </div>-->
           <app-search [disabled]="false" [titleFilter]="titleFilter" [offset]="18"></app-search>
 
-            <app-service-list [moduleName]="'service'" [tabName]="tabName" [titleFilter]="titleFilter"></app-service-list>
+            <app-service-list [deleteDisabled]="false" [moduleName]="'service'" [tabName]="tabName" [titleFilter]="titleFilter"></app-service-list>
 
         </nz-tab>
     </nz-tabset>

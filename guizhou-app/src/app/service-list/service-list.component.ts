@@ -16,6 +16,8 @@ export class ServiceListComponent implements OnInit, OnChanges {
   @Input()
   groupid: string;
   @Input()
+  deleteDisabled: string;
+  @Input()
   tabName: string;
   @Input()
   titleFilter: FormControl = new FormControl();
