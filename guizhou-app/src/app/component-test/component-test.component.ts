@@ -29,6 +29,8 @@ import * as _ from 'lodash';
 })
 export class ComponentTestComponent implements AfterViewInit, OnInit {
   // 测试
+  listOfOption = [];
+  listOfSelectedValue = ['a10', 'c12'];
   inputTest;
   radioValue = 'prodDomain';
   valueSub: Subscription;
@@ -527,6 +529,11 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     // setTimeout(_ => {
     //   this.selectedMultipleOption;
     // }, 2000);
+    const children = [];
+    for (let i = 10; i < 36; i++) {
+      children.push({ label: i.toString(36) + i, value: i.toString(36) + i });
+    }
+    this.listOfOption = children;
     const clickEvent = Observable.fromEvent(document, 'click');
     const result = clickEvent.throttleTime(1000);
     result.subscribe(x => {
