@@ -11,6 +11,8 @@ export class SearchComponent implements OnInit {
   titleFilter: FormControl;
   @Input()
   offset: string;
+  @Input()
+  disabled: boolean;
   constructor() { }
 
   ngOnInit() {

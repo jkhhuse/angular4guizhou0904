@@ -1,6 +1,7 @@
 <div nz-row class="mirror-btns-wrapper">
   <div nz-col [nzSpan]="6" [nzOffset]=offset>
     <nz-input class="serviceInstanceSearch"
+              [nzDisabled]="disabled"
               [nzSize]="large"
               [nzPlaceHolder]="'按名称搜索...'"
               [formControl]="titleFilter">
