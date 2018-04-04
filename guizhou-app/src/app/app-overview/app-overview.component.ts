@@ -13,6 +13,10 @@ import { NzNotificationService } from 'ng-zorro-antd';
   providers: [RandomUserService]
 })
 export class AppOverviewComponent implements OnInit {
+  private authAppInsDelete = true;
+  private authAppInsStart= true;
+  private authAppInsStop = true;
+  private authAppInsDetail = true;
   // 总数相关
   // private totals: AppTotalsClass = new AppTotalsClass(110, 220, 330);
   private totals: AppTotalsClass;
@@ -263,6 +267,32 @@ export class AppOverviewComponent implements OnInit {
     });
   }
 
+  getAuth() {
+    let res = this.servicesService.getAuthList().subscribe((res: any) => {
+      let tempAppInsDelete = false;
+      let tempAppInsStart = false;
+      let tempAppInsStop = false;
+      let tempAppInsDetail = false;
+      if (res != '') {
+        res.permissions.forEach((data, index) => {
+          if (data.lang1 === '应用实例删除') {
+            tempAppInsDelete = true;
+          } else if (data.lang1 === '应用实例启动') {
+            tempAppInsStart = true;
+          } else if (data.lang1 === '应用实例停止') {
+            tempAppInsStop = true;
+          } else if (data.lang1 === '应用实例详情') {
+            tempAppInsDetail = true;
+          }
+        });
+        this.authAppInsDelete = tempAppInsDelete;
+        this.authAppInsStart = tempAppInsStart;
+        this.authAppInsStop = tempAppInsStop;
+        this.authAppInsDetail = tempAppInsDetail;
+      }
+    })
+  }
+
   constructor(private http: HttpClient,
     private _randomUser: RandomUserService,
     private servicesService: ServicesService,
@@ -270,6 +300,7 @@ export class AppOverviewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getAuth();
     setTimeout(() => {
       this.getTotalNums();
       this.refreshData();
