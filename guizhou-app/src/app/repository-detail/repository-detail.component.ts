@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { isUndefined } from 'util';
-import { environment } from '../../environments/environment';
-import { RandomUserService } from '../shared/random-user.service';
-import { ServicesService } from '../shared/services.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
+import {isUndefined} from 'util';
+import {environment} from '../../environments/environment';
+import {RandomUserService} from '../shared/random-user.service';
+import {ServicesService} from '../shared/services.service';
 
 @Component({
   selector: 'app-repository-detail',
@@ -13,6 +13,8 @@ import { ServicesService } from '../shared/services.service';
   styleUrls: ['./repository-detail.component.css']
 })
 export class RepositoryDetailComponent implements OnInit {
+  private authAppVersionUpdate = true;
+  private authAppVersionDelete = true;
   // 标签名
   public title: String = '详情内容';
   mirrorImgUrl = 'assets/service/mirror.png';
@@ -137,7 +139,7 @@ export class RepositoryDetailComponent implements OnInit {
   }
 
   constructor(private routeInfo: ActivatedRoute,
-    private http: HttpClient, private _randomUser: RandomUserService, private servicesService: ServicesService) {
+              private http: HttpClient, private _randomUser: RandomUserService, private servicesService: ServicesService) {
   }
 
   deleteVersion(name, versionId) {
@@ -145,37 +147,27 @@ export class RepositoryDetailComponent implements OnInit {
     console.log('删除版本：' + name + '  ' + versionId);
     this.http.delete(environment.apiApp +
       '/apiApp' + '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + versionId).subscribe((data1) => {
-        // status = data1['status'].toString();
-        // console.log('调用后status：' + status);
-        // if (status === '204') {
-        this._isSpinning = true;
-        setTimeout(() => {
-          this.isVisible = false;
-          console.log('删除成功，更新列表');
-          // 订阅流
-          this.getAppVersions().subscribe((data) => {
-            this.mirrorVersions = data;
-            this.firstVersionId = data[0].id;
-            this.firstVersionVersion = data[0].version;
-            // console.log(this.mirrorVersions);
-            // console.log(this.firstVersionId);
-            // 订阅流
-            this.mirrorDetail = this.getAppDetail(this.firstVersionId);
-            this.getAppDetail(this.firstVersionId).subscribe((data) => {
-              this.mirrorDetail = data;
-              // console.log(this.mirrorDetail);
-            });
-          });
-          this._isSpinning = false;
-        }, 3000);
-        // } else {
-        //   this.isVisible = false;
-        //   alert('删除失败');
-        // }
-      }, err => {
+      this._isSpinning = true;
+      setTimeout(() => {
         this.isVisible = false;
-        alert('删除失败');
-      });
+        console.log('删除成功，更新列表');
+        // 订阅流
+        this.getAppVersions().subscribe((data) => {
+          this.mirrorVersions = data;
+          this.firstVersionId = data[0].id;
+          this.firstVersionVersion = data[0].version;
+          // 订阅流
+          this.mirrorDetail = this.getAppDetail(this.firstVersionId);
+          this.getAppDetail(this.firstVersionId).subscribe((data) => {
+            this.mirrorDetail = data;
+          });
+        });
+        this._isSpinning = false;
+      }, 3000);
+    }, err => {
+      this.isVisible = false;
+      alert('删除失败');
+    });
   }
 
   showModal = (name, id) => {
@@ -194,23 +186,38 @@ export class RepositoryDetailComponent implements OnInit {
 
   handleCancel = (e) => {
     this.isConfirmLoading = false;
-    console.log(e);
     this.isVisible = false;
   }
 
+  getAuth() {
+    let res = this.servicesService.getAuthList().subscribe((res: any) => {
+      let tempAppVersionUpdate = false;
+      let tempAppVersionDelete = false;
+      if (res != '') {
+        res.permissions.forEach((data, index) => {
+          if (data.lang1 === '应用版本更新') {
+            tempAppVersionUpdate = true;
+          } else if (data.lang1 === '应用版本注销') {
+            tempAppVersionDelete = true;
+          }
+        });
+        this.authAppVersionUpdate = tempAppVersionUpdate;
+        this.authAppVersionDelete = tempAppVersionDelete;
+      }
+    })
+  }
+
   ngOnInit() {
+    this.getAuth();
     this.name = this.routeInfo.snapshot.params['name'];
     this.tabName = this.routeInfo.snapshot.params['tabName'];
     this.module = this.routeInfo.snapshot.params['module'];
-    console.log('name: ' + this.name);
-    console.log('tabName: ' + this.tabName);
-    console.log('module: ' + this.module);
+
     if (this.module === 'repository') {
       this.mirrorDetail = this.getServiceDetail();
       // 订阅流
       this.getServiceDetail().subscribe((data) => {
         this.mirrorDetail = data;
-        console.log('mirrorDetail: ' + data.categoryId);
         for (let i = 0; i < this.mirror_tabs.length; i++) {
           if (data.categoryId === this.mirror_tabs[i].index) {
             this.mirrorDetailCateName = this.mirror_tabs[i].name;
@@ -220,7 +227,6 @@ export class RepositoryDetailComponent implements OnInit {
       // 订阅流
       this.getServiceDetail().subscribe((data) => {
         if (data.images === '' || data.images == null) {
-
         } else {
           this.mirrorVersions = data.images.opRepository;
           this.firstVersionId = data.images.opRepository[0].id;
@@ -235,9 +241,6 @@ export class RepositoryDetailComponent implements OnInit {
         this.mirrorVersions = data;
         this.firstVersionId = data[0].id;
         this.firstVersionVersion = data[0].version;
-
-        // console.log(this.mirrorVersions);
-        // console.log(this.firstVersionId);
         // 订阅流
         if (this.firstVersionId) {
           this.mirrorDetail = this.getAppDetail(this.firstVersionId);
@@ -245,14 +248,10 @@ export class RepositoryDetailComponent implements OnInit {
             this.mirrorDetail = data;
             // 获取应用名称字段
             this.appName = data.appName;
-            console.log('this.mirrorDetail: ' + this.mirrorDetail);
-            console.log('repositories: ' + this.mirrorDetail.repositories);
-            console.log('appName: ' + this.appName);
             // 通过appName应用名，调用GET /groups/{group_id}/applications/{app_name}/instances
             // 查询指定名称应用在组织中的部署实例
             this._randomUser.getSubInstanceDetail(this.appName).subscribe((data: any) => {
               this.subInstances = data;
-              console.log('this.subInstances: ' + this.subInstances);
             });
           });
         }

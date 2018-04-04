@@ -52,7 +52,8 @@
   </div>
 
   <div *ngIf="module === 'app'">
-    <button class="addVersion" nz-button [nzType]="'primary'" [routerLink]="['/appRelease/addVersion', name]">
+    <button class="addVersion" [disabled]="!authAppVersionUpdate" nz-button [nzType]="'primary'"
+            [routerLink]="['/appRelease/addVersion', name]">
       添加版本
     </button>
   </div>
@@ -88,13 +89,13 @@
         </td>
         <td nz-td>
           <a href="" *ngIf="module === 'repository'" disabled="disabled">启动</a>
-          <a href="" *ngIf="module === 'app'" [routerLink]="['/appDeploy', data.id]" [class.disabled]="data.isEnable === 0">普通部署</a>
-          <a [class.disabled]="grayDisabled(i) || data.isEnable === 0 || data.grayEnabled === 0" href="" *ngIf="module === 'app'" [routerLink]="['/grayDeploy', data.id, data.appName]">灰度部署</a>
+          <a href="" *ngIf="module === 'app'" [routerLink]="['/appDeploy', data.id]"
+             [class.disabled]="data.isEnable === 0">普通部署</a>
+          <a [class.disabled]="grayDisabled(i) || data.isEnable === 0 || data.grayEnabled === 0" href=""
+             *ngIf="module === 'app'" [routerLink]="['/grayDeploy', data.id, data.appName]">灰度部署</a>
           <a href="" disabled="disabled">同步</a>
-          <!--
-                              <a *ngIf="module === 'app'" (click)="deleteVersion(module, data.id)">删除</a>
-          -->
-          <a *ngIf="module === 'app'" (click)="showModal(data.version, data.id);">删除</a>
+          <a *ngIf="module === 'app'" [class.disabled]="!authAppVersionDelete"
+             (click)="showModal(data.version, data.id);">删除</a>
           <a *ngIf="module === 'repository'" disabled="disabled">删除</a>
         </td>
       </tr>
