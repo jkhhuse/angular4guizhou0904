@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-mirror-store',
   templateUrl: './mirror-store.component.html',
-  styleUrls: ['./mirror-store.component.css']
+  styleUrls: ['./mirror-store.component.scss']
 })
 export class MirrorStoreComponent implements OnInit {
   _current = 1;
@@ -78,7 +78,7 @@ export class MirrorStoreComponent implements OnInit {
   }
 
   changeRadioName(cateIndex) {
-    console.log("cateIndex: " + cateIndex);
+    console.log('cateIndex: ' + cateIndex);
 
   }
   changeMirrorName(mirrorName): void {

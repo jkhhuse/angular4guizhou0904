@@ -164,28 +164,54 @@ export class AppLogsComponent implements OnInit {
   // 获取应用微服务的日志数据来源列表
   getOutMod() {
     let modArray = [];
-    this.http.get<any>(environment.apiApp + '/apiApp' + '/application-instance-microservices/' + this.appId + '/log-sources',
-      {
-      }).subscribe(response => {
-      if (response) {
-        // 处理控制台数据
-        // 测试数据 modArray = ["alauda_stdout", "stdout", "log.output"];
-        modArray = response;
-        for(let i=0;i<modArray.length;i++){
-          if(modArray[i] === 'alauda_stdout' || modArray[i] === 'stdout') {
-            // 如果是标准输出什么都不做
-          } else {
-            this.ModOptions.push({
-                value: modArray[i],
-                label: modArray[i]
-              })
+    if (this.moduleName === 'apiApp') {
+      this.http.get<any>(environment.apiApp + '/apiApp' + '/application-instance-microservices/' + this.appId + '/log-sources',
+        {
+        }).subscribe(response => {
+          if (response) {
+            // 处理控制台数据
+            // 测试数据 modArray = ["alauda_stdout", "stdout", "log.output"];
+            modArray = response;
+            for (let i = 0; i < modArray.length; i++) {
+              if (modArray[i] === 'alauda_stdout' || modArray[i] === 'stdout') {
+                // 如果是标准输出什么都不做
+              } else {
+                this.ModOptions.push({
+                  value: modArray[i],
+                  label: modArray[i]
+                });
+              }
+            }
           }
-        }
-      }
-    }, err => {
-      console.log(err._body);
-      this.createNotification('error', '获取应用微服务的日志数据来源列表失败', err._body);
-    });
+        }, err => {
+          console.log(err._body);
+          this.createNotification('error', '获取应用微服务的日志数据来源列表失败', err._body);
+        });
+    } else {
+      this.http.get<any>(environment.apiService + '/apiService' + '/service-instances/' + this.appId + '/modules/'
+       + this.moduleName + '/log-sources',
+        {
+        }).subscribe(response => {
+          if (response) {
+            // 处理控制台数据
+            // 测试数据 modArray = ["alauda_stdout", "stdout", "log.output"];
+            modArray = response;
+            for (let i = 0; i < modArray.length; i++) {
+              if (modArray[i] === 'alauda_stdout' || modArray[i] === 'stdout') {
+                // 如果是标准输出什么都不做
+              } else {
+                this.ModOptions.push({
+                  value: modArray[i],
+                  label: modArray[i]
+                });
+              }
+            }
+          }
+        }, err => {
+          console.log(err._body);
+          this.createNotification('error', '获取应用微服务的日志数据来源列表失败', err._body);
+        });
+    }
   }
 
   constructor(private http: HttpClient, private datePipe: DatePipe, private _notification: NzNotificationService, private sanitizer: DomSanitizer) {
