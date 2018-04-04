@@ -104,11 +104,11 @@
   </div>
   <div nz-row class="detail-content-wrapper" style="background: none" *ngIf="instanceDetail">
     <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
-      <nz-tab *ngFor="let tab of tabs">
+      <nz-tab *ngFor="let tab of tabs" >
         <ng-template #nzTabHeading>
           {{tab.name}}
         </ng-template>
-        <div class="detail-tab-div" *ngIf="tab.index === 1">
+        <div class="detail-tab-div" *ngIf="tab.index === 1 && authServiceMontor">
           <app-app-monitor  *ngIf="instanceId"
                             [appId]="instanceId"
                             [monitor_q]="monitor_q[0]"
@@ -134,7 +134,7 @@
                             [mouduleName]="moduleName"
           ></app-app-monitor>
         </div>
-        <div class="detail-tab-div" *ngIf="tab.index === 2">
+        <div class="detail-tab-div" *ngIf="tab.index === 2 && authServiceLog">
           <app-app-logs *ngIf="instanceId"
                         [appId]="instanceId"
                         [moduleName]="moduleName"

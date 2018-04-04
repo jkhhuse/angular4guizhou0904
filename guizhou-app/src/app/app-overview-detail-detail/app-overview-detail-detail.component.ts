@@ -3,6 +3,7 @@ import {Observable} from "rxjs/Observable";
 import {ActivatedRoute} from '@angular/router';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import {environment} from "../../environments/environment";
+import {ServicesService} from "../shared/services.service";
 
 @Component({
   selector: 'app-app-overview-detail-detail',
@@ -17,6 +18,8 @@ export class AppOverviewDetailDetailComponent implements OnInit {
   serviceImgUrl = 'assets/service/mirror.png';
   private instanceId: String;
   private moduleName: String;
+  private authServiceMontor = true;
+  private authServiceLog = true;
   private instanceDetail: any;
   tabs = [
     {
@@ -106,10 +109,30 @@ export class AppOverviewDetailDetailComponent implements OnInit {
     return this.http.get(environment.apiService + '/apiService' + '/service-instances/' + instanceId + '/modules/' + moduleName);
   }
 
-  constructor(private routeInfo: ActivatedRoute, private http: HttpClient) {
+  getAuth() {
+    let res = this.servicesService.getAuthList().subscribe((res: any) => {
+      let tempServiceMontor = false;
+      let tempServiceLog = false;
+      if (res != '') {
+        res.permissions.forEach((data, index) => {
+          if (data.lang1 === '服务实例监控信息') {
+            tempServiceMontor = true;
+          } else if (data.lang1 === '服务实例服务日志') {
+            tempServiceLog = true;
+          }
+        });
+        this.authServiceMontor = tempServiceMontor;
+        this.authServiceLog = tempServiceLog;
+      }
+    })
+  }
+
+  constructor(private routeInfo: ActivatedRoute, private http: HttpClient, private servicesService: ServicesService,
+) {
   }
 
   ngOnInit() {
+    this.getAuth();
     this.instanceId = this.routeInfo.snapshot.params['instanceId'];
     this.moduleName = this.routeInfo.snapshot.params['moduleName'];
     console.log("instanceID: " + this.instanceId);

@@ -15,8 +15,8 @@ export class ServiceInstanceComponent implements OnInit {
   // 标签名
   title: String = '服务实例';
   public groupid: any;
-  authServiceSearch = false;
-  authServiceDelete = false;
+  authServiceSearch = true;
+  authServiceDelete = true;
 
   // input输入框
   titleFilter: FormControl = new FormControl();
@@ -224,15 +224,18 @@ export class ServiceInstanceComponent implements OnInit {
 
   getAuth() {
     let res = this.servicesService.getAuthList().subscribe((res: any) => {
+      let tempServiceSearch = false;
+      let tempServiceDelete = false;
       if (res != '') {
         res.permissions.forEach((data, index) => {
           if (data.lang1 === '服务实例搜索') {
-            this.authServiceSearch = true;
-            console.log(this.authServiceSearch);
+            tempServiceSearch = true;
           } else if (data.lang1 === '服务实例删除') {
-            this.authServiceDelete = true;
+            tempServiceDelete = true;
           }
         });
+        this.authServiceSearch = tempServiceSearch;
+        this.authServiceDelete = tempServiceDelete;
       }
     })
   }
