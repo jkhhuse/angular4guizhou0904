@@ -24,7 +24,7 @@
         "scripts": [
             "../node_modules/jquery/dist/jquery.js",
             "../node_modules/bootstrap/dist/js/bootstrap.js",
-            "../node_modules/echarts/dist/echarts.min"
+            "../node_modules/echarts/dist/echarts.min.js"
         ],
         "environmentSource": "environments/environment.ts",
         "environments": {

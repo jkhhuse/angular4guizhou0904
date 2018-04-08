@@ -37,16 +37,16 @@ import { ServicesService } from './shared/services.service';
 import { ServiceDetailComponent } from './service-detail/service-detail.component';
 import { RepositoryDetailComponent } from './repository-detail/repository-detail.component';
 import { ServiceReleaseComponent } from './service-release/service-release.component';
-import { ServiceInstanceDetailComponent } from "./service-instance-detail/service-instance-detail.component";
+import { ServiceInstanceDetailComponent } from './service-instance-detail/service-instance-detail.component';
 import { ComponentTestComponent } from './component-test/component-test.component';
 import { AppReleaseComponent } from './app-release/app-release.component';
-import {DatePipe, HashLocationStrategy, LocationStrategy} from "@angular/common";
+import {DatePipe, HashLocationStrategy, LocationStrategy} from '@angular/common';
 import { AppDeployComponent } from './app-deploy/app-deploy.component';
 import { ContainerInstanceComponent } from './container-instance/container-instance.component';
 import { ServiceSubscribeComponent } from './service-subscribe/service-subscribe.component';
 import { BuildImageComponent } from './build-image/build-image.component';
 import { GroupSelectComponent } from './group-select/group-select.component';
-import { CookieService } from "angular2-cookie/core";
+import { CookieService } from 'angular2-cookie/core';
 import { ErrorInterceptorComponent } from './util/error-interceptor/error-interceptor.component';
 import { ServiceTestService } from './service-test/service-test.service';
 import { AppOverviewDetailComponent } from './app-overview-detail/app-overview-detail.component';
@@ -86,7 +86,6 @@ import { AppInstanceDetailConfigFileComponent } from './app-instance-detail-deta
 export function createTranslateHttpLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
-
 @NgModule({
     declarations: [
         AppComponent,

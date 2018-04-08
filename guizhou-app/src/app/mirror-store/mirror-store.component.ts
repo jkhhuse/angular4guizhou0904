@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 import {NzNotificationService} from 'ng-zorro-antd';
 import {ServicesService} from "../shared/services.service";
 
 @Component({
   selector: 'app-mirror-store',
   templateUrl: './mirror-store.component.html',
-  styleUrls: ['./mirror-store.component.css']
+  styleUrls: ['./mirror-store.component.scss']
 })
 export class MirrorStoreComponent implements OnInit {
   private authMirrorPubilc = true;
@@ -85,7 +85,7 @@ export class MirrorStoreComponent implements OnInit {
   }
 
   changeRadioName(cateIndex) {
-    console.log("cateIndex: " + cateIndex);
+    console.log('cateIndex: ' + cateIndex);
   }
   changeMirrorName(mirrorName): void {
     this.mirrorName = mirrorName;
