@@ -10,9 +10,10 @@ import set = Reflect.set;
 @Component({
   selector: 'app-config-detail',
   templateUrl: './config-detail.component.html',
-  styleUrls: ['./config-detail.component.css']
+  styleUrls: ['./config-detail.component.scss']
 })
 export class ConfigDetailComponent implements OnInit {
+  private authConfigEdit = true;
   // 标签名
   public title: String = '配置详情';
   configs = [];
@@ -144,7 +145,22 @@ export class ConfigDetailComponent implements OnInit {
     });
   }
 
+  getAuth() {
+    let res = this.servicesService.getAuthList().subscribe((res: any) => {
+      let tempConfigEdit = false;
+      if (res != '') {
+        res.permissions.forEach((data, index) => {
+           if (data.lang1 === '配置修改') {
+            tempConfigEdit = true;
+          }
+        });
+        this.authConfigEdit = tempConfigEdit;
+      }
+    })
+  }
+
   ngOnInit() {
+    this.getAuth();
     this.configID = this.routeInfo.snapshot.params['configID'];
     this.getConfigTopDetail();
     this.getExistConfigs();

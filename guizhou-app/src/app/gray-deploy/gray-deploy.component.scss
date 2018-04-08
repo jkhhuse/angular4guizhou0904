@@ -10,21 +10,26 @@
 
 .steps-action {
     border-top: 1px solid #ddd;
-    width: 80%;
-    padding-top: 20px;
-    // margin-top: 24px;
+    width: 100%;
+    padding-top: 20px; // margin-top: 24px;
 }
 
-nz-header, nz-content, nz-footer {
+nz-header,
+nz-content,
+nz-footer,
+nz-layout {
     background: #fff
 }
 
 nz-content {
     padding: 0px;
+    margin-top: 20px
 }
+
 p {
     font-size: 16px;
 }
+
 .service-tips {
     p {
         font-weight: bold;
@@ -33,25 +38,25 @@ p {
 
 .borderTop80 {
     border-top: 1px solid #ddd;
-    padding-top: 20px; 
-    width: 80%
+    padding-top: 20px;
+    width: 100%
 }
 
 .top80 {
-    border-top: 1px solid #ddd;
-    // padding-top: 20px; 
-    width: 80% 
+    border-top: 1px solid #ddd; // padding-top: 20px; 
+    width: 100%
 }
 
 .borderBottom80 {
     border-bottom: 1px solid #ddd;
-    margin-bottom: 20px; 
-    width: 80%
+    margin-bottom: 20px;
+    width: 100%
 }
 
 .marginTop20 {
     margin-bottom: 20px;
 }
+
 .top20 {
     margin-top: 20px;
 }
@@ -69,11 +74,18 @@ p {
     background-color: #f6f6f6;
     color: #000;
 }
+
 .gray-content-service {
     margin-top: 15px;
 }
+
 .ant-form-item {
     // margin-bottom: 0;
     font-size: 13px;
     color: #000000
+}
+.anticon {
+    &:hover {
+        cursor: pointer;
+    }
 }

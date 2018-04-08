@@ -97,7 +97,7 @@
                                           (click)="showModal('repository', service.repositoryName);"></span>
                   <!--<span *ngIf="service.serviceName" class="glyphicon glyphicon-trash"
                         (click)="deleteService(service.id, service.serviceName)">b</span>-->
-                                     <span *ngIf="service.appName" class="glyphicon glyphicon-trash"
+                                     <span *ngIf="service.appName && deleteDisabled" class="glyphicon glyphicon-trash"
                                            (click)="showModal(service.id, service.appName);"></span>
 
                                 </span>

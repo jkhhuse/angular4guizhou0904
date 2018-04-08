@@ -156,6 +156,9 @@ export class BuildImageComponent implements OnInit {
 
         this.form.setDisabled('submit', !this.fileValid);
       };
+      this.uploader.onErrorItem = (item, response, status, headers) => {
+        this._isSpinning = false;
+      };
     } else {
       // console.log('Icon文件上传完了', this.uploaderIcon);
       // this.uploaderIcon.onBeforeUploadItem = (item) => {

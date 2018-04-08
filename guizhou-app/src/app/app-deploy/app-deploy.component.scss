@@ -10,18 +10,20 @@
 
 .steps-action {
     border-top: 1px solid #ddd;
-    width: 80%;
+    width: 100%;
     padding-top: 20px; // margin-top: 24px;
 }
 
 nz-header,
 nz-content,
-nz-footer {
+nz-footer,
+nz-layout {
     background: #fff
 }
 
 nz-content {
     padding: 0px;
+    margin-top: 20px
 }
 
 p {
@@ -37,13 +39,13 @@ p {
 .borderTop80 {
     border-top: 1px solid #ddd;
     padding-top: 20px;
-    width: 80%
+    width: 100%
 }
 
 .borderBottom80 {
     border-bottom: 1px solid #ddd;
     margin-bottom: 20px;
-    width: 80%
+    width: 100%
 }
 
 .marginTop20 {
@@ -56,4 +58,10 @@ p {
 
 .ant-col-sm-20 {
     width: 100%;
+}
+
+.anticon {
+    &:hover {
+        cursor: pointer;
+    }
 }

@@ -1,11 +1,11 @@
-import {Component, Input, OnInit, SimpleChanges, OnChanges} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Services, ServicesService} from '../shared/services.service';
+import { Component, Input, OnInit, SimpleChanges, OnChanges } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Services, ServicesService } from '../shared/services.service';
 import 'rxjs/Rx';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import {FormControl} from '@angular/forms';
-import {environment} from "../../environments/environment";
-import {NzModalService} from "ng-zorro-antd";
+import { FormControl } from '@angular/forms';
+import { environment } from '../../environments/environment';
+import { NzModalService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-service-list',
@@ -15,6 +15,8 @@ import {NzModalService} from "ng-zorro-antd";
 export class ServiceListComponent implements OnInit, OnChanges {
   @Input()
   groupid: string;
+  @Input()
+  deleteDisabled: string;
   @Input()
   tabName: string;
   @Input()
@@ -94,10 +96,10 @@ export class ServiceListComponent implements OnInit, OnChanges {
     console.log('删除镜像：' + mirrorName + '  ' + this.tabName);
     // 返回是string 不是json
     this.http.delete(environment.api + '/api/' +
-     this.servicesService.getCookie('groupID') + '/warehouse/repository/' +
+      this.servicesService.getCookie('groupID') + '/warehouse/repository/' +
       mirrorName + '?region=' + this.tabName).subscribe((data) => {
-      status = data.toString();
-    });
+        status = data.toString();
+      });
     return status;
   }
 
@@ -106,9 +108,9 @@ export class ServiceListComponent implements OnInit, OnChanges {
     status = '';
     console.log('删除应用：' + appName + '  ' + appId);
     this.http.delete(environment.apiApp + '/apiApp' +
-     '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + appId).subscribe((data) => {
-      console.log(data['status']); // 删除成功是204
-    });
+      '/groups/' + this.servicesService.getCookie('groupID') + '/applications/' + appId).subscribe((data) => {
+        console.log(data['status']); // 删除成功是204
+      });
     return status;
   }
 
@@ -151,6 +153,12 @@ export class ServiceListComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    if (this.servicesService.getCookie('groupID') === '') {
+      setTimeout(() => {
+        this.services = this.servicesService.getServices(this.tabName, this.moduleName);
+      }, 2000);
+    }
+    // this.services = this.servicesService.getServices(this.tabName, this.moduleName);
     this.appimgUrl = environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/files/app/fileName/';
 
     /* this.servicesService.getServices().subscribe((data) => {

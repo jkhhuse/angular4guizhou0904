@@ -9,7 +9,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class ServicesService {
-
+    authList: any;
     option: RequestOptionsArgs;
 
     constructor(private _notification: NzNotificationService, private http: HttpClient,
@@ -94,18 +94,17 @@ export class ServicesService {
             console.log('URL: ' + search);
             if (!!search[1]) {
                 const searchArray = search[1].split('&');
-                console.log('URL split & : ' + searchArray);
+                // console.log('URL split & : ' + searchArray);
                 // 如果split数据正常，数组长度为2，一个是userid，一个是username
                 if (searchArray.length === 2) {
                     const userIDArray = searchArray[0].split('=');
                     const userUsernameArray = searchArray[1].split('=');
-                    console.log('userIDArray: ' + userIDArray);
-                    console.log('userUsernameArray: ' + userUsernameArray);
+                    // console.log('userIDArray: ' + userIDArray);
+                    // console.log('userUsernameArray: ' + userUsernameArray);
                     const userID = userIDArray[1];
                     const userName = userUsernameArray[1];
                     // 更新用户名和用户ID之前，判断，是否用户变更了
                     // 如果cookie中有userid字段，并且和现在获取的userid值不同，说明经理了用户切换
-                    console.log('cookie userid: ' + this.getCookie('userID'));
                     // 如果cookie中有用户id，说明之前登录过。并且现在获取的id值不相同，说明切换了用户
                     if (this.getCookie('userID') !== '' && (userID !== this.getCookie('userID'))) {
                         // 用户切换过，清除掉cookie值。
@@ -141,6 +140,7 @@ export class ServicesService {
         if (!!url) {
             const search = url.split('?');
             if (!!search[1]) {
+
                 const searchArray = search[1].split('&');
                 // 如果split数据正常，数组长度为2，一个是userid，一个是username
                 if (searchArray.length === 2) {
@@ -159,8 +159,6 @@ export class ServicesService {
                     // 只要能获取到userID和userName字段，且不是空的，就更新cookie的值
                     this.setCookie('userID', userIDArray[1]);
                     this.setCookie('userName', userUsernameArray[1]);
-                    console.log('userID: ' + userID);
-                    console.log('userName: ' + userName);
                     return userName;
                 } else {
                     return this.getCookie('userName');
@@ -184,6 +182,11 @@ export class ServicesService {
             return this.http.get(environment.apiOP + '/renter/users/' + this.getUserId() +
              '/groups?groupQuery=basic&roleName=all');
         }
+    }
+
+    // 获取权限列表
+    getAuthList() {
+      return this.http.get(environment.apiOP + '/renter/permissions/users/' + this.getUserName() + '/all')
     }
 
     getGroupNameList(data) {

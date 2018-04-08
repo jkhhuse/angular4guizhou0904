@@ -14,6 +14,7 @@ export class AppComponent {
     constructor(private servicesService: ServicesService) {
       this.servicesService.getUserId();
       this.servicesService.getUserName();
+      this.servicesService.getAuthList();
     }
 
 }

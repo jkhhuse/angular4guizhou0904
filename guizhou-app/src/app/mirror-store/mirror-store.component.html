@@ -3,45 +3,50 @@
 
 <nz-content class="mirror-store-wrapper">
   <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" class="mirrorTab">
-    <nz-tab *ngFor="let tab of tabs" (nzClick)="changeMirrorName(tab.tabName)">
+    <nz-tab *ngFor="let tab of tabs"
+            (nzClick)="changeMirrorName(tab.tabName)"
+            [nzDisabled]="tab.disabled">
       <ng-template #nzTabHeading>
         {{tab.name}}
       </ng-template>
 
-
-      <div class="mirror-body-wrapper">
-
+      <div class="mirror-body-wrapper" *ngIf="(tab.tabName == 'private' && authMirrorPrivate) || (tab.tabName == 'public' && authMirrorPubilc)">
         <div class="radio-select-wrapper">
           <div nz-col class="catalog-option">
-            <button *ngIf="tab.tabName == 'private'" nz-button [nzType]="'primary'"
-                    [routerLink]="['/buildImageCategory', mirrorName]">构建
+            <button *ngIf="tab.tabName == 'private'"
+                    nz-button [nzType]="'primary'"
+                    [routerLink]="['/buildImageCategory', mirrorName]"
+            >构建
             </button>
           </div>
-          <nz-radio-group [(ngModel)]="radioValue" *ngFor="let mirrorTab of mirror_tabs"
+          <nz-radio-group [(ngModel)]="radioValue"
+                          *ngFor="let mirrorTab of mirror_tabs"
                           [formControl]="radioValueFilter">
-            <label nz-radio [nzValue]="mirrorTab.index" (nzClick)="changeRadioName(mirrorTab.index)">
+            <label nz-radio [nzValue]="mirrorTab.index"
+                   (nzClick)="changeRadioName(mirrorTab.index)">
               <span [ngClass]="currentClasses">{{mirrorTab.name}}</span>
             </label>
           </nz-radio-group>
         </div>
         <div class="mirror-right-wrapper">
           <div class="mirror-search-wrapper">
-            <app-search [titleFilter]="titleFilter" [offset]="18"></app-search>
+            <app-search [disabled]="!authMirrorSearch"
+                        [titleFilter]="titleFilter"
+                        [offset]="18">
+            </app-search>
           </div>
           <div class="mirror-card-wrapper">
-            <app-mirror-store-list [radioValue]="radioValue" [moduleName]="'repository'" [groupid]="groupid"
-                                   [tabName]="mirrorName" [titleFilter]="titleFilter"
-                                   [radioValueFilter]="radioValueFilter"></app-mirror-store-list>
+            <app-mirror-store-list [radioValue]="radioValue"
+                                   [moduleName]="'repository'"
+                                   [groupid]="groupid"
+                                   [diasbled]="authMirrorDelete"
+                                   [tabName]="mirrorName"
+                                   [titleFilter]="titleFilter"
+                                   [radioValueFilter]="radioValueFilter">
+            </app-mirror-store-list>
           </div>
         </div>
-
       </div>
     </nz-tab>
   </nz-tabset>
 </nz-content>
-
-<!--
-<nz-footer>
-    <nz-pagination [nzPageIndex]="_current" [nzTotal]="50" nzShowTotal nzShowSizeChanger
-                   nzShowQuickJumper></nz-pagination>
-</nz-footer>-->

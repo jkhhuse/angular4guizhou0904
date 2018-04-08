@@ -8,7 +8,7 @@
     <div nz-row class="detail-img-wrapper">
         <div nz-col [nzSpan]="6">
             <div class="img-block">
-                <img class="detail-img" [src]="serviceImgUrl" alt=""/>
+                <img class="detail-img" [src]="serviceImgUrl" alt="" />
             </div>
             <div class="img-block" *ngIf="instanceDetail">
                 <p *ngIf="instanceDetail.instanceName" class="detail-title">{{instanceDetail.instanceName}}</p>
@@ -62,7 +62,7 @@
         </div>
     </div>
     <h4 class="detail-h3">子服务列表</h4>
-      <div class="detail-instance-wrapper" *ngIf="instanceDetail">
+    <div class="detail-instance-wrapper" *ngIf="instanceDetail">
         <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="4" [tableTitle]="table4Title"></app-app-nztable>
-      </div>
+    </div>
 </nz-content>

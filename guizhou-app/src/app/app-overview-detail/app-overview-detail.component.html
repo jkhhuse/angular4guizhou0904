@@ -141,7 +141,7 @@
                         <td nz-td>{{data.microservices}}</td>
                         <td nz-td>
                             <button nz-button [nzType]="'primary'" (click)="showDetailModal(data.id)"><span>详情</span></button>
-                            <button nz-button [nzType]="'primary'" (click)="showUpdateModal(data.id)"><span>更新</span></button>
+                            <button [disabled]="data.status === 0 || data.status === -1 || data.status === 100 " nz-button [nzType]="'primary'" (click)="showUpdateModal(data.id)"><span>更新</span></button>
                             <button [disabled]="data.status === 0 || data.status === -1 || data.status === 100 " nz-button [nzType]="'primary'" (click)="showRealUpdateModal(data.id)"><span>正式升级</span></button>
                             <button [disabled]="data.status === 0 || data.status === -1 || data.status === 100 " nz-button [nzType]="'primary'" (click)="showCancelModal(data.id)"><span>回滚</span></button>
                             <button [disabled]="!(data.status === 0 || data.status === -1 || data.status === 100) " nz-button [nzType]="'primary'" (click)="showModal_delete(data.id)"><span>删除</span></button>

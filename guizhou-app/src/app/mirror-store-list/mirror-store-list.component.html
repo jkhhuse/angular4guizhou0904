@@ -22,7 +22,7 @@
               <div *ngFor="let tab of mirror_tabs">
                 <p *ngIf="tab.index === service.categoryId" class="card-cate">{{tab.name}}</p>
               </div>
-              <div *ngIf="tabName == 'private'" class="card-action">
+              <div *ngIf="tabName == 'private' && diasbled" class="card-action">
                 <i class="anticon anticon-delete"
                    (click)="showModal(service.id, service.repositoryName);">
                 </i>

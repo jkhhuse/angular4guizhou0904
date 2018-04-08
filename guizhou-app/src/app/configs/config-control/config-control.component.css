@@ -10,4 +10,9 @@
   display: block;
   margin: 15px 0 0 30px;
 }
+.disabled {
+  color: rgba(0, 0, 0, 0.25);
+  cursor: not-allowed;
+  pointer-events: none;
+}
 

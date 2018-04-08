@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { RandomUserService } from '../shared/random-user.service';
-import { FormControl } from '@angular/forms';
-import { NzNotificationService } from 'ng-zorro-antd';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { environment } from '../../environments/environment';
-import { ServicesService } from '../shared/services.service';
+import {Component, OnInit} from '@angular/core';
+import {RandomUserService} from '../shared/random-user.service';
+import {FormControl} from '@angular/forms';
+import {NzNotificationService} from 'ng-zorro-antd';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
+import {environment} from '../../environments/environment';
+import {ServicesService} from '../shared/services.service';
 
 @Component({
   selector: 'app-service-instance',
@@ -15,6 +15,8 @@ export class ServiceInstanceComponent implements OnInit {
   // 标签名
   title: String = '服务实例';
   public groupid: any;
+  authServiceSearch = true;
+  authServiceDelete = true;
 
   // input输入框
   titleFilter: FormControl = new FormControl();
@@ -104,10 +106,10 @@ export class ServiceInstanceComponent implements OnInit {
         // this.createNotification('error', '删除服务实例失败', '删除服务实例调用接口失败');
         // }
       },
-        err => {
-          console.log(err._body);
-          this.createNotification('error', '删除服务实例失败', err._body);
-        });
+      err => {
+        console.log(err._body);
+        this.createNotification('error', '删除服务实例失败', err._body);
+      });
   }
 
   // 停止应用实例接口
@@ -125,10 +127,10 @@ export class ServiceInstanceComponent implements OnInit {
         // this.createNotification('error', '停止服务实例失败', '停止服务实例调用接口失败');
         // }
       },
-        err => {
-          console.log(err._body);
-          this.createNotification('error', '停止服务实例失败', err._body);
-        });
+      err => {
+        console.log(err._body);
+        this.createNotification('error', '停止服务实例失败', err._body);
+      });
   }
 
   // 启动应用实例接口
@@ -146,10 +148,10 @@ export class ServiceInstanceComponent implements OnInit {
         // this.createNotification('error', '停止服务实例失败', '停止服务实例调用接口失败');
         // }
       },
-        err => {
-          console.log(err._body);
-          this.createNotification('error', '停止服务实例失败', err._body);
-        });
+      err => {
+        console.log(err._body);
+        this.createNotification('error', '停止服务实例失败', err._body);
+      });
   }
 
   groupidHandler(event: any) {
@@ -215,12 +217,31 @@ export class ServiceInstanceComponent implements OnInit {
   }
 
   constructor(private http: HttpClient,
-    private _randomUser: RandomUserService,
-    private servicesService: ServicesService,
-    private _notification: NzNotificationService) {
+              private _randomUser: RandomUserService,
+              private servicesService: ServicesService,
+              private _notification: NzNotificationService) {
+  }
+
+  getAuth() {
+    let res = this.servicesService.getAuthList().subscribe((res: any) => {
+      let tempServiceSearch = false;
+      let tempServiceDelete = false;
+      if (res != '') {
+        res.permissions.forEach((data, index) => {
+          if (data.lang1 === '服务实例搜索') {
+            tempServiceSearch = true;
+          } else if (data.lang1 === '服务实例删除') {
+            tempServiceDelete = true;
+          }
+        });
+        this.authServiceSearch = tempServiceSearch;
+        this.authServiceDelete = tempServiceDelete;
+      }
+    })
   }
 
   ngOnInit() {
+    this.getAuth();
     // 添加timeout时间，把init时间放到队列末尾，等待groupselect加载完成。
     setTimeout(() => {
       this.refreshData(true);

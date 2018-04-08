@@ -10,6 +10,9 @@ import {ServicesService} from '../shared/services.service';
     styleUrls: ['./app-store.component.css']
 })
 export class AppStoreComponent implements OnInit {
+    private authAppApply = true;
+    private authAppSearch = true;
+    private authAppDelete = true;
     private _current = 1;
     public data: any = '';
     public groupList: any;
@@ -56,29 +59,32 @@ export class AppStoreComponent implements OnInit {
         console.log('changeAppName');
     }
 
+  getAuth() {
+    let res = this.servicesService.getAuthList().subscribe((res: any) => {
+      let tempAppApply = false;
+      let tempAppSearch = false;
+      let tempAppDelete = false;
+      if (res != '') {
+        res.permissions.forEach((data, index) => {
+          if (data.lang1 === '应用发布') {
+            tempAppApply = true;
+          } else if (data.lang1 === '应用检索') {
+            tempAppSearch = true;
+          } else if (data.lang1 === '应用删除') {
+            tempAppDelete = true;
+          }
+        });
+        this.authAppApply = tempAppApply;
+        this.authAppSearch = tempAppSearch;
+        this.authAppDelete = tempAppDelete;
+      }
+    })
+  }
+
     constructor(private servicesService: ServicesService) {
     }
 
     ngOnInit() {
-
-        /*// this.groupList = ['BDOC-TEST-11?5', 'test111?8', 'asd?7'];
-        // 如果groupid是空的，去cookie里面取得默认值
-        if (this.groupid = 'undefined') {
-            console.log('groupid = \'undefined\': ' + this.groupid);
-
-            this.groupid = this.servicesService.getCookie('groupID');
-            console.log('groupid = \'2222222\': ' + this.groupid);
-
-        }
-        console.log('groupList: ' + this.groupList);
-        console.log('groupID 默认: ' + this.groupid);
-        console.log('groupID cookie: ' + this.servicesService.getCookie('groupID'));
-
-        // 订阅op的group流
-        this.servicesService.getGroupList().subscribe((data) => {
-            // 过滤出需要的数据，拼接成一个array
-             this.groupList  =  this.servicesService.getGroupNameList(data);
-            console.log('groupList: ' + this.groupList);
-        });*/
+      this.getAuth();
     }
 }

@@ -24,7 +24,7 @@
             </ng-template>
             <div nz-row class="app-btns-wrapper">
                 <div nz-col [nzSpan]="6" class="catalog-option">
-                    <button nz-button [nzType]="'primary'" routerLink="/appRelease/newApp/newName">发布</button>
+                    <button [disabled]="!authAppApply" nz-button [nzType]="'primary'" routerLink="/appRelease/newApp/newName">发布</button>
 <!--
                     <button nz-button [nzType]="'default'" class="btn">删除</button>
 -->
@@ -39,10 +39,10 @@
                         </span>
                     </div>
                 </div>-->
-              <app-search [titleFilter]="titleFilter" [offset]="18"></app-search>
+              <app-search [disabled]="!authAppSearch" [titleFilter]="titleFilter" [offset]="18"></app-search>
 
             </div>
-            <app-service-list [moduleName]="'app'" [tabName]="appName" [groupid]="groupid" [titleFilter]="titleFilter"></app-service-list>
+            <app-service-list [deleteDisabled]="authAppDelete" [moduleName]="'app'" [tabName]="appName" [groupid]="groupid" [titleFilter]="titleFilter"></app-service-list>
         </nz-tab>
     </nz-tabset>
 </nz-content>

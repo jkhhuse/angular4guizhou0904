@@ -371,7 +371,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         // mock iptag
         // this.ipTag$ = [1, 2, 3];
         _.map(this.formThird1, (value, key) => {
-            if (value['name'] === 'ip_tag') {
+            if (value['name'] === 'ip_tag' || value['name'] === 'node_tag') {
                 value['options'] = this.ipTag$;
             }
         });
@@ -892,7 +892,9 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         await this.getIpTag();
         await this.getOperateMode();
         await this.getServiceBasic();
-        await this.getZookeeperList();
+        if (this.serviceName === 'dubbo') {
+            await this.getZookeeperList();
+        }
         await this.getNetworkOptions(this.networkRadioValue);
         await this.getnetworkAdvanced();
         // this.formThird3Project.setConfig(this.formThird3);
@@ -1222,7 +1224,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 // if (this.modelValue === 'cluster') {
                 //     value = parseInt(value);
                 // }
-                if (key === 'num_of_nodes' || key === 'secondary_node_number') {
+                if (key === 'num_of_nodes' || key === 'secondary_node_number' || key === 'num_of_shards') {
                     value = parseInt(value);
                 }
                 this.formThird3Entity[key] = value;
@@ -1308,8 +1310,11 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     //       url: ''
                     //     };
                     //   });
-                    lbArr[key] = this.loadBanlancerForm.value['listener_port' + value] + ':' +
-                        this.loadBanlancerForm.value['container_port' + value] + '/tcp';
+                    if (this.loadBanlancerForm.value['listener_port' + value] !== null &&
+                        this.loadBanlancerForm.value['container_port' + value] !== null) {
+                        lbArr[key] = this.loadBanlancerForm.value['listener_port' + value] + ':' +
+                            this.loadBanlancerForm.value['container_port' + value] + '/tcp';
+                    }
                     //   lbArr[key] = {
                     //     container_port: this.loadBanlancerForm.value['container_port' + value],
                     //     listener_port: listener_port$,
@@ -1365,7 +1370,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     console.log('服务订购成功', data);
                     this.confirmServ.success({
                         maskClosable: false,
-                        title: '服务订购成功!',
+                        title: '服务启动成功!',
                         content: '点确认按钮跳转到服务实例',
                         okText: '确定',
                         onOk() {

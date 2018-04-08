@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup,  FormControl, Validators } from '@angular/forms
 @Component({
   selector: 'app-instance-detail-config-file',
   templateUrl: './app-config-file.component.html',
-  styleUrls: ['./app-config-file.component.css']
+  styleUrls: ['./app-config-file.component.scss']
 })
 export class AppInstanceDetailConfigFileComponent implements OnInit {
 

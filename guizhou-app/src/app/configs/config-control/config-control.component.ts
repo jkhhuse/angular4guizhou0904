@@ -11,6 +11,9 @@ import {NzNotificationService} from 'ng-zorro-antd';
   styleUrls: ['./config-control.component.css']
 })
 export class ConfigControlComponent implements OnInit {
+  private authConfigDetail = true;
+  private authConfigAdd = true;
+  private authConfigDelete = true;
   public groupid: any;
   configs: any;
   deleteID = '';
@@ -118,12 +121,35 @@ export class ConfigControlComponent implements OnInit {
     this.isConfirmLoading = false;
   }
 
+  getAuth() {
+    let res = this.servicesService.getAuthList().subscribe((res: any) => {
+      let tempConfigDetail = false;
+      let tempConfigAdd = false;
+      let tempConfigDelete = false;
+      if (res != '') {
+        res.permissions.forEach((data, index) => {
+          if (data.lang1 === '配置查看') {
+            tempConfigDetail = true;
+          } else if (data.lang1 === '新建配置') {
+            tempConfigAdd = true;
+          } else if (data.lang1 === '配置删除') {
+            tempConfigDelete = true;
+          }
+        });
+        this.authConfigDetail = tempConfigDetail;
+        this.authConfigAdd = tempConfigAdd;
+        this.authConfigDelete = tempConfigDelete;
+      }
+    })
+  }
+
   constructor(private http: HttpClient,
               private servicesService: ServicesService,
               private _notification: NzNotificationService) {
   }
 
   ngOnInit() {
+    this.getAuth();
     this.getConfigs();
   }
 
