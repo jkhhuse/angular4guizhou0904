@@ -15,6 +15,7 @@ import {ServicesService} from '../shared/services.service';
 export class RepositoryDetailComponent implements OnInit {
   private authAppVersionUpdate = true;
   private authAppVersionDelete = true;
+  private authMirrorAdd = true;
   // 标签名
   public title: String = '详情内容';
   mirrorImgUrl = 'assets/service/mirror.png';
@@ -193,16 +194,20 @@ export class RepositoryDetailComponent implements OnInit {
     let res = this.servicesService.getAuthList().subscribe((res: any) => {
       let tempAppVersionUpdate = false;
       let tempAppVersionDelete = false;
+      let tempMirrorAdd = false;
       if (res != '') {
         res.permissions.forEach((data, index) => {
           if (data.lang1 === '应用版本更新') {
             tempAppVersionUpdate = true;
           } else if (data.lang1 === '应用版本注销') {
             tempAppVersionDelete = true;
+          } else if (data.lang1 === '镜像上传') {
+            tempMirrorAdd = true;
           }
         });
         this.authAppVersionUpdate = tempAppVersionUpdate;
         this.authAppVersionDelete = tempAppVersionDelete;
+        this.authMirrorAdd = tempMirrorAdd;
       }
     })
   }

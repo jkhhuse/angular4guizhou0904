@@ -18,6 +18,8 @@ export class MirrorStoreListComponent implements OnInit {
   @Input()
   tabName: string;
   @Input()
+  diasbled: boolean;
+  @Input()
   titleFilter: FormControl = new FormControl();
   @Input()
   radioValueFilter: FormControl = new FormControl();
