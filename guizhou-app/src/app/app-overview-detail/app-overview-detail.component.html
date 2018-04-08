@@ -40,7 +40,7 @@
                             <div class="modal-tem"></div>
                             <span class="modal-label">升级版本</span>
 
-                            <nz-select class="modal-cont" style="width: 120px;" [(ngModel)]="selectedVersion" (ngModelChange)="alertModel($event);">
+                            <nz-select [nzPlaceHolder]="'请选择'" class="modal-cont" style="width: 120px;" [(ngModel)]="selectedVersion" (ngModelChange)="alertModel($event);">
                                 <nz-option *ngFor="let option of versionOptions" [nzLabel]="option" [nzValue]="option"></nz-option>
                             </nz-select>
                             <div class="modal-tem"></div>
@@ -259,7 +259,7 @@
                 <div *ngFor="let eqIp of eqIpArray[i]">
                     <div nz-form-item nz-row>
                         <div nz-form-control nz-col [nzSpan]="6" [nzOffset]="'6'">
-                            <nz-select formControlName="select1" [nzSize]="'large'">
+                            <nz-select [nzPlaceHolder]="'请选择'" formControlName="select1" [nzSize]="'large'">
                                 <nz-option [nzLabel]="'固定IP'" [nzValue]="'固定IP'"></nz-option>
                             </nz-select>
                         </div>
@@ -275,7 +275,7 @@
                 <div *ngFor="let rangeIp of rangeIpArray[i]">
                     <div nz-form-item nz-row>
                         <div nz-form-control nz-col [nzSpan]="6" [nzOffset]="'6'">
-                            <nz-select formControlName="select2" [nzSize]="'large'">
+                            <nz-select [nzPlaceHolder]="'请选择'" formControlName="select2" [nzSize]="'large'">
                                 <nz-option [nzLabel]="'IP段限制'" [nzValue]="'IP段限制'"></nz-option>
                             </nz-select>
                         </div>
@@ -457,7 +457,7 @@ copy form template: -->
 
                 <div nz-form-item nz-row *ngFor="let control of controlArray0;let i = index;">
                     <div nz-form-control nz-col [nzSpan]="5" [nzOffset]="'5'">
-                        <nz-select [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption0[i]">
+                        <nz-select [nzPlaceHolder]="'请选择'" [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption0[i]">
                             <nz-option [nzLabel]="'固定IP'" [nzValue]="'equal'"></nz-option>
                             <nz-option [nzLabel]="'IP段限制'" [nzValue]="'range'"></nz-option>
                         </nz-select>
@@ -551,7 +551,7 @@ copy form template: -->
 
                 <div nz-form-item nz-row *ngFor="let control of controlArray1;let i = index;">
                     <div nz-form-control nz-col [nzSpan]="5" [nzOffset]="'5'">
-                        <nz-select [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption1[i]">
+                        <nz-select [nzPlaceHolder]="'请选择'" [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption1[i]">
                             <nz-option [nzLabel]="'固定IP'" [nzValue]="'equal'"></nz-option>
                             <nz-option [nzLabel]="'IP段限制'" [nzValue]="'range'"></nz-option>
                         </nz-select>
@@ -645,7 +645,7 @@ copy form template: -->
 
                 <div nz-form-item nz-row *ngFor="let control of controlArray2;let i = index;">
                     <div nz-form-control nz-col [nzSpan]="5" [nzOffset]="'5'">
-                        <nz-select [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption2[i]">
+                        <nz-select [nzPlaceHolder]="'请选择'" [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption2[i]">
                             <nz-option [nzLabel]="'固定IP'" [nzValue]="'equal'"></nz-option>
                             <nz-option [nzLabel]="'IP段限制'" [nzValue]="'range'"></nz-option>
                         </nz-select>
@@ -739,7 +739,7 @@ copy form template: -->
 
                 <div nz-form-item nz-row *ngFor="let control of controlArray3;let i = index;">
                     <div nz-form-control nz-col [nzSpan]="5" [nzOffset]="'5'">
-                        <nz-select [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption3[i]">
+                        <nz-select [nzPlaceHolder]="'请选择'" [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption3[i]">
                             <nz-option [nzLabel]="'固定IP'" [nzValue]="'equal'"></nz-option>
                             <nz-option [nzLabel]="'IP段限制'" [nzValue]="'range'"></nz-option>
                         </nz-select>
@@ -833,7 +833,7 @@ copy form template: -->
 
                 <div nz-form-item nz-row *ngFor="let control of controlArray4;let i = index;">
                     <div nz-form-control nz-col [nzSpan]="5" [nzOffset]="'5'">
-                        <nz-select [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption4[i]">
+                        <nz-select [nzPlaceHolder]="'请选择'" [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption4[i]">
                             <nz-option [nzLabel]="'固定IP'" [nzValue]="'equal'"></nz-option>
                             <nz-option [nzLabel]="'IP段限制'" [nzValue]="'range'"></nz-option>
                         </nz-select>

@@ -77,6 +77,8 @@
 pre {
     background: #fff;
     color: rgba(0, 0, 0, 0.65);
+    border: 0;
+    border-radius: 0;
 }
 
 :host ::ng-deep nz-table {

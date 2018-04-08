@@ -1135,7 +1135,7 @@
                       <div *ngIf="i === 0">
                         <div style="margin-top: 15px" nz-form-item nz-row *ngFor="let control of judgeFunc(i, 'control');let j = index;">
                           <div nz-form-control nz-col [nzSpan]="5" [nzOffset]="'4'" style="margin-right:10px">
-                            <nz-select [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption0[j]">
+                            <nz-select [nzPlaceHolder]="'请选择'" [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption0[j]">
                               <nz-option [nzLabel]="'固定IP'" [nzValue]="'equal'"></nz-option>
                               <nz-option [nzLabel]="'IP段限制'" [nzValue]="'range'"></nz-option>
                             </nz-select>
@@ -1168,7 +1168,7 @@
                       <div *ngIf="i === 1">
                         <div style="margin-top: 15px" nz-form-item nz-row *ngFor="let control of judgeFunc(i, 'control');let j = index;">
                           <div nz-form-control nz-col [nzSpan]="5" [nzOffset]="'4'" style="margin-right:10px">
-                            <nz-select [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption1[j]">
+                            <nz-select [nzPlaceHolder]="'请选择'" [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption1[j]">
                               <nz-option [nzLabel]="'固定IP'" [nzValue]="'equal'"></nz-option>
                               <nz-option [nzLabel]="'IP段限制'" [nzValue]="'range'"></nz-option>
                             </nz-select>
@@ -1201,7 +1201,7 @@
                       <div *ngIf="i === 2">
                         <div style="margin-top: 15px" nz-form-item nz-row *ngFor="let control of judgeFunc(i, 'control');let j = index;">
                           <div nz-form-control nz-col [nzSpan]="5" [nzOffset]="'4'" style="margin-right:10px">
-                            <nz-select [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption2[j]">
+                            <nz-select [nzPlaceHolder]="'请选择'" [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption2[j]">
                               <nz-option [nzLabel]="'固定IP'" [nzValue]="'equal'"></nz-option>
                               <nz-option [nzLabel]="'IP段限制'" [nzValue]="'range'"></nz-option>
                             </nz-select>
@@ -1234,7 +1234,7 @@
                       <div *ngIf="i === 3">
                         <div style="margin-top: 15px" nz-form-item nz-row *ngFor="let control of judgeFunc(i, 'control');let j = index;">
                           <div nz-form-control nz-col [nzSpan]="5" [nzOffset]="'4'" style="margin-right:10px">
-                            <nz-select [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption3[j]">
+                            <nz-select [nzPlaceHolder]="'请选择'" [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption3[j]">
                               <nz-option [nzLabel]="'固定IP'" [nzValue]="'equal'"></nz-option>
                               <nz-option [nzLabel]="'IP段限制'" [nzValue]="'range'"></nz-option>
                             </nz-select>
@@ -1267,7 +1267,7 @@
                       <div *ngIf="i === 4">
                         <div style="margin-top: 15px" nz-form-item nz-row *ngFor="let control of judgeFunc(i, 'control');let j = index;">
                           <div nz-form-control nz-col [nzSpan]="5" [nzOffset]="'4'" style="margin-right:10px">
-                            <nz-select [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption4[j]">
+                            <nz-select [nzPlaceHolder]="'请选择'" [nzSize]="'large'" [formControlName]="control.controlName" [(ngModel)]="selectedOption4[j]">
                               <nz-option [nzLabel]="'固定IP'" [nzValue]="'equal'"></nz-option>
                               <nz-option [nzLabel]="'IP段限制'" [nzValue]="'range'"></nz-option>
                             </nz-select>
