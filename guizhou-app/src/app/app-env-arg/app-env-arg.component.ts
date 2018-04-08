@@ -12,6 +12,10 @@ import { Router } from '@angular/router';
   templateUrl: './app-env-arg.component.html'
 })
 export class AppEnvArgComponent implements OnInit {
+  authEnvSearch = true;
+  authEnvCreate = true;
+  authEnvDelete = true;
+  authEnvUpdate = true;
 
   title: String = '环境变量文件';
   validateForm: FormGroup;
@@ -43,6 +47,7 @@ export class AppEnvArgComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getAuth();
     this.searchOptions = [];
     this.validateForm = this.fb.group({
       name       : [ null, [ Validators.required, Validators.minLength(4), Validators.maxLength(25), Validators.pattern('\\w+')] ],
@@ -357,5 +362,32 @@ export class AppEnvArgComponent implements OnInit {
       });
     }
     this._refreshStatus();
+  }
+
+  getAuth() {
+    let res = this._service.getAuthList().subscribe((res: any) => {
+      let tempEnvSearch = false;
+      let tempEnvCraete = false;
+      let tempEnvDelete = false;
+      let tempEnvUpdate = false;
+
+      if (res != '') {
+        res.permissions.forEach((data, index) => {
+          if (data.lang1 === '环境变量搜索') {
+            tempEnvSearch = true;
+          } else if (data.lang1 === '环境变量文件创建') {
+            tempEnvCraete = true;
+          } else if (data.lang1 === '环境变量文件删除') {
+            tempEnvDelete = true;
+          } else if (data.lang1 === '环境变量文件更新') {
+            tempEnvUpdate = true;
+          }
+        });
+        this.authEnvSearch = tempEnvSearch;
+        this.authEnvCreate = tempEnvCraete;
+        this.authEnvDelete = tempEnvDelete;
+        this.authEnvUpdate = tempEnvUpdate;
+      }
+    })
   }
 }
