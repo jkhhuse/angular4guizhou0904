@@ -260,6 +260,13 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
   logFormProject2: FormGroup;
   logFormProject3: FormGroup;
   logFormProject4: FormGroup;
+  envFileFormProject0: FormGroup;
+  envFileFormProject1: FormGroup;
+  envFileFormProject2: FormGroup;
+  envFileFormProject3: FormGroup;
+  envFileFormProject4: FormGroup;
+  envFileOptions;
+  envFileOptionsName = [];
   env$ = [];
   // @ViewChild('logFormProject1') logFormProject1: DynamicFormComponent;
   // @ViewChild('logFormProject0') logFormProject0: DynamicFormComponent;
@@ -272,6 +279,12 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
   logFormConfig2 = [];
   logFormConfig3 = [];
   logFormConfig4 = [];
+  envFileFormConfig0 = [];
+  envFileFormConfig1 = [];
+  envFileFormConfig2 = [];
+  envFileFormConfig3 = [];
+  envFileFormConfig4 = [];
+  envfiles$: object[] = [];
   // logFormConfig: FieldConfig[] = [
   //   {
   //     type: 'input',
@@ -863,6 +876,34 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
     }
   }
 
+  judgeFuncEnvFile(i, type?): any {
+    if (type === undefined) {
+      if (i === 0) {
+        return this.envFileFormProject0;
+      } else if (i === 1) {
+        return this.envFileFormProject1;
+      } else if (i === 2) {
+        return this.envFileFormProject2;
+      } else if (i === 3) {
+        return this.envFileFormProject3;
+      } else if (i === 4) {
+        return this.envFileFormProject4;
+      }
+    } else if (type === 'config') {
+      if (i === 0) {
+        return this.envFileFormConfig0;
+      } else if (i === 1) {
+        return this.envFileFormConfig1;
+      } else if (i === 2) {
+        return this.envFileFormConfig2;
+      } else if (i === 3) {
+        return this.envFileFormConfig3;
+      } else if (i === 4) {
+        return this.envFileFormConfig4;
+      }
+    }
+  }
+
   judgeFuncLog(i, type?): any {
     if (type === undefined) {
       if (i === 0) {
@@ -891,7 +932,7 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
     }
   }
 
-  judgeFuncLbControl(i) {
+  judgeFuncLbControl(i): any {
     if (i === 0) {
       return this.lbControlArray0;
     } else if (i === 1) {
@@ -905,7 +946,7 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
     }
   }
 
-  judgeFuncLb(i) {
+  judgeFuncLb(i): any {
     if (i === 0) {
       return this.loadBanlancerForm0;
     } else if (i === 1) {
@@ -1034,7 +1075,7 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
     }
   }
 
-  judgeFunc(i, type, j?) {
+  judgeFunc(i, type, j?): any {
     if (type === 'control') {
       if (i === 0) {
         return this.controlArray0;
@@ -1928,6 +1969,7 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
   // todo 这里两个choosed函数可以优化
   choosedImageFunc(tab) {
     // console.log('image func', tab);
+    this.envfiles$ = [];
     console.log(this.activeImage);
     this.choosedImageName = tab;
     const keyList = ['', 1, 11, 111, 1111];
@@ -2006,6 +2048,16 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
               });
             }
           }
+          if (this.judgeFuncEnvFile(key1).value['envfiles' + value] !== undefined &&
+            this.judgeFuncEnvFile(key1).value['envfiles' + value] !== null) {
+              // 这里也要考虑一下undefined
+              // if (key1 === 0) {
+              //   this.envfiles$[0] = this.envFileFormProject0.value['envfiles' + value];
+              // }
+              this.envfiles$[key] = {
+                name: this.judgeFuncEnvFile(key1).value['envfiles' + value]
+              };
+          }
           _.map(this.env1Enty, (value9, key9) => {
             const env1Enty$ = _.split(value9['__ALAUDA_FILE_LOG_PATH__'], 'undefined,');
             if (env1Enty$.length > 1) {
@@ -2047,6 +2099,7 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
           lbPorts = _.compact(lbPorts);
           // lbArr[key]['container_port'] = this.loadBanlancerForm.value['container_port' + value];
         });
+        this.envfiles$ = _.compact(this.envfiles$);
         console.log(this.env1Enty);
         // 这里当第一次oninit的时候，会报错null undefined
         _.map(this.env1Enty, (value, key) => {
@@ -2118,7 +2171,8 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
           // todo instance这里数据有问题
           instance_envvars: _.isEqual(this.env1Enty[key1], {}) ? undefined : this.env1Enty[key1],
           microserviceConfigs: this.judgeFuncConfigFile(key1, 'dataEnt').length > 0 ? this.judgeFuncConfigFile(key1, 'dataEnt') : undefined,
-          volumes: this.judgeFuncStateful(key1, 'dataEnt').length > 0 ? this.judgeFuncStateful(key1, 'dataEnt') : undefined
+          volumes: this.judgeFuncStateful(key1, 'dataEnt').length > 0 ? this.judgeFuncStateful(key1, 'dataEnt') : undefined,
+          envfiles: this.envfiles$
         };
       }
     });
@@ -2277,6 +2331,34 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
         this.networkRadioValue = values[1]['length'] > 0 ? values[1][0]['name'] : undefined;
         this.networkRadioValue2 = values[0]['length'] > 0 ? values[0][0]['name'] : undefined;
         resolve();
+      });
+    });
+  }
+  addEnvFile(k) {
+    const envFileInput = [[
+      {
+        type: 'select',
+        name: this.judgeFuncEnvFile(k, 'config')[this.judgeFuncEnvFile(k, 'config').length - 1][0]['name'] + 1,
+        placeholder: '请选择',
+        options: this.envFileOptionsName,
+      },
+    ]];
+    if (k === 0) {
+      this.envFileFormConfig0 = _.concat(this.envFileFormConfig0, envFileInput);
+    } else if (k === 1) {
+      this.envFileFormConfig1 = _.concat(this.envFileFormConfig1, envFileInput);
+    } else if (k === 2) {
+      this.envFileFormConfig2 = _.concat(this.envFileFormConfig2, envFileInput);
+    } else if (k === 3) {
+      this.envFileFormConfig3 = _.concat(this.envFileFormConfig3, envFileInput);
+    } else if (k === 4) {
+      this.envFileFormConfig4 = _.concat(this.envFileFormConfig4, envFileInput);
+    }
+    // this.logFormConfig = _.concat(this.logFormConfig, logInput);
+    // this.judgeFuncLog(k).setConfig(this.judgeFuncLog(k, 'config'));
+    _.map(this.judgeFuncEnvFile(k, 'config'), (value2, key2) => {
+      _.map(value2, (value3, key3) => {
+        this.judgeFuncEnvFile(k).addControl(value3['name'], new FormControl());
       });
     });
   }
@@ -2449,6 +2531,16 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
           });
         });
       }
+    } else if (type === 'envfile') {
+      if (this.judgeFuncEnvFile(k, 'config').length > 1) {
+        // console.log('日志文件');
+        const deleteArr = _.pullAt(this.judgeFuncEnvFile(k, 'config'), i);
+        _.map(deleteArr, (value1, key1) => {
+          _.map(value1, (value2, key2) => {
+            this.judgeFuncEnvFile(k).removeControl(value2['name']);
+          });
+        });
+      }
     }
   }
 
@@ -2526,9 +2618,11 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
     return new Promise((resolve, reject) => {
       this.http.get(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') + '/env-files').subscribe(data => {
         // this.envFormConfig = []
+        this.envFileOptions = data;
         const dataValue = [];
-        _.map(data, (value, key) => {
+        _.map(data['opEnvfilesList'], (value, key) => {
           dataValue[key] = value['name'];
+          this.envFileOptionsName[key] = value['name'];
         });
         this.envFormConfig = [
           {
@@ -2566,6 +2660,11 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
       this.logFormProject2 = this.fb.group({});
       this.logFormProject3 = this.fb.group({});
       this.logFormProject4 = this.fb.group({});
+      this.envFileFormProject0 = this.fb.group({});
+      this.envFileFormProject1 = this.fb.group({});
+      this.envFileFormProject2 = this.fb.group({});
+      this.envFileFormProject3 = this.fb.group({});
+      this.envFileFormProject4 = this.fb.group({});
       // for (let i = 0; i < 5; i++) {
       //     this.lbControlArray.push({ index: i, show: i < 6 });
       //     // this.loadBanlancerForm.addControl(`field${i}`, new FormControl());
@@ -2668,6 +2767,19 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
       this.logFormConfig2 = logFormConfig$;
       this.logFormConfig3 = logFormConfig$;
       this.logFormConfig4 = logFormConfig$;
+      const envFileConfig$ = [[
+        {
+          type: 'select',
+          name: 'envfiles',
+          placeholder: '请选择',
+          options: this.envFileOptionsName,
+        },
+      ]];
+      this.envFileFormConfig0 = envFileConfig$;
+      this.envFileFormConfig1 = envFileConfig$;
+      this.envFileFormConfig2 = envFileConfig$;
+      this.envFileFormConfig3 = envFileConfig$;
+      this.envFileFormConfig4 = envFileConfig$;
       this.testOptions = [
         { value: 'jack', label: 'Jack' },
         { value: 'lucy', label: 'Lucy' },
@@ -2767,6 +2879,31 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
       _.map(this.logFormConfig4, (value2, key2) => {
         _.map(value2, (value3, key3) => {
           this.logFormProject4.addControl(value3['name'], new FormControl());
+        });
+      });
+      _.map(this.envFileFormConfig0, (value2, key2) => {
+        _.map(value2, (value3, key3) => {
+          this.envFileFormProject0.addControl(value3['name'], new FormControl());
+        });
+      });
+      _.map(this.envFileFormConfig1, (value2, key2) => {
+        _.map(value2, (value3, key3) => {
+          this.envFileFormProject1.addControl(value3['name'], new FormControl());
+        });
+      });
+      _.map(this.envFileFormConfig2, (value2, key2) => {
+        _.map(value2, (value3, key3) => {
+          this.envFileFormProject2.addControl(value3['name'], new FormControl());
+        });
+      });
+      _.map(this.envFileFormConfig3, (value2, key2) => {
+        _.map(value2, (value3, key3) => {
+          this.envFileFormProject3.addControl(value3['name'], new FormControl());
+        });
+      });
+      _.map(this.envFileFormConfig4, (value2, key2) => {
+        _.map(value2, (value3, key3) => {
+          this.envFileFormProject4.addControl(value3['name'], new FormControl());
         });
       });
       this.serviceAdvancedLabel = [
@@ -2995,6 +3132,7 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
     // await this.getServiceBasic();
     this.appId = this.routeInfo.snapshot.params['appId'];
     this.appName = this.routeInfo.snapshot.params['appName'];
+    await this.getEnvFile();
     await this.getnetworkAdvanced();
     // await this.getNetworkOptions();
     await this.getImgAdvanced();
