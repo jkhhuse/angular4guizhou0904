@@ -28,6 +28,7 @@ export class OperaEventComponent implements OnInit {
   conditionToggle: boolean;
   allChecked = false;
   indeterminate = true;
+  checkDisabled = false;
   checkOptionsOne = [
     { label: '项目', value: 'group', checked: true },
     { label: '用户', value: 'user', checked: false },
@@ -131,6 +132,7 @@ export class OperaEventComponent implements OnInit {
   // 更新图表
   refreshEventChart() {
     const checkedArray = [];
+    this.checkDisabled = true;
     this.checkOptionsOne.forEach(item => {
       if (item.checked === true) {
         checkedArray.push(item.value);
@@ -157,9 +159,11 @@ export class OperaEventComponent implements OnInit {
             this.operateTimeData.push(obj.operateTime);
           });
           this.getEventOption();
+          this.checkDisabled = false;
         },
         error => {
           console.log(error);
+          this.checkDisabled = false;
         },
         () => { }
       );

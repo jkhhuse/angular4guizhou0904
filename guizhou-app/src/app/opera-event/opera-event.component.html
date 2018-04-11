@@ -3,10 +3,10 @@
         <div class="event-chart-selector">
             <div>平台事件数</div>
             <div>
-                <label nz-checkbox [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()" [nzIndeterminate]="indeterminate">
+                <label nz-checkbox [nzDisabled]="checkDisabled" [(ngModel)]="allChecked" (ngModelChange)="updateAllChecked()" [nzIndeterminate]="indeterminate">
                   <span>全选</span>
                 </label>
-                <nz-checkbox-group [(ngModel)]="checkOptionsOne" (ngModelChange)="updateSingleChecked()"></nz-checkbox-group>
+                <nz-checkbox-group [nzDisabled]="checkDisabled" [(ngModel)]="checkOptionsOne" (ngModelChange)="updateSingleChecked()"></nz-checkbox-group>
                 <nz-select style="width: 60px;" [(ngModel)]="selectedTime" (nzOpenChange)="refreshEventChart()" [nzPlaceHolder]="'choose option'" nzAllowClear>
                     <nz-option *ngFor="let option of timeOptions" [nzLabel]="option.label" [nzValue]="option" [nzDisabled]="option.disabled">
                     </nz-option>
