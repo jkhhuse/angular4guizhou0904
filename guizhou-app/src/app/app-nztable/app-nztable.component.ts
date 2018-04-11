@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
-import { ServicesService } from "../shared/services.service";
+import { ServicesService } from '../shared/services.service';
 
 @Component({
   selector: 'app-app-nztable',
@@ -15,6 +15,7 @@ export class AppNztableComponent implements OnInit, OnChanges {
   tableTitle: any;
 
 
+  _dataSet11 = [];
   _loading = true;
   _dataSet = [];
 
@@ -37,7 +38,25 @@ export class AppNztableComponent implements OnInit, OnChanges {
 
   refreshData(reset = false) {
     this._loading = true;
-    this._dataSet = this.mirrorDetail;
+    // this._dataSet = this.mirrorDetail;
+    if (this.tableNum === 11) {
+      // 获取环境变量数组
+      if (this.mirrorDetail !== undefined) {
+        if (this.mirrorDetail['instance_envvars'] !== undefined) {
+          for (const key in this.mirrorDetail['instance_envvars']) {
+            if (key !== undefined) {
+              const _obj = {
+                key: key,
+                value: this.mirrorDetail['instance_envvars'][key]
+              };
+              this._dataSet.push(_obj);
+            }
+          }
+        }
+      }
+    } else {
+      this._dataSet = this.mirrorDetail;
+    }
     // console.log(this._dataSet);
     this._loading = false;
   }
