@@ -18,8 +18,8 @@
         <tr nz-tbody-tr *ngFor="let data of nzTable.data">
             <td nz-td>
                 <a [routerLink]="['/appOverviewDetail', data.id]">
-        {{data.instanceName}}
-      </a>
+                    {{data.instanceName}}
+                </a>
             </td>
             <td nz-td>{{data.groupId}}</td>
             <td nz-td>{{data.cpuSize}}核 {{data.memSize}}M</td>
@@ -53,8 +53,8 @@
             <tr nz-tbody-tr *ngFor="let data of nzTable.data.info.services; let i=index">
                 <td nz-td>
                     <a [routerLink]="['/appOverviewDetailDetail', nzTable.data.id , data.service_name]">
-        {{data.service_name}}
-      </a>
+                        {{data.service_name}}
+                    </a>
                 </td>
                 <td nz-td>{{data.current_status}}</td>
                 <td nz-td>{{data?.custom_instance_size?.cpu}} 核 {{data?.custom_instance_size?.mem}} MB</td>
@@ -76,9 +76,17 @@
                 <td nz-td>{{data.started_at | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                 <td nz-td>
                     <button nz-button [nzType]="'primary'" disabled>
-        <span>重建</span>
-      </button>
+                        <span>重建</span>
+                    </button>
                 </td>
+            </tr>
+        </tbody>
+
+        <!-- 服务实例详情 环境变量表格 -->
+        <tbody nz-tbody *ngIf="tableNum === 11">
+            <tr nz-tbody-tr *ngFor="let data of nzTable.data">
+                <td nz-td>{{data.key}}</td>
+                <td nz-td>{{data.value}}</td>
             </tr>
         </tbody>
 
@@ -87,8 +95,8 @@
             <tr nz-tbody-tr *ngFor="let data of nzTable.data">
                 <td nz-td>
                     <a [routerLink]="['/appOverviewDetailDetail', data.id]">
-        {{data.configName}}
-      </a>
+                        {{data.configName}}
+                    </a>
                 </td>
                 <!--
     <td nz-td>{{data.createUserId}}</td>
@@ -97,8 +105,8 @@
                 <td nz-td>{{data.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                 <td nz-td>
                     <button nz-button [nzType]="'primary'" (click)="showModal(data.id, data.configName);">
-        <span>删除</span>
-      </button>
+                        <span>删除</span>
+                    </button>
                 </td>
             </tr>
         </tbody>
@@ -132,8 +140,8 @@
                 <td nz-td>{{data.started_at}}</td>
                 <td nz-td>
                     <button nz-button [nzType]="'primary'" disabled>
-        <span>重建</span>
-      </button>
+                        <span>重建</span>
+                    </button>
                 </td>
             </tr>
         </tbody>
