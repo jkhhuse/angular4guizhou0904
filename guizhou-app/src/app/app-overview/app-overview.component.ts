@@ -113,6 +113,9 @@ export class AppOverviewComponent implements OnInit {
 
   handleCancel = (e) => {
     console.log(e);
+    this._isSpinning_delete = false;
+    this._isSpinning_start= false;
+    this._isSpinning_stop= false;
     this.isVisible_delete = false;
     this.isVisible_start = false;
     this.isVisible_stop = false;
