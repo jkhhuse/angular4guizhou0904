@@ -327,30 +327,56 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
     getIpTag() {
         return new Promise((resolve, reject) => {
             if (this.radioValue === 'product') {
-                this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/' + this.networkRadioValue + '/labels').
+                this.http.get(environment.apiService + '/apiService' + '/clusters/' + this.networkRadioValue
+                    + '/services/' + this.serviceName + '/nodes').
                     subscribe(data => {
                         console.log('这是主机标签', data);
-                        this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
-                            // if (value['labels'].length > 0) {
-                            // if (value['node_tag']) {
-                            return value['value'];
-                            // }
-                        }));
+                        _.map(data, (value1, key1) => {
+                            _.map(value1['labels'], (value2, key2) => {
+                                if (value2['key'] === 'ip') {
+                                    this.ipTag$.push(value2['value']);
+                                }
+                            });
+                        });
+                        // this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
+                        //     // if (value['labels'].length > 0) {
+                        //     // if (value['node_tag']) {
+                        //     if (value['key'] === 'ip') {
+                        //         return value['value'];
+                        //     }
+                        //     // }
+                        // }));
+                        // this.ipTag$ = _.map(data, (value, key) => {
+                        //     return value['private_ip'];
+                        // });
                         resolve();
                     }, err => {
                         console.log(err.errors);
                         // this.createNotification('error', '更新模式失败', err._body);
                     });
             } else {
-                this.http.get(environment.apiAlauda + '/regions/' + environment.namespace + '/' + this.networkRadioValue2 + '/labels').
+                this.http.get(environment.apiService + '/apiService' + '/clusters/' + this.networkRadioValue2
+                    + '/services/' + this.serviceName + '/nodes').
                     subscribe(data => {
                         console.log('这是主机标签', data);
-                        this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
-                            // if (value['labels'].length > 0) {
-                            // if (value['node_tag']) {
-                            return value['value'];
-                            // }
-                        }));
+                        _.map(data, (value1, key1) => {
+                            _.map(value1['labels'], (value2, key2) => {
+                                if (value2['key'] === 'ip') {
+                                    this.ipTag$.push(value2['value']);
+                                }
+                            });
+                        });
+                        // this.ipTag$ = _.compact(_.map(data['labels'], (value, key) => {
+                        //     // if (value['labels'].length > 0) {
+                        //     // if (value['node_tag']) {
+                        //     if (value['key'] === 'ip') {
+                        //         return value['value'];
+                        //     }
+                        //     // }
+                        // }));
+                        // this.ipTag$ = _.map(data, (value, key) => {
+                        //     return value['private_ip'];
+                        // });
                         resolve();
                     });
             }
@@ -653,7 +679,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     options$ = this.ipTag$;
                                 }
                                 this.formThird1[key] = {
-                                    ifTags: value['attribute_name'] === 'ip_tag' ? 'true' : 'false',
+                                    ifTags: (value['attribute_name'] === 'ip_tag'
+                                        || value['attribute_name'] === 'node_tag') ? 'true' : 'false',
                                     type: 'select',
                                     label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
                                     name: value['attribute_name'],
@@ -664,7 +691,11 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     styles: {
                                         'width': '400px'
                                     },
-                                    valueUpdate: true
+                                    valueUpdate: true,
+                                    selectTooltip: (value['attribute_name'] === 'ip_tag'
+                                        || value['attribute_name'] === 'node_tag') ? true : false,
+                                    selectTooltipTitle: (value['attribute_name'] === 'ip_tag'
+                                        || value['attribute_name'] === 'node_tag') ? '使用Host网络模式的服务实例可能会遇到需要使用的主机端口已被占用而导致启动失败。' : ''
                                 };
                                 break;
                             }

@@ -19,6 +19,9 @@
       <nz-option *ngFor="let option of config.options" [nzValue]="option" [nzLabel]="option" [nzDisabled]="option.disabled">
       </nz-option>
     </nz-select>
+    <nz-tooltip *ngIf="config.selectTooltip" [nzTitle]="config.selectTooltipTitle" [nzPlacement]="'top'">
+      <i nz-tooltip style="vertical-align: top" class="anticon anticon-question-circle-o"></i>
+    </nz-tooltip>
     <div nz-form-explain *ngIf="getFormControl().dirty&&getFormControl().hasError('required')">{{config.label}}不能为空</div>
     <!-- 下面是测试 -->
     <!-- <div>111</div> -->
