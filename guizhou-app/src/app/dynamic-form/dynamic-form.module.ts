@@ -13,7 +13,7 @@ import { FormSelectComponent } from './components/form-select/form-select.compon
 import { FormRadioComponent } from './components/form-radio/form-radio.component';
 // 子组件也要导入才可以https://github.com/ngx-translate/core/issues/430
 import { TranslateModule } from '@ngx-translate/core';
-import { ComponentServiceService } from "./services/component-service.service";
+import { ComponentServiceService } from './services/component-service.service';
 
 @NgModule({
     imports: [

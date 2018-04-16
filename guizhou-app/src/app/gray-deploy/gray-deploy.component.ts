@@ -731,6 +731,8 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
   ];
   ifServiceInstance = false;
   ifOninitCompleted = false;
+  // 容器暴露端口列表
+  networkContainerOptions = [];
 
   // 灰度策略
   grayRules;
@@ -780,6 +782,35 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
   //   },
   //     this.formThirdProject.setValue('ip_tag', this.formThird[3]);
   // }
+  getContainerOptions(repositoryId$) {
+    return new Promise((resolve, reject) => {
+      this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') +
+        '/warehouse/repository/' + repositoryId$ + '/meta').subscribe(data => {
+          console.log('容器暴露端口');
+          // mock 容器暴露端口
+          // if (repositoryId$ === 'c223e097-86b4-4a74-9048-fbf8ec537fe8') {
+          //   data['ExposedPorts'] = {
+          //     '80/tcp': {},
+          //     '8080/http': {}
+          //   };
+          // } else if (repositoryId$ === 'eb6982d2-189b-44bb-b2da-591fc525a2f2') {
+          //   data['ExposedPorts'] = {
+          //     '81/tvv': {},
+          //     '8181/sss': {}
+          //   };
+          // }
+          // console.log(data);
+          // mock 容器暴露端口
+          if (data['ExposedPorts'] !== undefined) {
+            this.networkContainerOptions = _.map(_.keys(data['ExposedPorts']), (value, key) => {
+              return value.split('/')[0];
+            });
+          }
+          console.log(this.networkContainerOptions);
+          resolve();
+        });
+    });
+  }
   judgeFuncStateful(i, type): any {
     if (type === 'data') {
       if (i === 0) {
@@ -1967,6 +1998,30 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
       });
   }
   // todo 这里两个choosed函数可以优化
+  async choosedImageFunc1(tab) {
+    let reposId$;
+    _.map(this.images, (value, key) => {
+      if (value['repositoryName'] === tab) {
+        reposId$ = value['id'];
+      }
+    });
+    await this.getContainerOptions(reposId$);
+    console.log('切换容器端口');
+    _.map(this.judgeFuncLbControl(this.activeImage), (value, key) => {
+      value[1]['options'] = this.networkContainerOptions;
+      value[1]['selectedOption'] = undefined;
+    });
+    _.map(this.judgeFuncLbControl(this.activeImage), (value1, key1) => {
+      _.map(value1, (value2, key2) => {
+        this.judgeFuncLb(this.activeImage).addControl(value2['name'], new FormControl());
+        if (value2['type'] === 'select') {
+          value2['selectedOption'] = value2['options'][0];
+        }
+      });
+    });
+    // await this.getnetworkAdvanced();
+  }
+
   choosedImageFunc(tab) {
     // console.log('image func', tab);
     this.envfiles$ = [];
@@ -2068,7 +2123,8 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
           // console.log(this.imageData);
           // container_port undefined?
           // https://stackoverflow.com/questions/7479520/javascript-cannot-set-property-of-undefined
-          if (this.judgeFunc1(key1, 'loadBanlancerForm').value['container_port' + value] !== undefined) {
+          if (this.judgeFunc1(key1, 'loadBanlancerForm').value['container_port' + value] !== undefined &&
+          this.judgeFunc1(key1, 'loadBanlancerForm').value['container_port' + value] !== null) {
             const listener_port$ = _.split(this.judgeFunc1(key1, 'loadBanlancerForm').value['listener_port' + value], ':')[2];
             lbAddress$[key] = _.split(this.judgeFunc1(key1, 'loadBanlancerForm').value['listener_port' + value], ':')[1];
             console.log(this.networkOptionsEnv, lbAddress$);
@@ -2087,7 +2143,7 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
               url: ''
             }];
             lbArr[key] = {
-              container_port: this.judgeFunc1(key1, 'loadBanlancerForm').value['container_port' + value],
+              container_port: this.judgeFunc1(key1, 'loadBanlancerForm').value['container_port' + value][0],
               listener_port: listener_port$,
               protocol: this.judgeFunc1(key1, 'loadBanlancerForm').value['protocol' + value],
               rules: this.judgeFunc1(key1, 'loadBanlancerForm').value['protocol' + value] === 'tcp' ? []
@@ -2433,10 +2489,12 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
         options: this.networkOptions,
       },
       {
-        type: 'input',
-        inputType: 'number',
+        type: 'select',
+        // inputType: 'number',
         name: this.judgeFuncLbControl(k)[this.judgeFuncLbControl(k).length - 1][1]['name'] + 1,
-        placeholder: '容器暴露端口',
+        options: this.networkContainerOptions,
+        placeholder: '请选择或者手动输入',
+        ifTags: true
       },
       {
         type: 'select',
@@ -2697,10 +2755,11 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
             options: this.networkOptions,
           },
           {
-            type: 'input',
-            inputType: 'number',
+            type: 'select',
             name: 'container_port',
-            placeholder: '容器暴露端口',
+            placeholder: '请选择或者手动输入',
+            options: this.networkContainerOptions,
+            ifTags: true
           },
           {
             type: 'select',
@@ -3133,18 +3192,18 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
     this.appId = this.routeInfo.snapshot.params['appId'];
     this.appName = this.routeInfo.snapshot.params['appName'];
     await this.getEnvFile();
+    await this.getServiceInit();
     await this.getnetworkAdvanced();
     // await this.getNetworkOptions();
     await this.getImgAdvanced();
     // this.getServiceVersion();
     // this.toggleButton();
     await this.getInsAndVersion();
-    await this.getServiceInit();
     await this.getServiceDepend();
     console.log('依赖的服务', this.serviceTabs);
     await this.getCluster();
     await this.getIpTag();
-    await this.choosedImageFunc(this.imageTabs[0]);
+    await this.choosedImageFunc1(this.imageTabs[0]);
     await this.choosedServiceFunc(this.serviceTabs[0]);
     this.selectValueSub = this.componentSer.componentValue$.subscribe(
       value => {
