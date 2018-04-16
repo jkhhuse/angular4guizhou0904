@@ -47,6 +47,10 @@ export class OperaAlertInfoComponent implements OnInit, AfterViewChecked {
       this.noDataWidth = (this.alertState.nodataState / totalWidth  * 100) + '%';
       this.okLength = ((this.alertState.alertingState / totalWidth  * 100) + (this.alertState.nodataState / totalWidth  * 100)) + '%';
       this.okWidth = (this.alertState.okState / totalWidth  * 100) + '%';
+      let dpsValue = [];
+      dpsValue = this.dps.value.map((value, key) => {
+        return Number.parseFloat(value).toFixed(2).toString();
+      });
       this.logOption = {
         color: ['#3398DB'],
         legend: {
@@ -90,7 +94,7 @@ export class OperaAlertInfoComponent implements OnInit, AfterViewChecked {
                     color: '#719CD8'
                 }
               },
-              data: this.dps.value
+              data: dpsValue
             }
         ]
       };

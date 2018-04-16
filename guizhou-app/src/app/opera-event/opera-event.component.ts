@@ -185,6 +185,7 @@ export class OperaEventComponent implements OnInit {
           this.getEventOption();
         }
       }
+      this.checkDisabled = false;
     }
   }
 
