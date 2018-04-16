@@ -57,7 +57,7 @@ export class AppEnvArgComponent implements OnInit {
     });
     this.currentPage = 1;
     this.updateValidateForm = this.fb.group({
-      name       : [ null, [ Validators.required, Validators.minLength(4), Validators.maxLength(25)] ],
+      name       : [ null, [ Validators.required, Validators.minLength(4)] ],
       desc       : [ null, [ Validators.required, Validators.maxLength(80) ] ],
       content    : [ null, [ Validators.required ] ],
     });
@@ -253,7 +253,7 @@ export class AppEnvArgComponent implements OnInit {
           }
         });
         this.updateValidateForm = this.fb.group({
-          name       : [ envfileName, [ Validators.required, Validators.minLength(4), Validators.maxLength(25)] ],
+          name       : [ envfileName, [ Validators.required, Validators.minLength(4)] ],
           desc       : [ res.backend_return.description, [ Validators.required, Validators.maxLength(80) ] ],
           content    : [ tempContent, [ Validators.required ] ],
         });
@@ -322,7 +322,7 @@ export class AppEnvArgComponent implements OnInit {
       (res) => {
         this.isUpdateModalVisible = false;
         this.updateValidateForm = this.fb.group({
-          name       : [ null, [ Validators.required, Validators.minLength(4), Validators.maxLength(25)] ],
+          name       : [ null, [ Validators.required, Validators.minLength(4)] ],
           desc       : [ null, [ Validators.required, Validators.maxLength(80) ] ],
           content    : [ null, [ Validators.required ] ],
         });
