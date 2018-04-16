@@ -88,8 +88,8 @@
         <div nz-col [nzSpan]="3" [nzOffset]="3">
           主机标签
         </div>
-        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
-          {{instanceDetail.node_tag}}
+        <div *ngIf="instanceDetail.node_tag !== null || instanceDetail.node_selector !== null" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{instanceDetail.node_tag === null ? 'ip:' + instanceDetail?.node_selector?.ip : instanceDetail?.node_tag}}
         </div>
       </div>
       <div nz-row class="detail-content">
@@ -117,7 +117,11 @@
         <div class="detail-tab-div" *ngIf="tab.index === 2 && authServiceLog">
           <app-app-logs *ngIf="instanceId" [appId]="instanceId" [moduleName]="moduleName"></app-app-logs>
         </div>
-        <div class="detail-tab-div" *ngIf="tab.index === 3"></div>
+        <div class="detail-tab-div" *ngIf="tab.index === 3">
+          <div class="detail-instance-wrapper" *ngIf="serviceAddress">
+            <app-app-nztable [mirrorDetail]="serviceAddress" [tableNum]="8" [tableTitle]="table8Title"></app-app-nztable>
+        </div>
+        </div>
         <div class="detail-tab-div" *ngIf="tab.index === 4">
           <div class="detail-instance-wrapper" *ngIf="instanceDetail">
             <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="5" [tableTitle]="table5Title"></app-app-nztable>
