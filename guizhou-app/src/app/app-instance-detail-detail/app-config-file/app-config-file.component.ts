@@ -25,7 +25,6 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
   _size = 'default';
   isAddVisible = false;
   isRemoveVisible = false;
-
   appId = ''; // 应用ID
   configId = ''; // 配置对应ID
   keyId = ''; // 选中的键对应的ID
@@ -44,8 +43,8 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
       keys               : [ '', [ Validators.required ] ],
       path              : [ '', [ Validators.required ] ]
     });
-    this.configsChange();
-    this.keysChange();
+    this.changeConfig();
+    this.changeKey();
   }
 
   ngOnInit() {
@@ -69,19 +68,20 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
   }
 
   // 获得键列表
-  configsChange() {
-    const configsControl = this.validateForm.get('configs');
-    configsControl.valueChanges.forEach(
-      (config: any) => {
-        // 根据configName获取configId
-        this.configId = '';
-        this.configOptions.forEach((value, key) => {
-          if (value.config === config) {
-            this.configId = value.id;
-          }
-        });
-        this.http.get<any[]>(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') + '/configs/' + this.configId)
-        .subscribe((data) => {
+  changeConfig() {
+    const configValue = this.validateForm.get('configs').value;
+    this.configId = '';
+    // 获得value对应的configId
+    this.configOptions.forEach((option, key) => {
+      if (option.config === configValue) {
+        this.configId = option.id;
+      }
+    });
+    this.http.get<any[]>(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') + '/configs/' + this.configId)
+      .subscribe((data) => {
+        this.keyOptions = [];
+        if (data.length > 0) {
+          this.validateForm.controls['keys'].patchValue(data[0].key);
           data.forEach((value, key) => {
             const obj = {
               id: value.id,
@@ -90,25 +90,20 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
             };
             this.keyOptions.push(obj);
           });
-        });
-      }
-    );
+          this.changeKey();
+        }
+      });
   }
 
   // 获得键返回值的ID，由键的selector触发
-  keysChange() {
-    const configsControl = this.validateForm.get('keys');
-    configsControl.valueChanges.forEach(
-      (key: any) => {
-        // 根据configName获取configId
-        this.keyId = '';
-        this.keyOptions.forEach((value, index) => {
-          if (value.key === key) {
-            this.keyId = value.id;
-          }
-        });
+  changeKey() {
+    const keyValue = this.validateForm.get('keys').value;
+    this.keyId = '';
+    this.keyOptions.forEach((obj, index) => {
+      if (keyValue === obj.key) {
+        this.keyId = obj.id;
       }
-    );
+    });
   }
 
   getFormControl(name) {
