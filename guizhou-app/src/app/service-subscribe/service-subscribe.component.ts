@@ -156,6 +156,21 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         private componentSer: ComponentServiceService, private servicesService: ServicesService) {
     }
 
+    deleteLb(i) {
+        console.log('删除负载均衡');
+        if (this.lbControlArray.length > 1) {
+            // console.log(i, this.lbControlArray, this.loadBanlancerForm);
+            const deleteArr = _.pullAt(this.lbControlArray, i);
+            // console.log(this.lbControlArray, this.loadBanlancerForm);
+            _.map(deleteArr, (value1, key1) => {
+              _.map(value1, (value2, key2) => {
+                this.loadBanlancerForm.removeControl(value2['name']);
+              });
+            });
+            console.log(this.loadBanlancerForm);
+          }
+    }
+
     toggleRadio() {
         // console.log(this.formThird2Radio.defaultValue);
         // this.formThird3[0] = {
@@ -1214,7 +1229,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
     done() {
         // 负载均衡器数据
         const keyList = ['', 1, 11, 111, 1111];
-        const lbArr = [];
+        let lbArr = [];
         const lbId = [];
         const lbPorts = [];
         const lbAddress$ = [];
@@ -1358,6 +1373,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 console.log(lbArr);
                 // lbArr[key]['container_port'] = this.loadBanlancerForm.value['container_port' + value];
             });
+            lbArr = _.compact(lbArr);
             lb_port$ = {
                 lb_port: lbArr
             };

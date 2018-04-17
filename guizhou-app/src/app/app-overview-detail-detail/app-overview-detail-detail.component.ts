@@ -21,6 +21,9 @@ export class AppOverviewDetailDetailComponent implements OnInit {
   private authServiceMontor = true;
   private authServiceLog = true;
   private instanceDetail: any;
+  private serviceAddress: any = {
+    endpoints: []
+  };
   // private _dataSet11;
   tabs = [
     {
@@ -50,6 +53,29 @@ export class AppOverviewDetailDetailComponent implements OnInit {
     {
       index: 7,
       name: '存储卷'
+    }
+  ];
+  // 服务地址表格
+  table8Title = [
+    {
+      index: 1,
+      name: '服务IP',
+    },
+    {
+      index: 2,
+      name: '服务端口',
+    },
+    {
+      index: 3,
+      name: '服务domain',
+    },
+    {
+      index: 4,
+      name: '服务IP类型',
+    },
+    {
+      index: 5,
+      name: '服务协议',
     }
   ];
   // 容器实例表格
@@ -117,8 +143,13 @@ export class AppOverviewDetailDetailComponent implements OnInit {
       name: '关联服务路径',
     }
   ];
-  getServiceInstanceDetail(instanceId, moduleName): Observable<any> {
+  getServiceInstanceDetail(instanceId, moduleName): any {
     return this.http.get(environment.apiService + '/apiService' + '/service-instances/' + instanceId + '/modules/' + moduleName);
+  }
+
+  getServiceAddress(instanceId, moduleId): any {
+    return this.http.get(environment.apiService + '/apiService' + '/service-instances/' + instanceId + '/modules/' + moduleId +
+     '/lb-endpoints');
   }
 
   getAuth() {
@@ -150,8 +181,17 @@ export class AppOverviewDetailDetailComponent implements OnInit {
     console.log('instanceID: ' + this.instanceId);
     console.log('moduleName: ' + this.moduleName);
     // 订阅流
-    this.getServiceInstanceDetail(this.instanceId, this.moduleName).subscribe((data) => {
+    // this.getServiceInstanceDetail(this.instanceId, this.moduleName).subscribe((data) => {
+    //   this.instanceDetail = data;
+    // });
+    this.getServiceInstanceDetail(this.instanceId, this.moduleName).mergeMap(data => {
       this.instanceDetail = data;
+      const moduleId$ = data['uuid'];
+      return this.getServiceAddress(this.instanceId, moduleId$);
+    }).subscribe(endpoints => {
+      console.log(endpoints);
+      this.serviceAddress['endpoints'] = endpoints;
+      console.log(this.serviceAddress);
     });
   }
 }

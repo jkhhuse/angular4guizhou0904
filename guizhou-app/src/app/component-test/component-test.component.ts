@@ -30,7 +30,7 @@ import * as _ from 'lodash';
 export class ComponentTestComponent implements AfterViewInit, OnInit {
   // 测试
   listOfOption = [];
-  listOfSelectedValue = ['a10', 'c12'];
+  listOfSelectedValue = [];
   inputTest;
   radioValue = 'prodDomain';
   valueSub: Subscription;
@@ -305,6 +305,11 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     this.form3.setConfig(this.config3);
   }
 
+  openC() {
+    console.log(this.listOfSelectedValue);
+    this.listOfSelectedValue = [this.listOfSelectedValue[0]];
+    console.log(this.listOfSelectedValue);
+  }
   choosedImageFunc(tab) {
     this.choosedImageName = tab;
     // console.log(this.form, this.form10, this.form20, this.forms);
