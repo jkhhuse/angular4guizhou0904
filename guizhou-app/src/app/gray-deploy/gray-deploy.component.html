@@ -93,7 +93,7 @@
               <p>镜像配置</p>
               <div class="borderTop80">
                 <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" [(nzSelectedIndex)]="activeImage">
-                  <nz-tab (nzDeselect)="choosedImageFunc(tab)" *ngFor="let tab of imageTabs; let k=index">
+                  <nz-tab (nzDeselect)="choosedImageFunc(tab)" (nzSelect)="choosedImageFunc1(tab)" *ngFor="let tab of imageTabs; let k=index">
                     <ng-template #nzTabHeading>
                       {{tab}}
                     </ng-template>
@@ -255,25 +255,23 @@
                                     <div nz-col [nzSpan]="control.placeholder === '1~65535' ? '6' : '4'" *ngFor="let control of control1; let p=index" [class.d-none]="!control.show">
                                       <div nz-form-item nz-row>
                                         <div *ngIf="control.type === 'input'" nz-form-control nz-col>
-                                          <nz-input *ngIf="p === 1" style="width: 80%" [ngModel]="control.defaultValue" [nzType]="control.inputType" [nzDisabled]="control.disabled"
+                                          <nz-input [ngModel]="control.defaultValue" [nzType]="control.inputType" [nzDisabled]="control.disabled"
                                             [nzSize]="'large'" [nzPlaceHolder]="control.placeholder" [formControlName]="control.name"></nz-input>
-                                          <nz-input *ngIf="p !== 1" style="width: 100%" [ngModel]="control.defaultValue" [nzType]="control.inputType" [nzDisabled]="control.disabled"
-                                            [nzSize]="'large'" [nzPlaceHolder]="control.placeholder" [formControlName]="control.name"></nz-input>
-                                          <nz-tooltip *ngIf="p === 1" [nzTitle]="'容器暴露端口'" [nzPlacement]="'top'">
-                                            <i nz-tooltip style="vertical-align: top" *ngIf="p === 1" class="anticon anticon-question-circle-o"></i>
-                                          </nz-tooltip>
                                         </div>
                                         <div *ngIf="control.type === 'select'" nz-form-control nz-col [nzSm]="20">
-                                          <nz-select *ngIf="p === 2" style="width: 80%" [nzTags]="control.ifTags" (nzOpenChange)="lbEmit(control.name, i, k)" [formControlName]="control.name"
+                                          <nz-select *ngIf="p === 1 || p === 2" style="width: 80%" [nzTags]="control.ifTags" (nzOpenChange)="lbEmit(control.name, i, k)" [formControlName]="control.name"
                                             [nzPlaceHolder]="control.placeholder" nzAllowClear [nzDisabled]="control.disabled">
                                             <nz-option *ngFor="let option of control.options" [nzValue]="option" [nzLabel]="option">
                                             </nz-option>
                                           </nz-select>
-                                          <nz-select *ngIf="p !== 2" style="width: 100%" [nzTags]="control.ifTags" (nzOpenChange)="lbEmit(control.name, i, k)" [formControlName]="control.name"
+                                          <nz-select *ngIf="p !== 1 && p !== 2" style="width: 100%" [nzTags]="control.ifTags" (nzOpenChange)="lbEmit(control.name, i, k)" [formControlName]="control.name"
                                             [nzPlaceHolder]="control.placeholder" nzAllowClear [nzDisabled]="control.disabled">
                                             <nz-option *ngFor="let option of control.options" [nzValue]="option" [nzLabel]="option">
                                             </nz-option>
                                           </nz-select>
+                                          <nz-tooltip *ngIf="p === 1" [nzTitle]="'容器暴露端口,手动输入请以回车键结束'" [nzPlacement]="'top'">
+                                            <i nz-tooltip style="vertical-align: top" *ngIf="p === 1" class="anticon anticon-question-circle-o"></i>
+                                          </nz-tooltip>
                                           <nz-tooltip *ngIf="p === 2" [nzTitle]="'如果选http,则输入域名'" [nzPlacement]="'top'">
                                             <i nz-tooltip style="vertical-align: top" *ngIf="p === 2" class="anticon anticon-question-circle-o"></i>
                                           </nz-tooltip>

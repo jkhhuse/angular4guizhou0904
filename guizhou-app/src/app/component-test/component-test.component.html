@@ -154,6 +154,6 @@
 
 <div>ng zorro antd新版本测试</div>
 
-<nz-select style="width: 100%" nzMode="tags" nzPlaceHolder="Please select" [(ngModel)]="listOfSelectedValue">
+<nz-select nzKeepUnListOptions (nzOpenChange)="openC()" style="width: 100%" nzMode="tags" nzPlaceHolder="Please select" [(ngModel)]="listOfSelectedValue">
   <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
 </nz-select>
