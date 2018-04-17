@@ -41,19 +41,7 @@ export class AppInstanceDetailEnvFileComponent implements OnInit {
 
   ngOnInit() {
     this.appId = this.mirrorDetail.id;
-    if (this.mirrorDetail.info !== undefined) {
-      for (const key in this.mirrorDetail.info.instance_envvars) {
-        // 后端对__ALAUDA_FILE_LOG_PATH__值做了特殊要求：
-        // 1. 不可以在界面中显示 2. 提交时回传值
-        if (key !== '__ALAUDA_FILE_LOG_PATH__') {
-          const _obj = {
-            key: key,
-            value: this.mirrorDetail.info.instance_envvars[key]
-          };
-          this._dataSet.push(_obj);
-        }
-      }
-    }
+    this.refreshConfig();
   }
 
   showModal = () => {
@@ -99,7 +87,6 @@ export class AppInstanceDetailEnvFileComponent implements OnInit {
     this.http.put(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') +
       '/application-instance-microservices/' + this.appId, body)
       .subscribe((data) => {
-        console.log(data);
         this.isAddVisible = false;
         this.isRemoveVisible = false;
         this.validateForm = this.fb.group({
@@ -115,15 +102,18 @@ export class AppInstanceDetailEnvFileComponent implements OnInit {
     this.http.get<any>(environment.apiApp + '/apiApp' + '/application-instance-microservices/' + this.instanceId)
       .subscribe((data) => {
         this._dataSet = [];
-        for (const key in this.mirrorDetail.info.instance_envvars) {
-          // 后端对__ALAUDA_FILE_LOG_PATH__值做了特殊要求：
-          // 1. 不可以在界面中显示 2. 提交时回传值
-          if (key !== '__ALAUDA_FILE_LOG_PATH__') {
-            const _obj = {
-              key: key,
-              value: this.mirrorDetail.info.instance_envvars[key]
-            };
-            this._dataSet.push(_obj);
+        if (data.info && data.info.instance_envvars) {
+          this.mirrorDetail.info.instance_envvars = data.info.instance_envvars;
+          for (const key in data.info.instance_envvars) {
+            // 后端对__ALAUDA_FILE_LOG_PATH__值做了特殊要求：
+            // 1. 不可以在界面中显示 2. 提交时回传值
+            if (key !== '__ALAUDA_FILE_LOG_PATH__') {
+              const _obj = {
+                key: key,
+                value: data.info.instance_envvars[key]
+              };
+              this._dataSet.push(_obj);
+            }
           }
         }
       },
@@ -135,11 +125,15 @@ export class AppInstanceDetailEnvFileComponent implements OnInit {
 
   // 删除环境变量
   handleRemoveOk = (e) => {
-    // 校验通过
-    this._dataSet.splice(+this.removeIndex, 1);
+    const updateDataSet = {};
+    this._dataSet.forEach((obj, key) => {
+      if (key !== +this.removeIndex) {
+        updateDataSet[obj.key] = obj.value;
+      }
+    });
 
     const body = {
-      instance_envvars: this._dataSet,
+      instance_envvars: updateDataSet,
       updateUserId: this.servicesService.getUserId()
     };
 
