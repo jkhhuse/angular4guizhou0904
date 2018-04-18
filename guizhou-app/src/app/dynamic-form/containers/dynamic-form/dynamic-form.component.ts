@@ -21,6 +21,7 @@ export class DynamicFormComponent implements OnChanges, OnInit {
     get changes() { return this.form.valueChanges; }
     get valid() { return this.form.valid; }
     get value() { return this.form.value; }
+    reset() { return this.form.reset(); }
 
     constructor(private fb: FormBuilder) { }
 
