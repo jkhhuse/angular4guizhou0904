@@ -38,7 +38,7 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
   OnDestroy {
 
   isLoadingDone = false;
-  configFileRadio;
+  configFileRadio = 'config';
   testCluster;
   prodCluster;
   selectValueSub: Subscription;
@@ -490,20 +490,20 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
       notNecessary: true,
       valueUpdate: true
     },
-    {
-      type: 'input',
-      label: '主机路径',
-      placeholder: '',
-      name: 'volume_name',
-      // validation: [Validators.required],
-      styles: {
-        'width': '400px'
-      },
-      notNecessary: true,
-      // divStyles: {
-      //   display
-      // }
-    }
+    // {
+    //   type: 'input',
+    //   label: '主机路径',
+    //   placeholder: '',
+    //   name: 'volume_name',
+    //   // validation: [Validators.required],
+    //   styles: {
+    //     'width': '400px'
+    //   },
+    //   notNecessary: true,
+    //   // divStyles: {
+    //   //   display
+    //   // }
+    // }
   ];
   statefulSub: Subscription;
   statefulData = [];
@@ -787,22 +787,8 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
       this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') +
         '/warehouse/repository/' + repositoryId$ + '/meta').subscribe(data => {
           console.log('容器暴露端口');
-          // mock 容器暴露端口
-          // if (repositoryId$ === 'c223e097-86b4-4a74-9048-fbf8ec537fe8') {
-          //   data['ExposedPorts'] = {
-          //     '80/tcp': {},
-          //     '8080/http': {}
-          //   };
-          // } else if (repositoryId$ === 'eb6982d2-189b-44bb-b2da-591fc525a2f2') {
-          //   data['ExposedPorts'] = {
-          //     '81/tvv': {},
-          //     '8181/sss': {}
-          //   };
-          // }
-          // console.log(data);
-          // mock 容器暴露端口
-          if (data['ExposedPorts'] !== undefined) {
-            this.networkContainerOptions = _.map(_.keys(data['ExposedPorts']), (value, key) => {
+          if (data['config']['ExposedPorts'] !== undefined) {
+            this.networkContainerOptions = _.map(_.keys(data['config']['ExposedPorts']), (value, key) => {
               return value.split('/')[0];
             });
           }
@@ -2603,11 +2589,13 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
   }
 
   addConfigFile() {
+    this.configFileForm.reset();
     console.log('addClick3');
     this.isVisible = true;
   }
 
   addStateful() {
+    this.statefulForm.reset();
     this.isVisibleStateful = true;
   }
 
@@ -3282,12 +3270,13 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
           this.statefulConfig[2]['divStyles'] = {
             display: 'block'
           };
-        } else {
-          this.statefulConfig[2]['divStyles'] = {
-            display: 'none'
-          };
-          this.statefulForm.value['volume_name'] = undefined;
         }
+        // else {
+        //   this.statefulConfig[2]['divStyles'] = {
+        //     display: 'none'
+        //   };
+        //   this.statefulForm.value['volume_name'] = undefined;
+        // }
         this.statefulForm.setConfig(this.statefulConfig);
       }
     });
