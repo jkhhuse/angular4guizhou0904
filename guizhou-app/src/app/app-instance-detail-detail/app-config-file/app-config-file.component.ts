@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 import { NzNotificationService } from 'ng-zorro-antd';
 import { ServicesService } from '../../shared/services.service';
 import { FormBuilder, FormGroup,  FormControl, Validators } from '@angular/forms';
+import {pathValidater} from "../../shared/directive/validators/validators.directive";
 
 @Component({
   selector: 'app-instance-detail-config-file',
@@ -41,7 +42,7 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
     this.validateForm = this.fb.group({
       configs            : [ '', [ Validators.required ] ],
       keys               : [ '', [ Validators.required ] ],
-      path              : [ '', [ Validators.required ] ]
+      path               : [ '', [ Validators.required , pathValidater] ]
     });
     this.changeConfig();
     this.changeKey();
@@ -169,7 +170,7 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
         this.validateForm = this.fb.group({
           configs            : [ '', [ Validators.required ] ],
           keys               : [ '', [ Validators.required ] ],
-          path               : [ '', [ Validators.required ] ]
+          path               : [ '', [ Validators.required ] , pathValidater]
         });
         this.refreshConfig();
       });
@@ -215,4 +216,5 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
   handleRemoveCancel = (e) => {
     this.isRemoveVisible = false;
   }
+
 }

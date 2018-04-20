@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
 import { HeaderComponent } from './header/header.component';
 import { EchartsDirective } from './directive/echarts/echarts.directive';
+import { ValidatorsDirective } from './directive/validators/validators.directive';
 
 @NgModule({
   imports: [
@@ -9,7 +10,8 @@ import { EchartsDirective } from './directive/echarts/echarts.directive';
   ],
   declarations: [
     HeaderComponent,
-    EchartsDirective
+    EchartsDirective,
+    ValidatorsDirective
   ],
   exports: [
     HeaderComponent,

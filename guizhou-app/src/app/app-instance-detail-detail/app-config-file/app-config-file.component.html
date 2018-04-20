@@ -64,6 +64,7 @@
                     <nz-input formControlName="path" [nzType]="'text'" [nzPlaceHolder]="'请填写路径...'" [nzSize]="'large'">
                     </nz-input>
                     <div nz-form-explain *ngIf="getFormControl('path').dirty&&getFormControl('path').hasError('required')">路径不可以为空!</div>
+                    <div nz-form-explain *ngIf="getFormControl('path').dirty&&getFormControl('path').hasError('pathValid')">只能含有斜杠、数字、字母、中线、下划线和点号，且需要为绝对路径</div>
                 </div>
             </div>
         </form>
