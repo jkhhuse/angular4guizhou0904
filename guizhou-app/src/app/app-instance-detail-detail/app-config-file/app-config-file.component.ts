@@ -3,10 +3,10 @@ import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { NzNotificationService } from 'ng-zorro-antd';
 import { ServicesService } from '../../shared/services.service';
 import { FormBuilder, FormGroup,  FormControl, Validators } from '@angular/forms';
 import {pathValidater} from "../../shared/directive/validators/validators.directive";
+import {NzNotificationService} from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-instance-detail-config-file',
@@ -38,7 +38,7 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
   configOptions = []; // 配置集合
   keyOptions = []; // 键集合
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private servicesService: ServicesService) {
+  constructor(private _notification: NzNotificationService, private fb: FormBuilder, private http: HttpClient, private servicesService: ServicesService) {
     this.validateForm = this.fb.group({
       configs            : [ '', [ Validators.required ] ],
       keys               : [ '', [ Validators.required ] ],
@@ -122,6 +122,7 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
 
   // 添加配置项
   handleAddOk = (e) => {
+
     // 校验通过
     if (this.validateForm.valid) {
       // 创建的配置
@@ -150,8 +151,13 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
 
       this.updateConfig(body);
     } else {
+      this.createNotification('error', '表单验证未通过', '表单验证未通过');
       return;
     }
+  }
+
+  createNotification = (type, title, content) => {
+    this._notification.create(type, title, content);
   }
 
   // 取消添加
@@ -170,7 +176,7 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
         this.validateForm = this.fb.group({
           configs            : [ '', [ Validators.required ] ],
           keys               : [ '', [ Validators.required ] ],
-          path               : [ '', [ Validators.required ] , pathValidater]
+          path               : [ '', [ Validators.required , pathValidater] ]
         });
         this.refreshConfig();
       });
