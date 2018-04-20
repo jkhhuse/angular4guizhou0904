@@ -111,6 +111,16 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
   }
 
   showModal = () => {
+    // 每次进入modal清空数据
+    this.validateForm = this.fb.group({
+      configs            : [ '', [ Validators.required ] ],
+      keys               : [ '', [ Validators.required ] ],
+      path               : [ '', [ Validators.required , pathValidater] ]
+    });
+    this.refreshConfig();
+    this.keyOptions = [];
+    this.getConfigsObservable();
+
     this.isAddVisible = true;
   }
 
