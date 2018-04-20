@@ -44,8 +44,6 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
       keys               : [ '', [ Validators.required ] ],
       path               : [ '', [ Validators.required , pathValidater] ]
     });
-    this.changeConfig();
-    this.changeKey();
   }
 
   ngOnInit() {
@@ -56,6 +54,7 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
 
   // 获得配置列表
   getConfigsObservable() {
+    this.configOptions = [];
     this.http.get<any[]>(environment.apiConfig + '/configCenter/' + this.servicesService.getCookie('groupID') + '/configs')
       .subscribe((data) => {
         data.forEach((value, key) => {
@@ -179,6 +178,8 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
           path               : [ '', [ Validators.required , pathValidater] ]
         });
         this.refreshConfig();
+        this.keyOptions = [];
+        this.getConfigsObservable();
       });
   }
 

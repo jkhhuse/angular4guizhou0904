@@ -35,9 +35,11 @@
                     <label for="config" nz-form-item-required>配置</label>
                 </div>
                 <div nz-form-control nz-col [nzSm]="14" [nzXs]="24">
-                    <nz-select formControlName="configs" (nzOpenChange)="changeConfig()" [nzPlaceHolder]="'请选择配置...'" nzAllowClear>
+                    <nz-select *ngIf="configOptions.length>0" formControlName="configs" (nzOpenChange)="changeConfig()" [nzPlaceHolder]="'请选择配置...'" nzAllowClear>
                         <nz-option *ngFor="let option of configOptions" [nzLabel]="option.config" [nzValue]="option.config">
                         </nz-option>
+                    </nz-select>
+                    <nz-select *ngIf="configOptions.length===0" [nzPlaceHolder]="'请选择键...'" nzAllowClear>
                     </nz-select>
                     <div nz-form-explain *ngIf="getFormControl('configs').dirty&&getFormControl('configs').hasError('required')">请选择配置!</div>
                 </div>
