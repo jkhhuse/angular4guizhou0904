@@ -86,11 +86,11 @@
             <td nz-td>{{data.instancesCount}} 个</td>
             <td nz-td>{{data.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
             <td nz-td >
-              <button *ngIf="authAppInsStart" nz-button [disabled]="data.status === 'Running'" [nzType]="'primary'" nzSize="small"
+              <button *ngIf="authAppInsStart" nz-button [disabled]="data.status === 'Running' || data.status === 'Starting'" [nzType]="'primary'" nzSize="small"
                       (click)="showModal_start(data.id, data.instanceName);">
                 <span>启动</span>
               </button>
-              <button *ngIf="authAppInsStop" nz-button [disabled]="data.status !== 'Running'" [nzType]="'primary'" nzSize="small"
+              <button *ngIf="authAppInsStop" nz-button [disabled]="data.status === 'Stopped' || data.status === 'Stopping'" [nzType]="'primary'" nzSize="small"
                       (click)="showModal_stop(data.id, data.instanceName);">
                 <span>停止</span>
               </button>

@@ -130,6 +130,7 @@ export class AppOverviewComponent implements OnInit {
         this.isVisible_delete = false;
         console.log('删除成功，更新列表');
         this.refreshData();
+        this.getTotalNums();
         this._isSpinning_delete = false;
       }, 3000);
       // } else {
