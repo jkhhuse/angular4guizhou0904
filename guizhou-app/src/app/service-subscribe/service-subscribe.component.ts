@@ -485,10 +485,10 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     // this.operateMode['standalone'] = data['standalone_config'];
                     // todo next
                     // this.operateMode['replication'] = data['replication_config'];
-                    this.operateMode['cluster'] = data['cluster_config'];
+                    this.operateMode['cluster'] = data['info']['cluster_config'];
                     // todo next
-                    this.operateMode['replication'] = data['replication_config'];
-                    this.operateMode['replica_set'] = data['replica_set_config'];
+                    this.operateMode['replication'] = data['info']['replication_config'];
+                    this.operateMode['replica_set'] = data['info']['replica_set_config'];
                     resolve();
                 });
         });
@@ -505,7 +505,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     let mysqlMinValue;
                     let redisMinValue;
                     let zookeeperMinValue;
-                    _.map(data['basic_config'], (value, key) => {
+                    _.map(data['info']['basic_config'], (value, key) => {
                         if (value['attribute_name'] === 'lb_port') {
                             this.networkContainerOptions = value['option'];
                         }
@@ -799,7 +799,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     this.formThird2Radios = [];
                     console.log('这是服务详情advanced', data['advanced_config']);
                     // this.formThird2 = data['advanced_config'];
-                    _.map(data['advanced_config'], (value, key) => {
+                    _.map(data['info']['advanced_config'], (value, key) => {
                         switch (value['type']) {
                             case 'string': {
                                 // this.formThird2

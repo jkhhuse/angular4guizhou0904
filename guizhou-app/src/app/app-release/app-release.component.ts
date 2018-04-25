@@ -20,7 +20,7 @@ import { ServicesService } from '../shared/services.service';
   styleUrls: ['./app-release.component.scss']
 })
 export class AppReleaseComponent implements OnInit {
-  //图片上传默认有
+  // 图片上传默认有
   imgUploading: boolean = true;
   current = 0;
   testValue = '111';
@@ -562,8 +562,8 @@ export class AppReleaseComponent implements OnInit {
   ngOnInit() {
     this.moduleValue = this.routeInfo.snapshot.params['moduleValue'];
     this.appName = this.routeInfo.snapshot.params['appName'];
-    //如果是添加版本就不要图标上传
-    if(this.routeInfo.snapshot.params['appName'] != 'newName') {
+    // 如果是添加版本就不要图标上传
+    if(this.routeInfo.snapshot.params['appName'] !== 'newName') {
       this.imgUploading = false;
     }
     this.toggleRadio();

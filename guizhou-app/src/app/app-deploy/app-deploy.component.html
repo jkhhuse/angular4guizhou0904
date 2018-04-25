@@ -448,6 +448,72 @@
                           </div>
                         </div>
                       </div>
+                      <!-- 执行命令配置 -->
+                      <div nz-row>
+                        <div style="margin-bottom: 10px" nz-row>
+                          <div nz-col [nzSpan]="4" style="text-align: right">
+                            <span style="display: block;
+                                  font-size: 13px;
+                                  font-weight: 400;
+                                  letter-spacing: 0px;
+                                  margin-bottom: 10px;
+                                  color: rgba(0, 0, 0, 0.9);">执行命令和接入点</span>
+                          </div>
+                          <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
+                            <nz-radio-group (click)="cmdClick(k)" *ngIf="k === 0" [(ngModel)]="cmdType0">
+                              <label nz-radio [nzValue]="'imageDefault'">
+                                <span>镜像默认</span>
+                              </label>
+                              <label nz-radio [nzValue]="'customConfig'">
+                                <span>自定义</span>
+                              </label>
+                            </nz-radio-group>
+                            <nz-radio-group (click)="cmdClick(k)" *ngIf="k === 1" [(ngModel)]="cmdType1">
+                              <label nz-radio [nzValue]="'imageDefault'">
+                                <span>镜像默认</span>
+                              </label>
+                              <label nz-radio [nzValue]="'customConfig'">
+                                <span>自定义</span>
+                              </label>
+                            </nz-radio-group>
+                            <nz-radio-group (click)="cmdClick(k)" *ngIf="k === 2" [(ngModel)]="cmdType2">
+                              <label nz-radio [nzValue]="'imageDefault'">
+                                <span>镜像默认</span>
+                              </label>
+                              <label nz-radio [nzValue]="'customConfig'">
+                                <span>自定义</span>
+                              </label>
+                            </nz-radio-group>
+                            <nz-radio-group (click)="cmdClick(k)" *ngIf="k === 3" [(ngModel)]="cmdType3">
+                              <label nz-radio [nzValue]="'imageDefault'">
+                                <span>镜像默认</span>
+                              </label>
+                              <label nz-radio [nzValue]="'customConfig'">
+                                <span>自定义</span>
+                              </label>
+                            </nz-radio-group>
+                            <nz-radio-group (click)="cmdClick(k)" *ngIf="k === 4" [(ngModel)]="cmdType4">
+                              <label nz-radio [nzValue]="'imageDefault'">
+                                <span>镜像默认</span>
+                              </label>
+                              <label nz-radio [nzValue]="'customConfig'">
+                                <span>自定义</span>
+                              </label>
+                            </nz-radio-group>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- 镜像默认以及自定义表单 -->
+                      <dynamic-form *ngIf="k === 0" #cmdFormProject0 [config]="cmdFormConfig0">
+                      </dynamic-form>
+                      <dynamic-form *ngIf="k === 1" #cmdFormProject1 [config]="cmdFormConfig1">
+                      </dynamic-form>
+                      <dynamic-form *ngIf="k === 2" #cmdFormProject2 [config]="cmdFormConfig2">
+                      </dynamic-form>
+                      <dynamic-form *ngIf="k === 3" #cmdFormProject3 [config]="cmdFormConfig3">
+                      </dynamic-form>
+                      <dynamic-form *ngIf="k === 4" #cmdFormProject4 [config]="cmdFormConfig4">
+                      </dynamic-form>
                       <!-- 日志文件配置 -->
                       <!-- <div nz-row>
                         <div style="margin-bottom: 10px" nz-row>
