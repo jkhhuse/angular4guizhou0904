@@ -10,8 +10,7 @@
 }
 
 .releaseServiceBtn{
-    visibility: hidden;
-    margin: 0px 0 23px 0;
+  float: right;
 }
 .catalog-option{
     padding-left: 10px;
@@ -23,3 +22,18 @@
     display: inline-block;
     width: 80%;
 }
+
+.group-name {
+  padding: 0 !important;
+  width: 50px !important;
+  border: none !important;
+  text-align: left !important;
+}
+.service-topbar{
+  margin:20px 0 20px 11px;
+}
+
+#service-tabset{
+   margin: 27px 50px 0 30px;
+}
+

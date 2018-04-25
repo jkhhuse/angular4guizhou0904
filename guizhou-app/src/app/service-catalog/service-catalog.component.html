@@ -1,37 +1,26 @@
 <app-header [title]="title"></app-header>
-<app-group-select (groupidHandler)="groupidHandler($event)"></app-group-select>
 
-<nz-content class="service-catalog">
-    <button nz-button [nzType]="'primary'" class="releaseServiceBtn" routerLink="/serviceRelease">发布服务</button>
-    <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
-        <nz-tab *ngFor="let tab of tabs" [nzDisabled]="tab.disabled" (nzClick)="changeTabName(tab.tabName)">
-            <ng-template #nzTabHeading>
-                {{tab.name}}
-            </ng-template>
-           <!-- <div nz-row class="service-search-wrapper">
-                <div nz-col [nzSpan]="18"></div>
-                <div nz-col [nzSpan]="6">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="按服务名称搜索..." [formControl]="titleFilter">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </button>
-                        </span>
-                    </div>
+<nz-tabset [nzTabPosition]="'top'" [nzType]="'card'" id="service-tabset">
+  <nz-tab *ngFor="let tab of tabs" (nzClick)="changeIsPublic(tab.tabName)"  class="service-nz-tab">
+    <ng-template #nzTabHeading>
+      {{tab.name}}
+    </ng-template>
+    <app-group-select (groupidHandler)="groupidHandler($event)"></app-group-select>
+    <div class="service-topbar">
+      <button nz-button class="group-name"><span>服务类别</span> </button>
+      <nz-radio-group [(ngModel)]="radioValue" [nzSize]="'large'" (click)="changeTabName(radioValue)">
+        <label nz-radio-button [nzValue]="'Middleware'"><span>中间件服务</span></label>
+        <label nz-radio-button [nzValue]="'Database'"><span>数据库服务</span></label>
+        <label nz-radio-button [nzValue]="'Microservice'"><span>微服务框架</span></label>
+      </nz-radio-group>
+      <button nz-button [nzType]="'primary'" class="releaseServiceBtn" routerLink="/serviceRelease">发布服务</button>
+    </div>
+    <app-service-list [deleteDisabled]="false" [moduleName]="'service'" [isPublic]="isPublic" [tabName]="radioValue"  [titleFilter]="titleFilter"></app-service-list>
 
-                </div>
-            </div>-->
-          <app-search [disabled]="false" [titleFilter]="titleFilter" [offset]="18"></app-search>
+  </nz-tab>
+</nz-tabset>
 
-            <app-service-list [deleteDisabled]="false" [moduleName]="'service'" [tabName]="tabName" [titleFilter]="titleFilter"></app-service-list>
 
-        </nz-tab>
-    </nz-tabset>
-</nz-content>
-
-<!--
-<nz-footer>
-    <nz-pagination [(nzPageIndex)]="_current" [nzTotal]="50" nzShowTotal nzShowSizeChanger
-                   nzShowQuickJumper></nz-pagination>
-</nz-footer>-->
+  <!--
+  <app-search [disabled]="false" [titleFilter]="titleFilter" [offset]="18"></app-search>
+-->
