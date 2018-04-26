@@ -10,7 +10,7 @@ import {ServicesService} from "../shared/services.service";
   templateUrl: './opera-event.component.html'
 })
 export class OperaEventComponent implements OnInit {
-
+  title:string = '平台事件';
   eventOptions: any;
   xAxisData: string[];
   chartData: number[];

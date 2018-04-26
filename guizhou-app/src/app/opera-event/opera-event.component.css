@@ -1,114 +1,156 @@
 .event-chart-wrapper {
-    margin: 30px 30px;
+  margin: 30px 30px;
 }
 
 .event-chart-selector {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 10px 10px 5px 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px 10px 5px 10px;
 }
 
 .event-chart {
-    border: 1px solid #e8e7e4;
+  border: 1px solid #e8e7e4;
 }
 
 .chart-style {
-    height: 274px;
-    width: 100%;
+  height: 274px;
+  width: 100%;
 }
 
 .event-selector {
-    margin: 30px 30px 0px 30px;
-    border: 1px solid #10bcff;
+  margin: 30px 30px 0px 30px;
+  border: 1px solid #10bcff;
 }
 
-.event-selector>.selector-header {
-    height: 30px;
-    width: 100%;
-    background-color: #ceebfe;
+.event-selector > .selector-header {
+  height: 30px;
+  width: 100%;
+  background-color: #ceebfe;
 }
 
-.selector-header>.header-text {
-    margin-left: 20px;
-    line-height: 2.3;
+.selector-header > .header-text {
+  margin-left: 20px;
+  line-height: 2.3;
 }
 
-.event-selector>.selector-content {
-    padding: 26px 26px 10px 26px;
+.event-selector > .selector-content {
+  padding: 26px 26px 10px 26px;
 }
 
-.selector-content>.selector-group {
-    margin-bottom: 8px;
+.selector-content > .selector-group {
+  margin-bottom: 8px;
 }
 
-.selector-group>span {
-    width: 65px;
-    text-align: right;
-    display: inline-block;
+.selector-group > span {
+  width: 65px;
+  text-align: right;
+  display: inline-block;
 }
 
-.selector-group>.selector-element {
-    margin-left: 10px;
+.selector-group > .selector-element {
+  margin-left: 10px;
 }
 
 .selector-option {
-    display: inline;
-    margin-left: 79px;
+  display: inline;
+  margin-left: 79px;
 }
 
 .switch-action {
-    width: 38px;
-    height: 20px;
-    background-color: #ceebfe;
-    margin: 0 auto;
-    position: relative;
-    border-left: 1px solid #10bcff;
-    border-bottom: 1px solid #10bcff;
-    border-right: 1px solid #10bcff;
+  width: 38px;
+  height: 20px;
+  background-color: #ceebfe;
+  margin: 0 auto;
+  position: relative;
+  border-left: 1px solid #10bcff;
+  border-bottom: 1px solid #10bcff;
+  border-right: 1px solid #10bcff;
 }
 
 .switch-action i {
-    margin-left: 11px;
+  margin-left: 11px;
 }
 
 .switch-action:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .event-table {
-    margin: 30px;
+  margin: 30px;
 }
 
-.selector-element>.ant-btn-group>button {
-    font-size: 12px !important;
-    font-weight: bold !important;
-    padding: 1px 16px !important;
+.selector-element > .ant-btn-group > button {
+  font-size: 12px !important;
+  font-weight: bold !important;
+  padding: 1px 16px !important;
 }
 
 .btn-nz {
-    border: 1px solid #DCDAD6;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 7px 16px;
-    box-shadow: none;
+  border: 1px solid #DCDAD6;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 7px 16px;
+  box-shadow: none;
 }
 
-.btn-group>.btn-nz:hover {
-    color: #49a9ee;
+.btn-group > .btn-nz:hover {
+  color: #49a9ee;
 }
 
-.btn-group>.btn-nz.active {
-    color: #1C8DE7;
-    border: 1px solid #1C8DE7;
-    z-index: 3;
+.btn-group > .btn-nz.active {
+  color: #1C8DE7;
+  border: 1px solid #1C8DE7;
+  z-index: 3;
 }
 
-.btn-group>.btn-nz.focus {
-    outline: none;
+.btn-group > .btn-nz.focus {
+  outline: none;
 }
 
 .log-option {
-    color: #2C9CFA;
-    cursor: pointer;
+  color: #2C9CFA;
+  cursor: pointer;
+}
+
+.btn-group[_ngcontent-c8] > .btn-nz.active[_ngcontent-c8] {
+  color: rgba(44, 156, 250, 1) !important;
+  border: 1px solid rgba(44, 156, 250, 1);
+  background-color: rgba(209, 233, 254, 1);
+  box-shadow: none;
+  z-index: 3;
+}
+
+.ant-radio-button-wrapper-checked {
+  background-color: rgba(209, 233, 254, 1);
+  border: 1px solid rgba(44, 156, 250, 1);
+  color: rgba(44, 156, 250, 1) !important;
+  box-shadow: none;
+  z-index: 1;
+}
+
+.event-table .ant-table-thead > tr > th {
+  background: #f7f7f7;
+  font-weight: normal;
+  transition: background .3s ease;
+  text-align: left;
+  color: rgba(0, 0, 0, 0.85);
+  border-bottom: #ddd 2px solid;
+}
+
+.nzTag {
+  line-height: 20px;
+  height: 22px;
+  padding: 3px 18px;
+  font-size: 12px;
+  border-radius: 12px;
+  color: #fff;
+}
+
+.naTag:hover {
+  opacity: 0.8;
+}
+
+.ant-table-thead > tr.ant-table-row-hover > td, .ant-table-tbody > tr.ant-table-row-hover > td, .ant-table-thead > tr:hover > td, .ant-table-tbody > tr:hover > td {
+  background: rgba(209,233,254,0.5);
 }
