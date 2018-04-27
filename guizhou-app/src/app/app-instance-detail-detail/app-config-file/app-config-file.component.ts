@@ -122,6 +122,7 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
     this.getConfigsObservable();
 
     this.isAddVisible = true;
+    this.isSpinning_add = false;
   }
 
   removeEnvFile = (index) => {
@@ -176,12 +177,14 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
 
   // 处理添加配置
   updateConfig(body) {
+    this.isAddVisible = false;
+    this.isRemoveVisible = false;
+    this._loading = true;
     this.http.put(environment.apiApp + '/apiApp/groups/' + this.servicesService.getCookie('groupID') +
     '/application-instance-microservices/' + this.appId, body)
       .subscribe((data) => {
         console.log(data);
-        this.isAddVisible = false;
-        this.isRemoveVisible = false;
+
         this.validateForm = this.fb.group({
           configs            : [ '', [ Validators.required ] ],
           keys               : [ '', [ Validators.required ] ],
@@ -191,6 +194,9 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
         this.keyOptions = [];
         this.getConfigsObservable();
       });
+    setTimeout(() => {
+      this._loading = false;
+    }, 5000);
   }
 
   // 刷新配置文件项

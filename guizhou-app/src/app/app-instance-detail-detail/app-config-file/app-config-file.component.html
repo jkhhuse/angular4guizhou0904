@@ -30,7 +30,7 @@
 <nz-modal [nzVisible]="isAddVisible" [nzTitle]="'添加配置项'" [nzContent]="modalContent" (nzOnCancel)="handleAddCancel($event)" (nzOnOk)="handleAddOk($event)">
     <ng-template #modalContent>
         <form nz-form [formGroup]="validateForm" (ngSubmit)="_submitForm()">
-            <div nz-form-item nz-row>
+          <div nz-form-item nz-row>
                 <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
                     <label for="config" nz-form-item-required>配置</label>
                 </div>
