@@ -120,9 +120,7 @@ export class AppInstanceDetailConfigFileComponent implements OnInit {
     this.refreshConfig();
     this.keyOptions = [];
     this.getConfigsObservable();
-
     this.isAddVisible = true;
-    this.isSpinning_add = false;
   }
 
   removeEnvFile = (index) => {
