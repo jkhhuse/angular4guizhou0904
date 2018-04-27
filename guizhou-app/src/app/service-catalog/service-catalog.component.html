@@ -13,10 +13,9 @@
         <label nz-radio-button [nzValue]="'Database'"><span>数据库服务</span></label>
         <label nz-radio-button [nzValue]="'Microservice'"><span>微服务框架</span></label>
       </nz-radio-group>
-      <button nz-button [nzType]="'primary'" class="releaseServiceBtn" routerLink="/serviceRelease">发布服务</button>
+      <button nz-button [nzType]="'primary'" class="releaseServiceBtn" routerLink="/serviceRelease" [disabled]="tab.index === 1 ? true : false">发布服务</button>
     </div>
     <app-service-list [deleteDisabled]="false" [moduleName]="'service'" [isPublic]="isPublic" [tabName]="radioValue"  [titleFilter]="titleFilter"></app-service-list>
-
   </nz-tab>
 </nz-tabset>
 

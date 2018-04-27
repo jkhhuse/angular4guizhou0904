@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { ServicesService } from "../shared/services.service";
-import { HttpClient, HttpParams, HttpErrorResponse } from "@angular/common/http";
-import { FormControl } from "@angular/forms";
-import { environment } from "../../environments/environment";
+import { ServicesService } from '../shared/services.service';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { FormControl } from '@angular/forms';
+import { environment } from '../../environments/environment';
 
 @Component({
     selector: 'app-service-detail',
@@ -14,6 +14,7 @@ import { environment } from "../../environments/environment";
 export class ServiceDetailComponent implements OnInit {
     // 标签名
     public title: String = '服务目录';
+    private isPb;
     private serviceInfo: string;
     private serviceName: string;
     private serviceId: string;
@@ -159,6 +160,7 @@ export class ServiceDetailComponent implements OnInit {
 
     ngOnInit() {
         this.serviceInfo = this.routeInfo.snapshot.params['serviceId'];
+        this.isPb = this.routeInfo.snapshot.params['isPublic'];
         if (this.serviceInfo.split('@')) {
             const temp = this.serviceInfo.split('@');
             this.serviceName = temp[0];
