@@ -58,7 +58,6 @@
         <nz-card>
           <ng-template #body>
             <!-- 如果是服务-->
-            {{service.groupId}}
             <a *ngIf="service.serviceName"
                [routerLink]="['/'+moduleName+'Detail', moduleName, service.serviceName + '@' + service.id, tabName]">
               <div class="custom-image">
