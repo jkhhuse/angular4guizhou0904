@@ -21,7 +21,7 @@ import { ServicesService } from '../shared/services.service';
 })
 export class AppReleaseComponent implements OnInit {
   // 图片上传默认有
-  imgUploading: boolean = true;
+  imgUploading = true;
   current = 0;
   testValue = '111';
   tempRadioValue;
@@ -191,7 +191,7 @@ export class AppReleaseComponent implements OnInit {
     this.hasBaseDropZoneOver = e;
     this.uploaderIcon.onBeforeUploadItem = (item) => {
       item.withCredentials = false;
-      item.url = this.urlIcon + this.form.value['appName'] + '.png';
+      item.url = this.urlIcon + this.form.value['name'];
     };
   }
 
@@ -212,7 +212,7 @@ export class AppReleaseComponent implements OnInit {
       this.uploaderIcon.onBeforeUploadItem = (item) => {
         item.file.name = item.file.name.replace(/\s/g, '');
         item.withCredentials = false;
-        item.url = this.urlIcon + this.form.value['appName'] + '.png';
+        item.url = this.urlIcon + this.form.value['appName'];
       };
     }
   }
@@ -457,7 +457,8 @@ export class AppReleaseComponent implements OnInit {
   }
 
   constructor(private router: Router, private routeInfo: ActivatedRoute,
-    private confirmServ: NzModalService, private http: HttpClient, private _notification: NzNotificationService, private servicesService: ServicesService) {
+    private confirmServ: NzModalService, private http: HttpClient,
+    private _notification: NzNotificationService, private servicesService: ServicesService) {
   }
 
   nameVerify(item) {
@@ -563,7 +564,7 @@ export class AppReleaseComponent implements OnInit {
     this.moduleValue = this.routeInfo.snapshot.params['moduleValue'];
     this.appName = this.routeInfo.snapshot.params['appName'];
     // 如果是添加版本就不要图标上传
-    if(this.routeInfo.snapshot.params['appName'] !== 'newName') {
+    if (this.routeInfo.snapshot.params['appName'] !== 'newName') {
       this.imgUploading = false;
     }
     this.toggleRadio();

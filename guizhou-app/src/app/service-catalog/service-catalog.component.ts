@@ -4,7 +4,7 @@ import {FormControl} from "@angular/forms";
 @Component({
   selector: 'app-service-catalog',
   templateUrl: './service-catalog.component.html',
-  styleUrls: ['./service-catalog.component.css']
+  styleUrls: ['./service-catalog.component.scss']
 })
 export class ServiceCatalogComponent implements OnInit {
   // 标签名

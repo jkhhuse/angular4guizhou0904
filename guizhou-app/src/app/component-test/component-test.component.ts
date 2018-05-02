@@ -16,6 +16,7 @@ import { nicknameValidator } from '../util/reg-pattern/reg-name.directive';
 import { ComponentServiceService } from '../dynamic-form/services/component-service.service';
 import { config } from '../../../protractor.conf';
 import * as _ from 'lodash';
+import { HttpClient, HttpParams, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 // @Directive({ selector: 'pane' })
 // export class Pane {
@@ -494,7 +495,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     console.log(value);
   }
 
-  constructor(public translateService: TranslateService, private component: ComponentServiceService) {
+  constructor(public translateService: TranslateService, private component: ComponentServiceService, private http: HttpClient) {
     translateService.addLangs(['zh', 'en']);
     translateService.setDefaultLang('zh');
     const browserLang = this.translateService.getBrowserLang();
@@ -545,59 +546,14 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
       console.log('222', x);
     });
     this.choosedImageName = 'name1';
-    // for (let i = 0; i < 46; i++) {
-    //   this._dataSet.push({
-    //     key: i,
-    //     name: `Edward King ${i}`,
-    //     age: 32,
-    //     address: `London, Park Lane no. ${i}`,
-    //   });
-    // }
-    // --- set i18n begin ---
-
-    // --- set i18n end ---
-    // this.testObservable();
-    // this.valueSub = this.component.componentValue$.subscribe(
-    //   value => {
-    //     const config2 = {
-    //       // selectedOption: undefined,
-    //       // ifTags: 'true',
-    //       type: 'select',
-    //       label: 'Favourite2 Food',
-    //       name: 'food2',
-    //       options: value,
-    //       placeholder: 'Select an option',
-    //       validation: [Validators.required],
-    //       styles: {
-    //         'width': '400px',
-    //       },
-    //     };
-    //     this.form2.setValue('food2', config2);
-    //   }
-    // );
-    this._dataSet = [
-      {
-        key: 0,
-        name: '1212',
-        age: '',
-        address: '232323'
-      }
-    ];
+    // 测试中文参数请求
+    const options = {
+      headers: new HttpHeaders({
+        'Content-type': 'application/x-www-form/urlencoded; charset=utf-8'
+      })
+    };
+    this.http.get('http://10.132.49.122:18032/apiService/groups/' + '你好' + '/service-instances', options).subscribe(data => {
+      console.log('data');
+    });
   }
-
-  // commit reset
-  // deleteClick1(i) {
-  //   console.log(i, this.lbControlArray, this.loadBanlancerForm);
-  //   _.pullAt(this.lbControlArray, i);
-  //   console.log(this.lbControlArray, this.loadBanlancerForm);
-  //   _.map(this.lbControlArray, (value1, key1) => {
-  //     _.map(value1, (value2, key2) => {
-  //       this.loadBanlancerForm.addControl(value2['name'], new FormControl());
-  //       if (value2['type'] === 'select') {
-  //         value2['selectedOption'] = value2['options'][0];
-  //       }
-  //     });
-  //   });
-  // }
-
 }
