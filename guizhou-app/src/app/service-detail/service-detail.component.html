@@ -8,7 +8,7 @@
     <div nz-row class="detail-img-wrapper">
         <div nz-col [nzSpan]="6">
             <div class="img-block" *ngIf="serviceDetail">
-                <img class="detail-img" [src]='imgUrl + serviceDetail.serviceName + ".png"' alt=""/>
+                <img class="detail-img" [src]='imgUrl + serviceDetail.serviceName + ".png"' alt="" />
             </div>
             <div class="img-block" *ngIf="serviceDetail">
                 <p class="detail-title">{{serviceDetail.serviceName}}</p>
@@ -16,22 +16,21 @@
         </div>
         <div nz-col [nzSpan]="6" [nzOffset]="12">
             <div *ngIf="serviceDetail" class="detail-btn-group">
-                <button *ngIf="serviceDetail && subscribeID === 0" [routerLink]="['/serviceApprove', serviceDetail.serviceName, serviceId]" nz-button [nzType]="'primary'"
-                        [nzSize]="'large'">
+                <button *ngIf="serviceDetail && subscribeID === 0" [routerLink]="['/serviceApprove', serviceDetail.serviceName, serviceId]"
+                    nz-button [nzType]="'primary'" [nzSize]="'large'">
                     <span>订购</span>
                 </button>
-                <button *ngIf="serviceDetail && subscribeID === 1" disabled nz-button [nzType]="'default'"
-                        [nzSize]="'large'">
+                <button *ngIf="serviceDetail && subscribeID === 1" disabled nz-button [nzType]="'default'" [nzSize]="'large'">
                     <span>审批中</span>
                 </button>
-                <button *ngIf="serviceDetail && subscribeID === 2" [routerLink]="['/serviceSubscribe', serviceDetail.serviceName, serviceId]" nz-button [nzType]="'primary'"
-                        [nzSize]="'large'">
+                <button *ngIf="serviceDetail && subscribeID === 2" [routerLink]="['/serviceSubscribe', serviceDetail.serviceName, serviceId]"
+                    nz-button [nzType]="'primary'" [nzSize]="'large'">
                     <span>启动</span>
                 </button>
                 <button disabled="disabled" nz-button [nzType]="'default'" [nzSize]="'large'" class="detail-noraml-btn">
                     <span>更新</span>
                 </button>
-                <button disabled="disabled"  nz-button [nzType]="'default'" [nzSize]="'large'" class="detail-noraml-btn">
+                <button disabled="disabled" nz-button [nzType]="'default'" [nzSize]="'large'" class="detail-noraml-btn">
                     <span>下架</span>
                 </button>
             </div>
@@ -93,8 +92,7 @@
                 <div nz-col [nzSpan]="4" [nzOffset]="4">
                     服务版本
                 </div>
-                <div *ngIf="serviceDetail.serviceVersion" nz-col [nzSpan]="12" [nzOffset]="4"
-                     class="detail-package-num">
+                <div *ngIf="serviceDetail.serviceVersion" nz-col [nzSpan]="12" [nzOffset]="4" class="detail-package-num">
                     V2.0
                 </div>
             </div>
@@ -117,25 +115,25 @@
             <nz-timeline-item [nzColor]="'red'">更新 V3.5.0 2017-09-07</nz-timeline-item>
         </nz-timeline>
     </div>
-  <!--redis版本管理-->
-  <div nz-row class="detail-develop-wrapper" *ngIf="serviceName === 'redis'">
-    <nz-timeline>
-      <nz-timeline-item [nzColor]="'green'">上架 V3.0.1 准备 2017-06-27</nz-timeline-item>
-      <nz-timeline-item [nzColor]="'green'">上架 V3.0.5 前测试 2017-08-05</nz-timeline-item>
-      <nz-timeline-item [nzColor]="'green'">上架 V3.2.9 2017-08-27</nz-timeline-item>
-      <nz-timeline-item [nzColor]="'red'">更新 3.2.10 2017-09-07</nz-timeline-item>
-    </nz-timeline>
-  </div>
-  <!--mysql版本管理-->
-  <div nz-row class="detail-develop-wrapper" *ngIf="serviceName === 'mysql'">
-    <nz-timeline>
-      <nz-timeline-item [nzColor]="'green'">上架 V3.0.1 准备 2017-06-27</nz-timeline-item>
-      <nz-timeline-item [nzColor]="'green'">上架 V3.0.5 前测试 2017-08-05</nz-timeline-item>
-      <nz-timeline-item [nzColor]="'green'">上架 V3.2.9 2017-08-27</nz-timeline-item>
-      <nz-timeline-item [nzColor]="'red'">更新 3.2.10 2017-09-07</nz-timeline-item>
-    </nz-timeline>
-  </div>
-   <!-- <h4 class="detail-h3">已订购实例</h4>
+    <!--redis版本管理-->
+    <div nz-row class="detail-develop-wrapper" *ngIf="serviceName === 'redis'">
+        <nz-timeline>
+            <nz-timeline-item [nzColor]="'green'">上架 V3.0.1 准备 2017-06-27</nz-timeline-item>
+            <nz-timeline-item [nzColor]="'green'">上架 V3.0.5 前测试 2017-08-05</nz-timeline-item>
+            <nz-timeline-item [nzColor]="'green'">上架 V3.2.9 2017-08-27</nz-timeline-item>
+            <nz-timeline-item [nzColor]="'red'">更新 3.2.10 2017-09-07</nz-timeline-item>
+        </nz-timeline>
+    </div>
+    <!--mysql版本管理-->
+    <div nz-row class="detail-develop-wrapper" *ngIf="serviceName === 'mysql'">
+        <nz-timeline>
+            <nz-timeline-item [nzColor]="'green'">上架 V3.0.1 准备 2017-06-27</nz-timeline-item>
+            <nz-timeline-item [nzColor]="'green'">上架 V3.0.5 前测试 2017-08-05</nz-timeline-item>
+            <nz-timeline-item [nzColor]="'green'">上架 V3.2.9 2017-08-27</nz-timeline-item>
+            <nz-timeline-item [nzColor]="'red'">更新 3.2.10 2017-09-07</nz-timeline-item>
+        </nz-timeline>
+    </div>
+    <!-- <h4 class="detail-h3">已订购实例</h4>
     <div nz-row class="detail-instance-wrapper">
         <div *ngIf="serviceInstances">
             <div nz-row [nzGutter]="8">
@@ -179,10 +177,10 @@
     </div>
 -->
     <div class="app-detail-block">
-      <div class="app-detail-title">已订购实例</div>
-      <div class="detail-instance-wrapper" *ngIf="serviceInstances">
-        <app-app-nztable [mirrorDetail]="serviceInstances" [tableNum]="3" [tableTitle]="table3Title"></app-app-nztable>
-      </div>
+        <div class="app-detail-title">已订购实例</div>
+        <div class="detail-instance-wrapper" *ngIf="serviceInstances">
+            <app-app-nztable [mirrorDetail]="serviceInstances" [tableNum]="3" [tableTitle]="table3Title"></app-app-nztable>
+        </div>
     </div>
 
     <h4 class="detail-h3">套餐</h4>
@@ -191,7 +189,7 @@
             <app-container-instance #instanceThird [config]="formThird1Radios">
             </app-container-instance>
         </div>
-       <!-- <div nz-row class="detail-package">
+        <!-- <div nz-row class="detail-package">
             <div nz-col [nzSpan]="3" [nzOffset]="1">
                 容器XS
             </div>
@@ -219,6 +217,8 @@
 
     <div *ngIf="isPb === '0'">
         <h4 class="detail-h3">附件</h4>
+        <!-- <button nz-button *ngFor="let i of fileTypes" class="mr-sm" down-file [http-data]="data" http-url="./assets/demo{{i}}" file-name="demo中文">{{i}}</button> -->
+
     </div>
     <!--  <h4 class="detail-h3">附件</h4>
       <div nz-row class="detail-attach-wrapper">
