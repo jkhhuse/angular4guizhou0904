@@ -217,8 +217,9 @@
 
     <div *ngIf="isPb === '0'">
         <h4 class="detail-h3">附件</h4>
-        <!-- <button nz-button *ngFor="let i of fileTypes" class="mr-sm" down-file [http-data]="data" http-url="./assets/demo{{i}}" file-name="demo中文">{{i}}</button> -->
-
+        <span *ngIf="downFileList.length > 0">
+            <button style="margin: 10px" nz-button *ngFor="let list of downFileList" class="mr-sm" down-file [http-data]="data" http-url="{{list.url}}" file-name="{{list.name}}">{{list['name']}}</button>
+        </span>
     </div>
     <!--  <h4 class="detail-h3">附件</h4>
       <div nz-row class="detail-attach-wrapper">

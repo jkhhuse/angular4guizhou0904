@@ -5,6 +5,7 @@ import { ServicesService } from '../shared/services.service';
 import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { FormControl } from '@angular/forms';
 import { environment } from '../../environments/environment';
+import * as _ from 'lodash';
 // import { AdDownFileModule } from '@delon/abc';
 
 @Component({
@@ -21,6 +22,7 @@ export class ServiceDetailComponent implements OnInit {
     private serviceId: string;
     private tabName: string;
     private subscribeID: string; // 服务订阅审批状态ID
+    private downFileList = [];
     // 表格3thead
     table3Title = [
         {
@@ -182,7 +184,17 @@ export class ServiceDetailComponent implements OnInit {
             this.serviceDetail = data;
             this.subscribeID = data.subscribeProgress;
             console.log('subscribeProgress: ' + this.subscribeID);
-
+            if (data['description'] !== null && data['description'] !== undefined) {
+                _.map(_.split(data['description'], ','), (value, key) => {
+                    this.downFileList[key] = {
+                        url: environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/files/apiService/fileName/' +
+                            encodeURIComponent(value),
+                        name: _.split(value, '#')[2]
+                    };
+                    console.log(this.downFileList);
+                });
+            }
+            console.log(this.downFileList);
         });
         // 订阅服务详情下的实例 的流
         // this.serviceInstances = this.getServiceInstances(this.serviceName);
