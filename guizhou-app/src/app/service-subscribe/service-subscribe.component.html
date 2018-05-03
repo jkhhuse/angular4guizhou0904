@@ -170,7 +170,7 @@
               </app-container-instance>
             </div>
           </div>
-          <div nz-row *ngIf="serviceName === 'dubbo'" style="margin-top: 15px">
+          <div nz-row *ngIf="serviceName === 'dubbo' || this.isPublicDubbo$ === 'lb_port'" style="margin-top: 15px">
             <div nz-row>
               <div style="margin-bottom: 10px" nz-row>
                 <div nz-col [nzSpan]="4" style="text-align: right">

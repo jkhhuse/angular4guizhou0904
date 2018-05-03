@@ -18,6 +18,7 @@ import { config } from '../../../protractor.conf';
 import * as _ from 'lodash';
 import { HttpClient, HttpParams, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
+
 // @Directive({ selector: 'pane' })
 // export class Pane {
 //   @Input() id: string;
@@ -251,6 +252,14 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
 
   ];
   selectedMultipleOption = '';
+
+  // 下载文件mock
+  fileTypes = ['.xlsx', '.docx', '.pptx', '.pdf'];
+
+  data = {
+      otherdata: 1,
+      time: new Date()
+  };
   // @ViewChildren(DynamicFormComponent) formArr: QueryList<DynamicFormComponent>;
   // configArr = [];
   //  测试viewChildren：https://angular.io/api/core/ViewChildren

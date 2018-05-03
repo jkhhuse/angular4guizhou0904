@@ -150,6 +150,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
     formThird3Entity: object = {};
     operateServiceArr = ['redis', 'mysql', 'mongodb'];
     zookeeperList = [];
+    isPublic$;
+    isPublicDubbo$;
 
     constructor(private fb: FormBuilder,
         private router: Router, private confirmServ: NzModalService, private routeInfo: ActivatedRoute, private http: HttpClient,
@@ -163,12 +165,12 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             const deleteArr = _.pullAt(this.lbControlArray, i);
             // console.log(this.lbControlArray, this.loadBanlancerForm);
             _.map(deleteArr, (value1, key1) => {
-              _.map(value1, (value2, key2) => {
-                this.loadBanlancerForm.removeControl(value2['name']);
-              });
+                _.map(value1, (value2, key2) => {
+                    this.loadBanlancerForm.removeControl(value2['name']);
+                });
             });
             console.log(this.loadBanlancerForm);
-          }
+        }
     }
 
     toggleRadio() {
@@ -499,6 +501,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             this.http.get(environment.apiService +
                 '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + this.serviceId).subscribe(data => {
                     // 这里每次都需要清除一次数据，不然数据会重复
+                    this.isPublic$ = data['isPublic'];
+                    // this.isPublicDubbo$ = data['isPublic'];
                     this.formThird1 = [];
                     this.formThird1Radios = [];
                     this.formThird2RadiosBasic = [];
@@ -508,6 +512,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     _.map(data['info']['basic_config'], (value, key) => {
                         if (value['attribute_name'] === 'lb_port') {
                             this.networkContainerOptions = value['option'];
+                            this.isPublicDubbo$ = 'lb_port';
                         }
                         switch (value['type']) {
                             case 'string': {
@@ -695,7 +700,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                 }
                                 this.formThird1[key] = {
                                     ifTags: (value['attribute_name'] === 'ip_tag'
-                                        || value['attribute_name'] === 'node_tag') ? 'true' : 'false',
+                                        || value['attribute_name'] === 'node_tag' ||
+                                        value['attribute_name'].indexOf('ip_tag') > -1) ? 'true' : 'false',
                                     type: 'select',
                                     label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
                                     name: value['attribute_name'],
@@ -1288,7 +1294,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         //   })
         // }
         const clusterServiceArr = ['redis', 'mysql', 'spring_eureka', 'memcached', 'spring_config_server', 'dubbo'];
-        if (_.indexOf(clusterServiceArr, this.serviceName) > -1) {
+        if (_.indexOf(clusterServiceArr, this.serviceName) > -1 || this.isPublic$ === 0) {
             this.formThird1RadioEntity['cluster_size'] = {
                 'size': 'CUSTOMIZED',
                 'cpu': this.instanceThird.value['cpuSize'],
@@ -1326,7 +1332,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             }
             console.log(this.formThird1Project, this.formThird1RadioEntity);
         }
-        if (this.serviceName === 'dubbo') {
+        if (this.serviceName === 'dubbo' || this.isPublicDubbo$ === 'lb_port') {
             console.log(this.formThird2Project);
             _.map(this.zookeeperList, (value, key) => {
                 if (this.formThird2Project.value['zk_uuid'] === value['instanceName']) {
@@ -1400,14 +1406,14 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 // todo: this.formThird2RadioEntity, this.formThird3Entity
                 // _.assign方法，会从后往前覆盖Object，所以在开头加上一个{}，确保后面的对象不被覆盖
                 network_mode: this.serviceName === 'spring_eureka' ? ['flannel'] : undefined,
-                basic_config: _.assign({}, this.serviceName === 'dubbo' ? lb_port$ : {},
+                basic_config: _.assign({}, (this.serviceName === 'dubbo' || this.isPublicDubbo$ === 'lb_port') ? lb_port$ : {},
                     this.formThird1Project.value, this.formThird1RadioEntity,
                     (_.indexOf(this.operateServiceArr, this.serviceName) > -1)
                         ? this.formThird2RadioBasicEntity : {},
                     this.formThird3Entity),
-                advanced_config: this.formThird2Project === undefined ? undefined : _.assign({}, this.formThird2Project === undefined ? {} :
+                advanced_config: this.formThird2Project !== undefined ? _.assign({}, this.formThird2Project === undefined ? {} :
                     this.formThird2Project.value, this.serviceName === 'zookeeper' ?
-                        this.formThird2RadioEntity : {})
+                        this.formThird2RadioEntity : {}) : undefined
             }
         };
         this.http.post(environment.apiService + '/apiService/services/' + this.serviceId + '/instances',
