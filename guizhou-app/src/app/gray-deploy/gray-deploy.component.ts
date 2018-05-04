@@ -1849,7 +1849,8 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
         });
         await this.getGrayRules(appInstance1Id$);
         if (this.grayRules.length === 0) {
-          this.createNotification('warning', '缺少灰度策略', '当前实例对应灰度策略为空，请选择其他实例!');
+          this.createNotification('warning', '请选择其他实例',
+           '当前实例未设置负载均衡（必须为nginx）策略/未选择HTTP协议/未设置域名信息，请保证选择的服务实例已设置负载均衡(nginx)，网络协议为HTTP协议，且具备域名信息');
         }
         break;
         // if(this.formFirst.disabled) {
