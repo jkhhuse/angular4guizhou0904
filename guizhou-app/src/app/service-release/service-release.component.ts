@@ -41,10 +41,6 @@ export class ServiceReleaseComponent implements OnInit {
     {
       key: '数据库',
       value: 'Database'
-    },
-    {
-      key: '大数据',
-      value: 'BigData'
     }
   ];
   @ViewChild(DynamicFormComponent) form: DynamicFormComponent;
@@ -63,7 +59,7 @@ export class ServiceReleaseComponent implements OnInit {
       type: 'select',
       label: '服务类型',
       name: 'type',
-      options: ['中间件', '微服务', '数据库', '大数据'],
+      options: ['中间件', '微服务', '数据库'],
       placeholder: '选择服务类型',
       validation: [Validators.required],
       styles: {
