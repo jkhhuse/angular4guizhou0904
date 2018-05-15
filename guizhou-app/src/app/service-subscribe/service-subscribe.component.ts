@@ -152,6 +152,34 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
     zookeeperList = [];
     isPublic$;
     isPublicDubbo$;
+    hostVolForm: FormGroup;
+    containerCatalogs;
+    hostVolArray = [
+        // 这里需要替换成真实数据
+        [
+            {
+                type: 'input',
+                name: 'host_path',
+                placeholder: '请输入',
+            },
+            {
+                type: 'select',
+                name: 'container_catalog',
+                placeholder: '请选择容器目录',
+                options: this.containerCatalogs,
+            },
+        ]
+    ];
+    hostVolLable = [
+        {
+            value: '主机目录绝对路径'
+        },
+        {
+            value: '容器目录'
+        }
+    ];
+    hostVolKey;
+    hostVolObj = {};
 
     constructor(private fb: FormBuilder,
         private router: Router, private confirmServ: NzModalService, private routeInfo: ActivatedRoute, private http: HttpClient,
@@ -170,6 +198,17 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 });
             });
             console.log(this.loadBanlancerForm);
+        }
+    }
+
+    deleteHost(i) {
+        if (this.hostVolArray.length > 1) {
+            const deleteArr = _.pullAt(this.hostVolArray, i);
+            _.map(deleteArr, (value1, key1) => {
+                _.map(value1, (value2, key2) => {
+                    this.hostVolForm.removeControl(value2['name']);
+                });
+            });
         }
     }
 
@@ -720,6 +759,22 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                 };
                                 break;
                             }
+                            case 'multi_mapping_vol': {
+                                this.hostVolKey = value['attribute_name'];
+                                this.hostVolForm = this.fb.group({});
+                                console.log(value, this.hostVolArray);
+                                this.hostVolArray[0][0]['placeholder'] = value['description']['zh'];
+                                this.hostVolArray[0][1]['options'] = value['option'];
+                                _.map(this.hostVolArray, (value1, key1) => {
+                                    _.map(value1, (value2, key2) => {
+                                        this.hostVolForm.addControl(value2['name'], new FormControl());
+                                        if (value2['type'] === 'select') {
+                                            value2['selectedOption'] = value2['options'][0];
+                                        }
+                                    });
+                                });
+                                break;
+                            }
                             default:
                                 break;
                         }
@@ -1159,7 +1214,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                         options: [],
                         // selectedOption: undefined,
                         disabled: true
-                        // disabled:
+                    // disabled:
                     },
                 ]
             ];
@@ -1212,7 +1267,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 options: [],
                 // selectedOption: undefined,
                 disabled: true
-                // disabled:
+            // disabled:
             },
         ]];
         this.lbControlArray = _.concat(this.lbControlArray, lbControlInput);
@@ -1227,6 +1282,30 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     // if (value2['type'] === 'select') {
                     //   value2['selectedOption'] = value2['options'][0];
                     // }
+                });
+            }
+        });
+    }
+
+    addHost() {
+        const hostControlInput = [[
+            {
+                type: 'input',
+                name: this.hostVolArray[this.hostVolArray.length - 1][0]['name'] + 1,
+                placeholder: '添加需要放置到主机上的目录路径',
+            },
+            {
+                type: 'select',
+                name: this.hostVolArray[this.hostVolArray.length - 1][1]['name'] + 1,
+                placeholder: '请选择容器目录',
+                options: this.hostVolArray[this.hostVolArray.length - 1][1]['options'],
+            }
+        ]];
+        this.hostVolArray = _.concat(this.hostVolArray, hostControlInput);
+        _.map(this.hostVolArray, (value1, key1) => {
+            if (key1 === this.hostVolArray.length - 1) {
+                _.map(value1, (value2, key2) => {
+                    this.hostVolForm.addControl(value2['name'], new FormControl());
                 });
             }
         });
@@ -1384,6 +1463,35 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 lb_port: lbArr
             };
         }
+        if (this.hostVolForm !== undefined) {
+            console.log(this.hostVolForm, this.hostVolKey);
+            let hostVolArray$ = [];
+            _.map(keyList, (value, key) => {
+                if (this.hostVolForm.value['host_path' + value] !== undefined &&
+                    this.hostVolForm.value['container_catalog' + value] !== undefined &&
+                    this.hostVolForm.value['host_path' + value] !== undefined !== null &&
+                    this.hostVolForm.value['container_catalog' + value] !== null) {
+                    hostVolArray$[key] = this.hostVolForm.value['host_path' + value] +
+                        ':' + this.hostVolForm.value['container_catalog' + value];
+                    console.log(hostVolArray$);
+                    // const lbName$ = _.split(this.loadBanlancerForm.value['listener_port' + value], ':')[0];
+                    // const listener_port$ = _.split(this.loadBanlancerForm.value['listener_port' + value], ':')[1];
+                    // if (this.loadBanlancerForm.value['listener_port' + value] !== null &&
+                    //     this.loadBanlancerForm.value['container_port' + value] !== null) {
+                    //     lbArr[key] = this.loadBanlancerForm.value['listener_port' + value] + ':' +
+                    //         this.loadBanlancerForm.value['container_port' + value] + '/tcp';
+                    // }
+                }
+            });
+            hostVolArray$ = _.compact(hostVolArray$);
+            if (hostVolArray$.length > 0) {
+                this.hostVolObj = {
+                    [this.hostVolKey]: hostVolArray$
+                };
+            }
+            console.log(hostVolArray$);
+        }
+        console.log(this.hostVolObj);
         // todo next
         // if (this.formThird1Project.value['ip_tag'].length === 1) {
         //   const arr = [];
@@ -1407,7 +1515,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 // _.assign方法，会从后往前覆盖Object，所以在开头加上一个{}，确保后面的对象不被覆盖
                 network_mode: this.serviceName === 'spring_eureka' ? ['flannel'] : undefined,
                 basic_config: _.assign({}, (this.serviceName === 'dubbo' || this.isPublicDubbo$ === 'lb_port') ? lb_port$ : {},
-                    this.formThird1Project.value, this.formThird1RadioEntity,
+                    this.formThird1Project.value, this.formThird1RadioEntity, this.hostVolObj,
                     (_.indexOf(this.operateServiceArr, this.serviceName) > -1)
                         ? this.formThird2RadioBasicEntity : {},
                     this.formThird3Entity),
