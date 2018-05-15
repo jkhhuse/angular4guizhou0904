@@ -35,23 +35,11 @@
           <div nz-col [nzSpan]="18" style="margin-left: 10px; margin-top: 4px">
             <!-- <nz-radio-group [(ngModel)]="this.radioValue" (click)="toggleButton()"> -->
             <nz-radio-group (click)="toggleButton()" [(ngModel)]="this.radioValue">
+              <!-- <span>{{ this.networkRadioValue }}</span>
+              <span>{{ this.networkRadioValue2 }}</span> -->
               <label *ngIf="this.networkRadioValue !== undefined" nz-radio [nzValue]="'product'" style="margin-right: 25px">
                 <span>生产域</span>
-                <!-- <nz-tooltip [nzPlacement]="'rightTop'">
-                  <i nz-tooltip class="anticon anticon-question-circle-o" style="position: absolute; right: -10px;"></i>
-                  <ng-template #nzTemplate>
-                    <div>
-                      <p>如果选了生产域</p>
-                      <p>每个镜像的基本配置中添加区域选项(互联网、portal、核心)</p>
-                      <p>
-                        每个服务的基本配置中添加区域选项(互联网、portal、核心)
-                      </p>
-                    </div>
-                  </ng-template>
-                </nz-tooltip> -->
-                <!-- <i class="anticon anticon-question-circle-o" style="position: absolute; right: -10px;"></i> -->
               </label>
-              <!-- <div>{{ this.networkRadioValue }}</div> -->
               <label *ngIf="this.networkRadioValue2 !== undefined" nz-radio [nzValue]="'test'">
                 <span>测试域</span>
               </label>

@@ -17,6 +17,8 @@ import { ComponentServiceService } from '../dynamic-form/services/component-serv
 import { config } from '../../../protractor.conf';
 import * as _ from 'lodash';
 import { HttpClient, HttpParams, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Terminal } from 'xterm';
+import * as fit from 'xterm/lib/addons/fit/fit';
 
 
 // @Directive({ selector: 'pane' })
@@ -242,6 +244,29 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
       }
     },
   ];
+  config6: FieldConfig[] = [
+    {
+      type: 'select',
+      label: '容器实例',
+      name: 'container1',
+      options: ['Pizza', 'Hot Dogs', 'Knakworstje', 'Coffee'],
+      placeholder: 'Select an option111',
+      validation: [Validators.required],
+      styles: {
+        'width': '400px',
+      },
+    },
+    {
+      type: 'input',
+      label: '接入点',
+      name: 'command',
+      placeholder: 'Enter your Fname',
+      // validation: [Validators.required, NameValidator('name', /^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
+      styles: {
+        'width': '400px',
+      },
+    }
+  ];
   name = 'Semlinker';
   @ViewChild('greet') greetDiv: ElementRef;
   imageTabs = ['name1', 'name2', 'name3'];
@@ -257,9 +282,10 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   fileTypes = ['.xlsx', '.docx', '.pptx', '.pdf'];
 
   data = {
-      otherdata: 1,
-      time: new Date()
+    otherdata: 1,
+    time: new Date()
   };
+  isVisible = false;
   // @ViewChildren(DynamicFormComponent) formArr: QueryList<DynamicFormComponent>;
   // configArr = [];
   //  测试viewChildren：https://angular.io/api/core/ViewChildren
@@ -267,6 +293,35 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   // serializedPanes: string = '';
   // shouldShow = false;
   // show() { this.shouldShow = true; }
+
+  showModal() {
+    this.isVisible = true;
+  }
+
+  openPostWindow(url, params) {
+    const newWin = window.open();
+    let formStr = '';
+    formStr = '<form style="visibility:hidden;" method="POST" action="' + url + '">' +
+      '<input type="hidden" name="params" value="' + params + '" />' +
+      '</form>';
+    newWin.document.body.innerHTML = formStr;
+    newWin.document.forms[0].submit();
+    return newWin;
+  }
+
+  handleOk = (e) => {
+    console.log('点击了确定');
+    const params$ = {
+      namespace: 'name1'
+    };
+    this.openPostWindow('http://10.132.49.101:35001/', {params$});
+    this.isVisible = false;
+  }
+
+  handleCancel = (e) => {
+    console.log(e);
+    this.isVisible = false;
+  }
 
   selectTest1() {
     // console.log(this.selectedMultipleOption);
