@@ -24,8 +24,11 @@
     <div class="long-block"></div>
 
     <div class="action-block" *ngIf="instanceDetail">
+<!--
       <div *ngIf="instanceDetail.status == 'Running'">
-        <button nz-button [nzType]="'primary'" (click)="showModal()">
+-->
+      <div >
+      <button nz-button [nzType]="'primary'" (click)="showModal()">
           <span>更新策略</span>
         </button>
       </div>
@@ -76,9 +79,9 @@
               <div class="modal-tem"></div>
               <span class="modal-label">实例数量最大值</span>
               <span class="modal-cont">
-                                <nz-input-number style="width: 100%" [(ngModel)]="autoInput_3" [nzMin]="10"
+                                <nz-input-number style="width: 100%" [(ngModel)]="autoInput_3" [nzMin]='autoInput_4'
                                                  [nzMax]="100" [nzStep]="1"
-                                                 [nzPlaceHolder]="'容器实例最大数量为总容器数的最大数量，包含当前已使用容器数'"></nz-input-number>
+                                                 [nzPlaceHolder]="'容器实例最大数量为总容器数的最大数量'"></nz-input-number>
                             </span>
               <div class="modal-tem"></div>
             </div>
