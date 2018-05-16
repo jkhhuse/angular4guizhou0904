@@ -105,8 +105,10 @@ export class BuildConfigComponent implements OnInit {
         // this.imageIdArr[key] = response;
         // this.repositories[key] = this.imageIdArr[key]['id'];
         resolve();
-      });
-
+      },
+        err => {
+           this.createNotification('error', '创建失败', err._body);
+        });
     });
 
   }
