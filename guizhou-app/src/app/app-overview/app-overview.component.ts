@@ -70,39 +70,48 @@ export class AppOverviewComponent implements OnInit {
   isVisible_start = false;
   isVisible_stop = false;
   _isSpinning_delete = false;
-  _isSpinning_start = false;
+  _isSpinning_start = false
   _isSpinning_stop = false;
+  isConfirmStartLoading = false;
+  isConfirmDeleteLoading = false;
+  isConfirmStopLoading = false;
 
   showModal_delete = (id, name) => {
     this.isVisible_delete = true;
+    this.isConfirmDeleteLoading = false;
     this.deleteID = id;
     this.deleteName = name;
   }
 
   showModal_start = (id, name) => {
     this.isVisible_start = true;
+    this.isConfirmStartLoading = false;
     this.deleteID = id;
     this.deleteName = name;
   }
 
   showModal_stop = (id, name) => {
     this.isVisible_stop = true;
+    this.isConfirmStopLoading = false;
     this.deleteID = id;
     this.deleteName = name;
   }
 
   handleOk_delete = (e) => {
     this._isSpinning_delete = true;
+    this.isConfirmDeleteLoading = true;
     this.deleteAppInstance(this.deleteID, this.deleteName);
   }
 
   handleOk_start = (e) => {
     this._isSpinning_start = true;
+    this.isConfirmStartLoading = true;
     this.startAppInstance(this.deleteID, this.deleteName);
   }
 
   handleOk_stop = (e) => {
     this._isSpinning_stop = true;
+    this.isConfirmStopLoading = true;
     this.stopAppInstance(this.deleteID, this.deleteName);
 
   }
@@ -130,8 +139,10 @@ export class AppOverviewComponent implements OnInit {
         this.isVisible_delete = false;
         console.log('删除成功，更新列表');
         this.refreshData();
+        this.getTotalNums();
         this._isSpinning_delete = false;
-      }, 3000);
+        this.isConfirmDeleteLoading = false;
+      }, 5000);
       // } else {
       // this.createNotification('error', '删除应用实例失败', '删除应用实例调用接口失败');
       // }
@@ -151,7 +162,8 @@ export class AppOverviewComponent implements OnInit {
         console.log('停止成功，更新列表');
         this.refreshData();
         this._isSpinning_stop = false;
-      }, 3000);
+        this.isConfirmStopLoading = false;
+      }, 5000);
       // } else {
       // this.createNotification('error', '停止应用实例失败', '停止应用实例调用接口失败');
       // }
@@ -171,7 +183,8 @@ export class AppOverviewComponent implements OnInit {
         console.log('启动成功，更新列表');
         this.refreshData();
         this._isSpinning_start = false;
-      }, 3000);
+        this.isConfirmStartLoading = false;
+      }, 5000);
       // } else {
       // this.createNotification('error', '启动应用实例失败', '启动应用实例调用接口失败');
       // }
@@ -205,11 +218,6 @@ export class AppOverviewComponent implements OnInit {
     }
     this._loading = true;
     this._randomUser.getAppInstances(this._current, this._pageSize, this._sortName, this._sortValue, this.mirrorName).subscribe((data: any) => {
-      console.log(this._current);
-      console.log(this._pageSize);
-      console.log(this._sortName);
-      console.log(this._sortValue);
-      console.log(data);
 
       this._loading = false;
       this._total = data.length;

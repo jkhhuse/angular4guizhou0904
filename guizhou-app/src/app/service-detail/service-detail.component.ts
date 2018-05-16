@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { ServicesService } from "../shared/services.service";
-import { HttpClient, HttpParams, HttpErrorResponse } from "@angular/common/http";
-import { FormControl } from "@angular/forms";
-import { environment } from "../../environments/environment";
+import { ServicesService } from '../shared/services.service';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { FormControl } from '@angular/forms';
+import { environment } from '../../environments/environment';
+import * as _ from 'lodash';
+// import { AdDownFileModule } from '@delon/abc';
 
 @Component({
     selector: 'app-service-detail',
@@ -14,42 +16,44 @@ import { environment } from "../../environments/environment";
 export class ServiceDetailComponent implements OnInit {
     // 标签名
     public title: String = '服务目录';
+    private isPb;
     private serviceInfo: string;
     private serviceName: string;
     private serviceId: string;
     private tabName: string;
     private subscribeID: string; // 服务订阅审批状态ID
-  // 表格3thead
-  table3Title = [
-    {
-      index: 1,
-      name: '实例名称',
-    },
-    {
-      index: 2,
-      name: '所属集群',
-    },
-    {
-      index: 3,
-      name: '服务地址',
-    },
-    {
-      index: 3,
-      name: '状态',
-    },
-    {
-      index: 3,
-      name: '容器数量',
-    },
-    {
-      index: 3,
-      name: '大小',
-    },
-    {
-      index: 3,
-      name: '操作',
-    }
-  ];
+    private downFileList = [];
+    // 表格3thead
+    table3Title = [
+        {
+            index: 1,
+            name: '实例名称',
+        },
+        {
+            index: 2,
+            name: '所属集群',
+        },
+        {
+            index: 3,
+            name: '服务地址',
+        },
+        {
+            index: 3,
+            name: '状态',
+        },
+        {
+            index: 3,
+            name: '容器数量',
+        },
+        {
+            index: 3,
+            name: '大小',
+        },
+        {
+            index: 3,
+            name: '操作',
+        }
+    ];
     private formThird1Radios = [
         {
             cpuSize: 0.125,
@@ -118,7 +122,7 @@ export class ServiceDetailComponent implements OnInit {
                 // 订阅服务详情下的实例 的流
                 // this.serviceInstances = this.getServiceInstances(this.serviceName);
                 this.getServiceInstances(this.serviceName).subscribe((data) => {
-                  this.serviceInstances = data;
+                    this.serviceInstances = data;
                 });
                 this._isSpinning = false;
             }, 3000);
@@ -135,12 +139,12 @@ export class ServiceDetailComponent implements OnInit {
 
     getServiceDetail(serviceId): Observable<any> {
         return this.http.get(environment.apiService +
-             '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + serviceId);
+            '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + serviceId);
     }
     getServiceInstances(serviceName): Observable<any> {
         return this.http.get(environment.apiService +
-             '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' +
-        serviceName + '/instances');
+            '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' +
+            serviceName + '/instances');
     }
     // 删除服务接口
     deleteService(serviceId, serviceName): string {
@@ -149,22 +153,28 @@ export class ServiceDetailComponent implements OnInit {
         // 返回是string 不是json
         this.http.delete(this.servicesService.getCookie('groupID') + '/apiService' + '/groups/' +
             this.servicesService.getCookie('groupID') + '/service-instances/' + serviceId).subscribe((data) => {
-            status = data['status'].toString();  // 返回状态204删除成功
-            console.log('删除接口返回状态status：' + status);
-        });
+                status = data['status'].toString();  // 返回状态204删除成功
+                console.log('删除接口返回状态status：' + status);
+            });
         return status;
+    }
+
+    getFile() {
+        return this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') +
+            '/files/' + 'apiService/fileName/' + '111.doc');
     }
     constructor(private routeInfo: ActivatedRoute, private servicesService: ServicesService, private http: HttpClient) {
     }
 
     ngOnInit() {
         this.serviceInfo = this.routeInfo.snapshot.params['serviceId'];
+        this.isPb = this.routeInfo.snapshot.params['isPublic'];
         if (this.serviceInfo.split('@')) {
             const temp = this.serviceInfo.split('@');
             this.serviceName = temp[0];
             this.serviceId = temp[1];
-             console.log(this.serviceId);
-             console.log(this.serviceName);
+            console.log(this.serviceId);
+            console.log(this.serviceName);
         } else {
             this.serviceInfo = '';
         }
@@ -174,12 +184,22 @@ export class ServiceDetailComponent implements OnInit {
             this.serviceDetail = data;
             this.subscribeID = data.subscribeProgress;
             console.log('subscribeProgress: ' + this.subscribeID);
-
+            if (data['description'] !== null && data['description'] !== undefined) {
+                _.map(_.split(data['description'], ','), (value, key) => {
+                    this.downFileList[key] = {
+                        url: environment.api + '/api/' + this.servicesService.getCookie('groupID') + '/files/apiService/fileName/' +
+                            encodeURIComponent(value),
+                        name: _.split(value, '#')[2]
+                    };
+                    console.log(this.downFileList);
+                });
+            }
+            console.log(this.downFileList);
         });
         // 订阅服务详情下的实例 的流
         // this.serviceInstances = this.getServiceInstances(this.serviceName);
         this.getServiceInstances(this.serviceName).subscribe((data) => {
-          this.serviceInstances = data;
+            this.serviceInstances = data;
         });
     }
 }

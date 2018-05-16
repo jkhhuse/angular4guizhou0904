@@ -59,11 +59,11 @@
           <ng-template #body>
             <!-- 如果是服务-->
             <a *ngIf="service.serviceName"
-               [routerLink]="['/'+moduleName+'Detail', moduleName, service.serviceName + '@' + service.id, tabName]">
+               [routerLink]="['/'+moduleName+'Detail', moduleName, service.serviceName + '@' + service.id, tabName, isPublic]">
               <div class="custom-image">
                 <img *ngIf="service.serviceName"
-                     [src]='serviceImgUrl + service.serviceName + ".png"'
-                     alt=""/>
+                     [src]='serviceImgUrl + "" + service.groupId + "/files/apiService/fileName/" + service.serviceName + ".png"'
+                     alt="" onerror="this.src = 'assets/service/app.png'"/>
               </div>
             </a>
             <!-- 如果是应用-->
@@ -71,7 +71,7 @@
                [routerLink]="['/'+moduleName+'Detail', moduleName, service.appName, tabName]">
               <div class="custom-image">
                 <img *ngIf="service.appName" #customImg
-                     [src]='appimgUrl + service.appName + ".png"'
+                     [src]='appimgUrl + service.appName'
                      alt="" onerror="this.src = 'assets/service/app.png'"/>
               </div>
             </a>

@@ -28,6 +28,9 @@ import { FileCenterComponent } from './file-center/file-center.component';
 import { Code404Component } from './code404/code404.component';
 import { AppFilterPipe } from './pipe/app-filter.pipe';
 import { NgZorroAntdModule } from 'ng-zorro-antd';
+import { AlainABCModule } from '@delon/abc';
+import { AlainThemeModule } from '@delon/theme';
+import { AdDownFileModule } from '@delon/abc';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RandomUserService } from './shared/random-user.service';
 import { ServiceCatalogComponent } from './service-catalog/service-catalog.component';
@@ -40,7 +43,7 @@ import { ServiceReleaseComponent } from './service-release/service-release.compo
 import { ServiceInstanceDetailComponent } from './service-instance-detail/service-instance-detail.component';
 import { ComponentTestComponent } from './component-test/component-test.component';
 import { AppReleaseComponent } from './app-release/app-release.component';
-import {DatePipe, HashLocationStrategy, LocationStrategy} from '@angular/common';
+import { DatePipe, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AppDeployComponent } from './app-deploy/app-deploy.component';
 import { ContainerInstanceComponent } from './container-instance/container-instance.component';
 import { ServiceSubscribeComponent } from './service-subscribe/service-subscribe.component';
@@ -153,6 +156,9 @@ export function createTranslateHttpLoader(http: HttpClient) {
         AppRoutingModule, // 引入路由模块,
         ReactiveFormsModule,
         NgZorroAntdModule.forRoot(),
+        AlainABCModule,
+        AlainThemeModule,
+        // AdDownFileModule,
         BrowserAnimationsModule,
         HttpClientModule,
         DynamicFormModule,
@@ -166,7 +172,7 @@ export function createTranslateHttpLoader(http: HttpClient) {
                 deps: [HttpClient]
             }
         }),
-        OperaMonitorModule
+        OperaMonitorModule,
         // InMemoryWebApiModule.forRoot(InMemoryDataService)
     ],
     providers: [
@@ -177,9 +183,9 @@ export function createTranslateHttpLoader(http: HttpClient) {
         ServiceTestService,
         DatePipe,
         {
-          provide: HTTP_INTERCEPTORS,
-          useClass: RequestInterceptor,
-          multi: true,
+            provide: HTTP_INTERCEPTORS,
+            useClass: RequestInterceptor,
+            multi: true,
         },
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         // 全局异常捕捉

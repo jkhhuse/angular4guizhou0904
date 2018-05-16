@@ -150,6 +150,36 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
     formThird3Entity: object = {};
     operateServiceArr = ['redis', 'mysql', 'mongodb'];
     zookeeperList = [];
+    isPublic$;
+    isPublicDubbo$;
+    hostVolForm: FormGroup;
+    containerCatalogs;
+    hostVolArray = [
+        // 这里需要替换成真实数据
+        [
+            {
+                type: 'input',
+                name: 'host_path',
+                placeholder: '请输入',
+            },
+            {
+                type: 'select',
+                name: 'container_catalog',
+                placeholder: '请选择容器目录',
+                options: this.containerCatalogs,
+            },
+        ]
+    ];
+    hostVolLable = [
+        {
+            value: '主机目录绝对路径'
+        },
+        {
+            value: '容器目录'
+        }
+    ];
+    hostVolKey;
+    hostVolObj = {};
 
     constructor(private fb: FormBuilder,
         private router: Router, private confirmServ: NzModalService, private routeInfo: ActivatedRoute, private http: HttpClient,
@@ -163,12 +193,23 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             const deleteArr = _.pullAt(this.lbControlArray, i);
             // console.log(this.lbControlArray, this.loadBanlancerForm);
             _.map(deleteArr, (value1, key1) => {
-              _.map(value1, (value2, key2) => {
-                this.loadBanlancerForm.removeControl(value2['name']);
-              });
+                _.map(value1, (value2, key2) => {
+                    this.loadBanlancerForm.removeControl(value2['name']);
+                });
             });
             console.log(this.loadBanlancerForm);
-          }
+        }
+    }
+
+    deleteHost(i) {
+        if (this.hostVolArray.length > 1) {
+            const deleteArr = _.pullAt(this.hostVolArray, i);
+            _.map(deleteArr, (value1, key1) => {
+                _.map(value1, (value2, key2) => {
+                    this.hostVolForm.removeControl(value2['name']);
+                });
+            });
+        }
     }
 
     toggleRadio() {
@@ -485,10 +526,10 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     // this.operateMode['standalone'] = data['standalone_config'];
                     // todo next
                     // this.operateMode['replication'] = data['replication_config'];
-                    this.operateMode['cluster'] = data['cluster_config'];
+                    this.operateMode['cluster'] = data['info']['cluster_config'];
                     // todo next
-                    this.operateMode['replication'] = data['replication_config'];
-                    this.operateMode['replica_set'] = data['replica_set_config'];
+                    this.operateMode['replication'] = data['info']['replication_config'];
+                    this.operateMode['replica_set'] = data['info']['replica_set_config'];
                     resolve();
                 });
         });
@@ -499,15 +540,18 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             this.http.get(environment.apiService +
                 '/apiService' + '/groups/' + this.servicesService.getCookie('groupID') + '/services/' + this.serviceId).subscribe(data => {
                     // 这里每次都需要清除一次数据，不然数据会重复
+                    this.isPublic$ = data['isPublic'];
+                    // this.isPublicDubbo$ = data['isPublic'];
                     this.formThird1 = [];
                     this.formThird1Radios = [];
                     this.formThird2RadiosBasic = [];
                     let mysqlMinValue;
                     let redisMinValue;
                     let zookeeperMinValue;
-                    _.map(data['basic_config'], (value, key) => {
+                    _.map(data['info']['basic_config'], (value, key) => {
                         if (value['attribute_name'] === 'lb_port') {
                             this.networkContainerOptions = value['option'];
+                            this.isPublicDubbo$ = 'lb_port';
                         }
                         switch (value['type']) {
                             case 'string': {
@@ -695,7 +739,8 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                 }
                                 this.formThird1[key] = {
                                     ifTags: (value['attribute_name'] === 'ip_tag'
-                                        || value['attribute_name'] === 'node_tag') ? 'true' : 'false',
+                                        || value['attribute_name'] === 'node_tag' ||
+                                        value['attribute_name'].indexOf('ip_tag') > -1) ? 'true' : 'false',
                                     type: 'select',
                                     label: value['display_name'] ? value['display_name']['zh'] : value['attribute_name'],
                                     name: value['attribute_name'],
@@ -712,6 +757,22 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                                     selectTooltipTitle: (value['attribute_name'] === 'ip_tag'
                                         || value['attribute_name'] === 'node_tag') ? '使用Host网络模式的服务实例可能会遇到需要使用的主机端口已被占用而导致启动失败。' : ''
                                 };
+                                break;
+                            }
+                            case 'multi_mapping_vol': {
+                                this.hostVolKey = value['attribute_name'];
+                                this.hostVolForm = this.fb.group({});
+                                console.log(value, this.hostVolArray);
+                                this.hostVolArray[0][0]['placeholder'] = value['description']['zh'];
+                                this.hostVolArray[0][1]['options'] = value['option'];
+                                _.map(this.hostVolArray, (value1, key1) => {
+                                    _.map(value1, (value2, key2) => {
+                                        this.hostVolForm.addControl(value2['name'], new FormControl());
+                                        if (value2['type'] === 'select') {
+                                            value2['selectedOption'] = value2['options'][0];
+                                        }
+                                    });
+                                });
                                 break;
                             }
                             default:
@@ -799,7 +860,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     this.formThird2Radios = [];
                     console.log('这是服务详情advanced', data['advanced_config']);
                     // this.formThird2 = data['advanced_config'];
-                    _.map(data['advanced_config'], (value, key) => {
+                    _.map(data['info']['advanced_config'], (value, key) => {
                         switch (value['type']) {
                             case 'string': {
                                 // this.formThird2
@@ -1153,7 +1214,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                         options: [],
                         // selectedOption: undefined,
                         disabled: true
-                        // disabled:
+                    // disabled:
                     },
                 ]
             ];
@@ -1206,7 +1267,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 options: [],
                 // selectedOption: undefined,
                 disabled: true
-                // disabled:
+            // disabled:
             },
         ]];
         this.lbControlArray = _.concat(this.lbControlArray, lbControlInput);
@@ -1221,6 +1282,30 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     // if (value2['type'] === 'select') {
                     //   value2['selectedOption'] = value2['options'][0];
                     // }
+                });
+            }
+        });
+    }
+
+    addHost() {
+        const hostControlInput = [[
+            {
+                type: 'input',
+                name: this.hostVolArray[this.hostVolArray.length - 1][0]['name'] + 1,
+                placeholder: '添加需要放置到主机上的目录路径',
+            },
+            {
+                type: 'select',
+                name: this.hostVolArray[this.hostVolArray.length - 1][1]['name'] + 1,
+                placeholder: '请选择容器目录',
+                options: this.hostVolArray[this.hostVolArray.length - 1][1]['options'],
+            }
+        ]];
+        this.hostVolArray = _.concat(this.hostVolArray, hostControlInput);
+        _.map(this.hostVolArray, (value1, key1) => {
+            if (key1 === this.hostVolArray.length - 1) {
+                _.map(value1, (value2, key2) => {
+                    this.hostVolForm.addControl(value2['name'], new FormControl());
                 });
             }
         });
@@ -1288,7 +1373,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
         //   })
         // }
         const clusterServiceArr = ['redis', 'mysql', 'spring_eureka', 'memcached', 'spring_config_server', 'dubbo'];
-        if (_.indexOf(clusterServiceArr, this.serviceName) > -1) {
+        if (_.indexOf(clusterServiceArr, this.serviceName) > -1 || this.isPublic$ === 0) {
             this.formThird1RadioEntity['cluster_size'] = {
                 'size': 'CUSTOMIZED',
                 'cpu': this.instanceThird.value['cpuSize'],
@@ -1326,7 +1411,7 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
             }
             console.log(this.formThird1Project, this.formThird1RadioEntity);
         }
-        if (this.serviceName === 'dubbo') {
+        if (this.serviceName === 'dubbo' || this.isPublicDubbo$ === 'lb_port') {
             console.log(this.formThird2Project);
             _.map(this.zookeeperList, (value, key) => {
                 if (this.formThird2Project.value['zk_uuid'] === value['instanceName']) {
@@ -1378,6 +1463,29 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 lb_port: lbArr
             };
         }
+        if (this.hostVolForm !== undefined) {
+            console.log(this.hostVolForm, this.hostVolKey);
+            let hostVolArray$ = [];
+            _.map(keyList, (value, key) => {
+                if (this.hostVolForm.value['host_path' + value] !== undefined &&
+                    this.hostVolForm.value['container_catalog' + value] !== undefined &&
+                    this.hostVolForm.value['host_path' + value] !== undefined !== null &&
+                    this.hostVolForm.value['container_catalog' + value] !== null) {
+                    hostVolArray$[key] = '/volmount/' + this.servicesService.getCookie('groupID')
+                        + this.hostVolForm.value['host_path' + value] +
+                        ':' + this.hostVolForm.value['container_catalog' + value];
+                    console.log(hostVolArray$);
+                }
+            });
+            hostVolArray$ = _.compact(hostVolArray$);
+            if (hostVolArray$.length > 0) {
+                this.hostVolObj = {
+                    [this.hostVolKey]: hostVolArray$
+                };
+            }
+            console.log(hostVolArray$);
+        }
+        console.log(this.hostVolObj);
         // todo next
         // if (this.formThird1Project.value['ip_tag'].length === 1) {
         //   const arr = [];
@@ -1400,14 +1508,14 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                 // todo: this.formThird2RadioEntity, this.formThird3Entity
                 // _.assign方法，会从后往前覆盖Object，所以在开头加上一个{}，确保后面的对象不被覆盖
                 network_mode: this.serviceName === 'spring_eureka' ? ['flannel'] : undefined,
-                basic_config: _.assign({}, this.serviceName === 'dubbo' ? lb_port$ : {},
-                    this.formThird1Project.value, this.formThird1RadioEntity,
+                basic_config: _.assign({}, (this.serviceName === 'dubbo' || this.isPublicDubbo$ === 'lb_port') ? lb_port$ : {},
+                    this.formThird1Project.value, this.formThird1RadioEntity, this.hostVolObj,
                     (_.indexOf(this.operateServiceArr, this.serviceName) > -1)
                         ? this.formThird2RadioBasicEntity : {},
                     this.formThird3Entity),
-                advanced_config: this.formThird2Project === undefined ? undefined : _.assign({}, this.formThird2Project === undefined ? {} :
+                advanced_config: this.formThird2Project !== undefined ? _.assign({}, this.formThird2Project === undefined ? {} :
                     this.formThird2Project.value, this.serviceName === 'zookeeper' ?
-                        this.formThird2RadioEntity : {})
+                        this.formThird2RadioEntity : {}) : undefined
             }
         };
         this.http.post(environment.apiService + '/apiService/services/' + this.serviceId + '/instances',

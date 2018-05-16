@@ -1,6 +1,7 @@
 <p>
   component-test works!
 </p>
+
 <div class="marginTop20">全局css样式测试</div>
 <!-- 动态表单测试 -->
 <div class="app">
@@ -65,6 +66,20 @@
   </dynamic-form> -->
   <!-- {{ form.valid }} {{ form.value | json }} -->
 </div>
+
+<!-- exec测试 -->
+<button nz-button [nzType]="'primary'" (click)="showModal()">
+  <span>使用文本</span>
+</button>
+<nz-modal [nzVisible]="isVisible" [nzTitle]="'EXEC'" [nzContent]="execModalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
+  <ng-template #execModalContent>
+    <!-- <p>对话框的内容</p>
+    <p>对话框的内容</p>
+    <p>对话框的内容</p> -->
+    <dynamic-form [config]="config6">
+    </dynamic-form>
+  </ng-template>
+</nz-modal>
 
 <!-- ng-zorro-antd 表格分页测试 -->
 <nz-table #nzTable [nzScroll]="{ y: 240 }" [nzShowTotal]="true" [nzDataSource]="_dataSet" [nzPageSize]="10" [nzShowSizeChanger]="true">
@@ -157,3 +172,6 @@
 <nz-select nzKeepUnListOptions (nzOpenChange)="openC()" style="width: 100%" nzMode="tags" nzPlaceHolder="Please select" [(ngModel)]="listOfSelectedValue">
   <nz-option *ngFor="let option of listOfOption" [nzLabel]="option.label" [nzValue]="option.value"></nz-option>
 </nz-select>
+
+<button nz-button *ngFor="let i of fileTypes" class="mr-sm" down-file [http-data]="data" http-url="./assets/demo{{i}}" file-name="demo中文">{{i}}</button>
+

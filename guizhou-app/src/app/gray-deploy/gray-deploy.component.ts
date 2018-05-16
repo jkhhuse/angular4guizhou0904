@@ -38,7 +38,7 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
   OnDestroy {
 
   isLoadingDone = false;
-  configFileRadio;
+  configFileRadio = 'config';
   testCluster;
   prodCluster;
   selectValueSub: Subscription;
@@ -253,6 +253,11 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
   serviceType2 = 'stateless';
   serviceType3 = 'stateless';
   serviceType4 = 'stateless';
+  cmdType0 = 'imageDefault';
+  cmdType1 = 'imageDefault';
+  cmdType2 = 'imageDefault';
+  cmdType3 = 'imageDefault';
+  cmdType4 = 'imageDefault';
   serviceAdvancedLabel = [];
   logForm: FormGroup;
   logFormProject0: FormGroup;
@@ -268,6 +273,16 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
   envFileOptions;
   envFileOptionsName = [];
   env$ = [];
+  @ViewChild('cmdFormProject0') cmdFormProject0: DynamicFormComponent;
+  @ViewChild('cmdFormProject1') cmdFormProject1: DynamicFormComponent;
+  @ViewChild('cmdFormProject2') cmdFormProject2: DynamicFormComponent;
+  @ViewChild('cmdFormProject3') cmdFormProject3: DynamicFormComponent;
+  @ViewChild('cmdFormProject4') cmdFormProject4: DynamicFormComponent;
+  cmdFormConfig0 = [];
+  cmdFormConfig1 = [];
+  cmdFormConfig2 = [];
+  cmdFormConfig3 = [];
+  cmdFormConfig4 = [];
   // @ViewChild('logFormProject1') logFormProject1: DynamicFormComponent;
   // @ViewChild('logFormProject0') logFormProject0: DynamicFormComponent;
   // @ViewChild('logFormProject1') logFormProject1: DynamicFormComponent;
@@ -490,20 +505,20 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
       notNecessary: true,
       valueUpdate: true
     },
-    {
-      type: 'input',
-      label: '主机路径',
-      placeholder: '',
-      name: 'volume_name',
-      // validation: [Validators.required],
-      styles: {
-        'width': '400px'
-      },
-      notNecessary: true,
-      // divStyles: {
-      //   display
-      // }
-    }
+    // {
+    //   type: 'input',
+    //   label: '主机路径',
+    //   placeholder: '',
+    //   name: 'volume_name',
+    //   // validation: [Validators.required],
+    //   styles: {
+    //     'width': '400px'
+    //   },
+    //   notNecessary: true,
+    //   // divStyles: {
+    //   //   display
+    //   // }
+    // }
   ];
   statefulSub: Subscription;
   statefulData = [];
@@ -733,6 +748,12 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
   ifOninitCompleted = false;
   // 容器暴露端口列表
   networkContainerOptions = [];
+  // 接入点初始化数据
+  entryPointsOptions;
+  // 执行命令初始化数据
+  cmdOptions;
+  entrypoint$;
+  run_command$;
 
   // 灰度策略
   grayRules;
@@ -782,29 +803,74 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
   //   },
   //     this.formThirdProject.setValue('ip_tag', this.formThird[3]);
   // }
+  cmdClick(k) {
+    console.log('cmd click', k);
+    if (this.judgeFuncCmd(k, 'radio') === 'imageDefault') {
+      this.judgeFuncCmd(k, 'config')[0]['inputDisabled'] = true;
+      this.judgeFuncCmd(k, 'config')[1]['inputDisabled'] = true;
+    } else if (this.judgeFuncCmd(k, 'radio') === 'customConfig') {
+      this.judgeFuncCmd(k, 'config')[0]['inputDisabled'] = false;
+      this.judgeFuncCmd(k, 'config')[1]['inputDisabled'] = false;
+    }
+    this.judgeFuncCmd(k, 'cmd').setConfig(this.judgeFuncCmd(k, 'config'));
+  }
+
+  judgeFuncCmd(i, type): any {
+    if (type === 'cmd') {
+      if (i === 0) {
+        return this.cmdFormProject0;
+      } else if (i === 1) {
+        return this.cmdFormProject1;
+      } else if (i === 2) {
+        return this.cmdFormProject2;
+      } else if (i === 3) {
+        return this.cmdFormProject3;
+      } else if (i === 4) {
+        return this.cmdFormProject4;
+      }
+    } else if (type === 'config') {
+      if (i === 0) {
+        return this.cmdFormConfig0;
+      } else if (i === 1) {
+        return this.cmdFormConfig1;
+      } else if (i === 2) {
+        return this.cmdFormConfig2;
+      } else if (i === 3) {
+        return this.cmdFormConfig3;
+      } else if (i === 4) {
+        return this.cmdFormConfig4;
+      }
+    } else if (type === 'radio') {
+      if (i === 0) {
+        return this.cmdType0;
+      } else if (i === 1) {
+        return this.cmdType1;
+      } else if (i === 2) {
+        return this.cmdType2;
+      } else if (i === 3) {
+        return this.cmdType3;
+      } else if (i === 4) {
+        return this.cmdType4;
+      }
+    }
+  }
   getContainerOptions(repositoryId$) {
     return new Promise((resolve, reject) => {
       this.http.get(environment.api + '/api/' + this.servicesService.getCookie('groupID') +
         '/warehouse/repository/' + repositoryId$ + '/meta').subscribe(data => {
           console.log('容器暴露端口');
-          // mock 容器暴露端口
-          // if (repositoryId$ === 'c223e097-86b4-4a74-9048-fbf8ec537fe8') {
-          //   data['ExposedPorts'] = {
-          //     '80/tcp': {},
-          //     '8080/http': {}
-          //   };
-          // } else if (repositoryId$ === 'eb6982d2-189b-44bb-b2da-591fc525a2f2') {
-          //   data['ExposedPorts'] = {
-          //     '81/tvv': {},
-          //     '8181/sss': {}
-          //   };
-          // }
-          // console.log(data);
-          // mock 容器暴露端口
-          if (data['ExposedPorts'] !== undefined) {
-            this.networkContainerOptions = _.map(_.keys(data['ExposedPorts']), (value, key) => {
+          if (data['config']['ExposedPorts'] !== undefined && data['config']['ExposedPorts'] !== null) {
+            this.networkContainerOptions = _.map(_.keys(data['config']['ExposedPorts']), (value, key) => {
               return value.split('/')[0];
             });
+          }
+          if (data['config']['Cmd'] !== undefined && data['config']['Cmd'] !== null) {
+            console.log(data['config']['Cmd']);
+            this.cmdOptions = _.join(data['config']['Cmd'], ' ');
+          }
+          if (data['config']['Entrypoint'] !== undefined && data['config']['Entrypoint'] !== null) {
+            console.log(data['config']['Entrypoint']);
+            this.entryPointsOptions = _.join(data['config']['Entrypoint'], ' ');
           }
           console.log(this.networkContainerOptions);
           resolve();
@@ -1783,7 +1849,8 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
         });
         await this.getGrayRules(appInstance1Id$);
         if (this.grayRules.length === 0) {
-          this.createNotification('warning', '缺少灰度策略', '当前实例对应灰度策略为空，请选择其他实例!');
+          this.createNotification('warning', '请选择其他实例',
+           '当前实例未设置负载均衡（必须为nginx）策略/未选择HTTP协议/未设置域名信息，请保证选择的服务实例已设置负载均衡(nginx)，网络协议为HTTP协议，且具备域名信息');
         }
         break;
         // if(this.formFirst.disabled) {
@@ -2006,6 +2073,9 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
       }
     });
     await this.getContainerOptions(reposId$);
+    this.judgeFuncCmd(this.activeImage, 'config')[0]['defaultValue'] = this.entryPointsOptions;
+    this.judgeFuncCmd(this.activeImage, 'config')[1]['defaultValue'] = this.cmdOptions;
+    this.judgeFuncCmd(this.activeImage, 'cmd').setConfig(this.judgeFuncCmd(this.activeImage, 'config'));
     console.log('切换容器端口');
     _.map(this.judgeFuncLbControl(this.activeImage), (value, key) => {
       value[1]['options'] = this.networkContainerOptions;
@@ -2211,6 +2281,13 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
           }
         }
         console.log(this.judgeFuncStateful(key1, 'data'));
+        if (this.judgeFuncCmd(key1, 'radio') === 'imageDefault') {
+          this.entrypoint$ = '';
+          this.run_command$ = '';
+        } else if (this.judgeFuncCmd(key1, 'radio') === 'customConfig') {
+          this.entrypoint$ = this.judgeFuncCmd(key1, 'cmd').value['entrypoint'];
+          this.run_command$ = this.judgeFuncCmd(key1, 'cmd').value['run_command'];
+        }
         this.imageData[key1] = {
           storageSize: 0,
           scaling_mode: 'MANUAL',
@@ -2228,7 +2305,9 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
           instance_envvars: _.isEqual(this.env1Enty[key1], {}) ? undefined : this.env1Enty[key1],
           microserviceConfigs: this.judgeFuncConfigFile(key1, 'dataEnt').length > 0 ? this.judgeFuncConfigFile(key1, 'dataEnt') : undefined,
           volumes: this.judgeFuncStateful(key1, 'dataEnt').length > 0 ? this.judgeFuncStateful(key1, 'dataEnt') : undefined,
-          envfiles: this.envfiles$
+          envfiles: this.envfiles$,
+          entrypoint: this.entrypoint$ === undefined ? '' : this.entrypoint$,
+          run_command: this.run_command$ === undefined ? '' : this.run_command$
         };
       }
     });
@@ -2603,11 +2682,13 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
   }
 
   addConfigFile() {
+    this.configFileForm.reset();
     console.log('addClick3');
     this.isVisible = true;
   }
 
   addStateful() {
+    this.statefulForm.reset();
     this.isVisibleStateful = true;
   }
 
@@ -2843,6 +2924,150 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
         { value: 'jack', label: 'Jack' },
         { value: 'lucy', label: 'Lucy' },
         { value: 'disabled', label: 'Disabled', disabled: true }
+      ];
+      const cmdFormConfig$ = [
+        {
+          type: 'input',
+          label: '接入点',
+          name: 'entrypoint',
+          styles: {
+            'width': '400px'
+          },
+          notNecessary: true,
+          inputDisabled: true,
+          defaultValue: this.entryPointsOptions
+        },
+        {
+          type: 'input',
+          label: '执行命令',
+          name: 'run_command',
+          styles: {
+            'width': '400px'
+          },
+          notNecessary: true,
+          inputDisabled: true,
+          defaultValue: this.cmdOptions
+        },
+      ];
+      this.cmdFormConfig0 = [
+        {
+          type: 'input',
+          label: '接入点',
+          name: 'entrypoint',
+          styles: {
+            'width': '400px'
+          },
+          notNecessary: true,
+          inputDisabled: true,
+          defaultValue: this.entryPointsOptions
+        },
+        {
+          type: 'input',
+          label: '执行命令',
+          name: 'run_command',
+          styles: {
+            'width': '400px'
+          },
+          notNecessary: true,
+          inputDisabled: true,
+          defaultValue: this.cmdOptions
+        },
+      ];
+      this.cmdFormConfig1 = [
+        {
+          type: 'input',
+          label: '接入点',
+          name: 'entrypoint',
+          styles: {
+            'width': '400px'
+          },
+          notNecessary: true,
+          inputDisabled: true,
+          defaultValue: this.entryPointsOptions
+        },
+        {
+          type: 'input',
+          label: '执行命令',
+          name: 'run_command',
+          styles: {
+            'width': '400px'
+          },
+          notNecessary: true,
+          inputDisabled: true,
+          defaultValue: this.cmdOptions
+        },
+      ];
+      this.cmdFormConfig2 = [
+        {
+          type: 'input',
+          label: '接入点',
+          name: 'entrypoint',
+          styles: {
+            'width': '400px'
+          },
+          notNecessary: true,
+          inputDisabled: true,
+          defaultValue: this.entryPointsOptions
+        },
+        {
+          type: 'input',
+          label: '执行命令',
+          name: 'run_command',
+          styles: {
+            'width': '400px'
+          },
+          notNecessary: true,
+          inputDisabled: true,
+          defaultValue: this.cmdOptions
+        },
+      ];
+      this.cmdFormConfig3 = [
+        {
+          type: 'input',
+          label: '接入点',
+          name: 'entrypoint',
+          styles: {
+            'width': '400px'
+          },
+          notNecessary: true,
+          inputDisabled: true,
+          defaultValue: this.entryPointsOptions
+        },
+        {
+          type: 'input',
+          label: '执行命令',
+          name: 'run_command',
+          styles: {
+            'width': '400px'
+          },
+          notNecessary: true,
+          inputDisabled: true,
+          defaultValue: this.cmdOptions
+        },
+      ];
+      this.cmdFormConfig4 = [
+        {
+          type: 'input',
+          label: '接入点',
+          name: 'entrypoint',
+          styles: {
+            'width': '400px'
+          },
+          notNecessary: true,
+          inputDisabled: true,
+          defaultValue: this.entryPointsOptions
+        },
+        {
+          type: 'input',
+          label: '执行命令',
+          name: 'run_command',
+          styles: {
+            'width': '400px'
+          },
+          notNecessary: true,
+          inputDisabled: true,
+          defaultValue: this.cmdOptions
+        },
       ];
       // this.testSelectedOption = undefined;
       _.map(this.lbControlArray0, (value1, key1) => {
@@ -3204,6 +3429,9 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
     await this.getCluster();
     await this.getIpTag();
     await this.choosedImageFunc1(this.imageTabs[0]);
+    this.cmdFormConfig0[0]['defaultValue'] = this.entryPointsOptions;
+    this.cmdFormConfig0[1]['defaultValue'] = this.cmdOptions;
+    this.cmdFormProject0.setConfig(this.cmdFormConfig0);
     await this.choosedServiceFunc(this.serviceTabs[0]);
     this.selectValueSub = this.componentSer.componentValue$.subscribe(
       value => {
@@ -3282,12 +3510,13 @@ export class GrayDeployComponent implements OnChanges, OnInit, DoCheck,
           this.statefulConfig[2]['divStyles'] = {
             display: 'block'
           };
-        } else {
-          this.statefulConfig[2]['divStyles'] = {
-            display: 'none'
-          };
-          this.statefulForm.value['volume_name'] = undefined;
         }
+        // else {
+        //   this.statefulConfig[2]['divStyles'] = {
+        //     display: 'none'
+        //   };
+        //   this.statefulForm.value['volume_name'] = undefined;
+        // }
         this.statefulForm.setConfig(this.statefulConfig);
       }
     });

@@ -86,11 +86,11 @@
             <td nz-td>{{data.instancesCount}} 个</td>
             <td nz-td>{{data.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</td>
             <td nz-td >
-              <button *ngIf="authAppInsStart" nz-button [disabled]="data.status === 'Running'" [nzType]="'primary'" nzSize="small"
+              <button *ngIf="authAppInsStart" nz-button [disabled]="data.status === 'Running' || data.status === 'Starting' || data.status === 'Stopping'" [nzType]="'primary'" nzSize="small"
                       (click)="showModal_start(data.id, data.instanceName);">
                 <span>启动</span>
               </button>
-              <button *ngIf="authAppInsStop" nz-button [disabled]="data.status !== 'Running'" [nzType]="'primary'" nzSize="small"
+              <button *ngIf="authAppInsStop" nz-button [disabled]="data.status === 'Stopped' || data.status === 'Stopping' || data.status === 'Starting'" [nzType]="'primary'" nzSize="small"
                       (click)="showModal_stop(data.id, data.instanceName);">
                 <span>停止</span>
               </button>
@@ -107,29 +107,75 @@
   </nz-content>
 </div>
 
-<nz-modal [nzVisible]="isVisible_delete" [nzTitle]="'操作确认'" [nzContent]="modalContent_delete"
-          (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk_delete($event)">
+<nz-modal [nzVisible]="isVisible_delete"
+          [nzTitle]="'操作确认'"
+          [nzMaskClosable]=false
+          [nzClosable]=false
+          [nzContent]="modalContent_delete"
+          (nzOnCancel)="handleCancel($event)"
+          (nzOnOk)="handleOk_delete($event)"
+          [nzContent]="modalContent_delete"
+          [nzFooter]="modalFooter_delete">
   <ng-template #modalContent_delete>
     <p>已选择应用实例：{{deleteName}}，是否确定删除？</p>
     <nz-spin style="display: block" [nzSize]="'large'" [nzSpinning]="_isSpinning_delete" [nzTip]="'删除中'">
     </nz-spin>
-
+  </ng-template>
+  <ng-template #modalFooter_delete>
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleCancel($event)">
+      取消
+    </button>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="handleOk_delete($event)" [nzLoading]="isConfirmDeleteLoading">
+      确认
+    </button>
   </ng-template>
 </nz-modal>
-<nz-modal [nzVisible]="isVisible_start" [nzTitle]="'操作确认'" [nzContent]="modalContent_start"
-          (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk_start($event)">
+
+
+<nz-modal [nzVisible]="isVisible_start"
+          [nzTitle]="'操作确认'"
+          [nzMaskClosable]=false
+          [nzClosable]=false
+          [nzContent]="modalContent_start"
+          (nzOnCancel)="handleCancel($event)"
+          (nzOnOk)="handleOk_start($event)"
+          [nzContent]="modalContent_start"
+          [nzFooter]="modalFooter_start">
   <ng-template #modalContent_start>
     <p>已选择应用实例：{{deleteName}}，是否确定启动？</p>
-    <nz-spin style="display: block" [nzSize]="'large'" [nzSpinning]="_isSpinning_start" [nzTip]="'启动中'">
+    <nz-spin style="display: block; z-index: 1999; width: 100%;" [nzSize]="'large'" [nzSpinning]="_isSpinning_start" [nzTip]="'启动中'">
     </nz-spin>
-
+  </ng-template>
+  <ng-template #modalFooter_start>
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleCancel($event)">
+      取消
+    </button>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="handleOk_start($event)" [nzLoading]="isConfirmStartLoading">
+      确认
+    </button>
   </ng-template>
 </nz-modal>
-<nz-modal [nzVisible]="isVisible_stop" [nzTitle]="'操作确认'" [nzContent]="modalContent_stop"
-          (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk_stop($event)">
+
+<nz-modal [nzVisible]="isVisible_stop"
+          [nzTitle]="'操作确认'"
+          [nzMaskClosable]=false
+          [nzClosable]=false
+          [nzContent]="modalContent_stop"
+          (nzOnCancel)="handleCancel($event)"
+          (nzOnOk)="handleOk_stop($event)"
+          [nzContent]="modalContent_stop"
+          [nzFooter]="modalFooter_stop">
   <ng-template #modalContent_stop>
     <p>已选择应用实例：{{deleteName}}，是否确定停止？</p>
     <nz-spin style="display: block" [nzSize]="'large'" [nzSpinning]="_isSpinning_stop" [nzTip]="'停止中'">
     </nz-spin>
+  </ng-template>
+  <ng-template #modalFooter_stop>
+    <button nz-button [nzType]="'default'" [nzSize]="'large'" (click)="handleCancel($event)">
+      取消
+    </button>
+    <button nz-button [nzType]="'primary'" [nzSize]="'large'" (click)="handleOk_stop($event)" [nzLoading]="isConfirmStopLoading">
+      确认
+    </button>
   </ng-template>
 </nz-modal>

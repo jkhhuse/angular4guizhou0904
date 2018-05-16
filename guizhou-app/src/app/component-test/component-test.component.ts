@@ -16,6 +16,10 @@ import { nicknameValidator } from '../util/reg-pattern/reg-name.directive';
 import { ComponentServiceService } from '../dynamic-form/services/component-service.service';
 import { config } from '../../../protractor.conf';
 import * as _ from 'lodash';
+import { HttpClient, HttpParams, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Terminal } from 'xterm';
+import * as fit from 'xterm/lib/addons/fit/fit';
+
 
 // @Directive({ selector: 'pane' })
 // export class Pane {
@@ -240,6 +244,29 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
       }
     },
   ];
+  config6: FieldConfig[] = [
+    {
+      type: 'select',
+      label: '容器实例',
+      name: 'container1',
+      options: ['Pizza', 'Hot Dogs', 'Knakworstje', 'Coffee'],
+      placeholder: 'Select an option111',
+      validation: [Validators.required],
+      styles: {
+        'width': '400px',
+      },
+    },
+    {
+      type: 'input',
+      label: '接入点',
+      name: 'command',
+      placeholder: 'Enter your Fname',
+      // validation: [Validators.required, NameValidator('name', /^[a-zA-Z]([-a-zA-Z0-9]*[a-zA-Z0-9])?$/i)],
+      styles: {
+        'width': '400px',
+      },
+    }
+  ];
   name = 'Semlinker';
   @ViewChild('greet') greetDiv: ElementRef;
   imageTabs = ['name1', 'name2', 'name3'];
@@ -250,6 +277,15 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
 
   ];
   selectedMultipleOption = '';
+
+  // 下载文件mock
+  fileTypes = ['.xlsx', '.docx', '.pptx', '.pdf'];
+
+  data = {
+    otherdata: 1,
+    time: new Date()
+  };
+  isVisible = false;
   // @ViewChildren(DynamicFormComponent) formArr: QueryList<DynamicFormComponent>;
   // configArr = [];
   //  测试viewChildren：https://angular.io/api/core/ViewChildren
@@ -257,6 +293,35 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
   // serializedPanes: string = '';
   // shouldShow = false;
   // show() { this.shouldShow = true; }
+
+  showModal() {
+    this.isVisible = true;
+  }
+
+  openPostWindow(url, params) {
+    const newWin = window.open();
+    let formStr = '';
+    formStr = '<form style="visibility:hidden;" method="POST" action="' + url + '">' +
+      '<input type="hidden" name="params" value="' + params + '" />' +
+      '</form>';
+    newWin.document.body.innerHTML = formStr;
+    newWin.document.forms[0].submit();
+    return newWin;
+  }
+
+  handleOk = (e) => {
+    console.log('点击了确定');
+    const params$ = {
+      namespace: 'name1'
+    };
+    this.openPostWindow('http://10.132.49.101:35001/', {params$});
+    this.isVisible = false;
+  }
+
+  handleCancel = (e) => {
+    console.log(e);
+    this.isVisible = false;
+  }
 
   selectTest1() {
     // console.log(this.selectedMultipleOption);
@@ -494,7 +559,7 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
     console.log(value);
   }
 
-  constructor(public translateService: TranslateService, private component: ComponentServiceService) {
+  constructor(public translateService: TranslateService, private component: ComponentServiceService, private http: HttpClient) {
     translateService.addLangs(['zh', 'en']);
     translateService.setDefaultLang('zh');
     const browserLang = this.translateService.getBrowserLang();
@@ -545,59 +610,14 @@ export class ComponentTestComponent implements AfterViewInit, OnInit {
       console.log('222', x);
     });
     this.choosedImageName = 'name1';
-    // for (let i = 0; i < 46; i++) {
-    //   this._dataSet.push({
-    //     key: i,
-    //     name: `Edward King ${i}`,
-    //     age: 32,
-    //     address: `London, Park Lane no. ${i}`,
-    //   });
-    // }
-    // --- set i18n begin ---
-
-    // --- set i18n end ---
-    // this.testObservable();
-    // this.valueSub = this.component.componentValue$.subscribe(
-    //   value => {
-    //     const config2 = {
-    //       // selectedOption: undefined,
-    //       // ifTags: 'true',
-    //       type: 'select',
-    //       label: 'Favourite2 Food',
-    //       name: 'food2',
-    //       options: value,
-    //       placeholder: 'Select an option',
-    //       validation: [Validators.required],
-    //       styles: {
-    //         'width': '400px',
-    //       },
-    //     };
-    //     this.form2.setValue('food2', config2);
-    //   }
-    // );
-    this._dataSet = [
-      {
-        key: 0,
-        name: '1212',
-        age: '',
-        address: '232323'
-      }
-    ];
+    // 测试中文参数请求
+    const options = {
+      headers: new HttpHeaders({
+        'Content-type': 'application/x-www-form/urlencoded; charset=utf-8'
+      })
+    };
+    this.http.get('http://10.132.49.122:18032/apiService/groups/' + '你好' + '/service-instances', options).subscribe(data => {
+      console.log('data');
+    });
   }
-
-  // commit reset
-  // deleteClick1(i) {
-  //   console.log(i, this.lbControlArray, this.loadBanlancerForm);
-  //   _.pullAt(this.lbControlArray, i);
-  //   console.log(this.lbControlArray, this.loadBanlancerForm);
-  //   _.map(this.lbControlArray, (value1, key1) => {
-  //     _.map(value1, (value2, key2) => {
-  //       this.loadBanlancerForm.addControl(value2['name'], new FormControl());
-  //       if (value2['type'] === 'select') {
-  //         value2['selectedOption'] = value2['options'][0];
-  //       }
-  //     });
-  //   });
-  // }
-
 }

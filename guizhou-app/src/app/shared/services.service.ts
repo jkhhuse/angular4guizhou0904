@@ -29,7 +29,7 @@ export class ServicesService {
         return this._cookieService().get('userName');
     }
 
-    getServices(tabName, moduleName): Observable<any> {
+    getServices(tabName, moduleName, ...rest): Observable<any> {
         // console.log('tabName: ' + tabName);
         // console.log('moduleName: ' + moduleName);
 
@@ -46,28 +46,20 @@ export class ServicesService {
         };
 
         if (moduleName === 'repository') {
-            console.log('getService repository cookie: ' + this.getCookie('groupID'));
             return this.http.get(environment.api +
                 '/api/' + this.getCookie('groupID') +
                 '/warehouse/dir?region=' + tabName);
         } else if (moduleName === 'service') {
-            console.log('getService service cookie: ' + this.getCookie('groupID'));
-            //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());
-            // isPubilc 传1，默认是共有的服务，现在没有私有服务
-            return this.http.get(environment.apiService +
+            console.log("rest: " + rest);
+            // 通过ispublic 查询参数指定租户级(=0) 或平台级(=1)
+          return this.http.get(environment.apiService +
                  '/apiService' + '/groups/' + this.getCookie('groupID') +
-                  '/services?isPublic=1');
+                  '/services?isPublic=' + rest);
         } else if (moduleName === 'app') {
-            console.log('getService app cookie: ' + this.getCookie('groupID'));
-            //  return this.http.get('/api' + '/app1.0/groups/1/services?isPublic=1').map(res => res.json());
             return this.http.get(environment.apiApp +
                  '/apiApp' + '/groups/' + this.getCookie('groupID') +
                   '/applications');
         }
-        /* else if (moduleName === 'serviceDetail') {
-            //  服务详情里面，tabName字段传入的是服务id，serviceId
-            return this.http.get('/apiService' + '/groups/1/services/' + tabName + '/instances').map(res => res.json());
-        }*/
     }
 
     getCateServices(tabName, moduleName, cateID): Observable<any> {

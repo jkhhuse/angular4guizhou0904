@@ -30,7 +30,7 @@
 <nz-modal [nzVisible]="isAddVisible" [nzTitle]="'添加配置项'" [nzContent]="modalContent" (nzOnCancel)="handleAddCancel($event)" (nzOnOk)="handleAddOk($event)">
     <ng-template #modalContent>
         <form nz-form [formGroup]="validateForm" (ngSubmit)="_submitForm()">
-            <div nz-form-item nz-row>
+          <div nz-form-item nz-row>
                 <div nz-form-label nz-col [nzSm]="6" [nzXs]="24">
                     <label for="config" nz-form-item-required>配置</label>
                 </div>
@@ -66,6 +66,7 @@
                     <nz-input formControlName="path" [nzType]="'text'" [nzPlaceHolder]="'请填写路径...'" [nzSize]="'large'">
                     </nz-input>
                     <div nz-form-explain *ngIf="getFormControl('path').dirty&&getFormControl('path').hasError('required')">路径不可以为空!</div>
+                    <div nz-form-explain *ngIf="getFormControl('path').dirty&&getFormControl('path').hasError('pathValid')">只能含有斜杠、数字、字母、中线、下划线和点号，且需要为绝对路径</div>
                 </div>
             </div>
         </form>
