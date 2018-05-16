@@ -3,8 +3,8 @@
 
   <button nz-button nz-dropdown><span #dropBtn>{{selectGroup}}</span> <i class="anticon anticon-down"></i></button>
   <ul nz-menu class="group-label">
-    <li nz-menu-item *ngFor="let group of groupList" (click)="changeGroup(group);dropBtn.innerText = group">
-      {{group}}
+    <li nz-menu-item *ngFor="let group of groupList" (click)="changeGroup(group);dropBtn.innerText = group.name">
+      {{group?.name}}
     </li>
   </ul>
 </nz-dropdown>

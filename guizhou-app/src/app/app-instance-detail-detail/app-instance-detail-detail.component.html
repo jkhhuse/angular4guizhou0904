@@ -1,233 +1,264 @@
+<!--
 <app-header [title]="title"></app-header>
+-->
 <nz-content class="service-detail-wrapper">
-    <div class="link-back">
-        <a [routerLink]="['/appOverviewDetail' , instanceId]">
-            <span class="glyphicon glyphicon-menu-left"></span> 返回
-        </a>
+  <nz-breadcrumb class="breadcrumb">
+    <nz-breadcrumb-item>
+      <a [routerLink]="['/appOverview']">
+        应用概览
+      </a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      <a [routerLink]="['/appOverviewDetail' , instanceId]">
+        应用实例详情
+      </a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      服务实例详情
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <div nz-row class="detail-img-wrapper">
+    <div class="img-block" *ngIf="instanceDetail">
+      <p class="detail-title">{{instanceDetail.microserviceName}}</p>
     </div>
-    <div nz-row class="detail-img-wrapper">
-        <div class="img-block" *ngIf="instanceDetail">
-            <p class="detail-title">{{instanceDetail.microserviceName}}</p>
-        </div>
-        <div class="long-block"></div>
+    <div class="long-block"></div>
 
-        <div class="action-block" *ngIf="instanceDetail">
-            <div *ngIf="instanceDetail.status == 'Running'">
-                <button nz-button [nzType]="'primary'" (click)="showModal()">
+    <div class="action-block" *ngIf="instanceDetail">
+      <div *ngIf="instanceDetail.status == 'Running'">
+        <button nz-button [nzType]="'primary'" (click)="showModal()">
           <span>更新策略</span>
         </button>
+      </div>
+      <div *ngIf="instanceDetail.status !== 'Running'">
+        <button nz-button [nzType]="'primary'" disabled>
+          <span>更新策略</span>
+        </button>
+      </div>
+      <nz-modal [nzVisible]="isVisible" [nzTitle]="'更新策略'" [nzContent]="modalContent"
+                (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
+        <ng-template #modalContent>
+          <div class="">
+            <div class="modal-div">
+              <div class="modal-tem"></div>
+              <span class="modal-label">调节模式</span>
+              <div class="modal-cont">
+                <nz-radio-group [(ngModel)]="scaling_mode">
+                  <label nz-radio-button [nzValue]="'MANUAL'">
+                    <span>手动</span>
+                  </label>
+                  <label nz-radio-button [nzValue]="'AUTO'">
+                    <span>自动</span>
+                  </label>
+                </nz-radio-group>
+              </div>
+              <div class="modal-tem"></div>
             </div>
-            <div *ngIf="instanceDetail.status !== 'Running'">
-                <button nz-button [nzType]="'primary'" disabled>
-            <span>更新策略</span>
-          </button>
+            <div class="modal-div" *ngIf="scaling_mode === 'MANUAL'">
+              <div class="modal-tem"></div>
+              <span class="modal-label">容器实例数量</span>
+              <span class="modal-cont">
+                                  <nz-input-number style="width: 100%" [(ngModel)]="manualInput_1" [nzMin]="1"
+                                                   [nzMax]="100" [nzStep]="1"
+                                                   [nzPlaceHolder]="'当前服务所用容器数'"></nz-input-number>
+                            </span>
+              <div class="modal-tem"></div>
             </div>
-            <nz-modal [nzVisible]="isVisible" [nzTitle]="'更新策略'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
-                <ng-template #modalContent>
-                    <div class="">
-                        <div class="modal-div">
-                            <div class="modal-tem"></div>
-                            <span class="modal-label">调节模式</span>
-                            <div class="modal-cont">
-                                <nz-radio-group [(ngModel)]="scaling_mode">
-                                    <label nz-radio-button [nzValue]="'MANUAL'">
-                                      <span>手动</span>
-                                    </label>
-                                    <label nz-radio-button [nzValue]="'AUTO'">
-                                    <span>自动</span>
-                                  </label>
-                                </nz-radio-group>
-                            </div>
-                            <div class="modal-tem"></div>
-                        </div>
-                        <div class="modal-div" *ngIf="scaling_mode === 'MANUAL'">
-                            <div class="modal-tem"></div>
-                            <span class="modal-label">容器实例数量</span>
-                            <span class="modal-cont">
-                                  <nz-input-number style="width: 100%" [(ngModel)]="manualInput_1" [nzMin]="1" [nzMax]="100" [nzStep]="1"[nzPlaceHolder]="'请输入容器实例数量..'"></nz-input-number>
+            <div class="modal-div" *ngIf="scaling_mode === 'AUTO'">
+              <div class="modal-tem"></div>
+              <span class="modal-label">实例数量最小值</span>
+              <span class="modal-cont">
+                              <nz-input-number style="width: 100%" [(ngModel)]="autoInput_4" [nzMin]="1" [nzMax]="9"
+                                               [nzStep]="1" [nzPlaceHolder]="'容器实例最小数量为总容器数最小数量'"></nz-input-number>
                             </span>
-                            <div class="modal-tem"></div>
-                        </div>
-                        <div class="modal-div" *ngIf="scaling_mode === 'AUTO'">
-                            <div class="modal-tem"></div>
-                            <span class="modal-label">实例数量最小值</span>
-                            <span class="modal-cont">
-                              <nz-input-number style="width: 100%" [(ngModel)]="autoInput_4" [nzMin]="1" [nzMax]="9" [nzStep]="1" [nzPlaceHolder]="'请输入实例数量最小值..'" ></nz-input-number>
+              <div class="modal-tem"></div>
+            </div>
+            <div class="modal-div" *ngIf="scaling_mode === 'AUTO'">
+              <div class="modal-tem"></div>
+              <span class="modal-label">实例数量最大值</span>
+              <span class="modal-cont">
+                                <nz-input-number style="width: 100%" [(ngModel)]="autoInput_3" [nzMin]="10"
+                                                 [nzMax]="100" [nzStep]="1"
+                                                 [nzPlaceHolder]="'容器实例最大数量为总容器数的最大数量，包含当前已使用容器数'"></nz-input-number>
                             </span>
-                            <div class="modal-tem"></div>
-                        </div>
-                        <div class="modal-div" *ngIf="scaling_mode === 'AUTO'">
-                            <div class="modal-tem"></div>
-                            <span class="modal-label">实例数量最大值</span>
-                            <span class="modal-cont">
-                                <nz-input-number style="width: 100%" [(ngModel)]="autoInput_3" [nzMin]="10" [nzMax]="100" [nzStep]="1" [nzPlaceHolder]="'请输入实例数量最大值..'" ></nz-input-number>
-                            </span>
-                            <div class="modal-tem"></div>
-                        </div>
-                        <div class="modal-div" style="height: auto;" *ngIf="scaling_mode === 'AUTO'">
-                            <div class="modal-tem"></div>
-                            <span class="modal-label"></span>
-                            <div>
-                                <div style="margin: 4px 0px; font-weight: bold;">扩容</div>
-                                <nz-alert [nzType]="'info'" [nzMessage]="'触发条件：cpu使用率>=80%且持续1分钟或者内存使用量>=80%且持续1分钟'" [nzShowIcon]="'true'">
-                                </nz-alert>
-                                <div style="margin: 6px 0px;">
-                                    <span>增加量</span>
-                                    <nz-input-number [(ngModel)]="autoInput_2" [nzMin]="1" [nzMax]="9" [nzStep]="1" [nzPlaceHolder]="'请输入增加量..'"></nz-input-number>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-div" style="height: auto;" *ngIf="scaling_mode === 'AUTO'">
-                            <div class="modal-tem"></div>
-                            <span class="modal-label"></span>
-                            <div>
-                                <div style="margin: 4px 0px; font-weight: bold;">缩容</div>
-                                <nz-alert [nzType]="'info'" [nzMessage]="'触发条件：cpu使用率<=20%且持续5分钟或者内存使用量<=20%且持续5分钟'" [nzShowIcon]="'true'">
-                                </nz-alert>
-                                <div style="margin: 6px 0px">
-                                    <span>减少量</span>
-                                    <nz-input-number [(ngModel)]="autoInput_1" [nzMin]="1" [nzMax]="9" [nzStep]="1" [nzPlaceHolder]="'请输入减少量..'"></nz-input-number>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 
-                            <div class="modal-div" *ngIf="scaling_mode === 'AUTO'">
-                                <div class="modal-tem"></div>
-                                <span class="modal-label"></span>
-                                <div>扩容</div>
-                                <span class="modal-cont">
-                                    <nz-input-number style="width: 100%" [(ngModel)]="autoInput_2" [nzMin]="1" [nzMax]="9" [nzStep]="1" [nzPlaceHolder]="'请输入增加量..'" ></nz-input-number>
-                                </span>
-                                <div class="modal-tem"></div>
-                            </div>
-                            <div class="modal-tem"></div>
-                            <span class="modal-label"></span>
-                            <span class="modal-cont">
-                                <nz-input-number style="width: 100%" [(ngModel)]="autoInput_1" [nzMin]="1" [nzMax]="9" [nzStep]="1" [nzPlaceHolder]="'请输入减少量..'" ></nz-input-number>
-                            </span>
-                            <div class="modal-tem"></div>
-                        </div> -->
+              <div class="modal-tem"></div>
+            </div>
+            <div class="modal-div" style="height: auto;" *ngIf="scaling_mode === 'AUTO'">
+              <div class="modal-tem"></div>
+              <span class="modal-label"></span>
+              <div>
+                <div style="margin: 4px 0px; font-weight: bold;">扩容</div>
+                <nz-alert [nzType]="'info'" [nzMessage]="'触发条件：cpu使用率>=80%且持续1分钟或者内存使用量>=80%且持续1分钟'"
+                          [nzShowIcon]="'true'">
+                </nz-alert>
+                <div style="margin: 6px 0px;">
+                  <span>增加量</span>
+                  <nz-input-number [(ngModel)]="autoInput_2" [nzMin]="1" [nzMax]="9" [nzStep]="1"
+                                   [nzPlaceHolder]="'请输入增加量..'"></nz-input-number>
+                </div>
+              </div>
+            </div>
+            <div class="modal-div" style="height: auto;" *ngIf="scaling_mode === 'AUTO'">
+              <div class="modal-tem"></div>
+              <span class="modal-label"></span>
+              <div>
+                <div style="margin: 4px 0px; font-weight: bold;">缩容</div>
+                <nz-alert [nzType]="'info'" [nzMessage]="'触发条件：cpu使用率<=20%且持续5分钟或者内存使用量<=20%且持续5分钟'"
+                          [nzShowIcon]="'true'">
+                </nz-alert>
+                <div style="margin: 6px 0px">
+                  <span>减少量</span>
+                  <nz-input-number [(ngModel)]="autoInput_1" [nzMin]="1" [nzMax]="9" [nzStep]="1"
+                                   [nzPlaceHolder]="'请输入减少量..'"></nz-input-number>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--
+                  <div class="modal-div" *ngIf="scaling_mode === 'AUTO'">
+                      <div class="modal-tem"></div>
+                      <span class="modal-label"></span>
+                      <div>扩容</div>
+                      <span class="modal-cont">
+                          <nz-input-number style="width: 100%" [(ngModel)]="autoInput_2" [nzMin]="1" [nzMax]="9" [nzStep]="1" [nzPlaceHolder]="'请输入增加量..'" ></nz-input-number>
+                      </span>
+                      <div class="modal-tem"></div>
+                  </div>
+                  <div class="modal-tem"></div>
+                  <span class="modal-label"></span>
+                  <span class="modal-cont">
+                      <nz-input-number style="width: 100%" [(ngModel)]="autoInput_1" [nzMin]="1" [nzMax]="9" [nzStep]="1" [nzPlaceHolder]="'请输入减少量..'" ></nz-input-number>
+                  </span>
+                  <div class="modal-tem"></div>
+              </div> -->
 
-                    <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'更新中'" style="display: block">
-                    </nz-spin>
-                </ng-template>
-            </nz-modal>
-        </div>
+          <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'更新中'" style="display: block">
+          </nz-spin>
+        </ng-template>
+      </nz-modal>
     </div>
+  </div>
 
-    <div nz-row class="detail-content-wrapper" *ngIf="instanceDetail">
-        <div nz-col [nzSpan]="12" class="detail-content-one">
+  <div nz-row class="detail-content-wrapper" *ngIf="instanceDetail">
+    <div nz-col [nzSpan]="12" class="detail-content-one">
 
-            <div nz-row class="detail-content">
-                <div nz-col [nzSpan]="3" [nzOffset]="3">
-                    所在集群
-                </div>
-                <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3" class="detail-package-num">
-                    {{instanceDetail.clusterName}}
-                </div>
-            </div>
-
-            <div nz-row class="detail-content">
-                <div nz-col [nzSpan]="3" [nzOffset]="3">
-                    状态
-                </div>
-                <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
-                    {{instanceDetail.status }}
-                </div>
-            </div>
-
-            <div nz-row class="detail-content">
-                <div nz-col [nzSpan]="3" [nzOffset]="3">
-                    创建时间
-                </div>
-                <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
-                    {{instanceDetail.createTime | date:'yyyy-MM-dd HH:mm:ss'}}
-                </div>
-            </div>
-
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          所在集群
         </div>
-
-
-        <div nz-col [nzSpan]="12" class="detail-content-one">
-
-            <div nz-row class="detail-content">
-                <div nz-col [nzSpan]="3" [nzOffset]="3">
-                    容器大小
-                </div>
-                <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
-                    {{instanceDetail.cpuSize}} 核 {{instanceDetail.memSize}} MB
-                </div>
-            </div>
-
-            <div nz-row class="detail-content">
-                <div nz-col [nzSpan]="3" [nzOffset]="3">
-                    实例个数
-                </div>
-                <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
-                    {{instanceDetail?.info?.current_num_instances}}
-                </div>
-            </div>
-
-            <div nz-row class="detail-content">
-                <div nz-col [nzSpan]="3" [nzOffset]="3">
-                    更新时间
-                </div>
-                <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
-                    {{instanceDetail.updateTime ? (instanceDetail.updateTime | date:'yyyy-MM-dd HH:mm:ss') : '暂无更新'}}
-                </div>
-            </div>
-
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3" class="detail-package-num">
+          {{instanceDetail.clusterName}}
         </div>
+      </div>
+
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          状态
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{instanceDetail.status }}
+        </div>
+      </div>
+
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          创建时间
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{instanceDetail.createTime | date:'yyyy-MM-dd HH:mm:ss'}}
+        </div>
+      </div>
 
     </div>
 
-    <div nz-row class="detail-content-wrapper" style="background: none" *ngIf="instanceDetail">
-        <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
-            <nz-tab *ngFor="let tab of tabs">
-                <ng-template #nzTabHeading>
-                    {{tab.name}}
-                </ng-template>
-                <div class="detail-tab-div" *ngIf="tab.index === 1">
-                    <app-app-monitor *ngIf="instanceDetailID" [appId]="instanceDetailID" [monitor_q]="monitor_q[0]" [monitorName]="monitorName[0]" [mouduleName]="'apiApp'"></app-app-monitor>
-                    <app-app-monitor *ngIf="instanceDetailID" [appId]="instanceDetailID" [monitor_q]="monitor_q[1]" [monitorName]="monitorName[1]" [mouduleName]="'apiApp'"></app-app-monitor>
-                    <app-app-monitor *ngIf="instanceDetailID" [appId]="instanceDetailID" [monitor_q]="monitor_q[2]" [monitorName]="monitorName[2]" [mouduleName]="'apiApp'"></app-app-monitor>
-                    <app-app-monitor *ngIf="instanceDetailID" [appId]="instanceDetailID" [monitor_q]="monitor_q[3]" [monitorName]="monitorName[3]" [mouduleName]="'apiApp'"></app-app-monitor>
 
-                </div>
-                <div class="detail-tab-div" *ngIf="tab.index === 2">
-                    <div class="detail-instance-wrapper" *ngIf="instanceDetail">
-                        <app-app-logs *ngIf="instanceDetailID" [appId]="instanceDetailID" [moduleName]="'apiApp'"></app-app-logs>
-                    </div>
-                </div>
-                <div class="detail-tab-div" *ngIf="tab.index === 3">
-                    <div class="detail-instance-wrapper" *ngIf="instanceDetail">
-                        <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="8" [tableTitle]="table8Title"></app-app-nztable>
-                    </div>
-                </div>
-                <div class="detail-tab-div" *ngIf="tab.index === 4">
-                    <div class="detail-instance-wrapper" *ngIf="instanceDetail">
-                        <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="9" [tableTitle]="table9Title"></app-app-nztable>
-                    </div>
-                </div>
-                <div class="detail-tab-div" *ngIf="tab.index === 5">
-                    <div class="detail-instance-wrapper" *ngIf="instanceDetail">
-                        <app-instance-detail-env-file [mirrorDetail]="instanceDetail" [instanceId]="instanceDetailID"></app-instance-detail-env-file>
-                    </div>
-                </div>
-                <div class="detail-tab-div" *ngIf="tab.index === 6">
-                    <div class="detail-instance-wrapper" *ngIf="instanceDetail">
-                        <app-instance-detail-config-file [mirrorDetail]="instanceDetail" [instanceId]="instanceDetailID"></app-instance-detail-config-file>
-                        <!-- <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="7" [tableTitle]="table7Title"></app-app-nztable> -->
-                    </div>
-                </div>
-                <div class="detail-tab-div" *ngIf="tab.index === 7">
-                    <div class="detail-instance-wrapper" *ngIf="instanceDetail">
-                        <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="10" [tableTitle]="table10Title"></app-app-nztable>
-                    </div>
-                </div>
-            </nz-tab>
-        </nz-tabset>
+    <div nz-col [nzSpan]="12" class="detail-content-one">
+
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          容器大小
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{instanceDetail.cpuSize}} 核 {{instanceDetail.memSize}} MB
+        </div>
+      </div>
+
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          实例个数
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{instanceDetail?.info?.current_num_instances}}
+        </div>
+      </div>
+
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          更新时间
+        </div>
+        <div *ngIf="instanceDetail" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{instanceDetail.updateTime ? (instanceDetail.updateTime | date:'yyyy-MM-dd HH:mm:ss') : '暂无更新'}}
+        </div>
+      </div>
+
     </div>
+
+  </div>
+
+  <div nz-row class="detail-content-wrapper" style="background: none" *ngIf="instanceDetail">
+    <nz-tabset [nzTabPosition]="'top'" [nzType]="'card'">
+      <nz-tab *ngFor="let tab of tabs">
+        <ng-template #nzTabHeading>
+          {{tab.name}}
+        </ng-template>
+        <div class="detail-tab-div" *ngIf="tab.index === 1">
+          <app-app-monitor *ngIf="instanceDetailID" [appId]="instanceDetailID" [monitor_q]="monitor_q[0]"
+                           [monitorName]="monitorName[0]" [mouduleName]="'apiApp'"></app-app-monitor>
+          <app-app-monitor *ngIf="instanceDetailID" [appId]="instanceDetailID" [monitor_q]="monitor_q[1]"
+                           [monitorName]="monitorName[1]" [mouduleName]="'apiApp'"></app-app-monitor>
+          <app-app-monitor *ngIf="instanceDetailID" [appId]="instanceDetailID" [monitor_q]="monitor_q[2]"
+                           [monitorName]="monitorName[2]" [mouduleName]="'apiApp'"></app-app-monitor>
+          <app-app-monitor *ngIf="instanceDetailID" [appId]="instanceDetailID" [monitor_q]="monitor_q[3]"
+                           [monitorName]="monitorName[3]" [mouduleName]="'apiApp'"></app-app-monitor>
+
+        </div>
+        <div class="detail-tab-div" *ngIf="tab.index === 2">
+          <div class="detail-instance-wrapper" *ngIf="instanceDetail">
+            <app-app-logs *ngIf="instanceDetailID" [appId]="instanceDetailID" [moduleName]="'apiApp'"></app-app-logs>
+          </div>
+        </div>
+        <div class="detail-tab-div" *ngIf="tab.index === 3">
+          <div class="detail-instance-wrapper" *ngIf="instanceDetail">
+            <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="8"
+                             [tableTitle]="table8Title"></app-app-nztable>
+          </div>
+        </div>
+        <div class="detail-tab-div" *ngIf="tab.index === 4">
+          <div class="detail-instance-wrapper" *ngIf="instanceDetail">
+            <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="9"
+                             [tableTitle]="table9Title"></app-app-nztable>
+          </div>
+        </div>
+        <div class="detail-tab-div" *ngIf="tab.index === 5">
+          <div class="detail-instance-wrapper" *ngIf="instanceDetail">
+            <app-instance-detail-env-file [mirrorDetail]="instanceDetail"
+                                          [instanceId]="instanceDetailID"></app-instance-detail-env-file>
+          </div>
+        </div>
+        <div class="detail-tab-div" *ngIf="tab.index === 6">
+          <div class="detail-instance-wrapper" *ngIf="instanceDetail">
+            <app-instance-detail-config-file [mirrorDetail]="instanceDetail"
+                                             [instanceId]="instanceDetailID"></app-instance-detail-config-file>
+            <!-- <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="7" [tableTitle]="table7Title"></app-app-nztable> -->
+          </div>
+        </div>
+        <div class="detail-tab-div" *ngIf="tab.index === 7">
+          <div class="detail-instance-wrapper" *ngIf="instanceDetail">
+            <app-app-nztable [mirrorDetail]="instanceDetail" [tableNum]="10"
+                             [tableTitle]="table10Title"></app-app-nztable>
+          </div>
+        </div>
+      </nz-tab>
+    </nz-tabset>
+  </div>
 
 </nz-content>

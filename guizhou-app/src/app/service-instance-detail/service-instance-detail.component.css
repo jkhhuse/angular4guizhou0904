@@ -55,3 +55,16 @@
     padding-bottom: 10px;
     border-bottom: solid 1px #ddd;
 }
+
+.ant-card-bordered {
+  margin-bottom: 4px !important;
+}
+.breadcrumb {
+  font-size: 14px;
+  padding: 5px 0;
+  margin: 15px 0 10px 0;
+  background-color: #fff !important;
+}
+.breadcrumb a {
+  color:#2C9CFA !important;
+}

@@ -1,10 +1,28 @@
+<!--
 <app-header [title]="title"></app-header>
-<nz-content class="mirror-store-wrapper">
-  <div class="link-back">
-    <a [routerLink]="['/'+ module +'Store']">
-      <span class="glyphicon glyphicon-menu-left"></span>
-      返回</a>
-  </div>
+-->
+
+<nz-content class="mirror-store-wrapper" >
+  <nz-breadcrumb class="breadcrumb" *ngIf="module === 'app'">
+    <nz-breadcrumb-item>
+      <a [routerLink]="['/'+ module +'Store']">
+        应用商城
+      </a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      应用详情
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <nz-breadcrumb class="breadcrumb" *ngIf="module === 'repository'">
+    <nz-breadcrumb-item>
+      <a [routerLink]="['/'+ module +'Store']">
+        镜像仓库
+      </a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+        镜像详情
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
   <div class="detail-img-wrapper">
     <div class="img-block" *ngIf='module === "app"'>
       <img class="detail-img" [src]='imgUrl + name + ".png"' alt="" width="100%"
