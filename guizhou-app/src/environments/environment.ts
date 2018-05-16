@@ -41,6 +41,7 @@ export const environment = {
     pass: 'http://10.132.49.122:18035/opsOverview',
     groupId: '2',
     adminGroupId: '0',
-    namespace: 'alauda'
+    namespace: 'alauda',
+    password: 'alauda'
 };
 
