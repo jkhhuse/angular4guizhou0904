@@ -1471,16 +1471,10 @@ export class ServiceSubscribeComponent implements OnInit, AfterViewInit {
                     this.hostVolForm.value['container_catalog' + value] !== undefined &&
                     this.hostVolForm.value['host_path' + value] !== undefined !== null &&
                     this.hostVolForm.value['container_catalog' + value] !== null) {
-                    hostVolArray$[key] = this.hostVolForm.value['host_path' + value] +
+                    hostVolArray$[key] = '/volmount/' + this.servicesService.getCookie('groupID')
+                        + this.hostVolForm.value['host_path' + value] +
                         ':' + this.hostVolForm.value['container_catalog' + value];
                     console.log(hostVolArray$);
-                    // const lbName$ = _.split(this.loadBanlancerForm.value['listener_port' + value], ':')[0];
-                    // const listener_port$ = _.split(this.loadBanlancerForm.value['listener_port' + value], ':')[1];
-                    // if (this.loadBanlancerForm.value['listener_port' + value] !== null &&
-                    //     this.loadBanlancerForm.value['container_port' + value] !== null) {
-                    //     lbArr[key] = this.loadBanlancerForm.value['listener_port' + value] + ':' +
-                    //         this.loadBanlancerForm.value['container_port' + value] + '/tcp';
-                    // }
                 }
             });
             hostVolArray$ = _.compact(hostVolArray$);
