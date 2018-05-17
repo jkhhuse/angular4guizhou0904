@@ -1,0 +1,65 @@
+.opera-resource {
+    border: 1px solid #e6e5e2;
+    padding: 22px 15px 10px 15px;
+    background-color: #fff;
+}
+
+.opera-resource>.resource-header {
+    border-left: 2px solid #9a9791;
+    padding-left: 15px;
+    font-size: 14px;
+}
+
+.subfield-metric-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.subfield-wrapper {
+    padding: 8px 0px 8px 0px;
+    display: flex;
+    flex-direction: row;
+    font-size: 12px;
+    margin-top: 12px;
+    margin-bottom: 8px;
+}
+
+.subfield-wrapper>.subfield-box:first-child {
+    margin-right: 10px;
+}
+
+.subfield-wrapper>.subfield-box {
+    flex: 1 1 auto;
+    background-color: #f9f9f8;
+    padding: 10px 2px;
+}
+
+.subfield-metric {
+    padding-bottom: 8px;
+    padding-top: 16px;
+}
+
+.subfield-metric>div {
+    background-color: #eaeff0;
+    margin-top: 20px;
+    margin-bottom: 22px;
+    padding: 8px 0px;
+    text-align: center;
+}
+
+.subfield-metric-title {
+    color: #5294CA;
+}
+
+.health-content {
+    margin-top: 15px;
+}
+
+.health-content>div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 25px;
+}

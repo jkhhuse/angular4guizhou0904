@@ -16,6 +16,14 @@
     margin-top: 12px;
 }
 
+.alert-base-content {
+    margin-top: 22px;
+}
+
+.alert-base-chart {
+    background: #f9f9f9;
+}
+
 .alert-base-chart>.chart-title {
     font-size: 12px;
     padding: 6px 5px 0px 7px;
@@ -23,5 +31,5 @@
 
 .chart-style {
     width: 100%;
-    height: 212px;
+    height: 227px;
 }

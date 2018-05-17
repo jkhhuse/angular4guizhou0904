@@ -66,6 +66,7 @@ import { AddConfigComponent } from './configs/add-config/add-config.component';
 import { EditConfigComponent } from './configs/edit-config/edit-config.component';
 import { AppInstanceDetailDetailComponent } from './app-instance-detail-detail/app-instance-detail-detail.component';
 import { OperaOverviewComponent } from './opera-overview/opera-overview.component';
+import { OperaHealthComponent } from './opera-overview/opera-health/opera-health.component';
 import { OperaViewComponent } from './opera-overview/opera-view/opera-view.component';
 import { OperaResourceComponent } from './opera-overview/opera-resource/opera-resource.component';
 import { OperaAlertBaseComponent } from './opera-overview/opera-alert-base/opera-alert-base.component';
@@ -132,6 +133,7 @@ export function createTranslateHttpLoader(http: HttpClient) {
         EditConfigComponent,
         AppInstanceDetailDetailComponent,
         OperaOverviewComponent,
+        OperaHealthComponent,
         OperaViewComponent,
         OperaResourceComponent,
         OperaAlertBaseComponent,

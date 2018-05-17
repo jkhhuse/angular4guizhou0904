@@ -13,10 +13,15 @@ export class OperaResourceComponent implements OnInit {
   @Input() container: Container;
   @Input() bigData: BigData;
   @Input() image: Image;
+  selectedTab = 'bigdata';
 
   constructor() { }
 
   ngOnInit() {
+  }
+
+  selectTab(tab: string) {
+    this.selectedTab = tab;
   }
 
 }

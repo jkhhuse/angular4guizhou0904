@@ -1,0 +1,58 @@
+<div class="opera-resource">
+    <div class="resource-header">
+        核心组件健康状态
+    </div>
+    <div class="subfield-wrapper">
+        <div class="subfield-box" nz-row [nzGutter]="16">
+            <div class="subfield-metric" nz-col [nzMd]="8" [nzXs]="24">
+                <div class="subfield-metric-count">
+                    <div class="subfield-metric-title">
+                        {{ extraResource?.k8sSlaveError + extraResource?.k8sSysError }}
+                    </div>
+                    <div class="subfield-metric-desc">
+                        应用数量
+                    </div>
+                </div>
+                <div class="subfield-metric-alert">
+                    <div class="subfield-metric-title">
+                        {{ extraResource?.k8sSlaveError + extraResource?.k8sSysError }}
+                    </div>
+                    <div class="subfield-metric-desc">
+                        告警数
+                    </div>
+                </div>
+            </div>
+            <div class="subfield-health" nz-col [nzMd]="16" [nzXs]="24">
+                <div class="health-title">
+                    健康状态
+                </div>
+                <div class="health-content">
+                    <div>
+                        <div>k8sNodes Compute</div>
+                        <div>
+                            <nz-tag [nzColor]="'#2db7f5'">正常 {{ extraResource?.k8sSlaveRun }}</nz-tag>
+                        </div>
+                    </div>
+                    <div>
+                        <div>k8sNodes Compute</div>
+                        <div>
+                            <nz-tag [nzColor]="'#f50'">异常 {{ extraResource?.k8sSlaveError }}</nz-tag>
+                        </div>
+                    </div>
+                    <div>
+                        <div>k8sNodes Controller</div>
+                        <div>
+                            <nz-tag [nzColor]="'#2db7f5'">正常 {{ extraResource?.k8sSysRun }}</nz-tag>
+                        </div>
+                    </div>
+                    <div>
+                        <div>k8sNodes Controller</div>
+                        <div>
+                            <nz-tag [nzColor]="'#f50'">异常 {{ extraResource?.k8sSysError }}</nz-tag>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

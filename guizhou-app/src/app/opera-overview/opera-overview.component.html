@@ -3,17 +3,18 @@
         <app-opera-view [viewCount]="viewCount" [viewCountBark]="viewCountBark" [container]="container" [oracleResource]="oracleResource"></app-opera-view>
     </div>
     <div class="opera-dashboard" nz-row [nzGutter]="16">
-        <div nz-col [nzMd]="9" [nzXs]="24">
-            <div class="opera-resource">
-                <app-opera-resource [container]="container" [bigData]="bigData" [image]="image" [oracleResource]="oracleResource" [extraResource]="extraResource"></app-opera-resource>
-            </div>
-        </div>
-        <div nz-col [nzMd]="6" [nzXs]="24">
+        <div nz-col [nzMd]="16" [nzXs]="24">
             <div class="opera-alert-base">
                 <app-opera-alert-base [serviceAndAppChart]="serviceAndAppChart" [clusterAndHostChart]="clusterAndHostChart"></app-opera-alert-base>
             </div>
+            <div class="opera-resource">
+                <app-opera-resource [container]="container" [bigData]="bigData" [image]="image" [oracleResource]="oracleResource" [extraResource]="extraResource"></app-opera-resource>
+            </div>
+            <div class="opera-health">
+                <app-opera-health [extraResource]="extraResource"></app-opera-health>
+            </div>
         </div>
-        <div nz-col [nzMd]="9" [nzXs]="24">
+        <div nz-col [nzMd]="8" [nzXs]="24">
             <div class="opera-alert-info">
                 <app-opera-alert-info [dps]="dps" [logEvents]="dataSet" [alertState]="alertState"></app-opera-alert-info>
             </div>

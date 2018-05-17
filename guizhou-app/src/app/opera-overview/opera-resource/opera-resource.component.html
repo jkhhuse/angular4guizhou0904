@@ -2,10 +2,13 @@
     <div class="resource-header">
         资源概况
     </div>
-    <div class="container-box">
-        <div class="container-header">
-            大数据
-        </div>
+    <div class="resource-tab">
+        <span [ngClass]="{active: selectedTab === 'bigdata'}" (click)="selectTab('bigdata')">大数据</span>
+        <span [ngClass]="{active: selectedTab === 'container'}" (click)="selectTab('container')">容器</span>
+        <span [ngClass]="{active: selectedTab === 'oracle'}" (click)="selectTab('oracle')">oracle</span>
+        <span [ngClass]="{active: selectedTab === 'image'}" (click)="selectTab('image')">镜像仓库</span>
+    </div>
+    <div class="container-box" *ngIf="selectedTab === 'bigdata'">
         <div class="container-content">
             <div class="container-box-view">
                 <div class="view-title">
@@ -108,10 +111,7 @@
             </div>
         </div>
     </div>
-    <div class="container-box">
-        <div class="container-header">
-            容器
-        </div>
+    <div class="container-box" *ngIf="selectedTab === 'container'">
         <div class="container-content">
             <div class="container-box-view">
                 <div class="view-title">
@@ -229,10 +229,7 @@
             </div>
         </div>
     </div>
-    <div class="container-box">
-        <div class="container-header">
-            Oracle
-        </div>
+    <div class="container-box" *ngIf="selectedTab === 'oracle'">
         <div class="container-content">
             <div class="container-box-view">
                 <div class="view-title">
@@ -350,34 +347,8 @@
             </div>
         </div>
     </div>
-    <div class="subfield-wrapper">
+    <div class="subfield-wrapper" *ngIf="selectedTab === 'image'">
         <div class="subfield-box">
-            <div class="subfield-header">
-                镜像仓库
-            </div>
-            <!-- <div class="subfield-box-view">
-                <div class="view-title">
-                    <span></span>
-                    <span>端口</span>
-                </div>
-                <div class="view-split"></div>
-                <div class="container-box-metric">
-                    <div class="metric-assign">
-                        <span>分配率</span>
-                        <svg height="20" width="80">
-                                  <line x1="0" x2="80" y1="15" y2="15" stroke="#D7D7D7" stroke-width="4" stroke-linecap="round"/>
-                                  <line x1="0" [attr.x2]="extraResource?.portAssigned" y1="15" y2="15" stroke="#5CB9FF" stroke-width="4" stroke-linecap="round"/>
-                              </svg>
-                    </div>
-                    <div class="metric-use">
-                        <span>使用率</span>
-                        <svg height="20" width="80">
-                                  <line x1="0" x2="80" y1="15" y2="15" stroke="#D7D7D7" stroke-width="4" stroke-linecap="round"/>
-                                  <line x1="0" [attr.x2]="extraResource?.portUsed" y1="15" y2="15" stroke="#5CB9FF" stroke-width="4" stroke-linecap="round"/>
-                              </svg>
-                    </div>
-                </div>
-            </div> -->
             <div class="subfield-metric-wrapper">
                 <div class="subfield-metric">
                     <div class="subfield-metric-title">
@@ -401,50 +372,6 @@
                     </div>
                     <div class="subfield-metric-desc">
                         总容量(GB)
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="subfield-box">
-            <div class="subfield-header">
-                核心组件健康状态
-            </div>
-            <div class="subfield-metric">
-                <div class="subfield-metric-title">
-                    {{ extraResource?.k8sSlaveError + extraResource?.k8sSysError }}
-                </div>
-                <div class="subfield-metric-desc">
-                    告警数
-                </div>
-            </div>
-            <div class="subfield-health">
-                <div class="health-title">
-                    健康状态
-                </div>
-                <div class="health-content">
-                    <div>
-                        <div>k8sNodes Compute</div>
-                        <div>
-                            <nz-tag [nzColor]="'#2db7f5'">正常 {{ extraResource?.k8sSlaveRun }}</nz-tag>
-                        </div>
-                    </div>
-                    <div>
-                        <div>k8sNodes Compute</div>
-                        <div>
-                            <nz-tag [nzColor]="'#f50'">异常 {{ extraResource?.k8sSlaveError }}</nz-tag>
-                        </div>
-                    </div>
-                    <div>
-                        <div>k8sNodes Controller</div>
-                        <div>
-                            <nz-tag [nzColor]="'#2db7f5'">正常 {{ extraResource?.k8sSysRun }}</nz-tag>
-                        </div>
-                    </div>
-                    <div>
-                        <div>k8sNodes Controller</div>
-                        <div>
-                            <nz-tag [nzColor]="'#f50'">异常 {{ extraResource?.k8sSysError }}</nz-tag>
-                        </div>
                     </div>
                 </div>
             </div>

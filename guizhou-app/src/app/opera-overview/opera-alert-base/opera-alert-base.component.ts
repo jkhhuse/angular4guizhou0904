@@ -41,7 +41,7 @@ export class OperaAlertBaseComponent implements OnInit, AfterViewChecked {
           name: '',
           type: 'pie',
           center: ['50%', '42%'],
-          radius: ['30%', '50%'],
+          radius: ['25%', '42%'],
           avoidLabelOverlap: true,
           label: {
               normal: {
@@ -66,7 +66,8 @@ export class OperaAlertBaseComponent implements OnInit, AfterViewChecked {
                       formatter: '{b} \n {d}%'
                   },
                   labelLine: {
-                      show: true
+                      show: true,
+                      length: 2
                   }
               }
           }
@@ -93,7 +94,7 @@ export class OperaAlertBaseComponent implements OnInit, AfterViewChecked {
           name: '',
           type: 'pie',
           center: ['50%', '42%'],
-          radius: ['30%', '50%'],
+          radius: ['25%', '42%'],
           avoidLabelOverlap: true,
           label: {
               normal: {
@@ -121,8 +122,10 @@ export class OperaAlertBaseComponent implements OnInit, AfterViewChecked {
                       formatter: '{b} \n {d}%'
                   },
                   labelLine: {
-                      show: true
-                  }
+                    show: true,
+                    length: 2,
+                    length2: 6
+                }
               }
           }
       }],
@@ -148,7 +151,7 @@ export class OperaAlertBaseComponent implements OnInit, AfterViewChecked {
           name: '',
           type: 'pie',
           center: ['50%', '42%'],
-          radius: ['30%', '50%'],
+          radius: ['25%', '42%'],
           avoidLabelOverlap: true,
           label: {
               normal: {
@@ -173,7 +176,9 @@ export class OperaAlertBaseComponent implements OnInit, AfterViewChecked {
                       formatter: '{b} \n {d}%'
                   },
                   labelLine: {
-                      show: true
+                      show: true,
+                      length: 2,
+                      length2: 6
                   }
               }
           }
@@ -200,7 +205,7 @@ export class OperaAlertBaseComponent implements OnInit, AfterViewChecked {
           name: '',
           type: 'pie',
           center: ['50%', '42%'],
-          radius: ['30%', '50%'],
+          radius: ['25%', '42%'],
           avoidLabelOverlap: true,
           label: {
               normal: {
@@ -225,7 +230,8 @@ export class OperaAlertBaseComponent implements OnInit, AfterViewChecked {
                       formatter: '{b} \n {d}%'
                   },
                   labelLine: {
-                      show: true
+                      show: true,
+                      length: 2
                   }
               }
           }

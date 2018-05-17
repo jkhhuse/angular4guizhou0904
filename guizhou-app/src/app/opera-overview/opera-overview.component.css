@@ -3,8 +3,14 @@
     padding: 35px 15px;
 }
 
-.opera-view {}
-
 .opera-dashboard {
     margin-top: 18px;
+}
+
+.opera-resource {
+    margin-top: 14px;
+}
+
+.opera-health {
+    margin-top: 14px;
 }
