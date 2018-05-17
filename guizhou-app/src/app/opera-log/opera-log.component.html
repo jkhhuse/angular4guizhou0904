@@ -18,7 +18,13 @@
               [nzDisabled]="option.disabled">
       </nz-option>
     </nz-select>
-
+    <nz-input [(ngModel)]="query_string" style="width: 400px;" [nzPlaceHolder]="'日志正文关键字搜索..'"></nz-input>
+    <button nz-button [nzType]="'primary'" (click)="getConsoleData(nzPageIndex)">
+      <i class="anticon anticon-search"></i><span>搜索</span>
+    </button>
+    <button nz-button [nzType]="'primary'" (click)="getConsoleData(nzPageIndex)">
+      <i class="anticon anticon-reload"></i><span>刷新</span>
+    </button>
   </div>
   <div class="HolyGrail">
     <div class="echarts-wrapper">
@@ -30,12 +36,12 @@
         <ul>
           <li class="dashboard-li" *ngFor="let consoleData of consoleDatas">
             <span>{{consoleData.time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-            <span class="log-service">{{consoleData.service_name}}</span>
-            <span class="log-cluster">{{consoleData.cluster_name}}</span>
-            <span class="log-node">{{consoleData.nodes}}</span>
-            <span class="log-instance">{{consoleData.instance_id}}</span>
-            <span class="log-path">{{consoleData.paths}}</span>
-            <span class="log-message">{{consoleData.message}}</span>
+            <span class="log-service">{{consoleData?.service_name}}</span>
+            <span class="log-cluster">{{consoleData?.cluster_name}}</span>
+            <span class="log-node">{{consoleData?.nodes}}</span>
+            <span class="log-instance">{{consoleData?.instance_id}}</span>
+            <span class="log-path">{{consoleData?.paths}}</span>
+            <span class="log-message" [innerHTML]="consoleData?.message"></span>
           </li>
         </ul>
 

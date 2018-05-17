@@ -1,240 +1,258 @@
+<!--
 <app-header [title]="title"></app-header>
-<nz-content class="service-detail-wrapper">
-    <div class="link-back">
-        <a [routerLink]="['/serviceCatalog']">
-            <span class="glyphicon glyphicon-menu-left"></span>
-            返回</a>
-    </div>
-    <div nz-row class="detail-img-wrapper">
-        <div nz-col [nzSpan]="6">
-            <div class="img-block" *ngIf="serviceDetail">
-                <img class="detail-img" [src]='imgUrl + serviceDetail.serviceName + ".png"' alt="" />
-            </div>
-            <div class="img-block" *ngIf="serviceDetail">
-                <p class="detail-title">{{serviceDetail.serviceName}}</p>
-            </div>
-        </div>
-        <div nz-col [nzSpan]="6" [nzOffset]="12">
-            <div *ngIf="serviceDetail" class="detail-btn-group">
-                <button *ngIf="serviceDetail && subscribeID === 0" [routerLink]="['/serviceApprove', serviceDetail.serviceName, serviceId]"
-                    nz-button [nzType]="'primary'" [nzSize]="'large'">
-                    <span>订购</span>
-                </button>
-                <button *ngIf="serviceDetail && subscribeID === 1" disabled nz-button [nzType]="'default'" [nzSize]="'large'">
-                    <span>审批中</span>
-                </button>
-                <button *ngIf="serviceDetail && subscribeID === 2" [routerLink]="['/serviceSubscribe', serviceDetail.serviceName, serviceId]"
-                    nz-button [nzType]="'primary'" [nzSize]="'large'">
-                    <span>启动</span>
-                </button>
-                <button disabled="disabled" nz-button [nzType]="'default'" [nzSize]="'large'" class="detail-noraml-btn">
-                    <span>更新</span>
-                </button>
-                <button disabled="disabled" nz-button [nzType]="'default'" [nzSize]="'large'" class="detail-noraml-btn">
-                    <span>下架</span>
-                </button>
-            </div>
-        </div>
-    </div>
-    <div nz-row class="detail-content-wrapper" *ngIf="serviceDetail">
-        <div nz-col [nzSpan]="12" class="detail-content-one">
-            <div nz-row class="detail-content">
-                <div nz-col [nzSpan]="3" [nzOffset]="3">
-                    服务类别
-                </div>
-                <div *ngIf="serviceDetail.serviceType" nz-col [nzSpan]="15" [nzOffset]="3">
-                    {{serviceDetail.serviceType}}
-                </div>
-            </div>
-            <div nz-row class="detail-content">
-                <div nz-col [nzSpan]="3" [nzOffset]="3">
-                    内核版本
-                </div>
-                <div *ngIf="serviceDetail.kernelVersion" nz-col [nzSpan]="15" [nzOffset]="3">
-                    {{serviceDetail.kernelVersion}}
-                </div>
-            </div>
-            <div nz-row class="detail-content">
-                <div nz-col [nzSpan]="3" [nzOffset]="3">
-                    标签
-                </div>
-                <div nz-col [nzSpan]="15" [nzOffset]="3">
-                    无
-                </div>
-            </div>
-            <div nz-row class="detail-content">
-                <div nz-col [nzSpan]="3" [nzOffset]="3">
-                    描述
-                </div>
-                <div *ngIf="serviceDetail.display_info" nz-col [nzSpan]="15" [nzOffset]="3">
-                    {{serviceDetail.display_info}}
-                </div>
-            </div>
-        </div>
-        <div nz-col [nzSpan]="12">
-            <div nz-row class="detail-content">
-                <div nz-col [nzSpan]="4" [nzOffset]="4">
-                    服务编码
-                </div>
-                <div nz-col [nzSpan]="12" [nzOffset]="4" class="detail-package-num">
-                    FW798678
-                </div>
-            </div>
-            <div nz-row class="detail-content">
-                <div nz-col [nzSpan]="4" [nzOffset]="4">
-                    服务依赖
-                </div>
-                <div nz-col [nzSpan]="12" [nzOffset]="4" class="detail-package-num">
-                    无
-                </div>
-            </div>
-            <div nz-row class="detail-content">
-                <div nz-col [nzSpan]="4" [nzOffset]="4">
-                    服务版本
-                </div>
-                <div *ngIf="serviceDetail.serviceVersion" nz-col [nzSpan]="12" [nzOffset]="4" class="detail-package-num">
-                    V2.0
-                </div>
-            </div>
-            <div nz-row class="detail-content">
-                <div nz-col [nzSpan]="4" [nzOffset]="4">
-                    提供者
-                </div>
-                <div nz-col [nzSpan]="12" [nzOffset]="4" class="detail-package-num">
-                    abc
-                </div>
-            </div>
-        </div>
-    </div>
-    <h4 class="detail-h3">版本管理</h4>
-    <!--zookeeper版本管理-->
-    <div nz-row class="detail-develop-wrapper" *ngIf="serviceName === 'zookeeper'">
-        <nz-timeline>
-            <nz-timeline-item [nzColor]="'green'">上架 V3.4.6 准备 2017-06-27</nz-timeline-item>
-            <nz-timeline-item [nzColor]="'green'">上架 V3.4.9 2017-08-27</nz-timeline-item>
-            <nz-timeline-item [nzColor]="'red'">更新 V3.5.0 2017-09-07</nz-timeline-item>
-        </nz-timeline>
-    </div>
-    <!--redis版本管理-->
-    <div nz-row class="detail-develop-wrapper" *ngIf="serviceName === 'redis'">
-        <nz-timeline>
-            <nz-timeline-item [nzColor]="'green'">上架 V3.0.1 准备 2017-06-27</nz-timeline-item>
-            <nz-timeline-item [nzColor]="'green'">上架 V3.0.5 前测试 2017-08-05</nz-timeline-item>
-            <nz-timeline-item [nzColor]="'green'">上架 V3.2.9 2017-08-27</nz-timeline-item>
-            <nz-timeline-item [nzColor]="'red'">更新 3.2.10 2017-09-07</nz-timeline-item>
-        </nz-timeline>
-    </div>
-    <!--mysql版本管理-->
-    <div nz-row class="detail-develop-wrapper" *ngIf="serviceName === 'mysql'">
-        <nz-timeline>
-            <nz-timeline-item [nzColor]="'green'">上架 V3.0.1 准备 2017-06-27</nz-timeline-item>
-            <nz-timeline-item [nzColor]="'green'">上架 V3.0.5 前测试 2017-08-05</nz-timeline-item>
-            <nz-timeline-item [nzColor]="'green'">上架 V3.2.9 2017-08-27</nz-timeline-item>
-            <nz-timeline-item [nzColor]="'red'">更新 3.2.10 2017-09-07</nz-timeline-item>
-        </nz-timeline>
-    </div>
-    <!-- <h4 class="detail-h3">已订购实例</h4>
-    <div nz-row class="detail-instance-wrapper">
-        <div *ngIf="serviceInstances">
-            <div nz-row [nzGutter]="8">
-
-                <div *ngFor="let serviceInstance of serviceInstances | async">
-
-                    <ng-template #hidden>
-                        <p>暂未订购实例</p>
-                    </ng-template>
-
-                    <div *ngIf="serviceInstance; else hidden" nz-col [nzSpan]="6">
-                        <nz-card>
-                            <ng-template #body>
-                                <div class="custom-image"  *ngIf="serviceDetail">
-                                    <img [src]='"http://10.132.49.108:8180/api/0/files/apiService/fileName/" + serviceDetail.serviceName + ".png"' alt=""/>
-                                </div>
-                                <div class="custom-card">
-                                    <div class="card-content">
-                                    <span class="pull-right"
-                                          [style.color]="serviceInstance.status ? '#006600' : '#999999'">
-                                    {{serviceInstance.status ? '正常':'下架'}}</span>
-                                        <span>{{serviceInstance.instanceName}}</span>
-                                    </div>
-                                    <div class="card-content">
-                                        <span style="color: #999999">{{serviceInstance.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-                                        <span class="pull-right">
-                                            <span *ngIf="serviceInstance.instanceName" class="glyphicon glyphicon-trash"
-                                                  (click)="showModal(serviceInstance.id, serviceInstance.instanceName)"></span>
-                                </span>
-                                    </div>
-                                </div>
-                            </ng-template>
-                        </nz-card>
-                    </div>
-                </div>
-                &lt;!&ndash;<div *ngFor="let service of services | async">
-                    {{service.name}}
-                </div>&ndash;&gt;
-            </div>
-        </div>
-    </div>
 -->
-    <div class="app-detail-block">
-        <div class="app-detail-title">已订购实例</div>
-        <div class="detail-instance-wrapper" *ngIf="serviceInstances">
-            <app-app-nztable [mirrorDetail]="serviceInstances" [tableNum]="3" [tableTitle]="table3Title"></app-app-nztable>
-        </div>
+<nz-content class="service-detail-wrapper">
+  <nz-breadcrumb class="breadcrumb">
+    <nz-breadcrumb-item>
+      <a [routerLink]="['/serviceCatalog']">
+        服务目录
+      </a>
+    </nz-breadcrumb-item>
+    <nz-breadcrumb-item>
+      服务详情
+    </nz-breadcrumb-item>
+  </nz-breadcrumb>
+  <!--
+  <div class="link-back">
+      <a [routerLink]="['/serviceCatalog']">
+          <span class="glyphicon glyphicon-menu-left"></span>
+          返回</a>
+  </div>
+  -->
+  <div nz-row class="detail-img-wrapper">
+    <div nz-col [nzSpan]="6">
+      <div class="img-block" *ngIf="serviceDetail">
+        <img class="detail-img" [src]='imgUrl + serviceDetail.serviceName + ".png"' alt=""/>
+      </div>
+      <div class="img-block" *ngIf="serviceDetail">
+        <p class="detail-title">{{serviceDetail.serviceName}}</p>
+      </div>
     </div>
+    <div nz-col [nzSpan]="6" [nzOffset]="12">
+      <div *ngIf="serviceDetail" class="detail-btn-group">
+        <button *ngIf="serviceDetail && subscribeID === 0"
+                [routerLink]="['/serviceApprove', serviceDetail.serviceName, serviceId]"
+                nz-button [nzType]="'primary'" [nzSize]="'large'">
+          <span>订购</span>
+        </button>
+        <button *ngIf="serviceDetail && subscribeID === 1" disabled nz-button [nzType]="'default'" [nzSize]="'large'">
+          <span>审批中</span>
+        </button>
+        <button *ngIf="serviceDetail && subscribeID === 2"
+                [routerLink]="['/serviceSubscribe', serviceDetail.serviceName, serviceId]"
+                nz-button [nzType]="'primary'" [nzSize]="'large'">
+          <span>启动</span>
+        </button>
+        <button disabled="disabled" nz-button [nzType]="'default'" [nzSize]="'large'" class="detail-noraml-btn">
+          <span>更新</span>
+        </button>
+        <button disabled="disabled" nz-button [nzType]="'default'" [nzSize]="'large'" class="detail-noraml-btn">
+          <span>下架</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div nz-row class="detail-content-wrapper" *ngIf="serviceDetail">
+    <div nz-col [nzSpan]="12" class="detail-content-one">
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          服务类别
+        </div>
+        <div *ngIf="serviceDetail.serviceType" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{serviceDetail.serviceType}}
+        </div>
+      </div>
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          内核版本
+        </div>
+        <div *ngIf="serviceDetail.kernelVersion" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{serviceDetail.kernelVersion}}
+        </div>
+      </div>
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          标签
+        </div>
+        <div nz-col [nzSpan]="15" [nzOffset]="3">
+          无
+        </div>
+      </div>
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="3" [nzOffset]="3">
+          描述
+        </div>
+        <div *ngIf="serviceDetail.display_info" nz-col [nzSpan]="15" [nzOffset]="3">
+          {{serviceDetail.display_info}}
+        </div>
+      </div>
+    </div>
+    <div nz-col [nzSpan]="12">
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="4" [nzOffset]="4">
+          服务编码
+        </div>
+        <div nz-col [nzSpan]="12" [nzOffset]="4" class="detail-package-num">
+          FW798678
+        </div>
+      </div>
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="4" [nzOffset]="4">
+          服务依赖
+        </div>
+        <div nz-col [nzSpan]="12" [nzOffset]="4" class="detail-package-num">
+          无
+        </div>
+      </div>
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="4" [nzOffset]="4">
+          服务版本
+        </div>
+        <div *ngIf="serviceDetail.serviceVersion" nz-col [nzSpan]="12" [nzOffset]="4" class="detail-package-num">
+          V2.0
+        </div>
+      </div>
+      <div nz-row class="detail-content">
+        <div nz-col [nzSpan]="4" [nzOffset]="4">
+          提供者
+        </div>
+        <div nz-col [nzSpan]="12" [nzOffset]="4" class="detail-package-num">
+          abc
+        </div>
+      </div>
+    </div>
+  </div>
+  <h4 class="detail-h3">版本管理</h4>
+  <!--zookeeper版本管理-->
+  <div nz-row class="detail-develop-wrapper" *ngIf="serviceName === 'zookeeper'">
+    <nz-timeline>
+      <nz-timeline-item [nzColor]="'green'">上架 V3.4.6 准备 2017-06-27</nz-timeline-item>
+      <nz-timeline-item [nzColor]="'green'">上架 V3.4.9 2017-08-27</nz-timeline-item>
+      <nz-timeline-item [nzColor]="'red'">更新 V3.5.0 2017-09-07</nz-timeline-item>
+    </nz-timeline>
+  </div>
+  <!--redis版本管理-->
+  <div nz-row class="detail-develop-wrapper" *ngIf="serviceName === 'redis'">
+    <nz-timeline>
+      <nz-timeline-item [nzColor]="'green'">上架 V3.0.1 准备 2017-06-27</nz-timeline-item>
+      <nz-timeline-item [nzColor]="'green'">上架 V3.0.5 前测试 2017-08-05</nz-timeline-item>
+      <nz-timeline-item [nzColor]="'green'">上架 V3.2.9 2017-08-27</nz-timeline-item>
+      <nz-timeline-item [nzColor]="'red'">更新 3.2.10 2017-09-07</nz-timeline-item>
+    </nz-timeline>
+  </div>
+  <!--mysql版本管理-->
+  <div nz-row class="detail-develop-wrapper" *ngIf="serviceName === 'mysql'">
+    <nz-timeline>
+      <nz-timeline-item [nzColor]="'green'">上架 V3.0.1 准备 2017-06-27</nz-timeline-item>
+      <nz-timeline-item [nzColor]="'green'">上架 V3.0.5 前测试 2017-08-05</nz-timeline-item>
+      <nz-timeline-item [nzColor]="'green'">上架 V3.2.9 2017-08-27</nz-timeline-item>
+      <nz-timeline-item [nzColor]="'red'">更新 3.2.10 2017-09-07</nz-timeline-item>
+    </nz-timeline>
+  </div>
+  <!-- <h4 class="detail-h3">已订购实例</h4>
+  <div nz-row class="detail-instance-wrapper">
+      <div *ngIf="serviceInstances">
+          <div nz-row [nzGutter]="8">
 
-    <h4 class="detail-h3">套餐</h4>
-    <div nz-row class="detail-package-wrapper">
-        <div nz-col [nzSpan]="24" style="margin-left: 10px">
-            <app-container-instance #instanceThird [config]="formThird1Radios">
-            </app-container-instance>
-        </div>
-        <!-- <div nz-row class="detail-package">
-            <div nz-col [nzSpan]="3" [nzOffset]="1">
-                容器XS
-            </div>
-            <div nz-col [nzSpan]="5" [nzOffset]="1" class="detail-package-num">
-                8 核 / 16 GB / 10 TB
-            </div>
-        </div>
-        <div nz-row class="detail-package">
-            <div nz-col [nzSpan]="3" [nzOffset]="1">
-                容器S
-            </div>
-            <div nz-col [nzSpan]="5" [nzOffset]="1" class="detail-package-num">
-                8 核 / 16 GB / 10 TB
-            </div>
-        </div>
-        <div nz-row class="detail-package">
-            <div nz-col [nzSpan]="3" [nzOffset]="1">
-                容器L
-            </div>
-            <div nz-col [nzSpan]="5" [nzOffset]="1" class="detail-package-num">
-                8 核 / 16 GB / 10 TB
-            </div>
-        </div>-->
-    </div>
+              <div *ngFor="let serviceInstance of serviceInstances | async">
 
-    <div *ngIf="isPb === '0'">
-        <h4 class="detail-h3">附件</h4>
-        <span *ngIf="downFileList.length > 0">
-            <button style="margin: 10px" nz-button *ngFor="let list of downFileList" class="mr-sm" down-file [http-data]="data" http-url="{{list.url}}" file-name="{{list.name}}">{{list['name']}}</button>
-        </span>
-    </div>
-    <!--  <h4 class="detail-h3">附件</h4>
-      <div nz-row class="detail-attach-wrapper">
-          <div nz-row class="detail-package">
-              <div nz-col [nzSpan]="8" [nzOffset]="16">
-                  附件
+                  <ng-template #hidden>
+                      <p>暂未订购实例</p>
+                  </ng-template>
+
+                  <div *ngIf="serviceInstance; else hidden" nz-col [nzSpan]="6">
+                      <nz-card>
+                          <ng-template #body>
+                              <div class="custom-image"  *ngIf="serviceDetail">
+                                  <img [src]='"http://10.132.49.108:8180/api/0/files/apiService/fileName/" + serviceDetail.serviceName + ".png"' alt=""/>
+                              </div>
+                              <div class="custom-card">
+                                  <div class="card-content">
+                                  <span class="pull-right"
+                                        [style.color]="serviceInstance.status ? '#006600' : '#999999'">
+                                  {{serviceInstance.status ? '正常':'下架'}}</span>
+                                      <span>{{serviceInstance.instanceName}}</span>
+                                  </div>
+                                  <div class="card-content">
+                                      <span style="color: #999999">{{serviceInstance.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+                                      <span class="pull-right">
+                                          <span *ngIf="serviceInstance.instanceName" class="glyphicon glyphicon-trash"
+                                                (click)="showModal(serviceInstance.id, serviceInstance.instanceName)"></span>
+                              </span>
+                                  </div>
+                              </div>
+                          </ng-template>
+                      </nz-card>
+                  </div>
               </div>
+              &lt;!&ndash;<div *ngFor="let service of services | async">
+                  {{service.name}}
+              </div>&ndash;&gt;
           </div>
-      </div>-->
-</nz-content>
-<nz-modal [nzVisible]="isVisible" [nzTitle]="'操作确认'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)" (nzOnOk)="handleOk($event)">
-    <ng-template #modalContent>
-        <p>您是否确定删除{{deleteName}}</p>
-        <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="display: block">
-        </nz-spin>
+      </div>
+  </div>
+-->
+  <div class="app-detail-block">
+    <div class="app-detail-title">已订购实例</div>
+    <div class="detail-instance-wrapper" *ngIf="serviceInstances">
+      <app-app-nztable [mirrorDetail]="serviceInstances" [tableNum]="3" [tableTitle]="table3Title"></app-app-nztable>
+    </div>
+  </div>
 
-    </ng-template>
+  <h4 class="detail-h3">套餐</h4>
+  <div nz-row class="detail-package-wrapper">
+    <div nz-col [nzSpan]="24" style="margin-left: 10px">
+      <app-container-instance #instanceThird [config]="formThird1Radios">
+      </app-container-instance>
+    </div>
+    <!-- <div nz-row class="detail-package">
+        <div nz-col [nzSpan]="3" [nzOffset]="1">
+            容器XS
+        </div>
+        <div nz-col [nzSpan]="5" [nzOffset]="1" class="detail-package-num">
+            8 核 / 16 GB / 10 TB
+        </div>
+    </div>
+    <div nz-row class="detail-package">
+        <div nz-col [nzSpan]="3" [nzOffset]="1">
+            容器S
+        </div>
+        <div nz-col [nzSpan]="5" [nzOffset]="1" class="detail-package-num">
+            8 核 / 16 GB / 10 TB
+        </div>
+    </div>
+    <div nz-row class="detail-package">
+        <div nz-col [nzSpan]="3" [nzOffset]="1">
+            容器L
+        </div>
+        <div nz-col [nzSpan]="5" [nzOffset]="1" class="detail-package-num">
+            8 核 / 16 GB / 10 TB
+        </div>
+    </div>-->
+  </div>
+
+  <div *ngIf="isPb === '0'">
+    <h4 class="detail-h3">附件</h4>
+    <span *ngIf="downFileList.length > 0">
+            <button style="margin: 10px" nz-button *ngFor="let list of downFileList" class="mr-sm" down-file
+                    [http-data]="data" http-url="{{list.url}}" file-name="{{list.name}}">{{list['name']}}</button>
+        </span>
+  </div>
+  <!--  <h4 class="detail-h3">附件</h4>
+    <div nz-row class="detail-attach-wrapper">
+        <div nz-row class="detail-package">
+            <div nz-col [nzSpan]="8" [nzOffset]="16">
+                附件
+            </div>
+        </div>
+    </div>-->
+</nz-content>
+<nz-modal [nzVisible]="isVisible" [nzTitle]="'操作确认'" [nzContent]="modalContent" (nzOnCancel)="handleCancel($event)"
+          (nzOnOk)="handleOk($event)">
+  <ng-template #modalContent>
+    <p>您是否确定删除{{deleteName}}</p>
+    <nz-spin [nzSize]="'large'" [nzSpinning]="_isSpinning" [nzTip]="'删除中'" style="display: block">
+    </nz-spin>
+
+  </ng-template>
 </nz-modal>

@@ -29,7 +29,7 @@ export class AppInstanceDetailDetailComponent implements OnInit {
   // 自动调节模式 输入值
   autoInput_1 = 1;
   autoInput_2 = 1;
-  autoInput_3 = 10;
+  autoInput_3 = 1;
   autoInput_4 = 1;
   putModeStatus = false;
   tabs = [

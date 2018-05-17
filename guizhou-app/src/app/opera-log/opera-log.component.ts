@@ -22,6 +22,7 @@ declare var echarts: any;
   styleUrls: ['./opera-log.component.css']
 })
 export class OperaLogComponent implements OnInit {
+  query_string: string = '';
   // 下拉选择框
   options = [];
   selectedOption;
@@ -153,7 +154,8 @@ export class OperaLogComponent implements OnInit {
       .append('pageno', (nzPageIndex).toString())
       .append('paths', (this.paths).toString())
       .append('read_log_source_name', (this.read_log_source_name).toString())
-      .append('size', (this.size).toString());
+      .append('size', (this.size).toString())
+      .append('query_string', this.query_string);
     this.http.get(environment.apiAlauda + '/logs/' + environment.namespace + '/search', { params }
       // {
       //   'params': {

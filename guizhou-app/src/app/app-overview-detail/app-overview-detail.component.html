@@ -1,10 +1,17 @@
+<!--
 <app-header [title]="title"></app-header>
+-->
 <nz-content class="mirror-store-wrapper">
-    <div class="link-back">
+    <nz-breadcrumb class="breadcrumb">
+      <nz-breadcrumb-item>
         <a [routerLink]="['/appOverview']">
-            <span class="glyphicon glyphicon-menu-left"></span> 返回
+          应用概览
         </a>
-    </div>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        应用实例详情
+      </nz-breadcrumb-item>
+    </nz-breadcrumb>
     <div class="detail-img-wrapper">
         <div class="img-block">
             <p class="detail-title" *ngIf="appInstanceDetail">{{appInstanceDetail.instanceName}}</p>

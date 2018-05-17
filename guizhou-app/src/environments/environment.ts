@@ -22,7 +22,7 @@
     api: 'http://135.10.145.14:18180',
     apiAlauda: 'http://135.10.145.14:18039/apiJakiro/v1',
     apiOP: 'http://135.10.145.24:17080/bdoc/v2',
-    bomp: 'http://135.10.145.14:8080/api',
+    bomp: 'http://135.10.143.20:6090/api',
     pass: 'http://135.10.145.14:18035/opsOverview',
     adminGroupId: '0',
     namespace: 'gzpaas'
